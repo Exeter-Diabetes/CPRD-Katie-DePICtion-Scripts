@@ -36,18 +36,36 @@ Patients with a diabetes-related medcode ([full list here](https://github.com/Ex
 &nbsp;
 
 
-## Script overview
-
-&nbsp;
-
-## Script details
+## Scripts
 
 Data from CPRD was provided as raw text files which were imported into a MySQL database using a custom-built package ([aurum](https://github.com/Exeter-Diabetes/CPRD-analysis-package)) built by Dr Robert Challen. This package also includes functions to allow easy querying of the MySQL tables from R, using the 'dbplyr' tidyverse package. Codelists used for querying the data (denoted as 'codes${codelist_name}' in scripts) can be found in our [CPRD-Codelists repository](https://github.com/Exeter-Diabetes/CPRD-Codelists). 
 
 Our [CPRD-Codelists repository](https://github.com/Exeter-Diabetes/CPRD-Codelists) also contains more details on the algorithms used to define variables such as ethnicity and diabetes type - see individual scripts for links to the appropriate part of the CPRD-Codelists repository.
 
-| Script description | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Outputs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
-| ---- | ---- |
-| | |
+### 01_dpctn_cohort
+Defines the cohort as per the flowchart above, except for the final step of removing those with only 'Seen in diabetes clinic' codes and no high HbA1cs/scripts for gluocse-lowering medication.
 
-&nbsp;
+### 02_dpctn_diabetes_type_all_time
+Uses diabetes-type codes for the final step in defining the cohort (removing those with only 'Seen in diabetes clinic' codes and no high HbA1cs/scripts for gluocse-lowering medication) and to define diabetes type as per the below flowchart
+
+```mermaid
+graph TD;
+    A["<b>DePICtion cohort</b>: n=778,680"] --> |"Unspecific diabetes type codes only"| B["Unspecified: n=1,480,985"]
+    A --> |"Type 1 diabetes and unspecified codes only"| C["Type 1: n=1,480,985"]
+    A --> |"Type 2 diabetes and unspecified codes only"| C["Type 2: n=1,480,985"]
+    A --> |"Gestational diabetes and unspecified codes only"| C["Type 1: n=1,480,985"]
+    A --> |"Syndromic diabetes and unspecified codes only"| C["Type 1: n=1,480,985"]
+    
+    B -->|"Patients with a diabetes-specific code** with a year of >=1 year data prior'"|C["n=1,480,395"]
+    C -->|"Patients registered on 01/02/2020 (all have diabetes code and therefore diabetes diagnosis <br> before this date due to the requirement to have 1 year of data after)"|D["n=905,049"]
+    D -->|"Patients who are aged>=18 years at the index date (01/02/2020)"|E["n=886,734"]
+    E -->|"Patients with no HbA1cs>=48 mmol/mol or scripts <br> for glucose-lowering medication or diabetes codes <br> other than 'Seen in diabetes clinic' (medcode 285223014)"|G["n=108,054"]
+    E --> F["<b>DePICtion cohort</b>: n=778,680"]
+```
+
+
+
+
+
+
+
