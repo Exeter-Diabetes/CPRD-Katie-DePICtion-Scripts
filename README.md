@@ -11,8 +11,11 @@ graph TD;
     A["<b>CPRD Aurum October 2020 release</b> with linked Set 21 <br> (April 2021) HES APC, patient IMD, and ONS death data"] --> |"Unique patients with a diabetes-related medcode between 01/01/2004-06/11/2020 and >=1 year data prior and after"| B["<b>Our extract</b>: n=1,480,985*"]
     B -->|"Patients with a diabetes-specific code** with a year of >=1 year data prior'"|C["n=1,480,395"]
     C -->|"Patients registered on 01/02/2020 (all have diabetes code and therefore diabetes diagnosis before this date due to the requirement to have 1 year of data after)"|D["n=905,049"]
-    D -->|"Patients who are aged>=18 years at the index date (01/02/2020)"|E["<b>DePICtion cohort</b>: n=886,734"]
+    D -->|"Patients who are aged>=18 years at the index date (01/02/2020)"|E["n=886,734"]
+    E -->|"Patients with no HbA1cs>=48 mmol/mol or scripts for glucose-lowering medication or diabetes codes other than 'Seen in diabetes clinic' (medcode 285223014)"|G["n=ffff"]
+    E --> F["<b>DePICtion cohort</b>: n=ffff"]
 ```
+
 \* Extract actually contained n=1,481,294 unique patients (1,481,884 in total but some duplicates) but included n=309 with registration start dates in 2020 (which did not fulfil the extract criteria of having a diabetes-related medcode between 01/01/2004-06/11/2020 and >=1 year of data after this; some of these were also not 'acceptable' by [CPRD's definition](https://cprd.com/sites/default/files/2023-02/CPRD%20Aurum%20Glossary%20Terms%20v2.pdf)). NB: removing those with registration start date in 2020 also removed all of those with a 'patienttypeid' not equal to 3 ('regular'). See next section for further details on the extract.
 
 &nbsp;
