@@ -10,7 +10,7 @@ The below diagram outlines the data processing steps involved in creating a coho
 graph TD;
     A["<b>CPRD Aurum October 2020 release</b> with linked Set 21 <br> (April 2021) HES APC, patient IMD, and ONS death data"] --> |"Unique patients with a diabetes-related medcode between 01/01/2004-06/11/2020 and >=1 year data prior and after"| B["<b>Our extract</b>: n=1,480,985*"]
     B -->|"Patients with a diabetes-specific code** with a year of >=1 year data prior'"|C["n=1,480,395"]
-    C -->|"Patients registered on 01/02/2020 (all have diabetes code and therefore diabetes diagnosis before this date due to the requirement to have 1 year of data after)"|D["n=905,049"]
+    C -->|"Patients registered on 01/02/2020 (all have diabetes code and therefore diabetes diagnosis <br> before this date due to the requirement to have 1 year of data after)"|D["n=905,049"]
     D -->|"Patients who are aged>=18 years at the index date (01/02/2020)"|E["n=886,734"]
     E -->|"Patients with no HbA1cs>=48 mmol/mol or scripts <br> for glucose-lowering medication or diabetes codes <br> other than 'Seen in diabetes clinic' (medcode 285223014)"|G["n=ffff"]
     E --> F["<b>DePICtion cohort</b>: n=ffff"]
