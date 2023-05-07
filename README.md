@@ -50,18 +50,16 @@ Uses diabetes type codes for the final step in defining the cohort (removing tho
 
 ```mermaid
 graph TD;
-    A["<b>DePICtion cohort</b>: n=778,680"] --> |"Unspecific diabetes type codes only"| B["Unspecified: n="]
-    A --> |"Type 1 diabetes and unspecified codes only"| C["Type 1: n"]
-    A --> |"Type 2 diabetes and unspecified codes only"| D["Type 2: n="]
-    A --> |"Gestational diabetes and unspecified codes only"| E["Gestational only: n="]
-    A --> |"Gestational and Type 2 diabetes and unspecified codes only"| F["Gestational then Type 2: n="]
-    A --> |"MODY and unspecified codes only"| G["MODY: n="]
-    A --> |"Non-MODY genetic/syndromic diabetes and unspecified codes only"| H["Non-MODY genetic/syndromic: n="]
-    A --> |"Secondary diabetes and unspecified codes only"| I["Secondary diabetes: n="]
-    A --> |"Malnutrition-related and unspecified codes only"| J["Malnutrition-related diabetes: n="]
-    A --> |"Other including mix of diabetes types and/or codes for "other specific diabetes"| K["n="]
-   
-    
+    A["<b>DePICtion cohort</b>: n=778,680"] --> |"Unspecific codes <br>only"| B["Unspecified: <br>n="]
+    A --> |"T1 codes*"| C["Type 1: <br>n="]
+    A --> |"T2 codes*"| D["Type 2: <br>n="]
+    A --> |"Gestational codes*"| E["Gestational <br>only: <br>n="]
+    A --> |"Gestational and <br>T2D codes*"| F["Gestational <br>then Type 2: <br>n="]
+    A --> |"MODY codes*"| G["MODY: <br>n="]
+    A --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| H["Non-MODY <br>genetic/<br>syndromic: <br>n="]
+    A --> |"Secondary codes*"| I["Secondary: <br>n="]
+    A --> |"Malnutrition-<br>related codes*"| J["Malnutrition-<br>related: <br>n="]
+    A --> |"Other including mix <br>of diabetes types and/<br>or codes for 'other <br>specific diabetes'"| K["n="]
 ```
 
 
