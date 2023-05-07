@@ -59,7 +59,7 @@ graph TD;
     A --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| H["Non-MODY <br>genetic/<br>syndromic: <br>n="]
     A --> |"Secondary codes*"| I["Secondary: <br>n="]
     A --> |"Malnutrition-<br>related codes*"| J["Malnutrition-<br>related: <br>n="]
-    A --> |"Other including mix <br>of diabetes types and/<br>or codes for 'other <br>specific diabetes'"| K["n="]
+    A --> |"Other including mix <br>of diabetes types and/<br>or codes for 'other <br>specific diabetes'"| K["Coding errors <br>or type changes<br> over time: <br>n="]
 ```
 
 \* Could also have diabetes codes of unpecified type
