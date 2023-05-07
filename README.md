@@ -58,12 +58,9 @@ graph TD;
     A --> |"MODY and unspecified codes only"| G["MODY: n="]
     A --> |"Non-MODY genetic/syndromic diabetes and unspecified codes only"| H["Non-MODY genetic/syndromic: n="]
     A --> |"Secondary diabetes and unspecified codes only"| I["Secondary diabetes: n="]
-    A --> |"Malnutrition-related and unspecified codes only"| J["Malbutrition-related diabetes: n="]
+    A --> |"Malnutrition-related and unspecified codes only"| J["Malnutrition-related diabetes: n="]
     A --> |"Other including mix of diabetes types and/or codes for "other specific diabetes"| K["n="]
-    
-    
-    
-    
+   
     
 ```
 
