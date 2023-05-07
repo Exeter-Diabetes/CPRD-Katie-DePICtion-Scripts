@@ -62,7 +62,7 @@ graph TD;
     A --> |"Other including mix <br>of diabetes types and/<br>or codes for 'other <br>specific diabetes'"| K["n="]
 ```
 
-
+\* Could also have diabetes codes of unpecified type
 
 
 
