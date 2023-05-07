@@ -51,8 +51,8 @@ Uses diabetes type codes for the final step in defining the cohort (removing tho
 ```mermaid
 graph TD;
     A["<b>DePICtion cohort</b>: n=778,680"] --> |"Unspecific codes <br>only"| B["Unspecified: <br>n="]
-    A --> |"T1 codes*"| C["Type 1: <br>n="]
-    A --> |"T2 codes*"| D["Type 2: <br>n="]
+    A --> |"T1D codes*"| C["Type 1: <br>n="]
+    A --> |"T2D codes*"| D["Type 2: <br>n="]
     A --> |"Gestational codes*"| E["Gestational <br>only: <br>n="]
     A --> |"Gestational and <br>T2D codes*"| F["Gestational <br>then Type 2: <br>n="]
     A --> |"MODY codes*"| G["MODY: <br>n="]
