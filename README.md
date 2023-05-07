@@ -12,7 +12,7 @@ graph TD;
     B -->|"Patients with a diabetes-specific code** with a year of >=1 year data prior'"|C["n=1,480,395"]
     C -->|"Patients registered on 01/02/2020 (all have diabetes code and therefore diabetes diagnosis <br> before this date due to the requirement to have 1 year of data after)"|D["n=905,049"]
     D -->|"Patients who are aged>=18 years at the index date (01/02/2020)"|E["n=886,734"]
-    E -->|"Patients with no HbA1cs>=48 mmol/mol or scripts <br> for glucose-lowering medication or diabetes codes <br> other than 'Seen in diabetes clinic' (medcode 285223014)"|G["n=108,054"]
+    E -->|"Patients with no HbA1cs>=48 mmol/mol or scripts <br> for glucose-lowering medication or diabetes codes <br> other than 'Seen in diabetes clinic' (medcode 285223014)***"|G["n=108,054"]
     E --> F["<b>DePICtion cohort</b>: n=778,680"]
 ```
 
@@ -21,6 +21,10 @@ graph TD;
 &nbsp;
 
 \** The list of diabetes-related medcode used for the extract (see below) included some which were not specific to diabetes e.g. 'insulin resistance'. The list of 'diabetes-specific codes' used to define the cohort here can be found in our [CPRD-Codelists respository](https://github.com/Exeter-Diabetes/CPRD-Codelists/blob/main/Diabetes/exeter_medcodelist_all_diabetes.txt).
+
+&nbsp;
+
+\*** We excluded these people as they constituted a large proportion of the cohort but did not have sufficient evidence of actually having diabetes. We postulate that the code 'Seen in diabetes clinic' (medcode 285223014) is used for some other purpose in people without diabetes. NB: 348,475 (45%) of the final cohort have at least one instance of this code.
 
 &nbsp;
 
