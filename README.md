@@ -47,7 +47,7 @@ Data from CPRD was provided as raw text files which were imported into a MySQL d
 Our [CPRD-Codelists repository](https://github.com/Exeter-Diabetes/CPRD-Codelists) also contains more details on the algorithms used to define variables such as ethnicity and diabetes type - see individual scripts for links to the appropriate part of the CPRD-Codelists repository.
 
 ### 01_dpctn_cohort
-Defines the cohort as per the flowchart above, except for the final step of removing those with only 'Seen in diabetes clinic' codes and no high HbA1cs/scripts for gluocse-lowering medication.
+Defines the cohort as per the flowchart above, except for the final step of removing those with only 'Seen in diabetes clinic' codes and no high HbA1cs/scripts for glucose-lowering medication.
 
 ### 02_dpctn_diabetes_type_all_time
 Uses diabetes type codes for the final step in defining the cohort (removing those with only 'Seen in diabetes clinic' codes and no high HbA1cs/scripts for gluocse-lowering medication) and to define diabetes type as per the below flowchart
@@ -66,7 +66,11 @@ graph TD;
     A --> |"Other including mix <br>of diabetes types and/<br>or codes for 'other <br>specific diabetes'"| K["Coding errors <br>or type changes<br> over time: <br>n="]
 ```
 
-\* Could also have diabetes codes of unpecified type
+\* Could also have diabetes codes of unspecified type.
+
+&nbsp;
+
+This script also looks at how many diabetes codes, high HbA1cs and scripts for glucose-lowering medication occur have dates before the patient's birth (and so need to be cleaned). 
 
 
 
