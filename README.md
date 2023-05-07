@@ -46,21 +46,25 @@ Our [CPRD-Codelists repository](https://github.com/Exeter-Diabetes/CPRD-Codelist
 Defines the cohort as per the flowchart above, except for the final step of removing those with only 'Seen in diabetes clinic' codes and no high HbA1cs/scripts for gluocse-lowering medication.
 
 ### 02_dpctn_diabetes_type_all_time
-Uses diabetes-type codes for the final step in defining the cohort (removing those with only 'Seen in diabetes clinic' codes and no high HbA1cs/scripts for gluocse-lowering medication) and to define diabetes type as per the below flowchart
+Uses diabetes type codes for the final step in defining the cohort (removing those with only 'Seen in diabetes clinic' codes and no high HbA1cs/scripts for gluocse-lowering medication) and to define diabetes type as per the below flowchart
 
 ```mermaid
 graph TD;
-    A["<b>DePICtion cohort</b>: n=778,680"] --> |"Unspecific diabetes type codes only"| B["Unspecified: n=1,480,985"]
-    A --> |"Type 1 diabetes and unspecified codes only"| C["Type 1: n=1,480,985"]
-    A --> |"Type 2 diabetes and unspecified codes only"| C["Type 2: n=1,480,985"]
-    A --> |"Gestational diabetes and unspecified codes only"| C["Type 1: n=1,480,985"]
-    A --> |"Syndromic diabetes and unspecified codes only"| C["Type 1: n=1,480,985"]
+    A["<b>DePICtion cohort</b>: n=778,680"] --> |"Unspecific diabetes type codes only"| B["Unspecified: n="]
+    A --> |"Type 1 diabetes and unspecified codes only"| C["Type 1: n"]
+    A --> |"Type 2 diabetes and unspecified codes only"| D["Type 2: n="]
+    A --> |"Gestational diabetes and unspecified codes only"| E["Gestational only: n="]
+    A --> |"Gestational and Type 2 diabetes and unspecified codes only"| F["Gestational then Type 2: n="]
+    A --> |"MODY and unspecified codes only"| G["MODY: n="]
+    A --> |"Non-MODY genetic/syndromic diabetes and unspecified codes only"| H["Non-MODY genetic/syndromic: n="]
+    A --> |"Secondary diabetes and unspecified codes only"| I["Secondary diabetes: n="]
+    A --> |"Malnutrition-related and unspecified codes only"| J["Malbutrition-related diabetes: n="]
+    A --> |"Other including mix of diabetes types and/or codes for "other specific diabetes"| K["n="]
     
-    B -->|"Patients with a diabetes-specific code** with a year of >=1 year data prior'"|C["n=1,480,395"]
-    C -->|"Patients registered on 01/02/2020 (all have diabetes code and therefore diabetes diagnosis <br> before this date due to the requirement to have 1 year of data after)"|D["n=905,049"]
-    D -->|"Patients who are aged>=18 years at the index date (01/02/2020)"|E["n=886,734"]
-    E -->|"Patients with no HbA1cs>=48 mmol/mol or scripts <br> for glucose-lowering medication or diabetes codes <br> other than 'Seen in diabetes clinic' (medcode 285223014)"|G["n=108,054"]
-    E --> F["<b>DePICtion cohort</b>: n=778,680"]
+    
+    
+    
+    
 ```
 
 
