@@ -58,7 +58,7 @@ graph TD;
     A --> |"T1D codes*"| C["Type 1: <br>n="]
     A --> |"T2D codes*"| D["Type 2: <br>n="]
     A --> |"Gestational codes*"| E["Gestational <br>only: <br>n="]
-    A --> |"Gestational and <br>T2D codes*"| F["Gestational <br>then Type 2: <br>n="]
+    A --> |"Gestational and <br>later T2D codes*"| F["Gestational <br>then Type 2: <br>n="]
     A --> |"MODY codes*"| G["MODY: <br>n="]
     A --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| H["Non-MODY <br>genetic/<br>syndromic: <br>n="]
     A --> |"Secondary codes*"| I["Secondary: <br>n="]
