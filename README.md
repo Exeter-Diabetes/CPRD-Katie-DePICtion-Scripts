@@ -68,8 +68,6 @@ graph TD;
 
 \* Could also have diabetes codes of unspecified type.
 
-&nbsp;
-
 This script also looks at how many diabetes codes, high HbA1cs and scripts for glucose-lowering medication occur have dates before the patient's birth (and so need to be cleaned). For all code categories, and all high HbA1cs and OHA/insulin scripts, >99.9% were on/after the patient's DOB. The small proportion before are excluded from downstream analysis.
 
 
