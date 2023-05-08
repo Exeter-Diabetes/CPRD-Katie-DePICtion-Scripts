@@ -72,7 +72,7 @@ graph TD;
 
 This script also looks at how many diabetes codes, high HbA1cs and scripts for glucose-lowering medication occur have dates before the patient's birth (and so need to be cleaned). 
 
-| Code type | Total code count | No. of unique patids with code | No. of codes before DOB | No. of patids with only codes before DOB |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Code type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Total code count | No. of unique patids with code | No. of codes before DOB | No. of patids with only codes before DOB |
 | ---- | ---- | ---- | ---- | ---- |
 | Unspecified | | | | |
 | Type 1 | | | | |
