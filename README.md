@@ -49,6 +49,8 @@ Our [CPRD-Codelists repository](https://github.com/Exeter-Diabetes/CPRD-Codelist
 ### 01_dpctn_cohort
 Defines the cohort as per the flowchart above, except for the final step of removing those with only 'Seen in diabetes clinic' codes and no high HbA1cs/scripts for glucose-lowering medication.
 
+&nbsp;
+
 ### 02_dpctn_diabetes_type_all_time
 Uses diabetes type codes for the final step in defining the cohort (removing those with only 'Seen in diabetes clinic' codes and no high HbA1cs/scripts for gluocse-lowering medication) and to define diabetes type as per the below flowchart
 
@@ -68,6 +70,17 @@ graph TD;
 
 \* Could also have diabetes codes of unspecified type.
 
-This script also looks at how many diabetes codes, high HbA1cs and scripts for glucose-lowering medication occur have dates before the patient's birth (and so need to be cleaned). For all code categories, and all high HbA1cs and OHA/insulin scripts, >99.9% were on/after the patient's DOB. The small proportion before are excluded from downstream analysis.
+This script also looks at how many diabetes codes, high HbA1cs and scripts for glucose-lowering medication occur have dates before the patient's birth (and so need to be cleaned). For all code categories, and all high HbA1cs and OHA/insulin scripts, >99.9% were on/after the patient's DOB. The small proportion before DOB were excluded from downstream analysis.
+
+&nbsp;
+
+### 03_dpctn_diabetes_diagnosis_dates
+Looks at potential quality issues around diagnosis dates (diabetes codes in year of birth) and determines diagnosis date for all patients in cohort (earliest of diabetes code, high HbA1c or script for glucose=lowering medication).
+
+
+
+
+
+
 
 
