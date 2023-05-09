@@ -56,7 +56,7 @@ Uses diabetes type codes to define diabetes type as per the below flowchart:
 
 ```mermaid
 graph TD;
-    A["<b>DePICtion cohort</b>: n=778,680"] --> |"Unspecific codes <br>only"| B["Unspecified: <br>n=122,814 <br>(15.8%)"]
+    A["<b>DePICtion cohort</b>: n=769,841"] --> |"Unspecific codes <br>only"| B["Unspecified: <br>n=122,814 <br>(15.8%)"]
     A --> |"T1D codes*"| C["Type 1: <br>n=32,005 <br>(4.1%)"]
     A --> |"T2D codes*"| D["Type 2: <br>n=576,977 <br>(74.1%)"]
     A --> |"Gestational codes*"| E["Gestational <br>only: <br>n=15,718 <br>(2.0%)"]
