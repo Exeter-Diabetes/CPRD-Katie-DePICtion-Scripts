@@ -20,7 +20,7 @@ graph TD;
 
 &nbsp;
 
-\** The list of diabetes-related medcode used for the extract (see below) included some which were not specific to diabetes e.g. 'insulin resistance'. The list of 'diabetes-specific codes' used to define the cohort here can be found in our [CPRD-Codelists respository](https://github.com/Exeter-Diabetes/CPRD-Codelists/blob/main/Diabetes/exeter_medcodelist_all_diabetes.txt).
+\** The list of diabetes-related medcode used for the extract (see below) included some which were not specific to diabetes e.g. 'insulin resistance' and 'seen in diabetes clinic' (which we determined to be unspecific to diabetes after observing a large number of patients in our extract with this code and no further evidence of diabetes \[over 100,000 patients] e.g. other codes for diabetes / high HbA1c test results / prescriptions for glucose-lowering medication). The list of 'diabetes-specific codes' used to define the cohort here can be found in our [CPRD-Codelists respository](https://github.com/Exeter-Diabetes/CPRD-Codelists/blob/main/Diabetes/exeter_medcodelist_all_diabetes.txt).
 
 &nbsp;
 
