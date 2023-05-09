@@ -60,7 +60,7 @@ graph TD;
     A --> |"T1D codes*"| C["Type 1: <br>n=32,005 <br>(4.1%)"]
     A --> |"T2D codes*"| D["Type 2: <br>n=576,977 <br>(74.1%)"]
     A --> |"Gestational codes*"| E["Gestational <br>only: <br>n=15,718 <br>(2.0%)"]
-    A --> |"Gestational and <br>later T2D codes*"| F["Gestational <br>then Type 2: <br>n=7,830 <br>(1.0%)"]
+    A --> |"Gestational and <br>later T2D codes* **"| F["Gestational <br>then Type 2: <br>n=7,830 <br>(1.0%)"]
     A --> |"MODY codes*"| G["MODY: <br>n=62 <br>(0.0%)"]
     A --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| H["Non-MODY <br>genetic/<br>syndromic: <br>n=108 <br>(0.0%)"]
     A --> |"Secondary codes*"| I["Secondary: <br>n=594 <br>(0.1%)"]
@@ -68,7 +68,9 @@ graph TD;
     A --> |"Other including mix <br>of diabetes types and/<br>or codes for 'other <br>specific diabetes'"| K["Coding errors <br>or type changes<br> over time: <br>n=22,571 <br>(2.9%)"]
 ```
 
-\* Could also have diabetes codes of unspecified type.
+\* Could also have diabetes codes of unspecified type. For gestational diabetes only: earliest and latest codes for unspecified diabetes must be no more than a year prior to earliest gestational diabetes code (excluding 'history of gestational diabetes' codes) and no more than a year after latest gestational diabetes code (excluding 'history of gestational diabetes' codes).
+
+\** All gestational diabetes codes (excluding 'history of gestational diabetes' codes) must be earlier than the earliest Type 2 diabetes code.
 
 This script also looks at how many diabetes codes, high HbA1cs and scripts for glucose-lowering medication have dates before the patient's birth (and so need to be cleaned). For all code categories, and all high HbA1cs and OHA/insulin scripts, >99.9% were on/after the patient's DOB. The small proportion before DOB were excluded from downstream analysis.
 
