@@ -79,16 +79,16 @@ Looks at potential quality issues around diagnosis dates (diabetes codes in year
 
 Patients with diabetes type 'gestational then type 2' or 'other' (as per flowchart above) were excluded (are later analysed in script 04_dpctn_diabetes_type_over_time) as they may have changes in their diagnosed type of diabetes over time. For the remaining cohort, diagnosis date is determined as the earliest diabetes code, high HbA1c or script for glucose-lowering medication. In the DePICtion cohort, patients were diagnosed based on the following (i.e. the following appeared earliest in their records):
 
-| Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | High HbA1c | OHA prescription | Insulin prescription |
-| ---- | ---- | ---- | ---- | ---- | ---- | 
-| Any type* (n=) | | | | | |
-| Type 1 (n=) | | | | | |
-| Type 2 (n=) | | | | | |
-| Gestational only (n=) | | | | | |
-| MODY (n=) | | | | | |
-| Non-MODY genetic/syndromic (n=) | | | | | |
-| Secondary (n=) | | | | | |
-| Malnutrition (n=) | | | | | |
+| Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | Unspecified and/or type-specific diabetes codes | High HbA1c | OHA prescription | Insulin prescription |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- | 
+| Any type* (n=) | | | | | | |
+| Type 1 (n=) | | | | | | |
+| Type 2 (n=) | | | | | | |
+| Gestational only (n=) | | | | | | |
+| MODY (n=) | | | | | | |
+| Non-MODY genetic/syndromic (n=) | | | | | | |
+| Secondary (n=) | | | | | | |
+| Malnutrition (n=) | | | | | | |
 
 \* Excluding 'gestational then type 2' and 'other'
 
