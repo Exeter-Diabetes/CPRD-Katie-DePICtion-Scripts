@@ -70,17 +70,27 @@ graph TD;
 
 &nbsp;
 
-This script also looks at how many diabetes codes, high HbA1cs and scripts for glucose-lowering medication have dates before the patient's birth (and so need to be cleaned). For all code categories, and all high HbA1cs and OHA/insulin scripts, >99.9% were on/after the patient's DOB. The small proportion before DOB were excluded from downstream analysis.
+This script also looks at how many diabetes codes, high HbA1cs and scripts for glucose-lowering medication have dates before the patient's birth (and so need to be cleaned). For all code categories, and all high HbA1cs and OHA/insulin scripts, >99.9% were on/after the patient's DOB (and only ~0.3% of cohort (1,995/769,841) are affected). The small proportion of codes/high HbA1c/scripts before DOB were excluded from downstream analysis.
 
 &nbsp;
 
 ### 03_dpctn_diabetes_diagnosis_dates
-Looks at potential quality issues around diagnosis dates (diabetes codes in year of birth) and determines diagnosis date for all patients in cohort (earliest of diabetes code, high HbA1c or script for glucose=lowering medication).
+Looks at potential quality issues around diagnosis dates (diabetes codes in year of birth) and determines diagnosis date for all patients in cohort (earliest of diabetes code, high HbA1c or script for glucose-lowering medication).
 
+Patients with diabetes type 'gestational then type 2' or 'other' (as per flowchart above) were excluded (are later analysed in script 04_dpctn_diabetes_type_over_time) as they may have changes in their diagnosed type of diabetes over time. For the remaining cohort, diagnosis date is determined as the earliest diabetes code, high HbA1c or script for glucose-lowering medication. In the DePICtion cohort, patients were diagnosed based on the following (i.e. the following appeared earliest in their records):
 
+| Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | High HbA1c | OHA prescription | Insulin prescription |
+| ---- | ---- | ---- | ---- | ---- | ---- | 
+| Any type* (n=) | | | | | |
+| Type 1 (n=) | | | | | |
+| Type 2 (n=) | | | | | |
+| Gestational only (n=) | | | | | |
+| MODY (n=) | | | | | |
+| Non-MODY genetic/syndromic (n=) | | | | | |
+| Secondary (n=) | | | | | |
+| Malnutrition (n=) | | | | | |
 
-
-
+\* Excluding 'gestational then type 2' and 'other'
 
 
 
