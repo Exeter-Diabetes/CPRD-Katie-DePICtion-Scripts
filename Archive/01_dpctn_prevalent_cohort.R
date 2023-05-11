@@ -1,0 +1,401 @@
+
+# Create new table with all IDs in download who are registered on 01/02/2020
+
+# Pull in current BMI, HbA1c, total cholesterol, HDL, triglycerides, current treatment (and whether have ins/OHA script), family history of diabetes (raw and clean)
+
+############################################################################################
+
+# Setup
+library(tidyverse)
+library(aurum)
+library(EHRBiomarkr)
+rm(list=ls())
+
+cprd = CPRDData$new(cprdEnv = "test-remote",cprdConf = "~/.aurum.yaml")
+codesets = cprd$codesets()
+codes = codesets$getAllCodeSetVersion(v = "31/10/2021")
+
+analysis = cprd$analysis("dpctn_prevalent")
+
+
+############################################################################################
+
+# Set index date
+
+index_date <- as.Date("2020-02-01")
+
+
+############################################################################################
+
+# Initial data quality checks
+
+## Our download should not have included non-'acceptable' patients (see CPRD data specification for definition)
+## It should have only included patients with registration start dates up to 10/2018 (as we used the October 2020 Aurum release, and only included patients with a diabetes medcode within registration and with at least 1 year of UTS data before and after)
+## However, we have some non-acceptable patients and some patients registered in 2020 (none between 10/2018-08/2020, inclusive) - remove these people
+
+## Additionally, the codelist we used for our download included some non-diabetes codes (e.g. 'insulin resistance')
+## Everyone in download should have diabetes codes between 01/01/2004 and 06/11/2020 with at least 1 year of data before and after 0 exclude people without this from analysis
+
+
+# Find people with diabetes code occurrence (T1/T2/unspec and exclusion codes) with a year of data before and after
+## Since extraction was in November 2020, this means everyone who remains in the dataset must have a code before the index date in Feb 2020
+
+analysis = cprd$analysis("all_patid")
+
+raw_diabetes_medcodes <- cprd$tables$observation %>%
+  inner_join(codes$all_diabetes, by="medcodeid") %>%
+  analysis$cached("raw_diabetes_medcodes", indexes=c("patid", "obsdate", "all_diabetes_cat"))
+
+raw_exclusion_diabetes_medcodes <- cprd$tables$observation %>%
+  inner_join(codes$exclusion_diabetes, by="medcodeid") %>%
+  analysis$cached("raw_exclusion_diabetes_medcodes", indexes=c("patid", "obsdate", "exclusion_diabetes_cat"))
+
+
+analysis = cprd$analysis("dpctn")
+
+patids_with_valid_diabetes_code <- cprd$tables$patient %>%
+  select(patid, pracid, regstartdate, regenddate) %>%
+  left_join((cprd$tables$practice %>% select(pracid, prac_region=region, lcd)), by="pracid") %>%
+  
+  mutate(gp_record_end=pmin(if_else(is.na(lcd), as.Date("2020-10-31"), lcd),
+                            if_else(is.na(regenddate), as.Date("2020-10-31"), regenddate),
+                            as.Date("2020-10-31"), na.rm=TRUE)) %>%
+  
+  inner_join((raw_diabetes_medcodes %>%
+                select(patid, obsdate) %>%
+                union_all((raw_exclusion_diabetes_medcodes %>% select(patid, obsdate)))), by="patid") %>%
+  
+  filter(obsdate>=sql("date_add(regstartdate, interval 365.25 day)") & obsdate<=sql("date_add(gp_record_end, interval -365.25 day)") & obsdate>=as.Date("2004-01-01")) %>%
+  
+  distinct(patid) %>%
+  
+  analysis$cached("patids_with_valid_diabetes_code", unique_indexes="patid")
+
+patids_with_valid_diabetes_code %>% count()
+#1,480,395 out of 1,481,294 in download
+
+
+# Just keep those which are also 'acceptable' and not with a registration start date in 2020
+
+acceptable_patids <- patids_with_valid_diabetes_code %>%
+  inner_join(cprd$tables$patient, by="patid") %>%
+  filter(acceptable==1 & year(regstartdate)!=2020)
+  
+acceptable_patids %>% count()
+#1,480,395
+
+
+############################################################################################
+
+# Create cohort table
+
+# Include general patient variables as per all_t1t2_cohort:
+## gender
+## DOB (derived as per: https://github.com/Exeter-Diabetes/CPRD-Codelists/blob/main/readme.md#general-notes-on-implementation, cached for all IDs in 'diagnosis_date_dob' table from all_patid_dob script)
+## pracid
+## prac_region
+## imd2015_10
+## ethnicity 5-category and 16-category (derived as per: https://github.com/Exeter-Diabetes/CPRD-Codelists#ethnicity, cached for all IDs in 'all_patid_ethnicity' table from all_patid_ethnicity_table script)
+## regstartdate	
+## gp_record_end (earliest of last collection date from practice, deregistration and 31/10/2020 (latest date in records))	
+## death_date	(earliest of 'cprddeathdate' (derived by CPRD) and ONS death date. ONS death date=date of death [dod] or date of death registration [dor] if dod missing = 'ons_death' variable in validDateLookup table)
+## with_hes ('patidsWithLinkage' table has patids of those with linkage to HES APC, IMD and ONS death records plus n_patid_hes (how many patids linked with 1 HES record); with_hes=1 for patients with HES linkage and n_patid_hes<=20)
+## Calculate age at index date
+
+
+# Just want those registered on 01/02/2020 (the index date)
+
+analysis = cprd$analysis("diagnosis_date")
+dob <- dob %>% analysis$cached("dob")
+
+analysis = cprd$analysis("all_patid")
+ethnicity <- ethnicity %>% analysis$cached("ethnicity")
+
+
+analysis = cprd$analysis("dpctn_prevalent")
+
+cohort <- acceptable_patids %>%
+  select(patid, gender, pracid, regstartdate, regenddate, cprd_ddate) %>%
+  left_join((dob %>% select(patid, dob)), by="patid") %>%
+  left_join((cprd$tables$practice %>% select(pracid, prac_region=region, lcd)), by="pracid") %>%
+  left_join((cprd$tables$patientImd2015 %>% select(patid, imd2015_10)), by="patid") %>%
+  left_join((ethnicity %>% select(patid, ethnicity_5cat, ethnicity_16cat)), by="patid") %>%
+  left_join((cprd$tables$validDateLookup %>% select(patid, ons_death)), by="patid") %>%
+  left_join((cprd$tables$patidsWithLinkage %>% select(patid, n_patid_hes)), by="patid") %>%
+  
+  mutate(gp_record_end=pmin(if_else(is.na(lcd), as.Date("2020-10-31"), lcd),
+                            if_else(is.na(regenddate), as.Date("2020-10-31"), regenddate),
+                            as.Date("2020-10-31"), na.rm=TRUE),
+         
+         death_date=pmin(if_else(is.na(cprd_ddate), as.Date("2050-01-01"), cprd_ddate),
+                         if_else(is.na(ons_death), as.Date("2050-01-01"), ons_death), na.rm=TRUE),
+         death_date=if_else(death_date==as.Date("2050-01-01"), as.Date(NA), death_date),
+         
+         with_hes=ifelse(!is.na(n_patid_hes) & n_patid_hes<=20, 1L, 0L),
+         
+         age_at_index=round(datediff(index_date, dob)/365.25, 1)) %>%
+  
+  select(patid, gender, dob, age_at_index, pracid, prac_region, imd2015_10, ethnicity_5cat, ethnicity_16cat, regstartdate, gp_record_end, death_date, with_hes) %>%
+  
+  filter(regstartdate<=index_date & !(!is.na(death_date) & death_date<index_date) & !(!is.na(gp_record_end) & gp_record_end<index_date)) %>%
+  
+  analysis$cached("cohort_interim_1", unique_indexes="patid")
+
+
+cohort %>% count()
+# 905,049
+
+
+############################################################################################
+
+# Add in biomarkers
+
+## Process as per Mastermind except exclude any after index date:
+
+# Clean biomarkers:
+## Only keep those within acceptable value limits
+## Only keep those with valid unit codes (numunitid)
+## If multiple values on the same day, take mean
+## Remove those with invalid dates (before DOB or after LCD/death/deregistration)
+
+# Find baseline values
+## Up to 2 years prior except HbA1c - up to 6 months prior
+## Then use closest date to index date
+
+
+biomarkers <- c("bmi", "hdl", "triglyceride", "totalcholesterol", "hba1c")
+
+
+# Pull out all raw biomarker values and cache
+
+analysis = cprd$analysis("all_patid")
+
+for (i in biomarkers) {
+  
+  print(i)
+  
+  raw_tablename <- paste0("raw_", i, "_medcodes")
+  
+  data <- cprd$tables$observation %>%
+    inner_join(codes[[i]], by="medcodeid") %>%
+    analysis$cached(raw_tablename, indexes=c("patid", "obsdate", "testvalue", "numunitid"))
+  
+  assign(raw_tablename, data)
+  
+}
+
+
+# Clean biomarkers:
+## Only keep those within acceptable value limits
+## Only keep those with valid unit codes (numunitid)
+## If multiple values on the same day, take mean
+## Remove those with invalid dates (before min DOB or after LCD/death/deregistration)
+
+## HbA1c only: remove before 1990, and convert all values to mmol/mol
+
+analysis = cprd$analysis("all_patid")
+
+for (i in biomarkers) {
+  
+  print(i)
+  
+  raw_tablename <- paste0("raw_", i, "_medcodes")
+  clean_tablename <- paste0("clean_", i, "_medcodes")
+  
+  data <- get(raw_tablename)
+  
+  if (i=="hba1c") {
+    
+    data <- data %>%
+      filter(year(obsdate)>=1990) %>%
+      mutate(testvalue=ifelse(testvalue<=20, ((testvalue-2.152)/0.09148), testvalue))
+        
+  }
+    
+  data <- data %>%
+    
+    clean_biomarker_values(testvalue, i) %>%
+    clean_biomarker_units(numunitid, i) %>%
+    
+    group_by(patid,obsdate) %>%
+    summarise(testvalue=mean(testvalue, na.rm=TRUE)) %>%
+    ungroup() %>%
+    
+    inner_join(cprd$tables$validDateLookup, by="patid") %>%
+    filter(obsdate>=min_dob & obsdate<=gp_ons_end_date) %>%
+    
+    select(patid, date=obsdate, testvalue) %>%
+    
+    analysis$cached(clean_tablename, indexes=c("patid", "date", "testvalue"))
+  
+  assign(clean_tablename, data)
+  
+}
+
+
+# For each biomarker, find baseline value at index date
+## Up to 2 years prior except HbA1c - find up to 6 months prior too (in addition to 2 years prior)
+## Then use closest date to index date
+
+analysis = cprd$analysis("dpctn_prevalent")
+
+biomarkers <- setdiff(biomarkers, "hba1c")
+biomarkers <- c(biomarkers, "hba1c_6m", "hba1c_2yrs")
+clean_hba1c_6m_medcodes <- clean_hba1c_medcodes
+clean_hba1c_2yrs_medcodes <- clean_hba1c_medcodes
+
+for (i in biomarkers) {
+  
+  print(i)
+  
+  clean_tablename <- paste0("clean_", i, "_medcodes")
+  biomarker_date_variable <- paste0(i, "date")
+  biomarker_indexdiff_variable <- paste0(i, "indexdiff")
+  
+  data <- get(clean_tablename) %>%
+    
+    mutate(indexdatediff=datediff(date, index_date))
+  
+  
+  if (i=="hba1c_6m") {
+    
+    data <- data %>%
+      filter(indexdatediff<=0 & indexdatediff>=-183)
+    
+  } else {
+    
+    data <- data %>%
+      filter(indexdatediff<=0 & indexdatediff>=-730)
+    
+  }
+  
+  data <- data %>%
+    
+    group_by(patid) %>%
+    
+    mutate(min_timediff=min(abs(indexdatediff), na.rm=TRUE)) %>%
+    filter(abs(indexdatediff)==min_timediff) %>%
+    
+    ungroup() %>%
+    
+    rename({{i}}:=testvalue,
+           {{biomarker_date_variable}}:=date,
+           {{biomarker_indexdiff_variable}}:=indexdatediff) %>%
+    
+    select(-min_timediff)
+  
+  cohort <- cohort %>%
+    left_join(data, by="patid")
+  
+}
+
+cohort <- cohort %>% analysis$cached("cohort_interim_2", unique_indexes="patid")
+
+
+############################################################################################
+
+# Add in current treatment
+## Whether insulin or OHA in last 3 months or last 6 months
+
+# Get clean OHA and insulin scripts
+
+analysis = cprd$analysis("all_patid")
+
+## All OHA scripts
+clean_oha <- cprd$tables$drugIssue %>%
+  inner_join(cprd$tables$ohaLookup, by="prodcodeid") %>%
+  inner_join(cprd$tables$validDateLookup, by="patid") %>%
+  filter(issuedate>=min_dob & issuedate<=gp_ons_end_date) %>%
+  select(patid, date=issuedate, dosageid, quantity, quantunitid, duration, INS, TZD, SU, DPP4, MFN, GLP1, Glinide, Acarbose, SGLT2) %>%
+  analysis$cached("clean_oha_prodcodes", indexes=c("patid", "date", "INS", "TZD", "SU", "DPP4", "MFN", "GLP1", "Glinide", "Acarbose", "SGLT2"))
+
+## All insulin scripts
+clean_insulin <- cprd$tables$drugIssue %>%
+  inner_join(codes$insulin, by="prodcodeid") %>%
+  inner_join(cprd$tables$validDateLookup, by="patid") %>%
+  filter(issuedate>=min_dob & issuedate<=gp_ons_end_date) %>%
+  select(patid, date=issuedate, dosageid, quantity, quantunitid, duration) %>%
+  analysis$cached("clean_insulin_prodcodes", indexes=c("patid", "date"))
+
+
+# Find most recent prior to index date
+
+analysis = cprd$analysis("dpctn_prevalent")
+
+latest_oha <- clean_oha %>%
+  filter(date<=index_date) %>%
+  group_by(patid) %>%
+  summarise(latest_oha=max(date, na.rm=TRUE)) %>%
+  ungroup() %>%
+  mutate(indexdatediff=datediff(latest_oha, index_date),
+         current_oha_3m=ifelse(indexdatediff>=-91, 1L, 0L),
+         current_oha_6m=ifelse(indexdatediff>=-183, 1L, 0L),
+         oha_ever=1L) %>%
+  select(patid, current_oha_3m, current_oha_6m) %>%
+  analysis$cached("current_oha", unique_indexes="patid")
+  
+latest_insulin <- clean_insulin %>%
+  filter(date<=index_date) %>%
+  group_by(patid) %>%
+  summarise(latest_ins=max(date, na.rm=TRUE)) %>%
+  ungroup() %>%
+  mutate(indexdatediff=datediff(latest_ins, index_date),
+         current_ins_3m=ifelse(indexdatediff>=-91, 1L, 0L),
+         current_ins_6m=ifelse(indexdatediff>=-183, 1L, 0L),
+         ins_ever=1L) %>%
+  select(patid, current_ins_3m, current_ins_6m) %>%
+  analysis$cached("current_ins", unique_indexes="patid")
+
+cohort <- cohort %>%
+  left_join(latest_oha, by="patid") %>%
+  left_join(latest_insulin, by="patid") %>%
+  mutate(across(c("current_oha_3m", "current_oha_6m", "oha_ever", "current_ins_3m", "current_ins_6m", "ins_ever"), coalesce, 0L)) %>%
+  analysis$cached("cohort_interim_3", unique_indexes="patid")
+
+
+############################################################################################
+
+# Add in family history of diabetes (cleaned: includes 99% of raw occurrences so no difference)
+
+# For people with positive and negative codes:
+## If all negative codes are < positive codes, fine - use positive
+## Otherwise, treat as missing
+
+analysis = cprd$analysis("all_patid")
+
+## Raw FH of diabetes
+raw_fh_diabetes_medcodes <- cprd$tables$observation %>%
+  inner_join(codes$fh_diabetes, by="medcodeid") %>%
+  analysis$cached("raw_fh_diabetes_medcodes", indexes=c("patid", "obsdate"))
+
+## Clean FH of diabetes
+clean_fh_diabetes_medcodes <- raw_fh_diabetes %>%
+  inner_join(cprd$tables$validDateLookup, by="patid") %>%
+  filter(obsdate>=min_dob & obsdate<=gp_ons_end_date) %>%
+  select(patid, date=obsdate, fh_diabetes_cat) %>%
+  analysis$cached("clean_fh_diabetes_medcodes", indexes=c("patid", "date"))
+
+
+analysis = cprd$analysis("dpctn_prevalent")
+
+fh_code_types <- clean_fh_diabetes_medcodes %>%
+  filter(fh_diabetes_cat!="positive - sibling" & fh_diabetes_cat!="positive - child" & fh_diabetes_cat!="positive - gestational" & date<=index_date) %>%
+  mutate(fh_diabetes_cat=ifelse(fh_diabetes_cat=="negative", "negative", "positive")) %>%
+  group_by(patid, fh_diabetes_cat) %>%
+  summarise(earliest_date=min(date, na.rm=TRUE),
+            latest_date=max(date, na.rm=TRUE)) %>%
+  ungroup() %>%
+  group_by(patid) %>%
+  pivot_wider(id_cols=patid, names_from = c(fh_diabetes_cat), names_glue = "{fh_diabetes_cat}_{.value}", values_from=c(earliest_date, latest_date)) %>%
+  ungroup() %>%
+  analysis$cached("fh_code_types", unique_indexes="patid")
+
+final_fh <- fh_code_types %>%
+  mutate(fh_diabetes=ifelse(is.na(positive_earliest_date), 0L,
+                            ifelse(is.na(negative_earliest_date), 1L,
+                                   ifelse(!is.na(positive_earliest_date) & !is.na(negative_earliest_date) & negative_latest_date<positive_earliest_date, 1L, NA)))) %>%
+  analysis$cached("final_fh", unique_indexes="patid")
+
+cohort <- cohort %>%
+  left_join((final_fh %>% select(patid, fh_diabetes)), by="patid") %>%
+  analysis$cached("cohort", unique_indexes="patid")
