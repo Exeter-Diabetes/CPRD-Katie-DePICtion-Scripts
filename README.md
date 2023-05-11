@@ -97,15 +97,18 @@ Patients with diabetes type 'gestational then type 2' or 'other' (as per flowcha
 
 To investigate data quality issues, date of diagnosis by calendar year relative to year of birth was analysed:
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/year_relative_to_birth.png?" width="900">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/year_relative_to_birth.png?" width="1000">
 
-n% of the cohort have diagnosis dates in the same calendar year as their birth, even 
+Clearly there are data quality issues since we would not expect any patients with Type 2 diabetes to be diagnosed in their year of birth. Subsequent analysis will ignore diabetes codes in the year of birth for those with Type 2 diabetes. This constitutes only 0.3% of those with Type 2 diabetes.
 
 &nbsp;
 
 Also to investigate data quality issues, date of diagnosis by calendar year relative to year of registration start was analysed:
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/year_relative_to_reg_start.png?" width="900">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/year_relative_to_reg_start.png?" width="1000">
+
+Again, clearly there are data quality issues with more patients than expected being diagnosed in the year where they register with their primary care practice. This probably reflects old diagnoses being recorded as if they were new. When diagnoses within 3 months (91 days) of registration start are excluded, the data appear
+
 
 &nbsp;
 
