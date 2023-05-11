@@ -54,27 +54,6 @@ cohort_diag_dates_classified <- cohort_classification %>%
             dm_diag_codetype2=ifelse(any(category=="unspecified") | any(category=="type_specific_code"), "unspecified_or_type_spec_code", NA)) %>%
   ungroup() %>%
   analysis$cached("cohort_diag_dates_classified", unique_indexes="patid")
-
- 
-############################################################################################
-
-# Look at number diagnosed on different codes
-
-cohort_diag_dates_classified %>% count()
-#743,968
-
-total_by_diag_code_type <- collect(cohort_diag_dates_classified %>% group_by(dm_diag_codetype) %>% summarise(count=n())) 
-
-total_by_diag_code_type2 <- collect(cohort_diag_dates_classified %>% group_by(dm_diag_codetype2) %>% summarise(count=n()))
-
-total_by_class <- collect(cohort_diag_dates_classified %>% group_by(class) %>% summarise(count=n())) 
-# matches previous
-
-total_by_class_and_diag_code_type <- collect(cohort_diag_dates_classified %>% group_by(class, dm_diag_codetype) %>% summarise(count=n())) %>%
-  pivot_wider(id_cols=class, names_from=dm_diag_codetype, values_from=count)
-
-total_by_class_and_diag_code_type2 <- collect(cohort_diag_dates_classified %>% group_by(class, dm_diag_codetype2) %>% summarise(count=n())) %>%
-  pivot_wider(id_cols=class, names_from=dm_diag_codetype2, values_from=count)
                     
 
 ############################################################################################
@@ -94,6 +73,12 @@ ggplot(diag_dates, aes(x=year_relative_to_birth)) +
   geom_histogram(data=diag_dates, aes(fill=class), binwidth=1) +
   xlab("Year relative to birth year")
 
+diag_dates %>% filter(year_relative_to_birth==0 & class=="type 2") %>% count()
+#1,694
+1694/576977
+#0.3%
+
+
 
 
 # By calendar year relative to year of registration start
@@ -102,10 +87,50 @@ diag_dates <- diag_dates %>% mutate(year_relative_to_regstart=as.integer(diag_ye
 
 ggplot(diag_dates, aes(x=year_relative_to_regstart)) + 
   geom_histogram(data=diag_dates, aes(fill=class), binwidth=1) +
-  xlab("Year relative to registration start year")
+  xlab("Year relative to registration start year") +
+  ylim(0, 44000)
 
+diag_dates %>% filter(year_relative_to_regstart==0) %>% count()
+#43,308
+43308/743968
+#5.8%
 
 ## If remove those within 3 months of registration start
+
+diag_dates_clean <- diag_dates %>% filter(as.integer(difftime(dm_diag_date, regstartdate, units="days"))<0 | as.integer(difftime(dm_diag_date, regstartdate, units="days"))>=91)
+
+ggplot(diag_dates_clean, aes(x=year_relative_to_regstart)) + 
+  geom_histogram(data=diag_dates_clean, aes(fill=class), binwidth=1) +
+  xlab("Year relative to registration start year") +
+  ylim(0, 44000)
+
+
+
+
+
+
+
+# New diagnosis dates
+
+############################################################################################
+
+# Look at number diagnosed on different codes
+
+cohort_diag_dates_classified %>% count()
+#743,968
+
+total_by_diag_code_type <- collect(cohort_diag_dates_classified %>% group_by(dm_diag_codetype) %>% summarise(count=n())) 
+
+total_by_diag_code_type2 <- collect(cohort_diag_dates_classified %>% group_by(dm_diag_codetype2) %>% summarise(count=n()))
+
+total_by_class <- collect(cohort_diag_dates_classified %>% group_by(class) %>% summarise(count=n())) 
+# matches previous
+
+total_by_class_and_diag_code_type <- collect(cohort_diag_dates_classified %>% group_by(class, dm_diag_codetype) %>% summarise(count=n())) %>%
+  pivot_wider(id_cols=class, names_from=dm_diag_codetype, values_from=count)
+
+total_by_class_and_diag_code_type2 <- collect(cohort_diag_dates_classified %>% group_by(class, dm_diag_codetype2) %>% summarise(count=n())) %>%
+  pivot_wider(id_cols=class, names_from=dm_diag_codetype2, values_from=count)
 
 
 
