@@ -88,10 +88,11 @@ diag_dates <- collect(cohort_diag_dates_classified %>% mutate(diag_year=year(dm_
 
 # By calendar year relative to year of birth
 
-diag_dates <- diag_dates %>% mutate(year_relative_to_birth=diag_year-yob)
+diag_dates <- diag_dates %>% mutate(year_relative_to_birth=as.integer(diag_year-yob))
 
 ggplot(diag_dates, aes(x=year_relative_to_birth)) + 
-  geom_histogram(data=diag_dates, aes(fill=class), binwidth=1)
+  geom_histogram(data=diag_dates, aes(fill=class), binwidth=1) +
+  xlab("Year relative to birth year")
 
 
 
@@ -100,7 +101,8 @@ ggplot(diag_dates, aes(x=year_relative_to_birth)) +
 diag_dates <- diag_dates %>% mutate(year_relative_to_regstart=as.integer(diag_year-yor))
 
 ggplot(diag_dates, aes(x=year_relative_to_regstart)) + 
-  geom_histogram(data=diag_dates, aes(fill=class), binwidth=1)
+  geom_histogram(data=diag_dates, aes(fill=class), binwidth=1) +
+  xlab("Year relative to registration start year")
 
 
 ## If remove those within 3 months of registration start
