@@ -81,14 +81,15 @@ Patients with diabetes type 'gestational then type 2' or 'other' (as per flowcha
 
 | Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | Unspecified and/or type-specific diabetes code | High HbA1c | OHA prescription | Insulin prescription |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | 
-| Any type* (n=) | | | | | | |
-| Type 1 (n=) | | | | | | |
-| Type 2 (n=) | | | | | | |
-| Gestational only (n=) | | | | | | |
-| MODY (n=) | | | | | | |
-| Non-MODY genetic/syndromic (n=) | | | | | | |
-| Secondary (n=) | | | | | | |
-| Malnutrition (n=) | | | | | | |
+| Any type* (n=743,968) | 281,466 | 210,454 | 491,920 | 230,740 | 19,361 |1947 |
+| Unspecified (n=122,814) | 110,335 | 0 | 110,335 | 8,625 | 3,664 | 190 | 
+| Type 1 (n=32,005) | 11,880 | 17,341 | 29,221 | 1,658 | 214 | 912 | 
+| Type 2 (n=576,977) | 152,717 | 188,554 | 341,271 | 220,182 | 14,770 | 754 | 
+| Gestational only (n=11,407) | 6,365 | 4,252 | 10,617 | 47 | 676 | 67 | 
+| MODY (n=62) | 15 | 29 | 44 | 15 | 2 | 1 | 
+| Non-MODY genetic/syndromic (n=108) | 35 | 54 | 89 | 7 | 5 | 7 | 
+| Secondary (n=594) | 118 | 224 | 342 | 206 | 30 | 16 | 
+| Malnutrition (n=1) | 1 | 0 | 1 | 0 | 0 | 0 | 
 
 \* Excluding 'gestational then type 2' and 'other'
 
