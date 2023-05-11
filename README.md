@@ -107,7 +107,7 @@ Also to investigate data quality issues, date of diagnosis by calendar year rela
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/year_relative_to_reg_start.png?" width="1000">
 
-Again, clearly there are data quality issues with more patients than expected being diagnosed in the year where they register with their primary care practice. This probably reflects old diagnoses being recorded as if they were new. When diagnoses within 3 months (91 days) of registration start are excluded, the data appear
+Again, clearly there are data quality issues with more patients than expected being diagnosed in the year where they register with their primary care practice. This probably reflects old diagnoses being recorded as if they were new. When diagnoses within 3 months (<91 days) of registration start are excluded, the data appear
 
 
 &nbsp;
