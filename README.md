@@ -97,6 +97,8 @@ Patients with diabetes type 'gestational then type 2' or 'other' (as per flowcha
 
 To investigate data quality issues, date of diagnosis by calendar year relative to year of birth was analysed:
 
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/year_relative_to_birth.png" width="370">
+
 n% of the cohort have diagnosis dates in the same calendar year as their birth, even 
 &nbsp;
 
