@@ -103,7 +103,7 @@ The table below shows which out of a diagnosis code, high HbA1c, or prescription
 
 | Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | Unspecified and/or type-specific diabetes code | High HbA1c | OHA prescription | Insulin prescription | Missing |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| Any type* (n=743,968) | 271616 (36.5%) | 203998 (27.4%) | 475614 (63.9%) | 222676 (29.9%) | 16557 (2.2%) | 1660 (0.2%) | 27461 (3.7%) |
+| Any type* (n=743968) | 271616 (36.5%) | 203998 (27.4%) | 475614 (63.9%) | 222676 (29.9%) | 16557 (2.2%) | 1660 (0.2%) | 27461 (3.7%) |
 | Unspecified (n=122814) | 109166 (88.9%) |  (0.0%) | 109166 (88.9%) | 8435 (6.9%) | 3292 (2.7%) | 176 (0.1%) | 1745 (1.4%) |
 | Type 1 (n=32005) | 11318 (35.4%) | 16875 (52.7%) | 28193 (88.1%) | 1574 (4.9%) | 189 (0.6%) | 753 (2.4%) | 1296 (4.0%) |
 | Type 2 (n=576977) | 144635 (25.1%) | 182636 (31.7%) | 327271 (56.7%) | 212396 (36.8%) | 12414 (2.2%) | 642 (0.1%) | 24254 (4.2%) |
