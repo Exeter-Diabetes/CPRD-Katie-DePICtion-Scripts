@@ -131,4 +131,11 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 | Secondary (n=586 with non-missing diagnosis date) | 0 | 31 |
 | Malnutrition (n=1 with non-missing diagnosis date) | 0 | NA |
 
+&nbsp;
+
+### 04_dpctn_diabetes_type_over_time
+
+
+
+
 
