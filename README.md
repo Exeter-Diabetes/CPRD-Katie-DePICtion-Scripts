@@ -75,7 +75,7 @@ This script also looks at how many diabetes codes, high HbA1cs and scripts for g
 &nbsp;
 
 ### 03_dpctn_diabetes_diagnosis_dates
-Looks at potential quality issues around diagnosis dates (diabetes codes in year of birth) and determines diagnosis date for patients in the cohort (earliest of diabetes code, high HbA1c or script for glucose-lowering medication).
+Looks at potential quality issues around diagnosis dates (diabetes codes in year of birth) and determines diagnosis date for patients in the cohort (earliest of diabetes code, high HbA1c or script for glucose-lowering medication). Also looks at implications of using diabetes codes only to determine diagnosis dates.
 
 Patients with diabetes type 'gestational then type 2' or 'other' (as per flowchart above) were excluded (are later analysed in script 04_dpctn_diabetes_type_over_time) as they may have changes in their diagnosed type of diabetes over time. For the remaining cohort, diagnosis date is determined as the earliest diabetes code, high HbA1c or script for glucose-lowering medication. 
 
@@ -116,4 +116,19 @@ The table below shows which out of a diagnosis code, high HbA1c, or prescription
 \* Excluding 'gestational then type 2' and 'other'
 
 &nbsp;
+
+The table below shows what the impact would be of using diabetes code (unspecified type and type-specific) alone to determine diagnosis dates (i.e. not also using high HbA1c and prescriptions for glucose-lowering medication).
+
+| Diabetes type (as per flowchart above) | Median difference in diagnosis date if only diabetes codes used (days) | Median difference in diagnosis date if only diabetes codes used (days) in patients with a high HbA1c/prescription for glucose-lowering medication earlier than a diabetes code |
+| ---- | ---- | ---- |
+| Any type* (n=715216 with non-missing diagnosis date) | 0 | 26 |
+| Unspecified (n=121017 with non-missing diagnosis date) | 0 | 283 |
+| Type 1 (n=30664 with non-missing diagnosis date) | 0 | 7 |
+| Type 2 (n=551531 with non-missing diagnosis date)| 0 | 24 |
+| Gestational only (n=11256 with non-missing diagnosis date) | 0 | 589 |
+| MODY (n=57 with non-missing diagnosis date) | 0 | 251 |
+| Non-MODY genetic/syndromic (n=104 with non-missing diagnosis date) | 0 | 422 |
+| Secondary (n=586 with non-missing diagnosis date) | 0 | 31 |
+| Malnutrition (n=1 with non-missing diagnosis date) | 0 | NA |
+
 
