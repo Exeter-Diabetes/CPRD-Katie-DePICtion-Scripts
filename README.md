@@ -101,17 +101,17 @@ Patients with diagnoses within 3 months (<91 days) of registration start were th
 
 The table below shows which out of a diagnosis code, high HbA1c, or prescription for glucose-lowering medication occurred earliest for patients and was therefore used as the date of diagnosis (after codes in the year of birth were removed for those with Type 2 diabetes. 'Missing' indicates patients with a diagnosis within 3 months (<91 days) of registration start. If patients had >1 of a diabetes code, high HbA1c and/or prescription for OHA/insulin on their date of diagnosis, only the highest ranking of these is shown in the table (rank order: diabetes code > high HbA1c > precription for OHA > prescription for insulin).
 
-| Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | Unspecified and/or type-specific diabetes code | High HbA1c | OHA prescription | Insulin prescription |
-| ---- | ---- | ---- | ---- | ---- | ---- | ---- | 
-| Any type* (n=743,968) | 281,466 (38%) | 210,454 (28%) | 491,920 (66%) | 230,740 (31%) | 19,361 (3%) | 1,947 (0.3%) |
-| Unspecified (n=122814) | 110335 (90%)| 0 (0%) | 110335 (90%) | 8625 (7%) | 3664 (3%) | 190 (0.2%) | 
-| Type 1 (n=32005) | 11880 (37%) | 17341 (54%) | 29221 (91%) | 1658 (5%) | 214 (0.7%) | 912 (3%) | 
-| Type 2 (n=576977) | 152717 (26%) | 188554 (33%) | 341271 (59%) | 220182 (38%) | 14770 (3%) | 754 (0.1%) | 
-| Gestational only (n=11407) | 6365 (56%) | 4252 (35%) | 10617 (93%) | 47 (0.4%) | 676 (6%) | 67 (0.6%) | 
-| MODY (n=62) | 15 (24%) | 29 (47%) | 44 (71%) | 15 (24%) | 2 (3%) | 1 (2%) | 
-| Non-MODY genetic/syndromic (n=108) | 35 (32%) | 54 (50%) | 89 (82%) | 7 (6%) | 5 (5%) | 7 (6%) | 
-| Secondary (n=594) | 118 (20%) | 224 (38%) | 342 (58%) | 206 (35%) | 30 (5%) | 16 (3%) | 
-| Malnutrition (n=1) | 1 (100%) | 0 (0%) | 1 (100%) | 0 (0%) | 0 (0%) | 0 (0%) | 
+| Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | Unspecified and/or type-specific diabetes code | High HbA1c | OHA prescription | Insulin prescription | Missing |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| Any type* (n=743,968) | 271616 (36.5%) | 203998 (27.4%) | 475614 (63.9%) | 222676 (29.9%) | 16557 (2.2%) | 1660 (0.2%) | 27461 (3.7%) |
+| Unspecified (n=122814) | 109166 (88.9%) |  (0.0%) | 109166 (88.9%) | 8435 (6.9%) | 3292 (2.7%) | 176 (0.1%) | 1745 (1.4%) |
+| Type 1 (n=32005) | 11318 (35.4%) | 16875 (52.7%) | 28193 (88.1%) | 1574 (4.9%) | 189 (0.6%) | 753 (2.4%) | 1296 (4.0%) |
+| Type 2 (n=576977) | 144635 (25.1%) | 182636 (31.7%) | 327271 (56.7%) | 212396 (36.8%) | 12414 (2.2%) | 642 (0.1%) | 24254 (4.2%) |
+| Gestational only (n=11407) | 6335 (55.5%) | 4185 (36.7%) | 10520 (92.2%) | 44 (0.4%) | 627 (5.5%) | 65 (0.6%) | 151 (1.3%) |
+| MODY (n=62) | 12 (19.4%) | 28 (45.2%) | 40 (64.5%) | 15 (24.2%) | 2 (3.2%) | 1 (1.6%) | 4 (6.5%) |
+| Non-MODY genetic/syndromic (n=108) | 34 (31.5%) | 52 (48.1%) | 86 (79.6%) | 6 (5.6%) | 5 (4.6%) | 7 (6.5%) | 4 (3.7%) |
+| Secondary (n=594) | 115 (19.4%) | 222 (37.4%) | 337 (56.7%) | 206 (34.7%) | 28 (4.7%) | 16 (2.7%) | 7 (1.2%) |
+| Malnutrition (n=1) | 1 (100.0%) | 0 (0.0%) | 1 (100.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
 
 \* Excluding 'gestational then type 2' and 'other'
 
