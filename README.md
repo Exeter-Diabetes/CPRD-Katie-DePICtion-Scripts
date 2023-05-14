@@ -55,13 +55,12 @@ graph TD;
     A["<b>DePICtion cohort</b>: n=769,841"] --> |"Unspecific codes <br>only"| B["Unspecified: <br>n=122,814 <br>(15.8%)"]
     A --> |"T1D codes*"| C["Type 1: <br>n=32,005 <br>(4.1%)"]
     A --> |"T2D codes*"| D["Type 2: <br>n=576,977 <br>(74.1%)"]
-    A --> |"Gestational codes*"| E["Gestational <br>only: <br>n=11,407 <br>(1.5%)"]
-    A --> |"Gestational and <br>later T2D codes* **"| F["Gestational <br>then Type 2: <br>n=7,327 <br>(1.0%)"]
+    A --> |"Gestational codes*"| E["Gestational <br>only: <br>n=15,718 <br>(2.0%)"]
     A --> |"MODY codes*"| G["MODY: <br>n=62 <br>(0.0%)"]
     A --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| H["Non-MODY <br>genetic/<br>syndromic: <br>n=108 <br>(0.0%)"]
     A --> |"Secondary codes*"| I["Secondary: <br>n=594 <br>(0.1%)"]
     A --> |"Malnutrition-<br>related codes*"| J["Malnutrition-<br>related: <br>n=1 <br>(0.0%)"]
-    A --> |"Other including mix <br>of diabetes types and/<br>or codes for 'other <br>specific diabetes'"| K["Coding errors <br>or type changes<br> over time: <br>n=27,385 <br>(3.6%)"]
+    A --> |"Other including mix <br>of diabetes types and/<br>or codes for 'other <br>specific diabetes'"| K["Coding errors <br>or type changes<br> over time: <br>n=30,401 <br>(3.9%)"]
 ```
 
 \* Could also have diabetes codes of unspecified type. For gestational diabetes only: earliest and latest codes for unspecified diabetes must be no more than a year prior to earliest gestational diabetes code (excluding 'history of gestational diabetes' codes) and no more than a year after latest gestational diabetes code (excluding 'history of gestational diabetes' codes).
