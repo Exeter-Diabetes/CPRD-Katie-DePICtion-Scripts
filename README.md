@@ -43,7 +43,7 @@ Our [CPRD-Codelists repository](https://github.com/Exeter-Diabetes/CPRD-Codelist
 &nbsp;
 
 ### 01_dpctn_cohort
-Defines the cohort as per the flowchart above, and adds in patient characteristics (e.g. sex, ethnicity, age at index date) as well as biomarkers values at/prior to index date (BMI, HDL, triglycerides, total cholesterol and HbA1c) and family history of diabetes.
+Defines the cohort as per the flowchart above, and adds in patient characteristics (e.g. sex, ethnicity, age at index date) as well as biomarkers values at/prior to index date (BMI, HDL, triglycerides, total cholesterol, HbA1c, GAD/IA2 antibodies, and C-peptide) and family history of diabetes.
 
 &nbsp;
 
