@@ -110,7 +110,7 @@ Result after cleaning:
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/diag_dates_clean_by_year.png?" width="1000">
 
-There does seem to be a data quality issue with older diagnosis dates being more likely to be in the year of birth.
+There does seem to be a data quality issue with older diagnosis dates being more likely to be in the year of birth, which is not completely solved by ignoring diagnosesin the year of birth for those with Type 2 diabetes. Patients with diagnoses in the year of birth should be flagged to clinicians before running the MODY calculator or T1D/T2D calculator
 
 &nbsp;
 
