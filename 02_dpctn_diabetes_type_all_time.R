@@ -155,9 +155,7 @@ cohort_classification <- earliest_latest_codes_wide %>%
     
     is.na(earliest_type_1) & !is.na(earliest_type_2) & is.na(earliest_any_gestational) & is.na(earliest_mody) & is.na(earliest_other_genetic_syndromic) & is.na(earliest_secondary) & is.na(earliest_malnutrition) & is.na(earliest_other_excl) ~ "type 2",
     
-    is.na(earliest_type_1) & is.na(earliest_type_2) & !is.na(earliest_any_gestational) & is.na(earliest_mody) & is.na(earliest_other_genetic_syndromic) & is.na(earliest_secondary) & is.na(earliest_malnutrition) & is.na(earliest_other_excl) & (is.na(earliest_unspecified) | (datediff(earliest_gestational, earliest_unspecified)<366 & datediff(earliest_unspecified, latest_gestational)<366 & datediff(earliest_gestational, latest_unspecified)<366 & datediff(latest_unspecified, latest_gestational)<366)) ~ "gestational only",
-    
-    is.na(earliest_type_1) & !is.na(earliest_type_2) & !is.na(earliest_any_gestational) & is.na(earliest_mody) & is.na(earliest_other_genetic_syndromic) & is.na(earliest_secondary) & is.na(earliest_malnutrition) & is.na(earliest_other_excl) & latest_gestational<earliest_type_2 ~ "gestational then type 2",
+    is.na(earliest_type_1) & is.na(earliest_type_2) & !is.na(earliest_any_gestational) & is.na(earliest_mody) & is.na(earliest_other_genetic_syndromic) & is.na(earliest_secondary) & is.na(earliest_malnutrition) & is.na(earliest_other_excl) ~ "gestational only",
     
     is.na(earliest_type_1) & is.na(earliest_type_2) & is.na(earliest_any_gestational) & !is.na(earliest_mody) & is.na(earliest_other_genetic_syndromic) & is.na(earliest_secondary) & is.na(earliest_malnutrition) & is.na(earliest_other_excl) ~ "mody",
     

@@ -1,7 +1,7 @@
 
 # Create new table with all IDs in download who are registered on 01/02/2020 and adults at this date
 
-# Pull in current BMI, HbA1c, total cholesterol, HDL, triglycerides, GAD antibodies (ever prior to index date), IA2 antibodies (ever prior to index date), current treatment (and whether have ins/OHA script), family history of diabetes (raw and clean)
+# Pull in current BMI, HbA1c, total cholesterol, HDL, triglycerides, GAD antibodies (ever prior to index date), IA2 antibodies (ever prior to index date), C-peptide, current treatment (and whether have ins/OHA script), family history of diabetes (raw and clean)
 
 ############################################################################################
 
@@ -159,7 +159,7 @@ cohort %>% count()
 
 # Add in biomarkers
 
-## Process as per Mastermind (treatment selection cohort) except exclude any after index date and have used up to 2 years prior for HbA1c too
+## Don't set any limit on how far back to go - will investigate later
 
 # Clean biomarkers:
 ## Only keep those within acceptable value limits
@@ -168,8 +168,7 @@ cohort %>% count()
 ## Remove those with invalid dates (before DOB or after LCD/death/deregistration)
 
 # Find baseline values
-## Up to 2 years prior except HbA1c - up to 6 months prior
-## Then use closest date to index date
+## Use closest date to index date as long as prior to this
 
 
 biomarkers <- c("bmi", "hdl", "triglyceride", "totalcholesterol", "hba1c")
@@ -243,8 +242,7 @@ for (i in biomarkers) {
 
 
 # For each biomarker, find baseline value at index date
-## Up to 2 years prior for all
-## Then use closest date to index date
+## Use closest date to index date as long as prior to this
 
 analysis = cprd$analysis("dpctn")
 
@@ -258,7 +256,7 @@ for (i in biomarkers) {
   
   data <- get(clean_tablename) %>%
     mutate(indexdatediff=datediff(date, index_date)) %>%
-    filter(indexdatediff<=0 & indexdatediff>=-730) %>%
+    filter(indexdatediff<=0) %>%
     group_by(patid) %>%
     mutate(min_timediff=min(abs(indexdatediff), na.rm=TRUE)) %>%
     filter(abs(indexdatediff)==min_timediff) %>%
@@ -373,6 +371,83 @@ cohort <- cohort %>%
 
 ############################################################################################
 
+# Add in C-peptide
+
+analysis = cprd$analysis("all_patid")
+
+raw_c_peptide <- cprd$tables$observation %>%
+  inner_join(codes$c_peptide, by="medcodeid") %>%
+  analysis$cached("raw_c_peptide", indexes=c("patid", "obsdate", "testvalue", "numunitid"))
+
+raw_c_peptide %>% count()
+#5,144 only
+
+
+# Look at units
+
+raw_c_peptide %>% filter(c_peptide_cat=="ucpcr") %>% group_by(numunitid) %>% summarise(count=n())
+## 433 are 899 (nmol/mmol), 52 are missing, 25 are 2434 (nM/mM crea), 6 are 959 (umol/mol)
+### All the same unit (nmol/mmol)
+
+raw_c_peptide %>% filter(c_peptide_cat=="blood") %>% group_by(numunitid) %>% summarise(count=n())
+## 2685 are 256 (pmol/L), 1533 are missing, 290 are 235 (nmol/L), 80 are 283 (ug/L), 32 are 899 (nmol/mmol), 1 of each of 218 (mmol/L), 229 (mu/L), 2339 (pm/L)
+### Convert 235 to pmol/L (divide by 1000)
+### Convert 218 to pmol/L (divide by 10^6)
+### Exclude 283, 899, 229
+
+
+# Clean and define insulin status
+## Use thresholds of <0.2 and >=0.6 (UCPCR) / <200 and >=600 (blood) to define insulin status (https://www.exeterlaboratory.com/test/c-peptide-urine/)
+### No indication as to whether blood samples are fasted or not so assume not
+## Assume 0 values are 0, not missing
+
+analysis = cprd$analysis("dpctn")
+
+processed_c_peptide <- raw_c_peptide %>%
+  filter(obsdate<=index_date & !is.na(testvalue) & numunitid!=283 & numunitid!=229 & !(numunitid==899 & c_peptide_cat=="blood")) %>%
+  mutate(new_testvalue=ifelse(numunitid==235, testvalue/1000,
+                              ifelse(numunitid==218, testvalue/1000000, testvalue))) %>%
+  mutate(c_pep_insulin=ifelse(c_peptide_cat=="ucpcr" & new_testvalue<0.2, "c_pep_ins_deficient",
+                              ifelse(c_peptide_cat=="ucpcr" & new_testvalue>=0.2 & testvalue<0.6, "c_pep_ins_intermediate",
+                                     ifelse(c_peptide_cat=="ucpcr" & new_testvalue>=0.6, "c_pep_ins_normal",
+                                            ifelse(c_peptide_cat=="blood" & new_testvalue<200, "c_pep_ins_deficient",
+                                                   ifelse(c_peptide_cat=="blood" & new_testvalue>=200 & testvalue<600, "c_pep_ins_intermediate",
+                                                          ifelse(c_peptide_cat=="blood" & new_testvalue>=600, "c_pep_ins_normal", NA))))))) %>%
+  select(patid, date=obsdate, testvalue=new_testvalue, c_pep_cat=c_peptide_cat, c_pep_insulin) %>%
+  distinct() %>%
+  analysis$cached("processed_c_peptide", indexes=c("patid", "date", "c_pep_insulin"))
+
+
+# Add earliest and latest result for each category to table
+
+earliest_c_pep <- processed_c_peptide %>%
+  group_by(patid, c_pep_insulin) %>%
+  mutate(earliest=min(date, na.rm=TRUE)) %>%
+  filter(date==earliest) %>%
+  ungroup() %>%
+  pivot_wider(id_cols="patid", names_from=c_pep_insulin, values_from=date)
+
+latest_c_pep <- processed_c_peptide %>%
+  group_by(patid, c_pep_insulin) %>%
+  mutate(latest=max(date, na.rm=TRUE)) %>%
+  filter(date==latest) %>%
+  ungroup() %>%
+  pivot_wider(id_cols="patid", names_from=c_pep_insulin, values_from=date)
+
+c_pep <- earliest_c_pep %>%
+  rename(earliest_c_pep_ins_deficient=c_pep_ins_deficient, earliest_c_pep_ins_intermediate=c_pep_ins_intermediate, earliest_c_pep_ins_normal=c_pep_ins_normal) %>%
+  left_join((latest_c_pep %>% rename(latest_c_pep_ins_deficient=c_pep_ins_deficient, latest_c_pep_ins_intermediate=c_pep_ins_intermediate, latest_c_pep_ins_normal=c_pep_ins_normal)), by="patid") %>%
+  select(patid, earliest_c_pep_ins_deficient, latest_c_pep_ins_deficient, earliest_c_pep_ins_intermediate, latest_c_pep_ins_intermediate, earliest_c_pep_ins_normal, latest_c_pep_ins_normal) %>%
+  analysis$cached("c_pep", unique_indexes="patid")
+
+
+cohort <- cohort %>%
+  left_join(c_pep, by="patid") %>%
+  analysis$cached("cohort_interim_5", unique_indexes="patid")
+
+
+############################################################################################
+
 # Add in current treatment
 ## Whether insulin or OHA in last 3 months or last 6 months
 
@@ -429,7 +504,7 @@ cohort <- cohort %>%
   left_join(latest_oha, by="patid") %>%
   left_join(latest_insulin, by="patid") %>%
   mutate(across(c("current_oha_3m", "current_oha_6m", "oha_ever", "current_ins_3m", "current_ins_6m", "ins_ever"), coalesce, 0L)) %>%
-  analysis$cached("cohort_interim_5", unique_indexes="patid")
+  analysis$cached("cohort_interim_6", unique_indexes="patid")
 
 
 ############################################################################################
