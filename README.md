@@ -159,7 +159,9 @@ These are the most popular combinations of diabetes type codes in this group:
 * 342 (1.1%) Type 1, Type 2 and gestational
 Together these account for 96.9% of those with codes for >1 type of diabetes; all remaining combinations are <1% each.
 
-To do: determine diagnosis dates for most populous groups and when diagnosis changed (or whether codes of second diabetes type are likely to be a mistake).
+To do: determine diagnosis dates for most populous groups (T1/T2 and T2/gestational) and when diagnosis changed (or whether codes of second diabetes type are likely to be a mistake).
+
+Also finds time to insulin initiation from diagnosis to all those with codes for 1 type of diabetes, and those for with codes for both T1/T2 or both T2/gestational.
 
 &nbsp;
 
