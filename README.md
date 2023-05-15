@@ -149,8 +149,9 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 &nbsp;
 
 ### 04_dpctn_diabetes_type_over_time
+Looks at patients with codes for >1 type of diabetes (n=30,401; classified as 'other' as per above flowchart) to determine diagnosis dates and when changes in diagnosis occurred.
 
-For those with codes for >1 type of diabetes (n=30,401 as per above flowchart), these are the most popular combinations:
+These are the most popular combinations of diabetes type codes in this group:
 * 18,710 (61.5%) Type 1 and Type 2
 * 8,704 (28.6%) Type 2 and gestational
 * 1,326 (4.4%) Type 2 and secondary
@@ -158,7 +159,26 @@ For those with codes for >1 type of diabetes (n=30,401 as per above flowchart), 
 * 342 (1.1%) Type 1, Type 2 and gestational
 Together these account for 96.9% of those with codes for >1 type of diabetes; all remaining combinations are <1% each.
 
+To do: determine diagnosis dates for most populous groups and when diagnosis changed (or whether codes of second diabetes type are likely to be a mistake).
 
+&nbsp;
+
+### 05_dpctn_diabetes_type_issues
+Looks at potential miscoding/misclassification of diabetes/diabetes type, including:
+* Those coded as Type 1:
+** With no prescriptions for insulin
+** With insulin but also taking an OHA other than metformin/SGLT2-inhibitor
+** With more than 3 years between diagnosis and initiating insulin treatment
+* Those coded as Type 2:
+** With less than 6 months between diagnosis and initiating insulin treatment
+** With no OHA prescriptions prior to insulin initiation
+** With no OHA/insulin prescriptions or high HbA1c measurements
+* Those coded as gestational only:
+** With unspecified diabetes codes >1 prior to earliest / >1 year after latest gestational diabetes code (excluding history of gestational diabetes), implying possible Type 1/2 diabetes
+
+Other data issues flagged by previous scripts:
+* Those with no type-specific diabetes codes (n=122,814 or 15.8% of the cohrot as per above flowchart)
+* Potential issue with diagnosis dates explored in script 03_dpctn_diabetes_diagnosis_dates
 
 
 
