@@ -168,8 +168,8 @@ To do: determine diagnosis dates for most populous groups and when diagnosis cha
 
 Looks at potential miscoding/misclassification of diabetes/diabetes type, including:
 * Those coded as Type 1:
-    * With no prescriptions for insulin
-    * With insulin but also taking an OHA other than metformin/SGLT2-inhibitor
+    * With no prescriptions for insulin (could look further at type of insulin e.g. must have basal and bolus; for NDA they exclude from Type 1 if long-acting insulin only)
+    * With insulin but also taking an OHA other than metformin/SGLT2-inhibitor (as per NDA)
     * With more than 3 years between diagnosis and initiating insulin treatment
 * Those coded as Type 2:
     * With less than 6 months between diagnosis and initiating insulin treatment
@@ -192,6 +192,12 @@ Other data issues flagged by previous scripts:
 
 &nbsp;
 
+Other bits discussed and not implemented:
+* Working out whether patients (especially those with Type 1) are being treated in secondary care (and that's why we have missing info)
+* Further work on those without any type-specific codes to remove those without diabetes
+* Integrating other features which might aid classification: C-peptide, autoimmune conditions, weight change etc.
+* Checking small % with remission codes
+* Look 
 
 
 
