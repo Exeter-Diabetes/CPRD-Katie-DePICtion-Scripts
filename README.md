@@ -193,7 +193,7 @@ Other data issues flagged by previous scripts:
 
 &nbsp;
 
-Other bits discussed and not implemented:
+### Other bits discussed and not implemented:
 * Working out whether patients (especially those with Type 1) are being treated in secondary care (and that's why we have missing info)
 * Further work on those without any type-specific codes to remove those without diabetes
 * Integrating other features which might aid classification:
