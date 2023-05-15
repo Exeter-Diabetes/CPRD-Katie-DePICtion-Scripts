@@ -136,11 +136,11 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 
 | Diabetes type (as per flowchart above) | Median difference in diagnosis date if only diabetes codes used (days) | Median difference in diagnosis date if only diabetes codes used (days) in patients with a high HbA1c/prescription for glucose-lowering medication earlier than a diabetes code |
 | ---- | ---- | ---- |
-| Any type* (n=715216 with non-missing diagnosis date) | 0 | 26 |
+| Any type* (n=719368 with non-missing diagnosis date) | 0 | 26 |
 | Unspecified (n=121017 with non-missing diagnosis date) | 0 | 283 |
 | Type 1 (n=30664 with non-missing diagnosis date) | 0 | 7 |
 | Type 2 (n=551531 with non-missing diagnosis date)| 0 | 24 |
-| Gestational only (n=11256 with non-missing diagnosis date) | 0 | 589 |
+| Gestational only (n=15408 with non-missing diagnosis date) | 0 | 552 |
 | MODY (n=57 with non-missing diagnosis date) | 0 | 251 |
 | Non-MODY genetic/syndromic (n=104 with non-missing diagnosis date) | 0 | 422 |
 | Secondary (n=586 with non-missing diagnosis date) | 0 | 31 |
