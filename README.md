@@ -114,7 +114,7 @@ There does seem to be a data quality issue with older diagnosis dates being more
 
 &nbsp;
 
-The table below shows which out of a diagnosis code, high HbA1c, or prescription for glucose-lowering medication occurred earliest for patients and was therefore used as the date of diagnosis (after codes in the year of birth were removed for those with Type 2 diabetes. 'Missing' indicates patients with a diagnosis within 3 months (<91 days) of registration start. If patients had >1 of a diabetes code, high HbA1c and/or prescription for OHA/insulin on their date of diagnosis, only the highest ranking of these is shown in the table (rank order: diabetes code > high HbA1c > precription for OHA > prescription for insulin).
+The table below shows which out of a diagnosis code, high HbA1c, or prescription for glucose-lowering medication occurred earliest for patients and was therefore used as the date of diagnosis (after codes in the year of birth were removed for those with Type 2 diabetes). 'Missing' indicates patients with a diagnosis within 3 months (<91 days) of registration start. If patients had >1 of a diabetes code, high HbA1c and/or prescription for OHA/insulin on their date of diagnosis, only the highest ranking of these is shown in the table (rank order: diabetes code > high HbA1c > precription for OHA > prescription for insulin). Note that all HbA1cs prior to 1990 were exclude due to data quality concerns as HbA1c wasn't widely used at this time.
 
 | Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | Unspecified and/or type-specific diabetes code | High HbA1c | OHA prescription | Insulin prescription | Missing |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
@@ -177,6 +177,7 @@ Looks at potential miscoding/misclassification of diabetes/diabetes type, includ
     * With no OHA/insulin prescriptions or high HbA1c measurements
 * Those coded as gestational only:
     * With unspecified diabetes codes >1 prior to earliest / >1 year after latest gestational diabetes code (excluding history of gestational diabetes), implying possible Type 1/2 diabetes
+(All to do + can compare frequencies to de Luisignan paper)
 
 Other data issues flagged by previous scripts:
 * Those with no type-specific diabetes codes (n=122,814 or 15.8% of the cohrot as per above flowchart)
@@ -195,9 +196,19 @@ Other data issues flagged by previous scripts:
 Other bits discussed and not implemented:
 * Working out whether patients (especially those with Type 1) are being treated in secondary care (and that's why we have missing info)
 * Further work on those without any type-specific codes to remove those without diabetes
-* Integrating other features which might aid classification: C-peptide, autoimmune conditions, weight change etc.
-* Checking small % with remission codes
-* Look 
-
-
-
+* Integrating other features which might aid classification:
+    * At diagnosis:
+        * Polydipsia
+        * Ketones
+        * Glucose
+        * Capillary glucose
+        * Weight loss
+        * DKA
+    * And longitudinally:
+        * C-peptide
+        * Islet Abs
+        * Autoimmune tests e.g. thyroid function, TTG (coeliac)
+        * Type changing over time
+        * Referral to endo?
+* Later: outcomes affected by misclassification including infection
+* Checking small % with remission codes - compare to 2x papers and possibly UKBB
