@@ -190,8 +190,9 @@ Other data issues flagged by previous scripts:
 ### 06_dpctn_mody_calculator
 Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 1-35 years inclusive.
 
-Cohort characteristics:
+&nbsp;
 
+Cohort characteristics:
 | Characteristic | Class: Unspecified |  Class: Type 1 |  Class: Type 2 | Class: Type 1/Type 2 | Class: Type 2/gestational |
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | N |
@@ -213,6 +214,8 @@ Cohort characteristics:
 | With positive family history of diabetes ||||||
 | Missing family history of diabetes ||||||
 | Missing any variable required for MODY calculator ||||||
+
+&nbsp;
 
 Characteristics of those with no missing MODY calculator variables:
 | Characteristic | Class: Unspecified |  Class: Type 1 |  Class: Type 2 | Class: Type 1/Type 2 | Class: Type 2/gestational |
