@@ -150,6 +150,15 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 
 ### 04_dpctn_diabetes_type_over_time
 
+For those with codes for >1 type of diabetes (n=30,401 as per above flowchart), these are the most popular combinations:
+* 18,740 (61.6%) Type 1 and Type 2
+* 8,706 (298.6%) Type 2 and gestational
+* 1,327 (4.4%) Type 2 and secondary
+* 352 (1.2%) Type 1 and gestational
+* 342 (1.1%) Type 1, Type 2 and gestational
+Together these account for 96.9% of those with codes for >1 type of diabetes; all remaining combinations are <1% each.
+
+
 
 
 
