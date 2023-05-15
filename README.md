@@ -215,6 +215,9 @@ Cohort characteristics:
 | Missing any variable required for MODY calculator ||||||
 
 Characteristics of those with no missing MODY calculator variables:
+| Characteristic | Class: Unspecified |  Class: Type 1 |  Class: Type 2 | Class: Type 1/Type 2 | Class: Type 2/gestational |
+| ---- | ---- | ---- | ---- | ---- | ---- |
+| N |
 | Median age at diagnosis ||||||
 | Median BMI within 2 years ||||||
 | Median time from BMI within 2 years to index date (days) ||||||
