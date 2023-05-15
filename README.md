@@ -165,6 +165,7 @@ To do: determine diagnosis dates for most populous groups and when diagnosis cha
 
 ### 05_dpctn_diabetes_type_issues
 **NB: The MODY and T1D/T2D calculators are only intended for those diagnosed <=50 years of age (MODY: aged 1-35; T1D/T2D: aged 18-50, both inclusive), so in this script, only those diagnosed <50 years of age were included.**
+
 Looks at potential miscoding/misclassification of diabetes/diabetes type, including:
 * Those coded as Type 1:
     * With no prescriptions for insulin
