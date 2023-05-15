@@ -166,15 +166,15 @@ To do: determine diagnosis dates for most populous groups and when diagnosis cha
 ### 05_dpctn_diabetes_type_issues
 Looks at potential miscoding/misclassification of diabetes/diabetes type, including:
 * Those coded as Type 1:
-** With no prescriptions for insulin
-** With insulin but also taking an OHA other than metformin/SGLT2-inhibitor
-** With more than 3 years between diagnosis and initiating insulin treatment
+    * With no prescriptions for insulin
+    * With insulin but also taking an OHA other than metformin/SGLT2-inhibitor
+    * With more than 3 years between diagnosis and initiating insulin treatment
 * Those coded as Type 2:
-** With less than 6 months between diagnosis and initiating insulin treatment
-** With no OHA prescriptions prior to insulin initiation
-** With no OHA/insulin prescriptions or high HbA1c measurements
+    * With less than 6 months between diagnosis and initiating insulin treatment
+    * With no OHA prescriptions prior to insulin initiation
+    * With no OHA/insulin prescriptions or high HbA1c measurements
 * Those coded as gestational only:
-** With unspecified diabetes codes >1 prior to earliest / >1 year after latest gestational diabetes code (excluding history of gestational diabetes), implying possible Type 1/2 diabetes
+    * With unspecified diabetes codes >1 prior to earliest / >1 year after latest gestational diabetes code (excluding history of gestational diabetes), implying possible Type 1/2 diabetes
 
 Other data issues flagged by previous scripts:
 * Those with no type-specific diabetes codes (n=122,814 or 15.8% of the cohrot as per above flowchart)
