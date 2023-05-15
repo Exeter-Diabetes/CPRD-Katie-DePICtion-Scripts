@@ -188,6 +188,52 @@ Other data issues flagged by previous scripts:
 &nbsp;
 
 ### 06_dpctn_mody_calculator
+Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 1-35 years inclusive.
+
+Cohort characteristics:
+
+| Characteristic | Class: Unspecified |  Class: Type 1 |  Class: Type 2 | Class: Type 1/Type 2 | Class: Type 2/gestational |
+| ---- | ---- | ---- | ---- | ---- | ---- |
+| N |
+| Median age at diagnosis ||||||
+| Median BMI within 2 years ||||||
+| Median time from BMI within 2 years to index date (days) ||||||
+| Missing BMI within 2 years ||||||
+| Median BMI any time >=diagnosis ||||||
+| Median time from BMI any time >=diagnosis to index date (days) ||||||
+| Missing BMI >=diagnosis ||||||
+| Median HbA1c within 2 years ||||||
+| Median time from HbA1c within 2 years to index date (days) ||||||
+| Missing HbA1c within 2 years ||||||
+| Median HbA1c any time >=diagnosis ||||||
+| Median time from HbA1c any time >=diagnosis to index date (days) ||||||
+| Missing HbA1c >=diagnosis ||||||
+| On insulin <= 6 months after diagnosis ||||||
+| Missing time to insulin ||||||
+| With positive family history of diabetes ||||||
+| Missing family history of diabetes ||||||
+| Missing any variable required for MODY calculator ||||||
+
+Characteristics of those with no missing MODY calculator variables:
+| Median age at diagnosis ||||||
+| Median BMI within 2 years ||||||
+| Median time from BMI within 2 years to index date (days) ||||||
+| Missing BMI within 2 years ||||||
+| Median BMI any time >=diagnosis ||||||
+| Median time from BMI any time >=diagnosis to index date (days) ||||||
+| Missing BMI >=diagnosis ||||||
+| Median HbA1c within 2 years ||||||
+| Median time from HbA1c within 2 years to index date (days) ||||||
+| Missing HbA1c within 2 years ||||||
+| Median HbA1c any time >=diagnosis ||||||
+| Median time from HbA1c any time >=diagnosis to index date (days) ||||||
+| Missing HbA1c >=diagnosis ||||||
+| On insulin <= 6 months after diagnosis ||||||
+| Missing time to insulin ||||||
+| With positive family history of diabetes ||||||
+| Missing family history of diabetes ||||||
+| Missing any variable required for MODY calculator ||||||
+
 
 &nbsp;
 
