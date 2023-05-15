@@ -163,6 +163,10 @@ To do: determine diagnosis dates for most populous groups and when diagnosis cha
 
 &nbsp;
 
+**NB: The MODY and T1D/T2D calculators are only intended for those diagnosed <=50 years of age (MODY: aged 1-35; T1D/T2D: aged 18-50, both inclusive). From this stage forward, only those diagnosed <50 years of age were included.
+
+&nbsp;
+
 ### 05_dpctn_diabetes_type_issues
 Looks at potential miscoding/misclassification of diabetes/diabetes type, including:
 * Those coded as Type 1:
@@ -179,6 +183,16 @@ Looks at potential miscoding/misclassification of diabetes/diabetes type, includ
 Other data issues flagged by previous scripts:
 * Those with no type-specific diabetes codes (n=122,814 or 15.8% of the cohrot as per above flowchart)
 * Potential issue with diagnosis dates explored in script 03_dpctn_diabetes_diagnosis_dates
+
+&nbsp;
+
+### 06_dpctn_mody_calculator
+
+&nbsp;
+
+### 07_dpctn_t1dt2d_calculator
+
+&nbsp;
 
 
 
