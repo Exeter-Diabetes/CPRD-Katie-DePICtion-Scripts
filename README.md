@@ -190,6 +190,8 @@ Other data issues flagged by previous scripts:
 ### 06_dpctn_mody_calculator
 Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 1-35 years inclusive.
 
+**Not done yet: exploring whetehr separate weight/height measurements could help with missing BMI**
+
 &nbsp;
 
 Cohort characteristics:
