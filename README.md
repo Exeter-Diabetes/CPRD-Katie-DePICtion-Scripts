@@ -215,7 +215,8 @@ Cohort characteristics:
 | Not on insulin <= 6 months after diagnosis | 2220 (8.90%) | 20382 (77.27%) | 12447 (97.67%) |||
 | On insulin <= 6 months after diagnosis | 5879 (23.57%) | 736 (2.79%) | 158 (1.24%) |||
 | Missing whether on insulin <= 6 months after diagnosis | 16847 (67.53%) | 5261 (19.94%) | 139 (1.09%) |||
-| Missing any variable required for MODY calculator ||||||
+| On OHA or ins (script in last 6 months) | 24021 (96.29%) | 22040 (83.55%) | 531 (4.2%) ||| 
+| Missing any variable required for MODY calculator if use BMI and HbA1c back to diagnosis | 23266 (93.27%) | 15779 (59.81%) | 10988 (86.30%)|||
 
 &nbsp;
 
