@@ -1,5 +1,5 @@
 
-# Apply the MODY calculator to everyone in prevalent cohort diagnosed aged 1-35 years of age
+# Apply the MODY calculator to everyone in prevalent cohort diagnosed aged 1-35 years
 
 ############################################################################################
 
@@ -110,7 +110,7 @@ complete_mody_cohort <- mody_cohort %>%
   
   analysis$cached("complete_mody_cohort", unique_indexes="patid")
 
-complete_case_score <- collect(complete_mody_cohort %>% select(patid, class, gender, insulin_6_months, fh_diabetes, dm_diag_age, age_at_index, bmi_post_diag, hba1c_post_diag_perc, insoha, mody_prob, mody_adj_prob)) %>%
+complete_case_score <- collect(complete_mody_cohort %>% select(class, insulin_6_months, fh_diabetes, dm_diag_age, age_at_index, bmi_post_diag, hba1c_post_diag, hba1c_post_diag_perc, insoha, mody_prob, mody_adj_prob)) %>%
   mutate(mody_prob=as.numeric(mody_prob),
          mody_adj_prob=as.numeric(mody_adj_prob),
          fh_diabetes=as.factor(fh_diabetes),
@@ -118,10 +118,9 @@ complete_case_score <- collect(complete_mody_cohort %>% select(patid, class, gen
          insoha=as.factor(insoha))
 #14,026
 
-as_flextable(summarizor(complete_case_score, by="class", overall_label="overall"))
+table(complete_case_score$class)
 
-
-
+as_flextable(summarizor((complete_case_score %>% select(class, dm_diag_age, age_at_index, bmi_post_diag, hba1c_post_diag, fh_diabetes, insulin_6_months, insoha)), by="class", overall_label="overall"))
 
 
 ## Histogram of unadjusted
@@ -138,6 +137,14 @@ ggplot (complete_case_score, aes(x=mody_adj_prob)) +
 ggplot (complete_case_score, aes(x=mody_adj_prob, fill=class)) + 
   geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=2) +
   scale_y_continuous(labels = scales::percent)
+
+complete_case_score <- complete_case_score %>% mutate(new_class=paste0(class," ins_6_mos=",insulin_6_months))
+
+## Histogram of adjusted - coloured by code category
+ggplot (complete_case_score, aes(x=mody_adj_prob, fill=new_class)) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=2) +
+  scale_y_continuous(labels = scales::percent)
+
 
 
 
