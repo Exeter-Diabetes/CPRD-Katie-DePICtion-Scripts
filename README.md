@@ -199,7 +199,7 @@ Cohort characteristics:
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | N | 24946 | 26379 | 12744 |||
 | Median (IQR) age at diagnosis (years) | 16.2 (13.8) | 30.9 (6.2) | 27.0 (10.7) |||
-| Current age (years) | 39.6 (23.0) | 42.9 (14.0) | 32.6 (10.9) |||
+| Median (IQR) current age (years) | 39.6 (23.0) | 42.9 (14.0) | 32.6 (10.9) |||
 | Median (IQR) BMI within 2 years (kg/m2) | 26.2 (6.7) | 32.0 (10.1) | 28.5 (10.6) |||
 | Missing BMI within 2 years | 4256 (17.06%) | 2920 (11.07%) | 7350 (57.67%) |||
 | Median (IQR) time from BMI within 2 years to index date (days) | 184.0 (258.0) | 164.0 (231.0) | 241.0 (323.0) |||
@@ -228,7 +228,7 @@ Characteristics of those with no missing MODY calculator variables:
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | N | 1680 | 10600 | 1746
 | Median age at diagnosis | 23.1 (15.3) | 31.3 (5.7) | 30.1 (7.3) |||
-| Current age (years) | 36.6 (19.0) | 41.6 (11.0) | 36.6 (9.0) |||
+| Median (IQR) current age (years | 36.6 (19.0) | 41.6 (11.0) | 36.6 (9.0) |||
 | Median BMI any time >=diagnosis | 26.2 (6.8) | 31.9 (9.9) | 30.2 (10.7) |||
 | Median HbA1c any time >=diagnosis | 69.0 (25.0) | 59.0 (27.5) | 37.7 (8.0) |||
 | With negative family history of diabetes | 493 (29.35%) | 1566 (14.77%) | 463 (26.52%) |||
@@ -257,7 +257,7 @@ Cohort characteristics:
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | N | 14887 | 167486 | 32781 |||
 | Median (IQR) age at diagnosis (years) | 28.5 (12.8) | 43.5 (8.7) | 40.3 (13.5) |||
-| Current age (years) | 49.6 (20.7) | 53.8 (12.0) | 45.6 (13.0) |||
+| Median (IQR) current age (years | 49.6 (20.7) | 53.8 (12.0) | 45.6 (13.0) |||
 | Median (IQR) BMI within 2 years (kg/m2) | 26.5 (6.5) | 31.2 (8.7) | 29.7 (9.4) |||
 | Missing BMI within 2 years | 2242 (15.06%) | 14944 (8.92%) | 15794 (48.18%) |||
 | Median (IQR) time from BMI within 2 years to index date (days) | 178.0 (249.0) | 158.0 (222.0) | 242.0 (316.0) |||
