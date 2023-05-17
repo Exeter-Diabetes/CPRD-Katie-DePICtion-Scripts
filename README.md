@@ -199,6 +199,7 @@ Cohort characteristics:
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | N | 24946 | 26379 | 12744 |||
 | Median (IQR) age at diagnosis (years) | 16.2 (13.8) | 30.9 (6.2) | 27.0 (10.7) |||
+| Current age (years) | 39.6 (23.0) | 42.9 (14.0) | 32.6 (10.9) |||
 | Median (IQR) BMI within 2 years (kg/m2) | 26.2 (6.7) | 32.0 (10.1) | 28.5 (10.6) |||
 | Missing BMI within 2 years | 4256 (17.06%) | 2920 (11.07%) | 7350 (57.67%) |||
 | Median (IQR) time from BMI within 2 years to index date (days) | 184.0 (258.0) | 164.0 (231.0) | 241.0 (323.0) |||
@@ -226,27 +227,23 @@ Characteristics of those with no missing MODY calculator variables:
 | Characteristic | Class: Unspecified |  Class: Type 1 |  Class: Type 2 | Class: Type 1/Type 2 | Class: Type 2/gestational |
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | N |
-| Median age at diagnosis ||||||
-| Median BMI within 2 years ||||||
-| Median time from BMI within 2 years to index date (days) ||||||
-| Missing BMI within 2 years ||||||
-| Median BMI any time >=diagnosis ||||||
-| Median time from BMI any time >=diagnosis to index date (days) ||||||
-| Missing BMI >=diagnosis ||||||
-| Median HbA1c within 2 years ||||||
-| Median time from HbA1c within 2 years to index date (days) ||||||
-| Missing HbA1c within 2 years ||||||
-| Median HbA1c any time >=diagnosis ||||||
-| Median time from HbA1c any time >=diagnosis to index date (days) ||||||
-| Missing HbA1c >=diagnosis ||||||
-| On insulin <= 6 months after diagnosis ||||||
-| Missing time to insulin ||||||
-| With positive family history of diabetes ||||||
-| Missing family history of diabetes ||||||
-| Missing any variable required for MODY calculator ||||||
-
+| Median age at diagnosis | 23.1 (15.3) | 31.3 (5.7) | 30.1 (7.3) |||
+| Current age (years) | 36.6 (19.0) | 41.6 (11.0) | 36.6 (9.0) |||
+| Median BMI any time >=diagnosis | 26.2 (6.8) | 31.9 (9.9) | 30.2 (10.7) |||
+| Median HbA1c any time >=diagnosis | 69.0 (25.0) | 59.0 (27.5) | 37.7 (8.0) |||
+| With negative family history of diabetes | 493 (29.35%) | 1566 (14.77%) | 463 (26.52%) |||
+| With positive family history of diabetes | 1187 (70.65%) | 9034 (85.23%) | 1283 (73.48%) |||
+| Not on insulin <= 6 months after diagnosis | 550 (32.74%) | 10291 (97.08%) | 1709 (97.88%) |||
+| On insulin <= 6 months after diagnosis | 1130 (67.26%) | 309 (2.92%) | 37 (2.12%) |||
+| On OHA or ins (script in last 6 months) | 1613 (96.01%) | 8651 (81.61%) | 138 (7.90%) |||
 
 &nbsp;
+
+Adjusted MODY probabilities for complete cases:
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/diag_dates_clean_by_year.png?" width="1000">
+
+
 
 ### 07_dpctn_t1dt2d_calculator
 
