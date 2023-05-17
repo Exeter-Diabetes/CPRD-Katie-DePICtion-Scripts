@@ -199,6 +199,7 @@ Cohort characteristics:
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | N | 24946 | 26379 | 12744 |||
 | Median (IQR) age at diagnosis (years) | 16.2 (13.8) | 30.9 (6.2) | 27.0 (10.7) |||
+| Median (IQR) current age (years) | 39.6 (23.0) | 42.9 (14.0) | 32.6 (10.9) |||
 | Median (IQR) BMI within 2 years (kg/m2) | 26.2 (6.7) | 32.0 (10.1) | 28.5 (10.6) |||
 | Missing BMI within 2 years | 4256 (17.06%) | 2920 (11.07%) | 7350 (57.67%) |||
 | Median (IQR) time from BMI within 2 years to index date (days) | 184.0 (258.0) | 164.0 (231.0) | 241.0 (323.0) |||
@@ -225,32 +226,72 @@ Cohort characteristics:
 Characteristics of those with no missing MODY calculator variables:
 | Characteristic | Class: Unspecified |  Class: Type 1 |  Class: Type 2 | Class: Type 1/Type 2 | Class: Type 2/gestational |
 | ---- | ---- | ---- | ---- | ---- | ---- |
-| N |
-| Median age at diagnosis ||||||
-| Median BMI within 2 years ||||||
-| Median time from BMI within 2 years to index date (days) ||||||
-| Missing BMI within 2 years ||||||
-| Median BMI any time >=diagnosis ||||||
-| Median time from BMI any time >=diagnosis to index date (days) ||||||
-| Missing BMI >=diagnosis ||||||
-| Median HbA1c within 2 years ||||||
-| Median time from HbA1c within 2 years to index date (days) ||||||
-| Missing HbA1c within 2 years ||||||
-| Median HbA1c any time >=diagnosis ||||||
-| Median time from HbA1c any time >=diagnosis to index date (days) ||||||
-| Missing HbA1c >=diagnosis ||||||
-| On insulin <= 6 months after diagnosis ||||||
-| Missing time to insulin ||||||
-| With positive family history of diabetes ||||||
-| Missing family history of diabetes ||||||
-| Missing any variable required for MODY calculator ||||||
+| N | 1680 | 10600 | 1746
+| Median age at diagnosis | 23.1 (15.3) | 31.3 (5.7) | 30.1 (7.3) |||
+| Median (IQR) current age (years | 36.6 (19.0) | 41.6 (11.0) | 36.6 (9.0) |||
+| Median BMI any time >=diagnosis | 26.2 (6.8) | 31.9 (9.9) | 30.2 (10.7) |||
+| Median HbA1c any time >=diagnosis | 69.0 (25.0) | 59.0 (27.5) | 37.7 (8.0) |||
+| With negative family history of diabetes | 493 (29.35%) | 1566 (14.77%) | 463 (26.52%) |||
+| With positive family history of diabetes | 1187 (70.65%) | 9034 (85.23%) | 1283 (73.48%) |||
+| Not on insulin <= 6 months after diagnosis | 550 (32.74%) | 10291 (97.08%) | 1709 (97.88%) |||
+| On insulin <= 6 months after diagnosis | 1130 (67.26%) | 309 (2.92%) | 37 (2.12%) |||
+| On OHA or ins (script in last 6 months) | 1613 (96.01%) | 8651 (81.61%) | 138 (7.90%) |||
 
+&nbsp;
+
+Adjusted MODY probabilities for complete cases:
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/mody_calc_adjusted.png?" width="1000">
 
 &nbsp;
 
 ### 07_dpctn_t1dt2d_calculator
+Defines T1DT2D calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 18-50 years inclusive.
+
+**Not done yet: exploring whether separate weight/height measurements could help with missing BMI**
 
 &nbsp;
+
+Cohort characteristics:
+| Characteristic |  Class: Type 1 |  Class: Type 2 | Class: Unspecified | Class: Type 1/Type 2 | Class: Type 2/gestational |
+| ---- | ---- | ---- | ---- | ---- | ---- |
+| N | 14887 | 167486 | 32781 |||
+| Median (IQR) age at diagnosis (years) | 28.5 (12.8) | 43.5 (8.7) | 40.3 (13.5) |||
+| Median (IQR) current age (years | 49.6 (20.7) | 53.8 (12.0) | 45.6 (13.0) |||
+| Median (IQR) BMI within 2 years (kg/m2) | 26.5 (6.5) | 31.2 (8.7) | 29.7 (9.4) |||
+| Missing BMI within 2 years | 2242 (15.06%) | 14944 (8.92%) | 15794 (48.18%) |||
+| Median (IQR) time from BMI within 2 years to index date (days) | 178.0 (249.0) | 158.0 (222.0) | 242.0 (316.0) |||
+| Median (IQR) BMI any time >=diagnosis (kg/m2) | 26.4 (6.5) | 31.2 (8.8) | 29.1 (9.1) |||
+| Missing BMI >=diagnosis | 273 (1.83%) | 1970 (1.18%) | 10310 (31.45%) |||
+| Median (IQR) time from BMI any time >=diagnosis to index date (days) | 215.0 (355.0) | 178.0 (262.0) | 358.0 (716.0) |||
+| Median (IQR) total cholesterol within 2 years (mmol/L) | 4.4 (1.3) | 4.2 (1.5) | 4.9 (1.3) |||
+| Missing total cholesterol within 2 years | 1284 (8.62%) | 7150 (4.27%) | 16560 (50.52%) |||
+| Median (IQR) time from total cholesterol within 2 years to index date (days) | 182.0 (231.0) | 165.0 (194.0) | 256.0 (305.0) |||
+| Median (IQR) total cholesterol any time >=diagnosis (mmol/L) | 4.4 (1.3) | 4.2 (1.5) | 4.9 (1.4) |||
+| Missing total cholesterol >=diagnosis | 229 (1.54%) | 967 (0.58%) | 12918 (39.41%) |||
+| Median (IQR) time from total cholesterol any time >=diagnosis to index date (days) | 199.0 (262.0) | 172.0 (207.0) | 340.0 (627.0) |||
+| Median (IQR) HDL within 2 years (mmol/L) | 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.4) |||
+| Missing HDL within 2 years | 2054 (13.80%) | 11539 (6.89%) | 17028 (51.94%) |||
+| Median (IQR) time from HDL within 2 years to index date (days) | 190.0 (244.0) | 171.0 (198.0) | 260.0 (304.0) |||
+| Median (IQR) HDL any time >=diagnosis (mmol/L)| 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.5) |||
+| Missing HDL >=diagnosis | 423 (2.84%) | 1880 (1.12%) | 13389 (40.84%) |||
+| Median (IQR) time from HDL any time >=diagnosis to index date (days) | 219.0 (313.0) | 183.0 (225.0) | 347.0 (639.0) |||
+| Median (IQR) triglyceride within 2 years (mmol/L) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) |||
+| Missing triglyceride within 2 years | 5462 (36.69%) | 48337 (28.86%) | 20512 (62.57%) |||
+| Median (IQR) time from triglyceride within 2 years to index date (days) | 208.0 (263.0) | 190.0 (227.0) | 270.0 (313.0) |||
+| Median (IQR) triglyceride any time >=diagnosis (mmol/L) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) |||
+| Missing triglyceride >=diagnosis | 1531 (10.28%) | 11115 (6.64%) | 16221 (49.48%) |||
+| Median (IQR) time from triglyceride any time >=diagnosis to index date (days) | 337.0 (802.0) | 261.0 (570.0) | 417.0 (840.0) |||
+| Missing any variable required for MODY calculator if use biomarkers back to diagnosis | 1693 (11.37%) | 12588 (7.52%) | 18451 (56.29%) |||
+
+&nbsp;
+
+Number with measured GAD and/or IA2 antibodies is very small:
+* GAD: 127 (0.9%) of Type 1, 432 (0.03%) of Type 2, 35 (0.1%) of unspecified
+* IA2: 4 (0.03%) of Type 1, 9 (0.005%) of Type 2, 0 (0.0%) of unspecified
+
+&nbsp;
+
 
 ### Other bits discussed and not implemented:
 * Working out whether patients (especially those with Type 1) are being treated in secondary care (and that's why we have missing info)
