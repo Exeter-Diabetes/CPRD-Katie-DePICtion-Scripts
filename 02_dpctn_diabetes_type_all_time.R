@@ -110,7 +110,7 @@ cohort_raw_dm_indications %>%
   anti_join(cohort_clean_dm_indications, by=c("patid", "date", "category")) %>%
   distinct(patid) %>%
   count()
-#1,995 people affected
+#1,994 people affected
 
 ## NB: no insulin receptor antibody-type codes in this cohort
 

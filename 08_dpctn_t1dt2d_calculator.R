@@ -35,7 +35,7 @@ t1dt2d_cohort <- cohort %>%
          totalchol_2_years_datediff=ifelse(!is.na(totalchol_2_years), -totalcholesterolindexdiff, NA),
          
          hdl_2_years=ifelse(hdlindexdiff>=-731, hdl, NA),
-         hdl_2_years_datediff=ifelse(!is.na(hdl_2_years), hdlindexdiff, NA),
+         hdl_2_years_datediff=ifelse(!is.na(hdl_2_years), -hdlindexdiff, NA),
          
          triglyceride_2_years=ifelse(triglycerideindexdiff>=-731, triglyceride, NA),
          triglyceride_2_years_datediff=ifelse(!is.na(triglyceride_2_years), -triglycerideindexdiff, NA),
@@ -122,8 +122,10 @@ ggplot (t1dt2d_scores_local, aes(x=clinical_pred_prob, fill=class)) +
 
 ## Lipid model
 ggplot (t1dt2d_scores_local, aes(x=lipid_pred_prob, fill=class)) + 
-  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
-  scale_y_continuous(labels = scales::percent)
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.005) +
+  scale_y_continuous(labels = scales::percent) +
+  xlim(0, 0.3) +
+  ylim(0, 0.25)
 
 
 

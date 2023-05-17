@@ -53,10 +53,10 @@ mody_cohort_local <- collect(mody_cohort %>%
   mutate(fh_diabetes=as.factor(fh_diabetes),
          insulin_6_months=as.factor(insulin_6_months),
          insoha=as.factor(insoha),
-         bmi_2_years_datediff=-bmi_2_years_datediff,
-         bmi_post_diag_datediff=-bmi_post_diag_datediff,
-         hba1c_2_years_datediff=-hba1c_2_years_datediff,
-         hba1c_post_diag_datediff=-hba1c_post_diag_datediff)
+         bmi_2_years_datediff=-(as.numeric(bmi_2_years_datediff)),
+         bmi_post_diag_datediff=-(as.numeric(bmi_post_diag_datediff)),
+         hba1c_2_years_datediff=-(as.numeric(hba1c_2_years_datediff)),
+         hba1c_post_diag_datediff=-(as.numeric(hba1c_post_diag_datediff)))
   
 as_flextable(summarizor(mody_cohort_local, by="class", overall_label="overall"))
 
@@ -116,7 +116,7 @@ complete_case_score <- collect(complete_mody_cohort %>% select(class, insulin_6_
          fh_diabetes=as.factor(fh_diabetes),
          insulin_6_months=as.factor(insulin_6_months),
          insoha=as.factor(insoha))
-#14,026
+#14,013
 
 table(complete_case_score$class)
 

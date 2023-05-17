@@ -60,7 +60,7 @@ ggplot(diag_dates, aes(x=year_relative_to_birth)) +
 
 diag_dates %>% filter(year_relative_to_birth==0 & class=="type 2") %>% count()
 #1,694
-1694/576977
+1694/576976
 #0.3%
 
 # Exclude codes in year of birth for those with Type 2 diabetes
@@ -77,8 +77,8 @@ ggplot(diag_dates, aes(x=year_relative_to_regstart)) +
   ylim(0, 44000)
 
 diag_dates %>% filter(year_relative_to_regstart==0) %>% count()
-#43,308
-43308/743968
+#43,745
+43745/747931
 #5.8%
 
 ## If remove those within 3 months of registration start
@@ -168,7 +168,7 @@ diag_dates_summ <- diag_dates %>%
             flag_perc=100*(flag_count/total_count)) %>%
   slice(1)
 
-diag_dates_summ_clean <- diag_dates %>%
+diag_dates_summ_clean <- diag_dates_clean %>%
   mutate(flag=as.factor(ifelse(year_relative_to_birth==0, "diag in birth year",
                                ifelse(year_relative_to_regstart==0, "diag in same year as reg start", "no issue"))),
          diag_year=as.integer(diag_year)) %>%
@@ -201,7 +201,7 @@ ggplot(diag_dates_summ_clean, aes(x=diag_year, y=flag_perc, fill=flag)) +
 # Look at number diagnosed on different codes
 
 cohort_diag_dates %>% count()
-#743,279
+#747,931
 
 total_by_diag_code_type <- collect(cohort_diag_dates %>% group_by(dm_diag_codetype) %>% summarise(count=n())) 
 

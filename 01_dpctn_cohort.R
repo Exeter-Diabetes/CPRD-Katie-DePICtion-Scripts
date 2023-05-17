@@ -47,7 +47,7 @@ acceptable_patids %>% count()
 #1,480,895 out of 1,481,294 in download
 
 
-# Find people with diabetes code occurrence (T1/T2/unspec and exclusion codes) with a year of data before and after
+# Find people with diabetes code occurrence (T1/T2/unspec and exclusion codes except diabetes insipidus) with a year of data before and after
 ## Since extraction was in November 2020, this means everyone who remains in the dataset must have a code before the index date in Feb 2020
 
 analysis = cprd$analysis("all_patid")
@@ -72,7 +72,7 @@ acceptable_patids_with_valid_diabetes_code <- acceptable_patids %>%
   
   inner_join((raw_diabetes_medcodes %>%
                 select(patid, obsdate) %>%
-                union_all((raw_exclusion_diabetes_medcodes %>% select(patid, obsdate)))), by="patid") %>%
+                union_all((raw_exclusion_diabetes_medcodes %>% filter(exclusion_diabetes_cat!="diabetes insipidus") %>% select(patid, obsdate)))), by="patid") %>%
   
   filter(obsdate>=sql("date_add(regstartdate, interval 365.25 day)") & obsdate<=sql("date_add(gp_record_end, interval -365.25 day)") & obsdate>=as.Date("2004-01-01")) %>%
   
@@ -81,7 +81,7 @@ acceptable_patids_with_valid_diabetes_code <- acceptable_patids %>%
   analysis$cached("acceptable_patids_with_valid_diabetes_code", unique_indexes="patid")
 
 acceptable_patids_with_valid_diabetes_code %>% count()
-#1,314,857
+#1,314,373
 
 
 ############################################################################################
@@ -142,7 +142,7 @@ cohort <- acceptable_patids_with_valid_diabetes_code %>%
   analysis$cached("cohort_interim_1", unique_indexes="patid")
 
 cohort %>% count()
-# 779,870
+# 779,498
 
 
 ## Just keep those which are adults
@@ -152,8 +152,7 @@ cohort <- cohort %>%
   analysis$cached("cohort_interim_2", unique_indexes="patid")
 
 cohort %>% count()
-# 769,841
-
+# 769,493
 
 ############################################################################################
 
