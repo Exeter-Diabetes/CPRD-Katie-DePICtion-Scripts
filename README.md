@@ -98,21 +98,37 @@ Patients with diagnoses within 3 months (<91 days) of registration start were th
 
 &nbsp;
 
-The table below shows which out of a diagnosis code, high HbA1c, or prescription for glucose-lowering medication occurred earliest for patients and was therefore used as the date of diagnosis (after codes in the year of birth were removed for those with Type 2 diabetes. 'Missing' indicates patients with a diagnosis within 3 months (<91 days) of registration start. If patients had >1 of a diabetes code, high HbA1c and/or prescription for OHA/insulin on their date of diagnosis, only the highest ranking of these is shown in the table (rank order: diabetes code > high HbA1c > precription for OHA > prescription for insulin).
+These potential issues (patients with diagnoses in the year of birth or year of registration start) were then analysed by calendar year to see if there was a particular problem with older data.
+
+Result before cleaning:
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/diag_dates_raw_by_year.png?" width="1000">
+
+Note that as this cohort only include those born in 2002 or earlier, no-one can have diagnosis in their year of birth later than 2002.
+
+Result after cleaning:
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/diag_dates_clean_by_year.png?" width="1000">
+
+There does seem to be a data quality issue with older diagnosis dates being more likely to be in the year of birth, which is not completely solved by ignoring diagnosesin the year of birth for those with Type 2 diabetes. Patients with diagnoses in the year of birth should be flagged to clinicians before running the MODY calculator or T1D/T2D calculator
+
+&nbsp;
+
+The table below shows which out of a diagnosis code, high HbA1c, or prescription for glucose-lowering medication occurred earliest for patients and was therefore used as the date of diagnosis (after codes in the year of birth were removed for those with Type 2 diabetes). 'Missing' indicates patients with a diagnosis within 3 months (<91 days) of registration start. If patients had >1 of a diabetes code, high HbA1c and/or prescription for OHA/insulin on their date of diagnosis, only the highest ranking of these is shown in the table (rank order: diabetes code > high HbA1c > precription for OHA > prescription for insulin). Note that all HbA1cs prior to 1990 were exclude due to data quality concerns as HbA1c wasn't widely used at this time.
 
 | Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | Unspecified and/or type-specific diabetes code | High HbA1c | OHA prescription | Insulin prescription | Missing |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| Any type* (n=743968) | 271616 (36.5%) | 203998 (27.4%) | 475614 (63.9%) | 222676 (29.9%) | 16557 (2.2%) | 1660 (0.2%) | 27461 (3.7%) |
+| Any type* (n=743279) | 273173 (36.8%) | 206310 (27.8%) | 479483 (64.5%) | 222704 (30.0%) | 16779 (2.3%) | 1695 (0.2%) | 27618 (3.7%) |
 | Unspecified (n=122814) | 109166 (88.9%) |  (0.0%) | 109166 (88.9%) | 8435 (6.9%) | 3292 (2.7%) | 176 (0.1%) | 1745 (1.4%) |
 | Type 1 (n=32005) | 11318 (35.4%) | 16875 (52.7%) | 28193 (88.1%) | 1574 (4.9%) | 189 (0.6%) | 753 (2.4%) | 1296 (4.0%) |
 | Type 2 (n=576977) | 144635 (25.1%) | 182636 (31.7%) | 327271 (56.7%) | 212396 (36.8%) | 12414 (2.2%) | 642 (0.1%) | 24254 (4.2%) |
-| Gestational only (n=11407) | 6335 (55.5%) | 4185 (36.7%) | 10520 (92.2%) | 44 (0.4%) | 627 (5.5%) | 65 (0.6%) | 151 (1.3%) |
+| Gestational only (n=15718) | 7892 (50.2%) | 6497 (41.3%) | 14389 (91.5%) | 72 (0.5%) | 849 (5.4%) | 100 (0.6%) | 308 (2.0%) |
 | MODY (n=62) | 12 (19.4%) | 28 (45.2%) | 40 (64.5%) | 15 (24.2%) | 2 (3.2%) | 1 (1.6%) | 4 (6.5%) |
 | Non-MODY genetic/syndromic (n=108) | 34 (31.5%) | 52 (48.1%) | 86 (79.6%) | 6 (5.6%) | 5 (4.6%) | 7 (6.5%) | 4 (3.7%) |
 | Secondary (n=594) | 115 (19.4%) | 222 (37.4%) | 337 (56.7%) | 206 (34.7%) | 28 (4.7%) | 16 (2.7%) | 7 (1.2%) |
 | Malnutrition (n=1) | 1 (100.0%) | 0 (0.0%) | 1 (100.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
 
-\* Excluding 'gestational then type 2' and 'other'
+\* Excluding 'other'
 
 &nbsp;
 
@@ -120,11 +136,11 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 
 | Diabetes type (as per flowchart above) | Median difference in diagnosis date if only diabetes codes used (days) | Median difference in diagnosis date if only diabetes codes used (days) in patients with a high HbA1c/prescription for glucose-lowering medication earlier than a diabetes code |
 | ---- | ---- | ---- |
-| Any type* (n=715216 with non-missing diagnosis date) | 0 | 26 |
+| Any type* (n=719368 with non-missing diagnosis date) | 0 | 26 |
 | Unspecified (n=121017 with non-missing diagnosis date) | 0 | 283 |
 | Type 1 (n=30664 with non-missing diagnosis date) | 0 | 7 |
 | Type 2 (n=551531 with non-missing diagnosis date)| 0 | 24 |
-| Gestational only (n=11256 with non-missing diagnosis date) | 0 | 589 |
+| Gestational only (n=15408 with non-missing diagnosis date) | 0 | 552 |
 | MODY (n=57 with non-missing diagnosis date) | 0 | 251 |
 | Non-MODY genetic/syndromic (n=104 with non-missing diagnosis date) | 0 | 422 |
 | Secondary (n=586 with non-missing diagnosis date) | 0 | 31 |
@@ -133,8 +149,125 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 &nbsp;
 
 ### 04_dpctn_diabetes_type_over_time
+Looks at patients with codes for >1 type of diabetes (n=30,401; classified as 'other' as per above flowchart) to determine diagnosis dates and when changes in diagnosis occurred.
+
+These are the most popular combinations of diabetes type codes in this group:
+* 18,710 (61.5%) Type 1 and Type 2
+* 8,704 (28.6%) Type 2 and gestational
+* 1,326 (4.4%) Type 2 and secondary
+* 352 (1.2%) Type 1 and gestational
+* 342 (1.1%) Type 1, Type 2 and gestational
+Together these account for 96.9% of those with codes for >1 type of diabetes; all remaining combinations are <1% each.
+
+To do: determine diagnosis dates for most populous groups (T1/T2 and T2/gestational) and when diagnosis changed (or whether codes of second diabetes type are likely to be a mistake).
+
+Also finds age at diagnosis and time to insulin initiation from diagnosis to all those with codes for 1 type of diabetes, and those for with codes for both T1/T2 or both T2/gestational.
+
+&nbsp;
+
+### 05_dpctn_diabetes_type_issues
+**NB: The MODY and T1D/T2D calculators are only intended for those diagnosed <=50 years of age (MODY: aged 1-35; T1D/T2D: aged 18-50, both inclusive), so in this script, only those diagnosed <50 years of age were included.**
+
+Looks at potential miscoding/misclassification of diabetes/diabetes type, including:
+* Those coded as Type 1:
+    * With no prescriptions for insulin (could look further at type of insulin e.g. must have basal and bolus; for NDA they exclude from Type 1 if long-acting insulin only)
+    * With insulin but also taking an OHA other than metformin/SGLT2-inhibitor (as per NDA)
+    * With more than 3 years between diagnosis and initiating insulin treatment
+* Those coded as Type 2:
+    * With less than 6 months between diagnosis and initiating insulin treatment
+    * With no OHA prescriptions prior to insulin initiation
+    * With no OHA/insulin prescriptions or high HbA1c measurements
+* Those coded as gestational only:
+    * With unspecified diabetes codes >1 prior to earliest / >1 year after latest gestational diabetes code (excluding history of gestational diabetes), implying possible Type 1/2 diabetes
+(All to do + can compare frequencies to de Luisignan paper)
+
+Other data issues flagged by previous scripts:
+* Those with no type-specific diabetes codes (n=122,814 or 15.8% of the cohrot as per above flowchart)
+* Potential issue with diagnosis dates explored in script 03_dpctn_diabetes_diagnosis_dates
+
+&nbsp;
+
+### 06_dpctn_mody_calculator
+Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 1-35 years inclusive.
+
+**Not done yet: exploring whether separate weight/height measurements could help with missing BMI**
+
+&nbsp;
+
+Cohort characteristics:
+| Characteristic |  Class: Type 1 |  Class: Type 2 | Class: Unspecified | Class: Type 1/Type 2 | Class: Type 2/gestational |
+| ---- | ---- | ---- | ---- | ---- | ---- |
+| N | 24946 | 26379 | 12744 |||
+| Median (IQR) age at diagnosis (years) | 16.2 (13.8) | 30.9 (6.2) | 27.0 (10.7) |||
+| Median (IQR) BMI within 2 years (kg/m2) | 26.2 (6.7) | 32.0 (10.1) | 28.5 (10.6) |||
+| Missing BMI within 2 years | 4256 (17.06%) | 2920 (11.07%) | 7350 (57.67%) |||
+| Median (IQR) time from BMI within 2 years to index date (days) | 184.0 (258.0) | 164.0 (231.0) | 241.0 (323.0) |||
+| Median (IQR) BMI any time >=diagnosis (kg/m2) | 26.0 (6.6) | 32.0 (10.0) | 28.0 (10.3) |||
+| Missing BMI >=diagnosis | 441 (1.77%) | 391 (1.48%) | 5244 (41.15%) |||
+| Median (IQR) time from BMI any time >=diagnosis to index date (days) | 232.0 (398.0) | 187.0 (287.0) | 379.0 (795.0) |||
+| Median (IQR) HbA1c within 2 years (mmol/mol) | 66.0 (21.1) | 61.9 (29.0) | 37.0 (8.0) |||
+| Missing (IQR) HbA1c within 2 years | 1756 (7.04%) | 1434 (5.44%) | 8141 (63.88%) |||
+| Median time from HbA1c within 2 years to index date (days) | 151.0 (212.0) | 131.0 (176.0) | 263.0 (313.0) |||
+| Median (IQR)  HbA1c any time >=diagnosis (mmol/mol) | 67.0 (22.0) | 61.9 (29.1) | 36.0 (7.0) |||
+| Median (IQR) time from HbA1c any time >=diagnosis to index date (days) | 180 (0.72%) | 115 (0.44%) | 7006 (54.97%) |||
+| Missing HbA1c >=diagnosis | 165.0 (250.0) | 141.0 (207.0) | 353.0 (601.0) |||
+| With negative family history of diabetes | 2024 (8.11%) | 1933 (7.33%) | 1085 (8.51%) |||
+| With positive family history of diabetes | 5845 (23.43%) | 11765 (44.60%) | 2502 (19.63%) |||
+| Missing family history of diabetes | 17077 (68.46%) | 12681 (48.07%) | 9157 (71.85%) |||
+| Not on insulin <= 6 months after diagnosis | 2220 (8.90%) | 20382 (77.27%) | 12447 (97.67%) |||
+| On insulin <= 6 months after diagnosis | 5879 (23.57%) | 736 (2.79%) | 158 (1.24%) |||
+| Missing whether on insulin <= 6 months after diagnosis | 16847 (67.53%) | 5261 (19.94%) | 139 (1.09%) |||
+| On OHA or ins (script in last 6 months) | 24021 (96.29%) | 22040 (83.55%) | 531 (4.2%) ||| 
+| Missing any variable required for MODY calculator if use BMI and HbA1c back to diagnosis | 23266 (93.27%) | 15779 (59.81%) | 10988 (86.30%)|||
+
+&nbsp;
+
+Characteristics of those with no missing MODY calculator variables:
+| Characteristic | Class: Unspecified |  Class: Type 1 |  Class: Type 2 | Class: Type 1/Type 2 | Class: Type 2/gestational |
+| ---- | ---- | ---- | ---- | ---- | ---- |
+| N |
+| Median age at diagnosis ||||||
+| Median BMI within 2 years ||||||
+| Median time from BMI within 2 years to index date (days) ||||||
+| Missing BMI within 2 years ||||||
+| Median BMI any time >=diagnosis ||||||
+| Median time from BMI any time >=diagnosis to index date (days) ||||||
+| Missing BMI >=diagnosis ||||||
+| Median HbA1c within 2 years ||||||
+| Median time from HbA1c within 2 years to index date (days) ||||||
+| Missing HbA1c within 2 years ||||||
+| Median HbA1c any time >=diagnosis ||||||
+| Median time from HbA1c any time >=diagnosis to index date (days) ||||||
+| Missing HbA1c >=diagnosis ||||||
+| On insulin <= 6 months after diagnosis ||||||
+| Missing time to insulin ||||||
+| With positive family history of diabetes ||||||
+| Missing family history of diabetes ||||||
+| Missing any variable required for MODY calculator ||||||
 
 
+&nbsp;
 
+### 07_dpctn_t1dt2d_calculator
 
+&nbsp;
 
+### Other bits discussed and not implemented:
+* Working out whether patients (especially those with Type 1) are being treated in secondary care (and that's why we have missing info)
+* Further work on those without any type-specific codes to remove those without diabetes
+* Integrating other features which might aid classification:
+    * At diagnosis:
+        * Polydipsia
+        * Ketones
+        * Glucose
+        * Capillary glucose
+        * Weight loss
+        * DKA
+    * And longitudinally:
+        * C-peptide
+        * Islet Abs
+        * Autoimmune tests e.g. thyroid function, TTG (coeliac)
+        * Type changing over time
+        * Referral to endo?
+* Later: outcomes affected by misclassification including infection
+* Checking small % with remission codes - compare to 2x papers and possibly UKBB
