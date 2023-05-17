@@ -10,7 +10,6 @@
 # Setup
 library(tidyverse)
 library(aurum)
-library(EHRBiomarkr)
 rm(list=ls())
 
 cprd = CPRDData$new(cprdEnv = "test-remote",cprdConf = "~/.aurum.yaml")
@@ -33,7 +32,7 @@ cohort_classification <- cohort_classification %>% analysis$cached("cohort_class
 
 cohort_diag_dates_interim_1 <- cohort_classification %>%
   select(patid, class) %>%
-  filter(class!="gestational then type 2" & class!="other") %>%
+  filter(class!="other") %>%
   inner_join(earliest_latest_codes_long, by="patid") %>%
   group_by(patid, class) %>%
   summarise(dm_diag_date=min(earliest, na.rm=TRUE)) %>%
@@ -120,7 +119,7 @@ earliest_latest_codes_long_no_yob <- cohort_classification %>%
 
 
 cohort_diag_dates <- earliest_latest_codes_long_no_yob %>%
-  filter(class!="gestational then type 2" & class!="other") %>%
+  filter(class!="other") %>%
   mutate(category=ifelse(category=="unspecified" | category=="high_hba1c" | category=="oha_script" | category=="insulin_script", category, "type_specific_code")) %>%
   group_by(patid) %>%
   mutate(dm_diag_date=min(earliest, na.rm=TRUE)) %>%
@@ -202,7 +201,7 @@ ggplot(diag_dates_summ_clean, aes(x=diag_year, y=flag_perc, fill=flag)) +
 # Look at number diagnosed on different codes
 
 cohort_diag_dates %>% count()
-#743,968
+#743,279
 
 total_by_diag_code_type <- collect(cohort_diag_dates %>% group_by(dm_diag_codetype) %>% summarise(count=n())) 
 
@@ -223,7 +222,7 @@ total_by_class_and_diag_code_type2 <- collect(cohort_diag_dates %>% group_by(cla
 # Look at time between HbA1c / script and next diabetes code i.e. how much difference using diabetes codes alone would make
 
 cohort_diag_dates_codes_only <- earliest_latest_codes_long_no_yob %>%
-  filter(class!="gestational then type 2" & class!="other") %>%
+  filter(class!="other") %>%
   mutate(category=ifelse(category=="unspecified" | category=="high_hba1c" | category=="oha_script" | category=="insulin_script", category, "type_specific_code")) %>%
   filter(category=="unspecified" | category=="type_specific_code") %>%
   group_by(patid) %>%
