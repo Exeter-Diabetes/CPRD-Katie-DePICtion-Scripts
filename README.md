@@ -73,7 +73,11 @@ This script also looks at how many diabetes codes, high HbA1cs and scripts for g
 
 &nbsp;
 
-### 03_dpctn_diabetes_diagnosis_dates
+### 03_dpctn_diabetes_qof_primis_codelist
+
+&nbsp;
+
+### 04_dpctn_diabetes_diagnosis_dates
 Looks at potential quality issues around diagnosis dates (diabetes codes in year of birth) and determines diagnosis date for patients in the cohort (earliest of diabetes code, high HbA1c or script for glucose-lowering medication). Also looks at implications of using diabetes codes only to determine diagnosis dates.
 
 Patients with diabetes type 'other' (as per flowchart above) were excluded (are later analysed in script 04_dpctn_diabetes_type_over_time) as they may have changes in their diagnosed type of diabetes over time. For the remaining cohort, diagnosis date is determined as the earliest diabetes code, high HbA1c or script for glucose-lowering medication. 
@@ -148,7 +152,7 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 
 &nbsp;
 
-### 04_dpctn_diabetes_type_over_time
+### 05_dpctn_diabetes_type_over_time
 Looks at patients with codes for >1 type of diabetes (n=30,401; classified as 'other' as per above flowchart) to determine diagnosis dates and when changes in diagnosis occurred.
 
 These are the most popular combinations of diabetes type codes in this group:
@@ -165,7 +169,7 @@ Also finds age at diagnosis and time to insulin initiation from diagnosis to all
 
 &nbsp;
 
-### 05_dpctn_diabetes_type_issues
+### 06_dpctn_diabetes_type_issues
 **NB: The MODY and T1D/T2D calculators are only intended for those diagnosed <=50 years of age (MODY: aged 1-35; T1D/T2D: aged 18-50, both inclusive), so in this script, only those diagnosed <50 years of age were included.**
 
 Looks at potential miscoding/misclassification of diabetes/diabetes type, including:
@@ -187,7 +191,7 @@ Other data issues flagged by previous scripts:
 
 &nbsp;
 
-### 06_dpctn_mody_calculator
+### 07_dpctn_mody_calculator
 Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 1-35 years inclusive.
 
 **Not done yet: exploring whether separate weight/height measurements could help with missing BMI**
@@ -245,7 +249,7 @@ Adjusted MODY probabilities for complete cases:
 
 &nbsp;
 
-### 07_dpctn_t1dt2d_calculator
+### 08_dpctn_t1dt2d_calculator
 Defines T1DT2D calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 18-50 years inclusive.
 
 **Not done yet: exploring whether separate weight/height measurements could help with missing BMI**
