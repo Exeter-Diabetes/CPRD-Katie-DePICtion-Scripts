@@ -74,6 +74,26 @@ This script also looks at how many diabetes codes, high HbA1cs and scripts for g
 &nbsp;
 
 ### 03_dpctn_diabetes_qof_primis_codelist
+Looks at effect of restricting the cohort to those with a diabetes QOF code / medcode which maps to SNOMED code in pre-existing PRIMIS diabetes codelist (https://www.opencodelists.org/codelist/primis-covid19-vacc-uptake/diab/v.1.5.3/).
+
+&nbsp;
+
+Diabetes QOF codes: the QOF codelist was constructed from Read codes from version 38 and SNOMED codes from version 44 of the QOF, which include all codes from previous versions. Have only included medcodes which map to Read codes from version 38 and SNOMED codes from version 44 - i.e. haven't mapped between SNOMED and Read codes. Includes some codes for non-Type 1/Type 2 types of diabetes, but not gestational (or malnutrition).
+
+Number in each class with QOF code:
+* Unspecified:
+* Type 1:
+* Type 2:
+* Gestational only:
+* MODY: 
+* Non-MODY genetic/syndromic:
+* Secondary:
+* Malnutrition:
+* Other:
+* 
+&nbsp;
+
+PRIMIS diabetes codelist: contains 545 SNOMED codes; 458 are in CPRD Medical Dictionary and match to 1,415 medcodes. 
 
 &nbsp;
 
