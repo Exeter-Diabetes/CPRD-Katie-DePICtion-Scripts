@@ -243,7 +243,7 @@ Adjusted MODY probabilities for complete cases:
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/mody_calc_adjusted.png?" width="1000">
 
-
+&nbsp;
 
 ### 07_dpctn_t1dt2d_calculator
 Defines T1DT2D calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 18-50 years inclusive.
@@ -283,6 +283,8 @@ Cohort characteristics:
 | Missing triglyceride >=diagnosis | 1531 (10.28%) | 11115 (6.64%) | 16221 (49.48%) |||
 | Median (IQR) time from triglyceride any time >=diagnosis to index date (days) | 337.0 (802.0) | 261.0 (570.0) | 417.0 (840.0) |||
 | Missing any variable required for MODY calculator if use biomarkers back to diagnosis | 1693 (11.37%) | 12588 (7.52%) | 18451 (56.29%) |||
+
+&nbsp;
 
 Number with measured GAD and/or IA2 antibodies is very small:
 * GAD: 127 (0.9%) of Type 1, 432 (0.03%) of Type 2, 35 (0.1%) of unspecified
