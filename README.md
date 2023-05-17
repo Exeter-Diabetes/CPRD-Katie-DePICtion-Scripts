@@ -221,45 +221,45 @@ Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, 
 Cohort characteristics:
 | Characteristic |  Class: Type 1 |  Class: Type 2 | Class: Unspecified | Class: Type 1/Type 2 | Class: Type 2/gestational |
 | ---- | ---- | ---- | ---- | ---- | ---- |
-| N | 24946 | 26379 | 12744 |||
+| N | 24946 | 26379 | 12646 |||
 | Median (IQR) age at diagnosis (years) | 16.2 (13.8) | 30.9 (6.2) | 27.0 (10.7) |||
 | Median (IQR) current age (years) | 39.6 (23.0) | 42.9 (14.0) | 32.6 (10.9) |||
 | Median (IQR) BMI within 2 years (kg/m2) | 26.2 (6.7) | 32.0 (10.1) | 28.5 (10.6) |||
-| Missing BMI within 2 years | 4256 (17.06%) | 2920 (11.07%) | 7350 (57.67%) |||
-| Median (IQR) time from BMI within 2 years to index date (days) | 184.0 (258.0) | 164.0 (231.0) | 241.0 (323.0) |||
+| Missing BMI within 2 years | 4256 (17.06%) | 2920 (11.07%) | 7303 (57.75%) |||
+| Median (IQR) time from BMI within 2 years to index date (days) | 184.0 (258.0) | 164.0 (231.0) | 242.0 (322.0) |||
 | Median (IQR) BMI any time >=diagnosis (kg/m2) | 26.0 (6.6) | 32.0 (10.0) | 28.0 (10.3) |||
-| Missing BMI >=diagnosis | 441 (1.77%) | 391 (1.48%) | 5244 (41.15%) |||
-| Median (IQR) time from BMI any time >=diagnosis to index date (days) | 232.0 (398.0) | 187.0 (287.0) | 379.0 (795.0) |||
+| Missing BMI >=diagnosis | 441 (1.77%) | 391 (1.48%) | 5215 (41.24%) |||
+| Median (IQR) time from BMI any time >=diagnosis to index date (days) | 232.0 (398.0) | 187.0 (287.0) | 380.0 (795.0) |||
 | Median (IQR) HbA1c within 2 years (mmol/mol) | 66.0 (21.1) | 61.9 (29.0) | 37.0 (8.0) |||
-| Missing (IQR) HbA1c within 2 years | 1756 (7.04%) | 1434 (5.44%) | 8141 (63.88%) |||
-| Median time from HbA1c within 2 years to index date (days) | 151.0 (212.0) | 131.0 (176.0) | 263.0 (313.0) |||
-| Median (IQR)  HbA1c any time >=diagnosis (mmol/mol) | 67.0 (22.0) | 61.9 (29.1) | 36.0 (7.0) |||
-| Median (IQR) time from HbA1c any time >=diagnosis to index date (days) | 180 (0.72%) | 115 (0.44%) | 7006 (54.97%) |||
-| Missing HbA1c >=diagnosis | 165.0 (250.0) | 141.0 (207.0) | 353.0 (601.0) |||
-| With negative family history of diabetes | 2024 (8.11%) | 1933 (7.33%) | 1085 (8.51%) |||
-| With positive family history of diabetes | 5845 (23.43%) | 11765 (44.60%) | 2502 (19.63%) |||
-| Missing family history of diabetes | 17077 (68.46%) | 12681 (48.07%) | 9157 (71.85%) |||
-| Not on insulin <= 6 months after diagnosis | 2220 (8.90%) | 20382 (77.27%) | 12447 (97.67%) |||
-| On insulin <= 6 months after diagnosis | 5879 (23.57%) | 736 (2.79%) | 158 (1.24%) |||
-| Missing whether on insulin <= 6 months after diagnosis | 16847 (67.53%) | 5261 (19.94%) | 139 (1.09%) |||
-| On OHA or ins (script in last 6 months) | 24021 (96.29%) | 22040 (83.55%) | 531 (4.2%) ||| 
-| Missing any variable required for MODY calculator if use BMI and HbA1c back to diagnosis | 23266 (93.27%) | 15779 (59.81%) | 10988 (86.30%)|||
+| Missing (IQR) HbA1c within 2 years | 1756 (7.04%) | 1434 (5.44%) | 8083 (63.92%) |||
+| Median time from HbA1c within 2 years to index date (days) | 151.0 (212.0) | 131.0 (176.0) | 263.0 (314.0) |||
+| Median (IQR)  HbA1c any time >=diagnosis (mmol/mol) | 67.0 (22.0) | 61.9 (29.1) | 36.0 (6.8) |||
+| Missing HbA1c >=diagnosis | 180 (0.72%) | 115 (0.44%) | 6961 (55.05%) |||
+| Median (IQR) time from HbA1c any time >=diagnosis to index date (days) | 165.0 (250.0) | 141.0 (207.0) | 353.0 (606.0) |||
+| With negative family history of diabetes | 2024 (8.11%) | 1933 (7.33%) | 1074 (8.49%) |||
+| With positive family history of diabetes | 5845 (23.43%) | 11765 (44.60%) | 2492 (19.71%) |||
+| Missing family history of diabetes | 17077 (68.46%) | 12681 (48.07%) | 9080 (71.80%) |||
+| Not on insulin <= 6 months after diagnosis | 2220 (8.90%) | 20382 (77.27%) | 12349 (97.65%) |||
+| On insulin <= 6 months after diagnosis | 5879 (23.57%) | 736 (2.79%) | 158 (1.25%) |||
+| Missing whether on insulin <= 6 months after diagnosis | 16847 (67.53%) | 5261 (19.94%) | 139 (1.10%) |||
+| On OHA or ins (script in last 6 months) | 24021 (96.29%) | 22040 (83.55%) | 529 (4.18%) ||| 
+| Missing any variable required for MODY calculator if use BMI and HbA1c back to diagnosis | 23266 (93.27%) | 15779 (59.81%) | 10913 (86.30%)|||
 
 &nbsp;
 
 Characteristics of those with no missing MODY calculator variables:
 | Characteristic | Class: Unspecified |  Class: Type 1 |  Class: Type 2 | Class: Type 1/Type 2 | Class: Type 2/gestational |
 | ---- | ---- | ---- | ---- | ---- | ---- |
-| N | 1680 | 10600 | 1746
-| Median age at diagnosis | 23.1 (15.3) | 31.3 (5.7) | 30.1 (7.3) |||
+| N | 1680 | 10600 | 1733
+| Median age at diagnosis | 23.1 (15.3) | 31.3 (5.7) | 30.1 (7.4) |||
 | Median (IQR) current age (years | 36.6 (19.0) | 41.6 (11.0) | 36.6 (9.0) |||
-| Median BMI any time >=diagnosis | 26.2 (6.8) | 31.9 (9.9) | 30.2 (10.7) |||
+| Median BMI any time >=diagnosis | 26.2 (6.8) | 31.9 (9.9) | 30.2 (10.8) |||
 | Median HbA1c any time >=diagnosis | 69.0 (25.0) | 59.0 (27.5) | 37.7 (8.0) |||
-| With negative family history of diabetes | 493 (29.35%) | 1566 (14.77%) | 463 (26.52%) |||
-| With positive family history of diabetes | 1187 (70.65%) | 9034 (85.23%) | 1283 (73.48%) |||
-| Not on insulin <= 6 months after diagnosis | 550 (32.74%) | 10291 (97.08%) | 1709 (97.88%) |||
-| On insulin <= 6 months after diagnosis | 1130 (67.26%) | 309 (2.92%) | 37 (2.12%) |||
-| On OHA or ins (script in last 6 months) | 1613 (96.01%) | 8651 (81.61%) | 138 (7.90%) |||
+| With negative family history of diabetes | 493 (29.35%) | 1566 (14.77%) | 456 (26.31%) |||
+| With positive family history of diabetes | 1187 (70.65%) | 9034 (85.23%) | 1277 (73.69%) |||
+| Not on insulin <= 6 months after diagnosis | 550 (32.74%) | 10291 (97.08%) | 1696 (97.86%) |||
+| On insulin <= 6 months after diagnosis | 1130 (67.26%) | 309 (2.92%) | 37 (2.14%) |||
+| On OHA or ins (script in last 6 months) | 1613 (96.01%) | 8651 (81.61%) | 137 (7.91%) |||
 
 &nbsp;
 
@@ -279,7 +279,7 @@ Defines T1DT2D calculator cohort: those with current diagnosis of Type 1, Type 2
 Cohort characteristics:
 | Characteristic |  Class: Type 1 |  Class: Type 2 | Class: Unspecified | Class: Type 1/Type 2 | Class: Type 2/gestational |
 | ---- | ---- | ---- | ---- | ---- | ---- |
-| N | 14887 | 167486 | 32781 |||
+| N | 14887 | 167485 | 32609 |||
 | Median (IQR) age at diagnosis (years) | 28.5 (12.8) | 43.5 (8.7) | 40.3 (13.5) |||
 | Median (IQR) current age (years | 49.6 (20.7) | 53.8 (12.0) | 45.6 (13.0) |||
 | Median (IQR) BMI within 2 years (kg/m2) | 26.5 (6.5) | 31.2 (8.7) | 29.7 (9.4) |||
