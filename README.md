@@ -292,6 +292,18 @@ Number with measured GAD and/or IA2 antibodies is very small:
 
 &nbsp;
 
+T1D probability using age and BMI only:
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/t1dt2d_age_bmi.png?" width="1000">
+
+
+&nbsp;
+
+T1D probability using age, BMI and lipids:
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/t1dt2d_lipids.png?" width="1000">
+
+&nbsp;
 
 ### Other bits discussed and not implemented:
 * Working out whether patients (especially those with Type 1) are being treated in secondary care (and that's why we have missing info)
