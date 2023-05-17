@@ -241,7 +241,7 @@ Characteristics of those with no missing MODY calculator variables:
 
 Adjusted MODY probabilities for complete cases:
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/diag_dates_clean_by_year.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/mody_calc_adjusted.png?" width="1000">
 
 
 
