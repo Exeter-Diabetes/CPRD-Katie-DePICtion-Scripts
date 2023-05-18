@@ -107,6 +107,7 @@ Median time between most recent QOF code and index date:
 PRIMIS diabetes codelist: contains 545 SNOMED codes; 187 are in 05/2020 CPRD Medical Dictionary and match to 753 medcodes (NB: numbers are much higher (458 SNOMED codes matching to 1,415 medcodes) if use more recent medical dictionary BUT none of the new codes are in our download).
 
 Our diabetes codelist (including all types of diabetes) is 1,361 medcodes. 711 of PRIMIS medcodes are in this list, but PRIMIS contains extra 42 medcodes - most are infrequently used ^ESCT codes but these aren't:
+
 CPRD Term description                                     Original Read code
 1 O/E - right eye clinically significant macular oedema   2BBm            
 2 O/E - left eye clinically significant macular oedema    2BBn            
