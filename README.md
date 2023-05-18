@@ -81,21 +81,60 @@ Looks at effect of restricting the cohort to those with a diabetes QOF code / me
 Diabetes QOF codes: the QOF codelist was constructed from Read codes from version 38 and SNOMED codes from version 44 of the QOF, which include all codes from previous versions. Have only included medcodes which map to Read codes from version 38 and SNOMED codes from version 44 - i.e. haven't mapped between SNOMED and Read codes. Includes some codes for non-Type 1/Type 2 types of diabetes, but not gestational (or malnutrition). Not sure about QOF usage 2020 onwards (doesn't affect this dataset).
 
 Number in each class with QOF code:
-* Unspecified:
-* Type 1:
-* Type 2:
-* Gestational only:
-* MODY: 
-* Non-MODY genetic/syndromic:
-* Secondary:
-* Malnutrition:
-* Other:
-* 
+* Unspecified: 3,674/122,469 (3.0%)
+* Type 1: 31,914/32,005 (99.7%)
+* Type 2: 574,893/576,976 (99.6%)
+* Gestational only: 169/15,717 (1.1%)
+* MODY: 62/62 (100%)
+* Non-MODY genetic/syndromic: 87/108 (80.6%)
+* Secondary: 143/593 (24.1%)
+* Malnutrition: 1/1 (100%)
+* Other: 30,316/30,401 (99.7%)
+
+Median time between most recent QOF code and index date:
+* Unspecified: 549 days
+* Type 1: 319 days
+* Type 2: 292 days
+* Gestational only: 1,016 days
+* MODY: 666 days
+* Non-MODY genetic/syndromic: 493 days
+* Secondary: 502 days
+* Malnutrition: 458 days
+* Other: 262 days
+
 &nbsp;
 
-PRIMIS diabetes codelist: contains 545 SNOMED codes; 458 are in CPRD Medical Dictionary and match to 1,415 medcodes. 
+PRIMIS diabetes codelist: contains 545 SNOMED codes; 187 are in 05/2020 CPRD Medical Dictionary and match to 753 medcodes (NB: numbers are much higher (458 SNOMED codes matching to 1,415 medcodes) if use more recent medical dictionary BUT none of the new codes are in our download).
+
+Our diabetes codelist (including all types of diabetes) is 1,361 medcodes. 711 of PRIMIS medcodes are in this list, but PRIMIS contains extra 42 medcodes - most are infrequently used ^ESCT codes but these aren't:
+# CPRD Term description                                     Original Read code
+# 1 O/E - right eye clinically significant macular oedema   2BBm            
+# 2 O/E - left eye clinically significant macular oedema    2BBn            
+# 3 Loss of hypoglycaemic warning                           66AJ2           
+# 4 Hypoglycaemic warning absent                            66AJ4           
+# 5 Insulin autoimmune syndrome                             C10J            
+# 6 Insulin autoimmune syndrome without complication        C10J0           
+# 7 Achard - Thiers syndrome                                C152-1          
+# 8 Leprechaunism                                           C1zy3           
+# 9 Donohue's syndrome                                      C1zy3-1         
+# 10 Mauriac's syndrome                                     EMISNQMA111     
+# 11 Ballinger-Wallace syndrome                             ESCTDI21-1      
+# 12 HHS - Hyperosmolar hyperglycaemic syndrome             ESCTDI23-1      
+# 13 HHS - Hyperosmolar hyperglycemic syndrome              ESCTDI23-2      
+# 14 Rogers syndrome                                        ESCTME15-1      
+# 15 Herrmann syndrome                                      ESCTPH1-1       
+# 16 Kimmelstiel - Wilson disease                           K01x1-1
+
+In PRIMIS codelist, some the term descriptions for these codes contain 'diabetes mellitus' but don't in the CPRD Medical Dictionary
+
+Number in each category with any of the 753 PRIMIS medcodes:
+
+
 
 &nbsp;
+
+
+
 
 ### 04_dpctn_diabetes_diagnosis_dates
 Looks at potential quality issues around diagnosis dates (diabetes codes in year of birth) and determines diagnosis date for patients in the cohort (earliest of diabetes code, high HbA1c or script for glucose-lowering medication). Also looks at implications of using diabetes codes only to determine diagnosis dates.
