@@ -387,7 +387,7 @@ T1D probability using age, BMI and lipids:
     * And longitudinally:
         * C-peptide
         * Islet Abs
-        * Autoimmune tests e.g. thyroid function, TTG (coeliac)
+        * Autoimmune tests e.g. thyroid function, TTG (coeliac) - Lancet paper
         * Type changing over time
         * Referral to endo?
 * Later: outcomes affected by misclassification including infection
