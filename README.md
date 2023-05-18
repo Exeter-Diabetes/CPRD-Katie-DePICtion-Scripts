@@ -107,23 +107,23 @@ Median time between most recent QOF code and index date:
 PRIMIS diabetes codelist: contains 545 SNOMED codes; 187 are in 05/2020 CPRD Medical Dictionary and match to 753 medcodes (NB: numbers are much higher (458 SNOMED codes matching to 1,415 medcodes) if use more recent medical dictionary BUT none of the new codes are in our download).
 
 Our diabetes codelist (including all types of diabetes) is 1,361 medcodes. 711 of PRIMIS medcodes are in this list, but PRIMIS contains extra 42 medcodes - most are infrequently used ^ESCT codes but these aren't:
-# CPRD Term description                                     Original Read code
-# 1 O/E - right eye clinically significant macular oedema   2BBm            
-# 2 O/E - left eye clinically significant macular oedema    2BBn            
-# 3 Loss of hypoglycaemic warning                           66AJ2           
-# 4 Hypoglycaemic warning absent                            66AJ4           
-# 5 Insulin autoimmune syndrome                             C10J            
-# 6 Insulin autoimmune syndrome without complication        C10J0           
-# 7 Achard - Thiers syndrome                                C152-1          
-# 8 Leprechaunism                                           C1zy3           
-# 9 Donohue's syndrome                                      C1zy3-1         
-# 10 Mauriac's syndrome                                     EMISNQMA111     
-# 11 Ballinger-Wallace syndrome                             ESCTDI21-1      
-# 12 HHS - Hyperosmolar hyperglycaemic syndrome             ESCTDI23-1      
-# 13 HHS - Hyperosmolar hyperglycemic syndrome              ESCTDI23-2      
-# 14 Rogers syndrome                                        ESCTME15-1      
-# 15 Herrmann syndrome                                      ESCTPH1-1       
-# 16 Kimmelstiel - Wilson disease                           K01x1-1
+CPRD Term description                                     Original Read code
+1 O/E - right eye clinically significant macular oedema   2BBm            
+2 O/E - left eye clinically significant macular oedema    2BBn            
+3 Loss of hypoglycaemic warning                           66AJ2           
+4 Hypoglycaemic warning absent                            66AJ4           
+5 Insulin autoimmune syndrome                             C10J            
+6 Insulin autoimmune syndrome without complication        C10J0           
+7 Achard - Thiers syndrome                                C152-1          
+8 Leprechaunism                                           C1zy3           
+9 Donohue's syndrome                                      C1zy3-1         
+10 Mauriac's syndrome                                     EMISNQMA111     
+11 Ballinger-Wallace syndrome                             ESCTDI21-1      
+12 HHS - Hyperosmolar hyperglycaemic syndrome             ESCTDI23-1      
+13 HHS - Hyperosmolar hyperglycemic syndrome              ESCTDI23-2      
+14 Rogers syndrome                                        ESCTME15-1      
+15 Herrmann syndrome                                      ESCTPH1-1       
+16 Kimmelstiel - Wilson disease                           K01x1-1
 
 In PRIMIS codelist, some the term descriptions for these codes contain 'diabetes mellitus' but don't in the CPRD Medical Dictionary. We can't really investigate whether these codes would pick up more people than our codelist as our extract relied on our codelist (although could look in full download).
 
