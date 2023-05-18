@@ -85,10 +85,10 @@ Number in each class with QOF code:
 * Type 1: 31,914/32,005 (99.7%)
 * Type 2: 574,893/576,976 (99.6%)
 * Gestational only: 169/15,717 (1.1%)
-* MODY: 62/62 (100%)
+* MODY: 62/62 (100.0%)
 * Non-MODY genetic/syndromic: 87/108 (80.6%)
 * Secondary: 143/593 (24.1%)
-* Malnutrition: 1/1 (100%)
+* Malnutrition: 1/1 (100.0%)
 * Other: 30,316/30,401 (99.7%)
 
 Median time between most recent QOF code and index date:
@@ -129,15 +129,15 @@ CPRD Term description                                     Original Read code
 In PRIMIS codelist, some the term descriptions for these codes contain 'diabetes mellitus' but don't in the CPRD Medical Dictionary. We can't really investigate whether these codes would pick up more people than our codelist as our extract relied on our codelist (although could look in full download).
 
 Number in each category with any of the 753 PRIMIS medcodes:
-* Unspecified: /122,469 (%)
-* Type 1: /32,005 (%)
-* Type 2: /576,976 (%)
-* Gestational only: /15,717 (%)
-* MODY: /62 (%)
-* Non-MODY genetic/syndromic: /108 %)
-* Secondary: /593 (%)
-* Malnutrition: /1 (%)
-* Other: /30,401 (%)
+* Unspecified: 9,655/122,469 (7.9%)
+* Type 1: 31,996/32,005 (100.0%)
+* Type 2: 576,234/576,976 (99.9%)
+* Gestational only: 397/15,717 (2.5%)
+* MODY: 62/62 (100.0%)
+* Non-MODY genetic/syndromic: 87/108 (80.6%)
+* Secondary: 593/593 (100.0%)
+* Malnutrition: 1/1 (100.0%)
+* Other: 30,384/30,401 (99.9%)
 
 &nbsp;
 
