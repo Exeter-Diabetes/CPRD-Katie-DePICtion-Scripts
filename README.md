@@ -9,7 +9,7 @@ The below diagram outlines the data processing steps involved in creating a coho
 ```mermaid
 graph TD;
     A["<b>CPRD Aurum October 2020 release</b> with linked Set 21 <br> (April 2021) HES APC, patient IMD, and ONS death data"] --> |"Unique patients with a diabetes-related medcode between 01/01/2004-06/11/2020 and >=1 year data prior and after"| B["<b>Our extract</b>: n=1,480,985*"]
-    B -->|"Patients with a diabetes-specific code** with a year of >=1 year data prior'"|C["n=1,314,373"]
+    B -->|"Patients with a diabetes-specific code** with >=1 year data prior and after"|C["n=1,314,373"]
     C -->|"Patients registered on 01/02/2020 (all have diabetes code and therefore diabetes diagnosis <br> before this date due to the requirement to have 1 year of data after)"|D["n=779,498"]
     D -->|"Patients who are aged>=18 years at the index date (01/02/2020)"|E["<b>DePICtion cohort</b>: n=769,493"]
 ```
@@ -81,19 +81,62 @@ Looks at effect of restricting the cohort to those with a diabetes QOF code / me
 Diabetes QOF codes: the QOF codelist was constructed from Read codes from version 38 and SNOMED codes from version 44 of the QOF, which include all codes from previous versions. Have only included medcodes which map to Read codes from version 38 and SNOMED codes from version 44 - i.e. haven't mapped between SNOMED and Read codes. Includes some codes for non-Type 1/Type 2 types of diabetes, but not gestational (or malnutrition). Not sure about QOF usage 2020 onwards (doesn't affect this dataset).
 
 Number in each class with QOF code:
-* Unspecified:
-* Type 1:
-* Type 2:
-* Gestational only:
-* MODY: 
-* Non-MODY genetic/syndromic:
-* Secondary:
-* Malnutrition:
-* Other:
-* 
+* Unspecified: 3,674/122,469 (3.0%)
+* Type 1: 31,914/32,005 (99.7%)
+* Type 2: 574,893/576,976 (99.6%)
+* Gestational only: 169/15,717 (1.1%)
+* MODY: 62/62 (100%)
+* Non-MODY genetic/syndromic: 87/108 (80.6%)
+* Secondary: 143/593 (24.1%)
+* Malnutrition: 1/1 (100%)
+* Other: 30,316/30,401 (99.7%)
+
+Median time between most recent QOF code and index date:
+* Unspecified: 549 days
+* Type 1: 319 days
+* Type 2: 292 days
+* Gestational only: 1,016 days
+* MODY: 666 days
+* Non-MODY genetic/syndromic: 493 days
+* Secondary: 502 days
+* Malnutrition: 458 days
+* Other: 262 days
+
 &nbsp;
 
-PRIMIS diabetes codelist: contains 545 SNOMED codes; 458 are in CPRD Medical Dictionary and match to 1,415 medcodes. 
+PRIMIS diabetes codelist: contains 545 SNOMED codes; 187 are in 05/2020 CPRD Medical Dictionary and match to 753 medcodes (NB: numbers are much higher (458 SNOMED codes matching to 1,415 medcodes) if use more recent medical dictionary BUT none of the new codes are in our download).
+
+Our diabetes codelist (including all types of diabetes) is 1,361 medcodes. 711 of PRIMIS medcodes are in this list, but PRIMIS contains extra 42 medcodes - most are infrequently used ^ESCT codes but these aren't:
+# CPRD Term description                                     Original Read code
+# 1 O/E - right eye clinically significant macular oedema   2BBm            
+# 2 O/E - left eye clinically significant macular oedema    2BBn            
+# 3 Loss of hypoglycaemic warning                           66AJ2           
+# 4 Hypoglycaemic warning absent                            66AJ4           
+# 5 Insulin autoimmune syndrome                             C10J            
+# 6 Insulin autoimmune syndrome without complication        C10J0           
+# 7 Achard - Thiers syndrome                                C152-1          
+# 8 Leprechaunism                                           C1zy3           
+# 9 Donohue's syndrome                                      C1zy3-1         
+# 10 Mauriac's syndrome                                     EMISNQMA111     
+# 11 Ballinger-Wallace syndrome                             ESCTDI21-1      
+# 12 HHS - Hyperosmolar hyperglycaemic syndrome             ESCTDI23-1      
+# 13 HHS - Hyperosmolar hyperglycemic syndrome              ESCTDI23-2      
+# 14 Rogers syndrome                                        ESCTME15-1      
+# 15 Herrmann syndrome                                      ESCTPH1-1       
+# 16 Kimmelstiel - Wilson disease                           K01x1-1
+
+In PRIMIS codelist, some the term descriptions for these codes contain 'diabetes mellitus' but don't in the CPRD Medical Dictionary. We can't really investigate whether these codes would pick up more people than our codelist as our extract relied on our codelist (although could look in full download).
+
+Number in each category with any of the 753 PRIMIS medcodes:
+* Unspecified: /122,469 (%)
+* Type 1: /32,005 (%)
+* Type 2: /576,976 (%)
+* Gestational only: /15,717 (%)
+* MODY: /62 (%)
+* Non-MODY genetic/syndromic: /108 %)
+* Secondary: /593 (%)
+* Malnutrition: /1 (%)
+* Other: /30,401 (%)
 
 &nbsp;
 
@@ -280,38 +323,38 @@ Cohort characteristics:
 | Characteristic |  Class: Type 1 |  Class: Type 2 | Class: Unspecified | Class: Type 1/Type 2 | Class: Type 2/gestational |
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | N | 14887 | 167485 | 32609 |||
-| Median (IQR) age at diagnosis (years) | 28.5 (12.8) | 43.5 (8.7) | 40.3 (13.5) |||
+| Median (IQR) age at diagnosis (years) | 28.5 (12.8) | 43.5 (8.7) | 40.3 (13.4) |||
 | Median (IQR) current age (years | 49.6 (20.7) | 53.8 (12.0) | 45.6 (13.0) |||
 | Median (IQR) BMI within 2 years (kg/m2) | 26.5 (6.5) | 31.2 (8.7) | 29.7 (9.4) |||
-| Missing BMI within 2 years | 2242 (15.06%) | 14944 (8.92%) | 15794 (48.18%) |||
+| Missing BMI within 2 years | 2242 (15.06%) | 14944 (8.92%) | 15710 (48.18%) |||
 | Median (IQR) time from BMI within 2 years to index date (days) | 178.0 (249.0) | 158.0 (222.0) | 242.0 (316.0) |||
 | Median (IQR) BMI any time >=diagnosis (kg/m2) | 26.4 (6.5) | 31.2 (8.8) | 29.1 (9.1) |||
-| Missing BMI >=diagnosis | 273 (1.83%) | 1970 (1.18%) | 10310 (31.45%) |||
-| Median (IQR) time from BMI any time >=diagnosis to index date (days) | 215.0 (355.0) | 178.0 (262.0) | 358.0 (716.0) |||
-| Median (IQR) total cholesterol within 2 years (mmol/L) | 4.4 (1.3) | 4.2 (1.5) | 4.9 (1.3) |||
-| Missing total cholesterol within 2 years | 1284 (8.62%) | 7150 (4.27%) | 16560 (50.52%) |||
+| Missing BMI >=diagnosis | 273 (1.83%) | 1970 (1.18%) | 10263 (31.47%) |||
+| Median (IQR) time from BMI any time >=diagnosis to index date (days) | 215.0 (355.0) | 178.0 (262.0) | 358.0 (715.0) |||
+| Median (IQR) total cholesterol within 2 years (mmol/L) | 4.4 (1.3) | 4.2 (1.4) | 4.9 (1.3) |||
+| Missing total cholesterol within 2 years | 1284 (8.62%) | 7150 (4.27%) | 16455 (50.46%) |||
 | Median (IQR) time from total cholesterol within 2 years to index date (days) | 182.0 (231.0) | 165.0 (194.0) | 256.0 (305.0) |||
 | Median (IQR) total cholesterol any time >=diagnosis (mmol/L) | 4.4 (1.3) | 4.2 (1.5) | 4.9 (1.4) |||
-| Missing total cholesterol >=diagnosis | 229 (1.54%) | 967 (0.58%) | 12918 (39.41%) |||
-| Median (IQR) time from total cholesterol any time >=diagnosis to index date (days) | 199.0 (262.0) | 172.0 (207.0) | 340.0 (627.0) |||
+| Missing total cholesterol >=diagnosis | 229 (1.54%) | 967 (0.58%) | 12848 (39.40%) |||
+| Median (IQR) time from total cholesterol any time >=diagnosis to index date (days) | 199.0 (262.0) | 172.0 (207.0) | 340.0 (623.0) |||
 | Median (IQR) HDL within 2 years (mmol/L) | 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.4) |||
-| Missing HDL within 2 years | 2054 (13.80%) | 11539 (6.89%) | 17028 (51.94%) |||
+| Missing HDL within 2 years | 2054 (13.80%) | 11539 (6.89%) | 16919 (51.88%) |||
 | Median (IQR) time from HDL within 2 years to index date (days) | 190.0 (244.0) | 171.0 (198.0) | 260.0 (304.0) |||
 | Median (IQR) HDL any time >=diagnosis (mmol/L)| 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.5) |||
-| Missing HDL >=diagnosis | 423 (2.84%) | 1880 (1.12%) | 13389 (40.84%) |||
-| Median (IQR) time from HDL any time >=diagnosis to index date (days) | 219.0 (313.0) | 183.0 (225.0) | 347.0 (639.0) |||
+| Missing HDL >=diagnosis | 423 (2.84%) | 1880 (1.12%) | 13313(40.83%) |||
+| Median (IQR) time from HDL any time >=diagnosis to index date (days) | 219.0 (313.0) | 183.0 (225.0) | 346.0 (637.2 |||
 | Median (IQR) triglyceride within 2 years (mmol/L) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) |||
-| Missing triglyceride within 2 years | 5462 (36.69%) | 48337 (28.86%) | 20512 (62.57%) |||
-| Median (IQR) time from triglyceride within 2 years to index date (days) | 208.0 (263.0) | 190.0 (227.0) | 270.0 (313.0) |||
+| Missing triglyceride within 2 years | 5462 (36.69%) | 48337 (28.86%) | 20386 (62.52%) |||
+| Median (IQR) time from triglyceride within 2 years to index date (days) | 208.0 (263.0) | 190.0 (227.0) | 270.0 (311.5) |||
 | Median (IQR) triglyceride any time >=diagnosis (mmol/L) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) |||
-| Missing triglyceride >=diagnosis | 1531 (10.28%) | 11115 (6.64%) | 16221 (49.48%) |||
-| Median (IQR) time from triglyceride any time >=diagnosis to index date (days) | 337.0 (802.0) | 261.0 (570.0) | 417.0 (840.0) |||
-| Missing any variable required for MODY calculator if use biomarkers back to diagnosis | 1693 (11.37%) | 12588 (7.52%) | 18451 (56.29%) |||
+| Missing triglyceride >=diagnosis | 1531 (10.28%) | 11115 (6.64%) | 16128 (49.46%) |||
+| Median (IQR) time from triglyceride any time >=diagnosis to index date (days) | 337.0 (802.0) | 261.0 (570.0) | 416.0 (839.0) |||
+| Missing any variable required for MODY calculator if use biomarkers back to diagnosis | 1693 (11.37%) | 12588 (7.52%) | 18342 (56.25%) |||
 
 &nbsp;
 
 Number with measured GAD and/or IA2 antibodies is very small:
-* GAD: 127 (0.9%) of Type 1, 432 (0.03%) of Type 2, 35 (0.1%) of unspecified
+* GAD: 127 (0.9%) of Type 1, 431 (0.03%) of Type 2, 35 (0.1%) of unspecified
 * IA2: 4 (0.03%) of Type 1, 9 (0.005%) of Type 2, 0 (0.0%) of unspecified
 
 &nbsp;
