@@ -125,16 +125,20 @@ Our diabetes codelist (including all types of diabetes) is 1,361 medcodes. 711 o
 # 15 Herrmann syndrome                                      ESCTPH1-1       
 # 16 Kimmelstiel - Wilson disease                           K01x1-1
 
-In PRIMIS codelist, some the term descriptions for these codes contain 'diabetes mellitus' but don't in the CPRD Medical Dictionary
+In PRIMIS codelist, some the term descriptions for these codes contain 'diabetes mellitus' but don't in the CPRD Medical Dictionary. We can't really investigate whether these codes would pick up more people than our codelist as our extract relied on our codelist (although could look in full download).
 
 Number in each category with any of the 753 PRIMIS medcodes:
-
-
+* Unspecified: /122,469 (%)
+* Type 1: /32,005 (%)
+* Type 2: /576,976 (%)
+* Gestational only: /15,717 (%)
+* MODY: /62 (%)
+* Non-MODY genetic/syndromic: /108 %)
+* Secondary: /593 (%)
+* Malnutrition: /1 (%)
+* Other: /30,401 (%)
 
 &nbsp;
-
-
-
 
 ### 04_dpctn_diabetes_diagnosis_dates
 Looks at potential quality issues around diagnosis dates (diabetes codes in year of birth) and determines diagnosis date for patients in the cohort (earliest of diabetes code, high HbA1c or script for glucose-lowering medication). Also looks at implications of using diabetes codes only to determine diagnosis dates.
