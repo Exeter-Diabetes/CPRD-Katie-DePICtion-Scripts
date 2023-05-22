@@ -141,6 +141,50 @@ Number in each category with any of the 753 PRIMIS medcodes:
 
 &nbsp;
 
+The top diabetes medcodes (from our codelist of 1,361) most frequently used by those in the 'unspecified' group are as below:
+* 19,477 (15.9%) have 285223014 **'Seen in diabetic clinic'** (note that patients had to have additional diabetes codes to this to appear in the DePICtion cohort - see note above)
+* (16,630 (13.6%) have a high HbA1c measurement)
+* 12,208 (10.0%) have 216201011 'Diabetic retinopathy screening'
+* 11,638 (9.5%) have 616731000006114 **'Diabetes monitoring first letter'**
+* 9,310 (7.6%) have 264676010 **'Diabetic monitoring'**
+* 9180 (7.5%) have 1488393013 'O/E - Right diabetic foot at low risk'
+* 9,146 (7.5%) have 1488397014 'O/E - Left diabetic foot at low risk'
+* 9,146 (7.5%) have 2533110014 **'Referral to diabetes structured education programme'**
+* (8,841 (7.2%) have OHA script)
+* 8,047 (6.6%) have 200111000006116 **'Diabetes mellitus diet education'**
+Next most popular are 'Diabetic annual review' and 'Seen in diabetic eye clinic' codes
+
+If we look in the 92.1% (112,814) without a PRIMIS diabetes code, the top diabetes medcodes are:
+* 16,810 (14.9%) have 285223014 **'Seen in diabetic clinic'**
+* (12,000 (10.6%) have a high HbA1c measurement)
+* 8,965 (7.9%) have 616731000006114 **'Diabetes monitoring first letter'**
+* 8,255 (7.3%) have 216201011 'Diabetic retinopathy screening'
+* 7,489 (6.6%) have 2533110014 **'Referral to diabetes structured education programme'**
+* 7,470 (6.6%) have 200111000006116 **'Diabetes mellitus diet education'**
+* (6,021 (5.3%) have OHA script)		
+* 5,984 (5.3%) have 264676010 **'Diabetic monitoring'**
+* 5,541 (4.9%) have 21631000000117 **'Diabetes monitoring administration'**
+* 5,223 (4.6%) have 546471000000114 **'Diabetes structured education programme declined'**
+* 5,124 (4.5%) have 616741000006116 **'Diabetes monitoring second letter'**
+* 4,630 (4.1%) have 457231013 'Seen in diabetic eye clinic'
+
+59,974/112,814 (53.2%) of those without a PRIMIS diabetes code have a single diabetes medcode only (and no high HbA1c measurements or OHA/insulin scripts). Their top medcodes are:
+* 4,156 (6.9%) have 616731000006114 **'Diabetes monitoring first letter'**
+* 4,151 (6.9%) have 216201011 'Diabetic retinopathy screening'
+* 4,118 (6.9%) have 200111000006116 **'Diabetes mellitus diet education'**
+* 3,926 (6.5%) have 2533110014 **'Referral to diabetes structured education programme'**
+* 3,831 (6.4%) have 616741000006116 **'Diabetes monitoring second letter'**
+* 3,235 (5.4%) have 546471000000114 **'Diabetes structured education programme declined'**
+* 2,682 (4.5%) have 21631000000117 **'Diabetes monitoring administration'**
+* 2,397 (4.0%) have 264676010 **'Diabetic monitoring'**
+* 2,328 (3.9%) have 457231013 'Seen in diabetic eye clinic'
+* 2,092 (3.5%) have 283027015 **'Diabetic leaflet given'**
+* 1,906 (3.2%) have 1946701000006110 **'Provision of written information about diabetes and high haemoglobin A1c level'**
+
+Bolded codes look like they may be used in those without diabetes.
+
+&nbsp;
+
 ### 04_dpctn_diabetes_diagnosis_dates
 Looks at potential quality issues around diagnosis dates (diabetes codes in year of birth) and determines diagnosis date for patients in the cohort (earliest of diabetes code, high HbA1c or script for glucose-lowering medication). Also looks at implications of using diabetes codes only to determine diagnosis dates.
 
