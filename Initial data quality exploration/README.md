@@ -290,10 +290,6 @@ Looks at potential miscoding/misclassification of diabetes/diabetes type, includ
     * With unspecified diabetes codes >1 prior to earliest / >1 year after latest gestational diabetes code (excluding history of gestational diabetes), implying possible Type 1/2 diabetes
 (All to do + can compare frequencies to de Luisignan paper)
 
-Other data issues flagged by previous scripts:
-* Those with no type-specific diabetes codes (n=122,814 or 15.8% of the cohrot as per above flowchart)
-* Potential issue with diagnosis dates explored in script 03_dpctn_diabetes_diagnosis_dates
-
 &nbsp;
 
 ### 07_dpctn_mody_calculator
