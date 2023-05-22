@@ -186,7 +186,7 @@ Clearly there are data quality issues since we would not expect any patients wit
 
 &nbsp;
 
-🔴 **Rule 2: Clinicians should check diabetes diagnoses before or in the year of birth, especially for those with Type 2 diabetes, although this is expected to affect <1% of the cohort. Diagnoses which are incorrectly coded as being in/before the year of birth will reduce the age of diagnosis compared to the true value, and therefore increase the probability of having MODY in the MODY calculator, or of having Type 1 diabetes rather than Type 2 diabetes in the T1DT2D calculator.  For the MODY calculator clinicians can therefore just focus on individuals who are diagnosed with Type 1 or Type 2 diabetes and have been flagged as being high MODY risk for this rule. For the T1DT2D calculator it may be worth checking both those with Type 2 who have been flagged as having high Type 1 diabetes risk, and all those with Type 1 and apparent diagnoses in the year of birth.
+🔴 **Rule 2: Clinicians should check diabetes diagnoses before or in the year of birth, especially for those with Type 2 diabetes, although this is expected to affect <1% of the cohort. Diagnoses which are incorrectly coded as being in/before the year of birth will reduce the age of diagnosis compared to the true value, and therefore increase the probability of having MODY in the MODY calculator, or of having Type 1 diabetes rather than Type 2 diabetes in the T1DT2D calculator.  For the MODY calculator clinicians can therefore just focus on individuals who are diagnosed with Type 1 or Type 2 diabetes and have been flagged as being high MODY risk for this rule. For the T1DT2D calculator it may be worth checking both those with Type 2 who have been flagged as having high Type 1 diabetes risk, and all those with Type 1 and apparent diagnoses in the year of birth.**
 
 &nbsp;
 
@@ -206,7 +206,7 @@ Again, clearly there are data quality issues with more patients than expected be
 
 &nbsp;
 
-🔴 **Rule 3: Clinicians should check diabetes diagnosis dates which are -61 to +122 days (-2 to +4 months) relative to registration start (expected to affect ~5% of cohort). Those with diagnosis dates incorrectly coded as being close to registration when the true date was actually earlier will have a reduced risk of MODY in the MODY calculator and a reduced risk of T1 in the T1DT2D calculator. For the MODY calculator it is important to check individuals with diagnosis dates close to registration as otherwise high risk individuals may be missed. For the T1DT2D calculator it may be worth checking both those with Type 1 who have been flagged as having high Type 2 diabetes risk, and all those with Type 2 and apparent diagnoses close to registration.
+🔴 **Rule 3: Clinicians should check diabetes diagnosis dates which are -61 to +122 days (-2 to +4 months) relative to registration start (expected to affect ~5% of cohort). Those with diagnosis dates incorrectly coded as being close to registration when the true date was actually earlier will have a reduced risk of MODY in the MODY calculator and a reduced risk of T1 in the T1DT2D calculator. For the MODY calculator it is important to check individuals with diagnosis dates close to registration as otherwise high risk individuals may be missed. For the T1DT2D calculator it may be worth checking both those with Type 1 who have been flagged as having high Type 2 diabetes risk, and all those with Type 2 and apparent diagnoses close to registration.**
 
 &nbsp;
 
@@ -244,7 +244,7 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 
 &nbsp;
 
-🔴 **Rule 5: Diabetes codes alone can be used to determine diagnosis dates, as including high HbA1cs and OHA/insulin scripts in the diagnosis date definition makes little difference.**
+🔴 **Rule 4: Diabetes codes alone can be used to determine diagnosis dates, as including high HbA1cs and OHA/insulin scripts in the diagnosis date definition makes little difference.**
 
 &nbsp;
 
