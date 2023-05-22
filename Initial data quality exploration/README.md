@@ -167,7 +167,9 @@ If we look in the 92.1% (112,814) without a PRIMIS diabetes code, the top diabet
 
 Bolded codes look like they may be used in those without diabetes.
 
-#### Rule 1: For those with no diabetes type codes, clinicians need to investigate what type of diabetes the patient has been diagnosed with.
+&nbsp;
+
+#### Rule 1: For those with no diabetes type codes, clinicians need to investigate what type of diabetes the patient has been diagnosed with. How many people this flags will depend on the codelist used to identify those with diabetes.
 
 &nbsp;
 
