@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The scripts in this directory used a cohort of adults with diabetes registered in primary care on 01/02/2020 to explore data quality issues, particularly around diabetes type coding and diagnosis dates, and determine rules to identify those with poor quality data. The below diagram shows the contruction of this cohort:
+The scripts in this directory use a cohort of adults with diabetes registered in primary care on 01/02/2020 to explore data quality issues, particularly around diabetes type coding and diagnosis dates, and determine rules to identify those with poor quality data. The below diagram shows the contruction of this cohort:
 
 ```mermaid
 graph TD;
@@ -91,24 +91,24 @@ Median time between most recent QOF code and index date:
 PRIMIS diabetes codelist: contains 545 SNOMED codes; 187 are in 05/2020 CPRD Medical Dictionary and match to 753 medcodes (NB: numbers are much higher (458 SNOMED codes matching to 1,415 medcodes) if use more recent medical dictionary BUT none of the new codes are in our download).
 
 Our diabetes codelist (including all types of diabetes) is 1,361 medcodes. 711 of PRIMIS medcodes are in this list, but PRIMIS contains extra 42 medcodes - most are infrequently used ^ESCT codes but these aren't:
-
-CPRD Term description                                     Original Read code
-1 O/E - right eye clinically significant macular oedema   2BBm            
-2 O/E - left eye clinically significant macular oedema    2BBn            
-3 Loss of hypoglycaemic warning                           66AJ2           
-4 Hypoglycaemic warning absent                            66AJ4           
-5 Insulin autoimmune syndrome                             C10J            
-6 Insulin autoimmune syndrome without complication        C10J0           
-7 Achard - Thiers syndrome                                C152-1          
-8 Leprechaunism                                           C1zy3           
-9 Donohue's syndrome                                      C1zy3-1         
-10 Mauriac's syndrome                                     EMISNQMA111     
-11 Ballinger-Wallace syndrome                             ESCTDI21-1      
-12 HHS - Hyperosmolar hyperglycaemic syndrome             ESCTDI23-1      
-13 HHS - Hyperosmolar hyperglycemic syndrome              ESCTDI23-2      
-14 Rogers syndrome                                        ESCTME15-1      
-15 Herrmann syndrome                                      ESCTPH1-1       
-16 Kimmelstiel - Wilson disease                           K01x1-1
+| | CPRD Term description |  Original Read code |
+| ---- | ---- | ---- |
+| 1 | O/E - right eye clinically significant macular oedema | 2BBm |
+| 2 | O/E - left eye clinically significant macular oedema | 2BBn |
+| 3 | Loss of hypoglycaemic warning | 66AJ2 |
+| 4 | Hypoglycaemic warning absent | 66AJ4 |
+| 5 | Insulin autoimmune syndrome | C10J |
+| 6 | Insulin autoimmune syndrome without complication | C10J0 |
+| 7 | Achard - Thiers syndrome | C152-1 |
+| 8 | Leprechaunism | C1zy3 |
+| 9 | Donohue's syndrome | C1zy3-1 |
+| 10 | Mauriac's syndrome | EMISNQMA111 |
+| 11 | Ballinger-Wallace syndrome | ESCTDI21-1 |
+| 12 | HHS - Hyperosmolar hyperglycaemic syndrome | ESCTDI23-1 |
+| 13 | HHS - Hyperosmolar hyperglycemic syndrome | ESCTDI23-2 |
+| 14 | Rogers syndrome | ESCTME15-1 |
+| 15 | Herrmann syndrome | ESCTPH1-1 |
+| 16 | Kimmelstiel - Wilson disease | K01x1-1 |
 
 In PRIMIS codelist, some the term descriptions for these codes contain 'diabetes mellitus' but don't in the CPRD Medical Dictionary. We can't really investigate whether these codes would pick up more people than our codelist as our extract relied on our codelist (although could look in full download).
 
@@ -126,7 +126,6 @@ Number in each category with any of the 753 PRIMIS medcodes:
 &nbsp;
 
 The top diabetes medcodes (from our codelist of 1,361) most frequently used by those in the 'unspecified' group are as below:
-* 19,477 (15.9%) have 285223014 **'Seen in diabetic clinic'** (note that patients had to have additional diabetes codes to this to appear in the DePICtion cohort - see note above)
 * (16,630 (13.6%) have a high HbA1c measurement)
 * 12,208 (10.0%) have 216201011 'Diabetic retinopathy screening'
 * 11,638 (9.5%) have 616731000006114 **'Diabetes monitoring first letter'**
@@ -139,7 +138,6 @@ The top diabetes medcodes (from our codelist of 1,361) most frequently used by t
 Next most popular are 'Diabetic annual review' and 'Seen in diabetic eye clinic' codes
 
 If we look in the 92.1% (112,814) without a PRIMIS diabetes code, the top diabetes medcodes are:
-* 16,810 (14.9%) have 285223014 **'Seen in diabetic clinic'**
 * (12,000 (10.6%) have a high HbA1c measurement)
 * 8,965 (7.9%) have 616731000006114 **'Diabetes monitoring first letter'**
 * 8,255 (7.3%) have 216201011 'Diabetic retinopathy screening'
@@ -167,7 +165,12 @@ If we look in the 92.1% (112,814) without a PRIMIS diabetes code, the top diabet
 
 Bolded codes look like they may be used in those without diabetes.
 
-#### Rule 1: For those with no diabetes type codes, clinicians need to investigate what type of diabetes the patient has been diagnosed with.
+&nbsp;
+
+
+🔴 **Rule 1: For those with no diabetes type-specific codes, clinicians need to investigate what type of diabetes (if any) the patient has been diagnosed with. The number of people with this issue depends on the codelist used to identify those with diabetes; it seems likely that some codes which appear to be diabetes-specific are also used in those without diabetes.**
+
+For downstream data processing we have separated those in the 'unspecified' group with and without a PRIMIS diabetes code.
 
 &nbsp;
 
@@ -182,7 +185,11 @@ To investigate data quality issues, date of diagnosis by calendar year relative 
 
 Clearly there are data quality issues since we would not expect any patients with Type 2 diabetes to be diagnosed in their year of birth. Subsequent analysis ignored diabetes codes in the year of birth for those with Type 2 diabetes, using the next code/high HbA1c/prescription for glucose-lowering medication. This constitutes only 0.3% of those with Type 2 diabetes.
 
-#### Rule 2: Clinicians should check diabetes diagnoses before or in the year of birth, especially for those with Type 2 diabetes, although this is expected to affect <1% of the cohort. Diagnoses which are incorrectly coded as being in/before the year of birth will reduce the age of diagnosis compared to the actual value, and therefore increase the probability of having MODY in the MODY calculator, or of having Type 1 diabetes in the T1DT2D calculator. Clinicians can therefore just look at individuals with diagnoses in the year of birth who are diagnosed with Type 1 or Type 2 diabetes and have been flagged as being high MODY risk, or with Type 2 who have been flagged as having high Type 1 diabetes risk. 
+&nbsp;
+
+🔴 **Rule 2: Clinicians should check diabetes diagnoses before or in the year of birth, especially for those with Type 2 diabetes, although this is expected to affect <1% of the cohort. Diagnoses which are incorrectly coded as being in/before the year of birth will reduce the age of diagnosis compared to the true value, and therefore increase the probability of having MODY in the MODY calculator, or of having Type 1 diabetes rather than Type 2 diabetes in the T1DT2D calculator.  For the MODY calculator clinicians can therefore just focus on individuals who are diagnosed with Type 1 or Type 2 diabetes and have been flagged as being high MODY risk for this rule. For the T1DT2D calculator it may be worth checking both those with Type 2 who have been flagged as having high Type 1 diabetes risk, and all those with Type 1 and apparent diagnoses in the year of birth.**
+
+For downstream data processing we have ignore diabetes diagnosis codes in the year of birth for those in the Type 2 group.
 
 &nbsp;
 
@@ -190,17 +197,21 @@ Also to investigate data quality issues, date of diagnosis by calendar year rela
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/year_relative_to_reg_start.png?" width="1000">
 
-To look at this in further detail, we then plotted diagnosis by week relative to registration start:
+To look at this in further detail, we then looked at diagnosis by week relative to registration start:
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/week_relative_to_reg_start.png?" width="1000">
 
-And looked at the time between diagnosis and first OHA/insulin script by week of diagnosis relative to registration start:
+And looked at the time between diagnosis and first treatment (earliest OHA/insulin script) by week of diagnosis relative to registration start:
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/time_to_treatment.png?" width="1000">
 
-Again, clearly there are data quality issues with more patients than expected being diagnosed close to when they register with their primary care practice (primarily after but some shortly before). This probably reflects old diagnoses (prior to registration) being recorded as if they were new, and hence the shorter time to first OHA/insulin script for those diagnosed closer to registration. In previous work ([https://bmjopen.bmj.com/content/7/10/e017989](https://bmjopen.bmj.com/content/7/10/e017989)) we removed diagnoses within 3 months (<91 days) of registration start are excluded as per [https://bmjopen.bmj.com/content/7/10/e017989](https://bmjopen.bmj.com/content/7/10/e017989), but using the above plot we have decided to extend this window to -2 to +4 months.
+Again, clearly there are data quality issues with more patients than expected being diagnosed close to when they register with their primary care practice (primarily after but some shortly before). This probably reflects old diagnoses (prior to registration) being recorded as if they were new, and hence the shorter time to first treatment for those diagnosed closer to registration. In previous work ([https://bmjopen.bmj.com/content/7/10/e017989](https://bmjopen.bmj.com/content/7/10/e017989)) we removed diagnoses within 3 months (<91 days) of registration start, but using the above plot we have decided to extend this window to -2 to +4 months.
 
-#### Rule 3: Clinicians should check diabetes diagnoses -61 to +122 days (-2 to +4 months) relative to registration start (expected to affect ~5% of cohort)
+&nbsp;
+
+🔴 **Rule 3: Clinicians should check diabetes diagnosis dates which are -61 to +122 days (-2 to +4 months) relative to registration start (expected to affect ~5% of cohort). Those with diagnosis dates incorrectly coded as being close to registration when the true date was actually earlier will have a reduced risk of MODY in the MODY calculator and a reduced risk of T1 in the T1DT2D calculator. For the MODY calculator it is important to check individuals with diagnosis dates close to registration as otherwise high risk individuals may be missed. For the T1DT2D calculator it may be worth checking both those with Type 1 who have been flagged as having high Type 2 diabetes risk, and all those with Type 2 and apparent diagnoses close to registration.**
+
+For downstream data processing we have removed those with diagnosis dates between -2 to +4 months relative to registration start.
 
 &nbsp;
 
@@ -209,7 +220,8 @@ The table below shows which out of a diagnosis code, high HbA1c, or prescription
 | Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | Unspecified and/or type-specific diabetes code | High HbA1c | OHA prescription | Insulin prescription | Missing |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 | Any type* (n=747931) | 272842 (36.5%) | 206309 (27.6%) | 479151 (64.1%) | 222700 (29.8%) | 16774 (2.2%) | 1695 (0.2%) | 27611 (3.7%) |
-| Unspecified (n=122469) | 108837 (88.9%) |  0 (0.0%) | 108837 (88.9%) | 8431 (6.9%) | 3287 (2.7%) | 176 (0.1%) | 1738 (1.4%) |
+| Unspecified with no PRIMIS code (n=122469) | 108837 (88.9%) |  0 (0.0%) | 108837 (88.9%) | 8431 (6.9%) | 3287 (2.7%) | 176 (0.1%) | 1738 (1.4%) |
+| Unspecified with PRIMIS code (n=122469) | 108837 (88.9%) |  0 (0.0%) | 108837 (88.9%) | 8431 (6.9%) | 3287 (2.7%) | 176 (0.1%) | 1738 (1.4%) |
 | Type 1 (n=32005) | 11318 (35.4%) | 16875 (52.7%) | 28193 (88.1%) | 1574 (4.9%) | 189 (0.6%) | 753 (2.4%) | 1296 (4.0%) |
 | Type 2 (n=576976) | 144634 (25.1%) | 182636 (31.7%) | 327270 (56.7%) | 212396 (36.8%) | 12414 (2.2%) | 642 (0.1%) | 24254 (4.2%) |
 | Gestational only (n=15717) | 7892 (50.2%) | 6496 (41.3%) | 14388 (91.5%) | 72 (0.5%) | 849 (5.4%) | 100 (0.6%) | 308 (2.0%) |
@@ -227,7 +239,8 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 | Diabetes type (as per flowchart above) | Median difference in diagnosis date if only diabetes codes used (days) | Median difference in diagnosis date if only diabetes codes used (days) in patients with a high HbA1c/prescription for glucose-lowering medication earlier than a diabetes code |
 | ---- | ---- | ---- |
 | Any type* (n=719027 with non-missing diagnosis date) | 0 | 26 |
-| Unspecified (n=120679 with non-missing diagnosis date) | 0 | 282 |
+| Unspecified with no PRIMIS code (n=120679 with non-missing diagnosis date) | 0 | 282 |
+| Unspecified with PRIMIS code (n=120679 with non-missing diagnosis date) | 0 | 282 |
 | Type 1 (n=30664 with non-missing diagnosis date) | 0 | 7 |
 | Type 2 (n=551530 with non-missing diagnosis date)| 0 | 24 |
 | Gestational only (n=15407 with non-missing diagnosis date) | 0 | 552 |
@@ -235,6 +248,12 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 | Non-MODY genetic/syndromic (n=104 with non-missing diagnosis date) | 0 | 422 |
 | Secondary (n=585 with non-missing diagnosis date) | 0 | 31 |
 | Malnutrition (n=1 with non-missing diagnosis date) | 0 | NA |
+
+&nbsp;
+
+🔴 **Rule 4: Diabetes codes alone can be used to determine diagnosis dates, as including high HbA1cs and OHA/insulin scripts in the diagnosis date definition makes little difference.**
+
+For downstream data processing we have used diagnosis dates as determined by diabetes codes alone.
 
 &nbsp;
 
@@ -270,10 +289,6 @@ Looks at potential miscoding/misclassification of diabetes/diabetes type, includ
 * Those coded as gestational only:
     * With unspecified diabetes codes >1 prior to earliest / >1 year after latest gestational diabetes code (excluding history of gestational diabetes), implying possible Type 1/2 diabetes
 (All to do + can compare frequencies to de Luisignan paper)
-
-Other data issues flagged by previous scripts:
-* Those with no type-specific diabetes codes (n=122,814 or 15.8% of the cohrot as per above flowchart)
-* Potential issue with diagnosis dates explored in script 03_dpctn_diabetes_diagnosis_dates
 
 &nbsp;
 
