@@ -61,7 +61,7 @@ time_to_latest <- collect(cohort_with_qof %>%
 # Look at number with PRIMIS code
 
 ## Import PRIMIS codelist
-setwd("C:/Users/ky279/OneDrive - University of Exeter/CPRD/2023/DePICtion/Scripts")
+setwd("C:/Users/ky279/OneDrive - University of Exeter/CPRD/2023/DePICtion/Scripts/PRIMIS codelist")
 primis <- read_csv("primis-covid19-vacc-uptake-diab-v.1.5.3.csv", col_types=cols(.default=col_character()))
 #545
 
@@ -197,3 +197,16 @@ cohort_classification %>%
   ungroup() %>%
   filter(patid_count==1) %>%
   count()
+
+
+############################################################################################
+
+# Remake classification table so includes whether unspecified has PRIMIS code or not
+
+cohort_classification <- cohort_classification %>%
+  left_join((with_primis_clean %>% distinct(patid) %>% mutate(with_primis=1L)), by="patid") %>%
+  mutate(class=ifelse(class=="unspecified" & !is.na(with_primis) & with_primis==1, "unspecified_with_primis", class)) %>%
+  select(-with_primis) %>%
+  analysis$cached("cohort_classification_with_primis", unique_indexes="patid", indexes="class")
+
+

@@ -28,7 +28,7 @@ earliest_latest_codes_long <- earliest_latest_codes_long %>% analysis$cached("ea
 
 # For those classified as unspecified / type 1 / type 2 / gestational only / MODY / genetic/syndromic / secondary / malnutrition, use earliest code / HbA1c / OHA/insulin script as diagnosis date
 
-cohort_classification <- cohort_classification %>% analysis$cached("cohort_classification")
+cohort_classification <- cohort_classification %>% analysis$cached("cohort_classification_with_primis")
 
 cohort_diag_dates_interim_1 <- cohort_classification %>%
   select(patid, class) %>%
@@ -151,7 +151,7 @@ cohort_diag_dates <- earliest_latest_codes_long_no_yob %>%
 
 cohort_diag_dates <- cohort_diag_dates %>%
   inner_join((cprd$tables$patient %>% select(patid, regstartdate)), by="patid") %>%
-  mutate(dm_diag_date=if_else(dm_diag_date>=regstartdate & datediff(dm_diag_date, regstartdate)<91, as.Date(NA), dm_diag_date),
+  mutate(dm_diag_date=if_else(datediff(dm_diag_date, regstartdate)>-61 & datediff(dm_diag_date, regstartdate)<122, as.Date(NA), dm_diag_date),
          dm_diag_codetype=ifelse(is.na(dm_diag_date), NA, dm_diag_codetype),
          dm_diag_codetype2=ifelse(is.na(dm_diag_date), NA, dm_diag_codetype2)) %>%
   analysis$cached("cohort_diag_dates_interim_3", unique_indexes="patid")
