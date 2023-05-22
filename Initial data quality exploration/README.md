@@ -1,10 +1,8 @@
-# CPRD-Katie-DePICtion-Scripts
+# Initial data quality exploration
 
-### Introduction
+## Introduction
 
-This repository contains the R scripts used to implement the Exeter Diabetes MODY calculator and T1D/T2D calculator in a CPRD Aurum dataset as part of the DePICtion project. Our [CPRD-Cohort-scripts respository](https://github.com/Exeter-Diabetes/CPRD-Cohort-scripts) has similar scripts for defining different cohorts in this same dataset.
-
-The below diagram outlines the data processing steps involved in creating a cohort of adults with diabetes registered in primary care on 01/02/2020 which was used for this work:
+The scripts in this directory used a cohort of adults with diabetes registered in primary care on 01/02/2020 to explore data quality issues, particularly around diabetes type coding and diagnosis dates, and determine rules to identify those with poor quality data. The below diagram shows the contruction of this cohort:
 
 ```mermaid
 graph TD;
@@ -14,7 +12,7 @@ graph TD;
     D -->|"Patients who are aged>=18 years at the index date (01/02/2020)"|E["<b>DePICtion cohort</b>: n=769,493"]
 ```
 
-\* Extract actually contained n=1,481,294 unique patients (1,481,884 in total but some duplicates) but included n=309 with registration start dates in 2020 (which did not fulfil the extract criteria of having a diabetes-related medcode between 01/01/2004-06/11/2020 and >=1 year of data after this; some of these were also not 'acceptable' by [CPRD's definition](https://cprd.com/sites/default/files/2023-02/CPRD%20Aurum%20Glossary%20Terms%20v2.pdf)). NB: removing those with registration start date in 2020 also removed all of those with a 'patienttypeid' not equal to 3 ('regular'). See next section for further details on the extract.
+\* Extract (see upper level of repository for full details) actually contained n=1,481,294 unique patients (1,481,884 in total but some duplicates) but included n=309 with registration start dates in 2020 (which did not fulfil the extract criteria of having a diabetes-related medcode between 01/01/2004-06/11/2020 and >=1 year of data after this; some of these were also not 'acceptable' by [CPRD's definition](https://cprd.com/sites/default/files/2023-02/CPRD%20Aurum%20Glossary%20Terms%20v2.pdf)). NB: removing those with registration start date in 2020 also removed all of those with a 'patienttypeid' not equal to 3 ('regular'). See next section for further details on the extract.
 
 \** The list of diabetes-related medcode used for the extract (see below) included some which were not specific to diabetes e.g. 'insulin resistance' and 'seen in diabetes clinic***'. The list of 'diabetes-specific codes' used to define the cohort here can be found in our [CPRD-Codelists respository](https://github.com/Exeter-Diabetes/CPRD-Codelists/blob/main/Diabetes/exeter_medcodelist_all_diabetes.txt).
 
@@ -22,23 +20,9 @@ graph TD;
 
 &nbsp;
 
-## Extract details
-Patients with a diabetes-related medcode ([full list here](https://github.com/Exeter-Diabetes/CPRD-Katie-MASTERMIND-Scripts/blob/main/Extract-details/diab_med_codes_2020.txt)) in the Observation table were extracted from the October 2020 CPRD Aurum release. See below for full inclusion criteria:
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Cohort-scripts/blob/main/Extract-details/download_details1.PNG" width="370">
-
-&nbsp;
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Cohort-scripts/blob/main/Extract-details/download_details2.PNG" width="700">
-
-&nbsp;
-
-
 ## Scripts
 
-Data from CPRD was provided as raw text files which were imported into a MySQL database using a custom-built package ([aurum](https://github.com/Exeter-Diabetes/CPRD-analysis-package)) built by Dr Robert Challen. This package also includes functions to allow easy querying of the MySQL tables from R, using the 'dbplyr' tidyverse package. Codelists used for querying the data (denoted as 'codes${codelist_name}' in scripts) can be found in our [CPRD-Codelists repository](https://github.com/Exeter-Diabetes/CPRD-Codelists). 
-
-Our [CPRD-Codelists repository](https://github.com/Exeter-Diabetes/CPRD-Codelists) also contains more details on the algorithms used to define variables such as ethnicity and diabetes type - see individual scripts for links to the appropriate part of the CPRD-Codelists repository.
+See upper level of this repository for notes on the aurum package and codelists used in these scripts.
 
 &nbsp;
 
@@ -183,12 +167,14 @@ If we look in the 92.1% (112,814) without a PRIMIS diabetes code, the top diabet
 
 Bolded codes look like they may be used in those without diabetes.
 
+#### Rule 1: For those with no diabetes type codes, clinicians need to investigate what type of diabetes the patient has been diagnosed with.
+
 &nbsp;
 
 ### 04_dpctn_diabetes_diagnosis_dates
 Looks at potential quality issues around diagnosis dates (diabetes codes in year of birth) and determines diagnosis date for patients in the cohort (earliest of diabetes code, high HbA1c or script for glucose-lowering medication). Also looks at implications of using diabetes codes only to determine diagnosis dates.
 
-Patients with diabetes type 'other' (as per flowchart above) were excluded (are later analysed in script 04_dpctn_diabetes_type_over_time) as they may have changes in their diagnosed type of diabetes over time. For the remaining cohort, diagnosis date is determined as the earliest diabetes code, high HbA1c or script for glucose-lowering medication. 
+Patients with diabetes type 'other' (as per flowchart above) were excluded (are later analysed in script 05_dpctn_diabetes_type_over_time) as they may have changes in their diagnosed type of diabetes over time. For the remaining cohort, diagnosis date is determined as the earliest diabetes code, high HbA1c or script for glucose-lowering medication. 
 
 To investigate data quality issues, date of diagnosis by calendar year relative to year of birth was analysed:
 
@@ -196,33 +182,25 @@ To investigate data quality issues, date of diagnosis by calendar year relative 
 
 Clearly there are data quality issues since we would not expect any patients with Type 2 diabetes to be diagnosed in their year of birth. Subsequent analysis ignored diabetes codes in the year of birth for those with Type 2 diabetes, using the next code/high HbA1c/prescription for glucose-lowering medication. This constitutes only 0.3% of those with Type 2 diabetes.
 
+#### Rule 2: Clinicians should check diabetes diagnoses before or in the year of birth, especially for those with Type 2 diabetes, although this is expected to affect <1% of the cohort. Diagnoses which are incorrectly coded as being in/before the year of birth will reduce the age of diagnosis compared to the actual value, and therefore increase the probability of having MODY in the MODY calculator, or of having Type 1 diabetes in the T1DT2D calculator. Clinicians can therefore just look at individuals with diagnoses in the year of birth who are diagnosed with Type 1 or Type 2 diabetes and have been flagged as being high MODY risk, or with Type 2 who have been flagged as having high Type 1 diabetes risk. 
+
 &nbsp;
 
 Also to investigate data quality issues, date of diagnosis by calendar year relative to year of registration start was analysed:
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/year_relative_to_reg_start.png?" width="1000">
 
-Again, clearly there are data quality issues with more patients than expected being diagnosed in the year where they register with their primary care practice. This probably reflects old diagnoses (prior to registration) being recorded as if they were new. When diagnoses within 3 months (<91 days) of registration start are excluded as per [https://bmjopen.bmj.com/content/7/10/e017989](https://bmjopen.bmj.com/content/7/10/e017989), the data appear more as expected:
+To look at this in further detail, we then plotted diagnosis by week relative to registration start:
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/year_relative_to_reg_start_clean.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/week_relative_to_reg_start.png?" width="1000">
 
-Patients with diagnoses within 3 months (<91 days) of registration start were therefore treated as having missing diagnosis dates.
+And looked at the time between diagnosis and first OHA/insulin script by week of diagnosis relative to registration start:
 
-&nbsp;
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/time_to_treatment.png?" width="1000">
 
-These potential issues (patients with diagnoses in the year of birth or year of registration start) were then analysed by calendar year to see if there was a particular problem with older data.
+Again, clearly there are data quality issues with more patients than expected being diagnosed close to when they register with their primary care practice (primarily after but some shortly before). This probably reflects old diagnoses (prior to registration) being recorded as if they were new, and hence the shorter time to first OHA/insulin script for those diagnosed closer to registration. In previous work ([https://bmjopen.bmj.com/content/7/10/e017989](https://bmjopen.bmj.com/content/7/10/e017989)) we removed diagnoses within 3 months (<91 days) of registration start are excluded as per [https://bmjopen.bmj.com/content/7/10/e017989](https://bmjopen.bmj.com/content/7/10/e017989), but using the above plot we have decided to extend this window to -2 to +4 months.
 
-Result before cleaning:
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/diag_dates_raw_by_year.png?" width="1000">
-
-Note that as this cohort only include those born in 2002 or earlier, no-one can have diagnosis in their year of birth later than 2002.
-
-Result after cleaning:
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/diag_dates_clean_by_year.png?" width="1000">
-
-There does seem to be a data quality issue with older diagnosis dates being more likely to be in the year of birth, which is not completely solved by ignoring diagnosesin the year of birth for those with Type 2 diabetes. Patients with diagnoses in the year of birth should be flagged to clinicians before running the MODY calculator or T1D/T2D calculator
+#### Rule 3: Clinicians should check diabetes diagnoses -61 to +122 days (-2 to +4 months) relative to registration start (expected to affect ~5% of cohort)
 
 &nbsp;
 
