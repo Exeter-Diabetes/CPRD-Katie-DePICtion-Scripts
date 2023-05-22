@@ -1,6 +1,6 @@
 # Initial data quality exploration
 
-### Introduction
+## Introduction
 
 The scripts in this directory used a cohort of adults with diabetes registered in primary care on 01/02/2020 to explore data quality issues, particularly around diabetes type coding and diagnosis dates, and determine rules to identify those with poor quality data. The below diagram shows the contruction of this cohort:
 
