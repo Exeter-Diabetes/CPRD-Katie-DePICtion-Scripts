@@ -167,6 +167,8 @@ If we look in the 92.1% (112,814) without a PRIMIS diabetes code, the top diabet
 
 Bolded codes look like they may be used in those without diabetes.
 
+&nbsp;
+
 🔴 **Rule 1: For those with no diabetes type-specific codes, clinicians need to investigate what type of diabetes (if any) the patient has been diagnosed with. The number of people with this issue depends on the codelist used to identify those with diabetes; it seems likely that some codes which appear to be diabetes-specific are also used in those without diabetes.**
 
 &nbsp;
@@ -182,7 +184,9 @@ To investigate data quality issues, date of diagnosis by calendar year relative 
 
 Clearly there are data quality issues since we would not expect any patients with Type 2 diabetes to be diagnosed in their year of birth. Subsequent analysis ignored diabetes codes in the year of birth for those with Type 2 diabetes, using the next code/high HbA1c/prescription for glucose-lowering medication. This constitutes only 0.3% of those with Type 2 diabetes.
 
-#### Rule 2: Clinicians should check diabetes diagnoses before or in the year of birth, especially for those with Type 2 diabetes, although this is expected to affect <1% of the cohort. Diagnoses which are incorrectly coded as being in/before the year of birth will reduce the age of diagnosis compared to the actual value, and therefore increase the probability of having MODY in the MODY calculator, or of having Type 1 diabetes in the T1DT2D calculator. Clinicians can therefore just look at individuals with diagnoses in the year of birth who are diagnosed with Type 1 or Type 2 diabetes and have been flagged as being high MODY risk, or with Type 2 who have been flagged as having high Type 1 diabetes risk. 
+&nbsp;
+
+🔴 **Rule 2: Clinicians should check diabetes diagnoses before or in the year of birth, especially for those with Type 2 diabetes, although this is expected to affect <1% of the cohort. Diagnoses which are incorrectly coded as being in/before the year of birth will reduce the age of diagnosis compared to the actual value, and therefore increase the probability of having MODY in the MODY calculator, or of having Type 1 diabetes in the T1DT2D calculator. Clinicians can therefore just look at individuals with diagnoses in the year of birth who are diagnosed with Type 1 or Type 2 diabetes and have been flagged as being high MODY risk, or with Type 2 who have been flagged as having high Type 1 diabetes risk. 
 
 &nbsp;
 
@@ -200,7 +204,9 @@ And looked at the time between diagnosis and first OHA/insulin script by week of
 
 Again, clearly there are data quality issues with more patients than expected being diagnosed close to when they register with their primary care practice (primarily after but some shortly before). This probably reflects old diagnoses (prior to registration) being recorded as if they were new, and hence the shorter time to first OHA/insulin script for those diagnosed closer to registration. In previous work ([https://bmjopen.bmj.com/content/7/10/e017989](https://bmjopen.bmj.com/content/7/10/e017989)) we removed diagnoses within 3 months (<91 days) of registration start are excluded as per [https://bmjopen.bmj.com/content/7/10/e017989](https://bmjopen.bmj.com/content/7/10/e017989), but using the above plot we have decided to extend this window to -2 to +4 months.
 
-#### Rule 3: Clinicians should check diabetes diagnoses -61 to +122 days (-2 to +4 months) relative to registration start (expected to affect ~5% of cohort)
+&nbsp;
+
+🔴 **Rule 3: Clinicians should check diabetes diagnosis dates which are -61 to +122 days (-2 to +4 months) relative to registration start (expected to affect ~5% of cohort). Those with diagnosis dates incorrectly coded as being close to registration when they actaully occurred earlier will have a reduced risk of MODY in the MODY calculator and a reduced risk of T1 in the T1DT2D calculator. For the MODY calculator it is important to check individuals with diagnosis dates close to registration as
 
 &nbsp;
 
