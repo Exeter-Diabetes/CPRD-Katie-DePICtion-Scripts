@@ -169,7 +169,7 @@ Bolded codes look like they may be used in those without diabetes.
 
 &nbsp;
 
-#### Rule 1: For those with no diabetes type codes, clinicians need to investigate what type of diabetes the patient has been diagnosed with. How many people this flags will depend on the codelist used to identify those with diabetes.
+#### Rule 1: For those with no diabetes type-specific codes, clinicians need to investigate what type of diabetes (if any) the patient has been diagnosed with. The number of people with this issue depends on the codelist used to identify those with diabetes; it seems likely that some codes which appear to be diabetes-specific are also used in those without diabetes.
 
 &nbsp;
 
