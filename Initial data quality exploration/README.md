@@ -244,6 +244,10 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 
 &nbsp;
 
+🔴 **Rule 5: Diabetes codes alone can be used to determine diagnosis dates, as including high HbA1cs and OHA/insulin scripts in the diagnosis date definition makes little difference.**
+
+&nbsp;
+
 ### 05_dpctn_diabetes_type_over_time
 Looks at patients with codes for >1 type of diabetes (n=30,401; classified as 'other' as per above flowchart) to determine diagnosis dates and when changes in diagnosis occurred.
 
