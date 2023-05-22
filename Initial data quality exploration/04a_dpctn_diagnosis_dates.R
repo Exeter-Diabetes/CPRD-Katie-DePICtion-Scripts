@@ -86,24 +86,25 @@ diag_dates %>% filter(year_relative_to_regstart==0) %>% count()
 
 diag_dates2 <- diag_dates %>% 
   mutate(reg_relative_week=floor(as.numeric(difftime(dm_diag_date, regstartdate, units="days"))/7)) %>%
-  filter(reg_relative_week>-10 & reg_relative_week<52)
+  filter(reg_relative_week>-52 & reg_relative_week<52)
 
 ggplot(diag_dates2, aes(x=reg_relative_week)) + 
   geom_histogram(data=diag_dates2, aes(fill=class), binwidth=1) +
   xlab("Week relative to registration start year") +
-  ylim(0, 44000)
+  ylim(0, 8000)
+
+### Proportion with reg date -2 to +4 months
+
+diag_dates %>% count()
+#747,931
+diag_dates %>% 
+  mutate(reg_relative=as.numeric(difftime(dm_diag_date, regstartdate, units="days"))) %>%
+  filter(reg_relative>=-61 & reg_relative<=122) %>%
+  count()
+#35,062
 
 
-## If remove those within 3 months of registration start
-
-diag_dates_clean <- diag_dates %>% filter(as.integer(difftime(dm_diag_date, regstartdate, units="days"))<0 | as.integer(difftime(dm_diag_date, regstartdate, units="days"))>=91)
-
-ggplot(diag_dates_clean, aes(x=year_relative_to_regstart)) + 
-  geom_histogram(data=diag_dates_clean, aes(fill=class), binwidth=1) +
-  xlab("Year relative to registration start year") +
-  ylim(0, 44000)
-
-# Set to missing if diagnosis date within 3 months of registration start
+# Set to missing if diagnosis date???
 
 
 ############################################################################################
@@ -154,59 +155,6 @@ cohort_diag_dates <- cohort_diag_dates %>%
          dm_diag_codetype=ifelse(is.na(dm_diag_date), NA, dm_diag_codetype),
          dm_diag_codetype2=ifelse(is.na(dm_diag_date), NA, dm_diag_codetype2)) %>%
   analysis$cached("cohort_diag_dates_interim_3", unique_indexes="patid")
-
-
-############################################################################################
-
-# Look at potential issues by calendar year before and after cleaning
-
-diag_dates <- collect(cohort_diag_dates_interim_1 %>% mutate(diag_year=year(dm_diag_date)) %>% select(patid, class, dm_diag_date, diag_year) %>% left_join((cprd$tables$patient %>% mutate(yor=year(regstartdate)) %>% select(patid, yob, regstartdate, yor)), by="patid")) %>%
-  mutate(year_relative_to_birth=as.integer(diag_year-yob),
-         year_relative_to_regstart=as.integer(diag_year-yor))
-
-diag_dates_clean <- collect(cohort_diag_dates %>% mutate(diag_year=year(dm_diag_date)) %>% select(patid, class, dm_diag_date, diag_year) %>% left_join((cprd$tables$patient %>% mutate(yor=year(regstartdate)) %>% select(patid, yob, regstartdate, yor)), by="patid")) %>%
-  mutate(year_relative_to_birth=as.integer(diag_year-yob),
-         year_relative_to_regstart=as.integer(diag_year-yor))
-  
-diag_dates_summ <- diag_dates %>%
-  mutate(flag=as.factor(ifelse(year_relative_to_birth==0, "diag in birth year",
-                               ifelse(year_relative_to_regstart==0, "diag in same year as reg start", "no issue"))),
-         diag_year=as.integer(diag_year)) %>%
-  group_by(diag_year) %>%
-  mutate(total_count=n()) %>%
-  ungroup() %>%
-  filter(flag!="no issue") %>%
-  group_by(diag_year, flag) %>%
-  summarise(flag_count=n(),
-            flag_perc=100*(flag_count/total_count)) %>%
-  slice(1)
-
-diag_dates_summ_clean <- diag_dates_clean %>%
-  mutate(flag=as.factor(ifelse(year_relative_to_birth==0, "diag in birth year",
-                               ifelse(year_relative_to_regstart==0, "diag in same year as reg start", "no issue"))),
-         diag_year=as.integer(diag_year)) %>%
-  group_by(diag_year) %>%
-  mutate(total_count=n()) %>%
-  ungroup() %>%
-  filter(flag!="no issue") %>%
-  group_by(diag_year, flag) %>%
-  summarise(flag_count=n(),
-            flag_perc=100*(flag_count/total_count)) %>%
-  slice(1)
-
-ggplot(diag_dates_summ, aes(x=diag_year, y=flag_perc, fill=flag)) +
-  geom_bar(position="stack", stat="identity") +
-  xlab("Year of diagnosis") +
-  ylab("% of diagnoses with potential issues") +
-  ylim(0, 30) +
-  xlim(1960, 2020)
-
-ggplot(diag_dates_summ_clean, aes(x=diag_year, y=flag_perc, fill=flag)) +
-  geom_bar(position="stack", stat="identity") +
-  xlab("Year of diagnosis") +
-  ylab("% of diagnoses with potential issues") +
-  ylim(0, 30) +
-  xlim(1960, 2020)
 
 
 ############################################################################################
@@ -312,9 +260,10 @@ diag_dates <- collect(time_to_treatment %>% filter(!is.na(time_to_treatment_days
 diag_dates2 <- diag_dates %>% 
   mutate(reg_relative_week=floor(as.numeric(difftime(dm_diag_date, regstartdate, units="days"))/7)) %>%
   filter(reg_relative_week>-10 & reg_relative_week<52) %>%
-  mutate(reg_relative_week=as.factor(reg_relative_week))
+  mutate(time_to_treatment_weeks=time_to_treatment_days/7,
+         reg_relative_week=as.factor(reg_relative_week))
                                       
-ggplot(diag_dates2, aes(x=reg_relative_week, y=time_to_treatment_days/7)) + 
+ggplot(diag_dates2, aes(x=reg_relative_week, y=time_to_treatment_weeks)) + 
   geom_boxplot() +
   coord_cartesian(ylim = c(0, 100))
 
