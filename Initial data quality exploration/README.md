@@ -167,9 +167,7 @@ If we look in the 92.1% (112,814) without a PRIMIS diabetes code, the top diabet
 
 Bolded codes look like they may be used in those without diabetes.
 
-```diff
-- Rule 1: For those with no diabetes type-specific codes, clinicians need to investigate what type of diabetes (if any) the patient has been diagnosed with. The number of people with this issue depends on the codelist used to identify those with diabetes; it seems likely that some codes which appear to be diabetes-specific are also used in those without diabetes.
-```
+🔴 **Rule 1: For those with no diabetes type-specific codes, clinicians need to investigate what type of diabetes (if any) the patient has been diagnosed with. The number of people with this issue depends on the codelist used to identify those with diabetes; it seems likely that some codes which appear to be diabetes-specific are also used in those without diabetes.**
 
 &nbsp;
 
