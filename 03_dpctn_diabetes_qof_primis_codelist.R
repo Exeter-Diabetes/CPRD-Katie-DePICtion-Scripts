@@ -120,14 +120,80 @@ with_primis_clean <- cprd$tables$observation %>%
   inner_join(primis_aurum, by="medcodeid", copy=TRUE) %>%
   inner_join(cprd$tables$validDateLookup, by="patid") %>%
   filter(obsdate>=min_dob & obsdate<=index_date) %>%
-  distinct(patid) %>%
   analysis$cached("with_primis_clean", indexes="patid")
 
 cohort_with_primis_clean <- cohort_classification %>%
   select(patid, class) %>%
-  inner_join(with_primis_clean, by="patid") %>%
-  analysis$cached("with_primis_clean", unique_indexes="patid", indexes="class")
+  inner_join((with_primis_clean %>% distinct(patid)), by="patid") %>%
+  analysis$cached("cohort_with_primis_clean", unique_indexes="patid", indexes="class")
+
+counts <- collect(cohort_with_primis_clean %>% group_by(class) %>% count())
 
 
+############################################################################################
+
+# What are most common codes in unspecified group, in those with and without PRIMIS code?
+
+cohort_clean_dm_indications <- cohort_clean_dm_indications %>% analysis$cached("cohort_clean_dm_indications")
+
+unspecified_codes_all <- cohort_classification %>%
+  select(patid, class) %>%
+  filter(class=="unspecified") %>%
+  inner_join(cohort_clean_dm_indications, by="patid") %>%
+  distinct(patid, code, category) %>%
+  group_by(code, category) %>%
+  summarise(count=n()) %>%
+  ungroup() %>%
+  analysis$cached("unspecified_codes_all")
+
+unspecified_codes_non_primis <- cohort_classification %>%
+  select(patid, class) %>%
+  filter(class=="unspecified") %>%
+  anti_join((cohort_with_primis_clean %>% select(patid)), by="patid") %>%
+  inner_join(cohort_clean_dm_indications, by="patid") %>%
+  distinct(patid, code, category) %>%
+  group_by(code, category) %>%
+  summarise(count=n()) %>%
+  ungroup() %>%
+  analysis$cached("unspecified_codes_non_primis")
+
+unspecified_codes_single <- cohort_classification %>%
+  select(patid, class) %>%
+  filter(class=="unspecified") %>%
+  inner_join(cohort_clean_dm_indications, by="patid") %>%
+  group_by(patid) %>%
+  summarise(patid_count=n()) %>%
+  ungroup() %>%
+  filter(patid_count==1) %>%
+  inner_join(cohort_clean_dm_indications, by="patid") %>%
+  group_by(code, category) %>%
+  summarise(count=n()) %>%
+  ungroup() %>%
+  analysis$cached("unspecified_codes_single")
+
+unspecified_codes_single_non_primis <- cohort_classification %>%
+  select(patid, class) %>%
+  filter(class=="unspecified") %>%
+  anti_join((cohort_with_primis_clean %>% select(patid)), by="patid") %>%
+  inner_join(cohort_clean_dm_indications, by="patid") %>%
+  group_by(patid) %>%
+  summarise(patid_count=n()) %>%
+  ungroup() %>%
+  filter(patid_count==1) %>%
+  inner_join(cohort_clean_dm_indications, by="patid") %>%
+  group_by(code, category) %>%
+  summarise(count=n()) %>%
+  ungroup() %>%
+  analysis$cached("unspecified_codes_single_non_primis")
 
 
+cohort_classification %>%
+  select(patid, class) %>%
+  filter(class=="unspecified") %>%
+  anti_join((cohort_with_primis_clean %>% select(patid)), by="patid") %>%
+  inner_join(cohort_clean_dm_indications, by="patid") %>%
+  group_by(patid) %>%
+  summarise(patid_count=n()) %>%
+  ungroup() %>%
+  filter(patid_count==1) %>%
+  count()

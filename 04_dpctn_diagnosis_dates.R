@@ -81,6 +81,19 @@ diag_dates %>% filter(year_relative_to_regstart==0) %>% count()
 43745/747931
 #5.8%
 
+
+## Look by week rather than year
+
+diag_dates2 <- diag_dates %>% 
+  mutate(reg_relative_week=floor(as.numeric(difftime(dm_diag_date, regstartdate, units="days"))/7)) %>%
+  filter(reg_relative_week>-10 & reg_relative_week<52)
+
+ggplot(diag_dates2, aes(x=reg_relative_week)) + 
+  geom_histogram(data=diag_dates2, aes(fill=class), binwidth=1) +
+  xlab("Week relative to registration start year") +
+  ylim(0, 44000)
+
+
 ## If remove those within 3 months of registration start
 
 diag_dates_clean <- diag_dates %>% filter(as.integer(difftime(dm_diag_date, regstartdate, units="days"))<0 | as.integer(difftime(dm_diag_date, regstartdate, units="days"))>=91)
@@ -276,8 +289,38 @@ time_diff_summary <- time_diff %>%
   slice(1)
 
 
+############################################################################################
+ 
+# Look at time between diagnosis date and first treatment by time relative to registration start (weeks)
+
+earliest_latest_codes_wide <- earliest_latest_codes_wide %>% analysis$cached("earliest_latest_codes_wide")
+
+time_to_treatment <- cohort_diag_dates_interim_1 %>%
+  inner_join((earliest_latest_codes_wide %>% select(patid, earliest_oha_script, earliest_insulin_script)), by="patid") %>%
+  mutate(earliest_treatment=pmin(if_else(is.na(earliest_oha_script), as.Date("2050-01-01"), earliest_oha_script),
+                                 if_else(is.na(earliest_insulin_script), as.Date("2050-01-01"), earliest_insulin_script), na.rm=TRUE),
+         earliest_treatment=if_else(earliest_treatment==as.Date("2050-01-01"), NA, earliest_treatment),
+         time_to_treatment_days=datediff(earliest_treatment, dm_diag_date)) %>%
+  analysis$cached("time_to_treatment")
+
+diag_dates <- collect(time_to_treatment %>% filter(!is.na(time_to_treatment_days)) %>% inner_join((cprd$tables$patient %>% select(patid, regstartdate)), by="patid"))
 
 
+
+# By week relative to registration start
+
+diag_dates2 <- diag_dates %>% 
+  mutate(reg_relative_week=floor(as.numeric(difftime(dm_diag_date, regstartdate, units="days"))/7)) %>%
+  filter(reg_relative_week>-10 & reg_relative_week<52) %>%
+  mutate(reg_relative_week=as.factor(reg_relative_week))
+                                      
+ggplot(diag_dates2, aes(x=reg_relative_week, y=time_to_treatment_days/7)) + 
+  geom_boxplot() +
+  coord_cartesian(ylim = c(0, 100))
+
+
+
+## 
 
 
 
