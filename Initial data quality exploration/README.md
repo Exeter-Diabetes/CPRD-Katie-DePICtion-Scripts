@@ -167,6 +167,8 @@ If we look in the 92.1% (112,814) without a PRIMIS diabetes code, the top diabet
 
 Bolded codes look like they may be used in those without diabetes.
 
+#### Rule 1: For those with no diabetes type codes, clinician needs to investigate what type of diabetes the patient has been diagnosed with.
+
 &nbsp;
 
 ### 04_dpctn_diabetes_diagnosis_dates
@@ -179,6 +181,8 @@ To investigate data quality issues, date of diagnosis by calendar year relative 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/year_relative_to_birth.png?" width="1000">
 
 Clearly there are data quality issues since we would not expect any patients with Type 2 diabetes to be diagnosed in their year of birth. Subsequent analysis ignored diabetes codes in the year of birth for those with Type 2 diabetes, using the next code/high HbA1c/prescription for glucose-lowering medication. This constitutes only 0.3% of those with Type 2 diabetes.
+
+#### Rule 2: Clinicians should check diabetes diagnoses before or in the year of birth, especially for those with Type 2 diabetes, although this is expected to affect <1% of the cohort. 
 
 &nbsp;
 
@@ -200,21 +204,7 @@ Again, clearly there are data quality issues with more patients than expected be
 
 Patients with diagnoses within 3 months (<91 days) of registration start were therefore treated as having missing diagnosis dates.
 
-&nbsp;
-
-These potential issues (patients with diagnoses in the year of birth or year of registration start) were then analysed by calendar year to see if there was a particular problem with older data.
-
-Result before cleaning:
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/diag_dates_raw_by_year.png?" width="1000">
-
-Note that as this cohort only include those born in 2002 or earlier, no-one can have diagnosis in their year of birth later than 2002.
-
-Result after cleaning:
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/diag_dates_clean_by_year.png?" width="1000">
-
-There does seem to be a data quality issue with older diagnosis dates being more likely to be in the year of birth, which is not completely solved by ignoring diagnosesin the year of birth for those with Type 2 diabetes. Patients with diagnoses in the year of birth should be flagged to clinicians before running the MODY calculator or T1D/T2D calculator
+#### Rule 2: Clinicians should check diabetes diagnoses before or in the year of birth, especially for those with Type 2 diabetes, although this is expected to affect <1% of the cohort. 
 
 &nbsp;
 
