@@ -126,7 +126,6 @@ Number in each category with any of the 753 PRIMIS medcodes:
 &nbsp;
 
 The top diabetes medcodes (from our codelist of 1,361) most frequently used by those in the 'unspecified' group are as below:
-* 19,477 (15.9%) have 285223014 **'Seen in diabetic clinic'** (note that patients had to have additional diabetes codes to this to appear in the DePICtion cohort - see note above)
 * (16,630 (13.6%) have a high HbA1c measurement)
 * 12,208 (10.0%) have 216201011 'Diabetic retinopathy screening'
 * 11,638 (9.5%) have 616731000006114 **'Diabetes monitoring first letter'**
@@ -139,7 +138,6 @@ The top diabetes medcodes (from our codelist of 1,361) most frequently used by t
 Next most popular are 'Diabetic annual review' and 'Seen in diabetic eye clinic' codes
 
 If we look in the 92.1% (112,814) without a PRIMIS diabetes code, the top diabetes medcodes are:
-* 16,810 (14.9%) have 285223014 **'Seen in diabetic clinic'**
 * (12,000 (10.6%) have a high HbA1c measurement)
 * 8,965 (7.9%) have 616731000006114 **'Diabetes monitoring first letter'**
 * 8,255 (7.3%) have 216201011 'Diabetic retinopathy screening'
