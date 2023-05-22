@@ -169,7 +169,10 @@ Bolded codes look like they may be used in those without diabetes.
 
 &nbsp;
 
+
 🔴 **Rule 1: For those with no diabetes type-specific codes, clinicians need to investigate what type of diabetes (if any) the patient has been diagnosed with. The number of people with this issue depends on the codelist used to identify those with diabetes; it seems likely that some codes which appear to be diabetes-specific are also used in those without diabetes.**
+
+For downstream data processing we have separated those in the 'unspecified' group with and without a PRIMIS diabetes code.
 
 &nbsp;
 
@@ -187,6 +190,8 @@ Clearly there are data quality issues since we would not expect any patients wit
 &nbsp;
 
 🔴 **Rule 2: Clinicians should check diabetes diagnoses before or in the year of birth, especially for those with Type 2 diabetes, although this is expected to affect <1% of the cohort. Diagnoses which are incorrectly coded as being in/before the year of birth will reduce the age of diagnosis compared to the true value, and therefore increase the probability of having MODY in the MODY calculator, or of having Type 1 diabetes rather than Type 2 diabetes in the T1DT2D calculator.  For the MODY calculator clinicians can therefore just focus on individuals who are diagnosed with Type 1 or Type 2 diabetes and have been flagged as being high MODY risk for this rule. For the T1DT2D calculator it may be worth checking both those with Type 2 who have been flagged as having high Type 1 diabetes risk, and all those with Type 1 and apparent diagnoses in the year of birth.**
+
+For downstream data processing we have ignore diabetes diagnosis codes in the year of birth for those in the Type 2 group.
 
 &nbsp;
 
@@ -208,6 +213,8 @@ Again, clearly there are data quality issues with more patients than expected be
 
 🔴 **Rule 3: Clinicians should check diabetes diagnosis dates which are -61 to +122 days (-2 to +4 months) relative to registration start (expected to affect ~5% of cohort). Those with diagnosis dates incorrectly coded as being close to registration when the true date was actually earlier will have a reduced risk of MODY in the MODY calculator and a reduced risk of T1 in the T1DT2D calculator. For the MODY calculator it is important to check individuals with diagnosis dates close to registration as otherwise high risk individuals may be missed. For the T1DT2D calculator it may be worth checking both those with Type 1 who have been flagged as having high Type 2 diabetes risk, and all those with Type 2 and apparent diagnoses close to registration.**
 
+For downstream data processing we have removed those with diagnosis dates between -2 to +4 months relative to registration start.
+
 &nbsp;
 
 The table below shows which out of a diagnosis code, high HbA1c, or prescription for glucose-lowering medication occurred earliest for patients and was therefore used as the date of diagnosis (after codes in the year of birth were removed for those with Type 2 diabetes). 'Missing' indicates patients with a diagnosis within 3 months (<91 days) of registration start. If patients had >1 of a diabetes code, high HbA1c and/or prescription for OHA/insulin on their date of diagnosis, only the highest ranking of these is shown in the table (rank order: diabetes code > high HbA1c > precription for OHA > prescription for insulin). Note that all HbA1cs prior to 1990 were exclude due to data quality concerns as HbA1c wasn't widely used at this time.
@@ -215,7 +222,8 @@ The table below shows which out of a diagnosis code, high HbA1c, or prescription
 | Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | Unspecified and/or type-specific diabetes code | High HbA1c | OHA prescription | Insulin prescription | Missing |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 | Any type* (n=747931) | 272842 (36.5%) | 206309 (27.6%) | 479151 (64.1%) | 222700 (29.8%) | 16774 (2.2%) | 1695 (0.2%) | 27611 (3.7%) |
-| Unspecified (n=122469) | 108837 (88.9%) |  0 (0.0%) | 108837 (88.9%) | 8431 (6.9%) | 3287 (2.7%) | 176 (0.1%) | 1738 (1.4%) |
+| Unspecified with no PRIMIS code (n=122469) | 108837 (88.9%) |  0 (0.0%) | 108837 (88.9%) | 8431 (6.9%) | 3287 (2.7%) | 176 (0.1%) | 1738 (1.4%) |
+| Unspecified with PRIMIS code (n=122469) | 108837 (88.9%) |  0 (0.0%) | 108837 (88.9%) | 8431 (6.9%) | 3287 (2.7%) | 176 (0.1%) | 1738 (1.4%) |
 | Type 1 (n=32005) | 11318 (35.4%) | 16875 (52.7%) | 28193 (88.1%) | 1574 (4.9%) | 189 (0.6%) | 753 (2.4%) | 1296 (4.0%) |
 | Type 2 (n=576976) | 144634 (25.1%) | 182636 (31.7%) | 327270 (56.7%) | 212396 (36.8%) | 12414 (2.2%) | 642 (0.1%) | 24254 (4.2%) |
 | Gestational only (n=15717) | 7892 (50.2%) | 6496 (41.3%) | 14388 (91.5%) | 72 (0.5%) | 849 (5.4%) | 100 (0.6%) | 308 (2.0%) |
@@ -233,7 +241,8 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 | Diabetes type (as per flowchart above) | Median difference in diagnosis date if only diabetes codes used (days) | Median difference in diagnosis date if only diabetes codes used (days) in patients with a high HbA1c/prescription for glucose-lowering medication earlier than a diabetes code |
 | ---- | ---- | ---- |
 | Any type* (n=719027 with non-missing diagnosis date) | 0 | 26 |
-| Unspecified (n=120679 with non-missing diagnosis date) | 0 | 282 |
+| Unspecified with no PRIMIS code (n=120679 with non-missing diagnosis date) | 0 | 282 |
+| Unspecified with PRIMIS code (n=120679 with non-missing diagnosis date) | 0 | 282 |
 | Type 1 (n=30664 with non-missing diagnosis date) | 0 | 7 |
 | Type 2 (n=551530 with non-missing diagnosis date)| 0 | 24 |
 | Gestational only (n=15407 with non-missing diagnosis date) | 0 | 552 |
@@ -245,6 +254,8 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 &nbsp;
 
 🔴 **Rule 4: Diabetes codes alone can be used to determine diagnosis dates, as including high HbA1cs and OHA/insulin scripts in the diagnosis date definition makes little difference.**
+
+For downstream data processing we have used diagnosis dates as determined by diabetes codes alone.
 
 &nbsp;
 
