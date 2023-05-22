@@ -267,11 +267,3 @@ ggplot(diag_dates2, aes(x=reg_relative_week, y=time_to_treatment_weeks)) +
   geom_boxplot() +
   coord_cartesian(ylim = c(0, 100))
 
-
-
-## 
-
-
-
-
-
