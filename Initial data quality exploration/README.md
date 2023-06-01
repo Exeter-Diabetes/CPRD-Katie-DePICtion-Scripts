@@ -259,21 +259,38 @@ For downstream data processing we have used diagnosis dates as determined by dia
 Looks at patients with codes for >1 type of diabetes (n=30,401; classified as 'other' as per above flowchart) to determine diagnosis dates and when changes in diagnosis occurred.
 
 These are the most popular combinations of diabetes type codes in this group:
-* 18,710 (61.5%) Type 1 and Type 2
-* 8,704 (28.6%) Type 2 and gestational
-* 1,326 (4.4%) Type 2 and secondary
+* 18,695 (61.6%) Type 1 and Type 2
+* 8,695 (28.6%) Type 2 and gestational
+* 1,324 (4.4%) Type 2 and secondary
 * 352 (1.2%) Type 1 and gestational
 * 342 (1.1%) Type 1, Type 2 and gestational
-Together these account for 96.9% of those with codes for >1 type of diabetes; all remaining combinations are <1% each.
+Together these account for 96.8% of those with codes for >1 type of diabetes; all remaining combinations are <1% each.
 
-To do: determine diagnosis dates for most populous groups (T1/T2 and T2/gestational) and when diagnosis changed (or whether codes of second diabetes type are likely to be a mistake).
+&nbsp;
 
-Also finds age at diagnosis and time to insulin initiation from diagnosis to all those with codes for 1 type of diabetes, and those for with codes for both T1/T2 or both T2/gestational.
+For the mixed Type 1/Type 2 group, our gold-standard classification algorithm is to classify those with a prescription for insulin (ever) and at least twice as many Type 1 codes as Type 2 codes as Type 1, and everyone else as Type 2. If we use the most recent type-specific code for classification instead:
+* 14,407 (77.1%) are classified 'correctly' i.e. as per the gold-standard algorithm
+    * Of those misclassified: 71% are Type 1 by latest code, and 29% are Type 2 by latest code. Median time to previous code of the other type = 
+* If we use latest code + current insulin treatment (insulin script within the last 6 months; i.e. classify as Type 2 if not currently insulin treated), 14,789 (79.1%) are classified correctly
+    * Of those misclassified: 63% are Type 1 by latest code, and 37% are Type 2 by latest code
+* If we use latest code + insulin treatment ever (i.e. classify as Type 2 if never insulin treated), 14,851 (79.4%) are classified correctly
+    * Of those misclassified: 67% are Type 1 by latest code, and 33% are Type 2 by latest code
+
+For those missclassified by using the most recent code, the median time from the index date back to the most recent code of the correct type was 3-3.5 years.
+
+&nbsp;
+
+🔴 **Rule 5: Use the most recent diabetes code to assign type, but check those with codes of both types within the last 5 years**
+
+We have implemented this rule but kept patients separate to those with only Type 1 or only Type 2 codes for further analysis downstream.
+
+&nbsp;
+
+For the other mixed groups: we have assigned diabetes type using the latest code, ignoring gestational codes. Diabetes diagnosis date has been set as the earliest diabetes code, which may underestimate the age of diagnosis, especially for those with gestational diabetes who then develop Type 2 diabetes. Underetsimates of the age of diagnosis will lead to patients having a higher predicted risk of MODY and of Type 1 in the MODy and T1DT2D calculators, so we will look at the effect of this downstream.
 
 &nbsp;
 
 ### 06_dpctn_diabetes_type_issues
-**NB: The MODY and T1D/T2D calculators are only intended for those diagnosed <=50 years of age (MODY: aged 1-35; T1D/T2D: aged 18-50, both inclusive), so in this script, only those diagnosed <50 years of age were included.**
 
 Looks at potential miscoding/misclassification of diabetes/diabetes type, including:
 * Those coded as Type 1:
