@@ -209,25 +209,25 @@ Again, clearly there are data quality issues with more patients than expected be
 
 &nbsp;
 
-🔴 **Rule 3: Clinicians should check diabetes diagnosis dates which are -30 to +90 days (-1 to +3 months) relative to registration start (expected to affect ~5% of cohort). Those with diagnosis dates incorrectly coded as being close to registration when the true date was actually earlier will have a reduced risk of MODY in the MODY calculator and a reduced risk of T1 in the T1DT2D calculator. For the MODY calculator it is important to check individuals with diagnosis dates close to registration as otherwise high risk individuals may be missed. For the T1DT2D calculator it may be worth checking both those with Type 1 who have been flagged as having high Type 2 diabetes risk, and all those with Type 2 and apparent diagnoses close to registration.**
+🔴 **Rule 3: Clinicians should check diabetes diagnosis dates which are -30 to +90 days (-1 to +3 months) relative to registration start (expected to affect ~4% of cohort). Those with diagnosis dates incorrectly coded as being close to registration when the true date was actually earlier will have a reduced risk of MODY in the MODY calculator and a reduced risk of T1 in the T1DT2D calculator. For the MODY calculator it is important to check individuals with diagnosis dates close to registration as otherwise high risk individuals may be missed. For the T1DT2D calculator it may be worth checking both those with Type 1 who have been flagged as having high Type 2 diabetes risk, and all those with Type 2 and apparent diagnoses close to registration.**
 
-For downstream data processing we have removed those with diagnosis dates between -2 to +4 months relative to registration start.
+For downstream data processing we have removed those with diagnosis dates between -1 to +3 months relative to registration start.
 
 &nbsp;
 
-The table below shows which out of a diagnosis code, high HbA1c, or prescription for glucose-lowering medication occurred earliest for patients and was therefore used as the date of diagnosis (after codes in the year of birth were removed for those with Type 2 diabetes). 'Missing' indicates patients with a diagnosis within 3 months (<91 days) of registration start. If patients had >1 of a diabetes code, high HbA1c and/or prescription for OHA/insulin on their date of diagnosis, only the highest ranking of these is shown in the table (rank order: diabetes code > high HbA1c > precription for OHA > prescription for insulin). Note that all HbA1cs prior to 1990 were exclude due to data quality concerns as HbA1c wasn't widely used at this time.
+The table below shows which out of a diagnosis code, high HbA1c, or prescription for glucose-lowering medication occurred earliest for patients and was therefore used as the date of diagnosis (after codes in the year of birth were removed for those with Type 2 diabetes). 'Missing' indicates patients with a diagnosis within -1 to +3 months of registration start. If patients had >1 of a diabetes code, high HbA1c and/or prescription for OHA/insulin on their date of diagnosis, only the highest ranking of these is shown in the table (rank order: diabetes code > high HbA1c > precription for OHA > prescription for insulin). Note that all HbA1cs prior to 1990 were exclude due to data quality concerns as HbA1c wasn't widely used at this time.
 
 | Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | Unspecified and/or type-specific diabetes code | High HbA1c | OHA prescription | Insulin prescription | Missing |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| Any type* (n=747931) | 272842 (36.5%) | 206309 (27.6%) | 479151 (64.1%) | 222700 (29.8%) | 16774 (2.2%) | 1695 (0.2%) | 27611 (3.7%) |
-| Unspecified with no PRIMIS code (n=122469) | 108837 (88.9%) |  0 (0.0%) | 108837 (88.9%) | 8431 (6.9%) | 3287 (2.7%) | 176 (0.1%) | 1738 (1.4%) |
-| Unspecified with PRIMIS code (n=122469) | 108837 (88.9%) |  0 (0.0%) | 108837 (88.9%) | 8431 (6.9%) | 3287 (2.7%) | 176 (0.1%) | 1738 (1.4%) |
-| Type 1 (n=32005) | 11318 (35.4%) | 16875 (52.7%) | 28193 (88.1%) | 1574 (4.9%) | 189 (0.6%) | 753 (2.4%) | 1296 (4.0%) |
-| Type 2 (n=576976) | 144634 (25.1%) | 182636 (31.7%) | 327270 (56.7%) | 212396 (36.8%) | 12414 (2.2%) | 642 (0.1%) | 24254 (4.2%) |
-| Gestational only (n=15717) | 7892 (50.2%) | 6496 (41.3%) | 14388 (91.5%) | 72 (0.5%) | 849 (5.4%) | 100 (0.6%) | 308 (2.0%) |
-| MODY (n=62) | 12 (19.4%) | 28 (45.2%) | 40 (64.5%) | 15 (24.2%) | 2 (3.2%) | 1 (1.6%) | 4 (6.5%) |
-| Non-MODY genetic/syndromic (n=108) | 34 (31.5%) | 52 (48.1%) | 86 (79.6%) | 6 (5.6%) | 5 (4.6%) | 7 (6.5%) | 4 (3.7%) |
-| Secondary (n=593) | 114 (19.2%) | 222 (37.4%) | 336 (56.7%) | 206 (34.7%) | 28 (4.7%) | 16 (2.7%) | 7 (1.2%) |
+| Any type* (n=747931) | 279059 (37.3%) | 211068 (28.2%) | 490127 (65.5%) | 227824 (30.5%) | 18939 (2.5%) | 1902 (0.3%) | 9139 (1.2%) |
+| Unspecified with no PRIMIS code (n=112814) | 102873 (91.2%) |  (0.0%) | 102873 (91.2%) | 6121 (5.4%) | 3165 (2.8%) | 125 (0.1%) | 530 (0.5%) |
+| Unspecified with PRIMIS code (n=9655) | 6670 (69.1%) |  (0.0%) | 6670 (69.1%) | 2423 (25.1%) | 362 (3.7%) | 59 (0.6%) | 141 (1.5%) |
+| Type 1 (n=32005) | 11759 (36.7%) | 17252 (53.9%) | 29011 (90.6%) | 1632 (5.1%) | 205 (0.6%) | 860 (2.7%) | 297 (0.9%) |
+| Type 2 (n=576976) | 149658 (25.9%) | 186940 (32.4%) | 336598 (58.3%) | 217346 (37.7%) | 14290 (2.5%) | 731 (0.1%) | 8011 (1.4%) |
+| Gestational only (n=15717) | 7933 (50.5%) | 6570 (41.8%) | 14503 (92.3%) | 74 (0.5%) | 881 (5.6%) | 103 (0.7%) | 156 (1.0%) |
+| MODY (n=62) | 14 (22.6%) | 28 (45.2%) | 42 (67.7%) | 15 (24.2%) | 2 (3.2%) | 1 (1.6%) | 2 (3.2%) |
+| Non-MODY genetic/syndromic (n=108) | 35 (32.4%) | 54 (50.0%) | 89 (82.4%) | 7 (6.5%) | 5 (4.6%) | 7 (6.5%) | 0 (0.0%) |
+| Secondary (n=593) | 116 (19.6%) | 224 (37.8%) | 340 (57.3%) | 206 (34.7%) | 29 (4.9%) | 16 (2.7%) | 2 (0.3%) |
 | Malnutrition (n=1) | 1 (100.0%) | 0 (0.0%) | 1 (100.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
 
 \* Excluding 'other'
