@@ -36,15 +36,15 @@ Uses diabetes type codes to define diabetes type as per the below flowchart:
 
 ```mermaid
 graph TD;
-    A["<b>DePICtion cohort</b>: n=769,493"] --> |"Unspecific codes <br>only"| B["Unspecified: <br>n=122,469 <br>(15.9%)"]
-    A --> |"T1D codes*"| C["Type 1: <br>n=32,005 <br>(4.2%)"]
-    A --> |"T2D codes*"| D["Type 2: <br>n=576,976 <br>(75.0%)"]
-    A --> |"Gestational codes*"| E["Gestational <br>only: <br>n=15,717 <br>(2.0%)"]
-    A --> |"MODY codes*"| G["MODY: <br>n=62 <br>(0.0%)"]
+    A["<b>DePICtion cohort</b>: n=769,493"] --> |"Unspecific codes <br>only"| B["Unspecified: <br>n=114,955 <br>(14.9%)"]
+    A --> |"T1D codes*"| C["Type 1: <br>n=31,922 <br>(4.1%)"]
+    A --> |"T2D codes*"| D["Type 2: <br>n=576,418 <br>(74.9%)"]
+    A --> |"Gestational codes*"| E["Gestational <br>only: <br>n=15,070 <br>(2.0%)"]
+    A --> |"MODY codes*"| G["MODY: <br>n=61 <br>(0.0%)"]
     A --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| H["Non-MODY <br>genetic/<br>syndromic: <br>n=108 <br>(0.0%)"]
-    A --> |"Secondary codes*"| I["Secondary: <br>n=593 <br>(0.1%)"]
+    A --> |"Secondary codes*"| I["Secondary: <br>n=584 <br>(0.1%)"]
     A --> |"Malnutrition-<br>related codes*"| J["Malnutrition-<br>related: <br>n=1 <br>(0.0%)"]
-    A --> |"Other including mix <br>of diabetes types and/<br>or codes for 'other <br>specific diabetes'"| K["Coding errors <br>or type changes<br> over time: <br>n=30,401 <br>(4.0%)"]
+    A --> |"Other including mix <br>of diabetes types and/<br>or codes for 'other <br>specific diabetes'"| K["Coding errors <br>or type changes<br> over time: <br>n=30,374 <br>(3.9%)"]
 ```
 
 \* Could also have diabetes codes of unspecified type. For gestational diabetes only: earliest and latest codes for unspecified diabetes must be no more than a year prior to earliest gestational diabetes code (excluding 'history of gestational diabetes' codes) and no more than a year after latest gestational diabetes code (excluding 'history of gestational diabetes' codes).
@@ -65,24 +65,24 @@ Looks at effect of restricting the cohort to those with a diabetes QOF code / me
 Diabetes QOF codes: the QOF codelist was constructed from Read codes from version 38 and SNOMED codes from version 44 of the QOF, which include all codes from previous versions. Have only included medcodes which map to Read codes from version 38 and SNOMED codes from version 44 - i.e. haven't mapped between SNOMED and Read codes. Includes some codes for non-Type 1/Type 2 types of diabetes, but not gestational (or malnutrition). Not sure about QOF usage 2020 onwards (doesn't affect this dataset).
 
 Number in each class with QOF code:
-* Unspecified: 3,674/122,469 (3.0%)
-* Type 1: 31,914/32,005 (99.7%)
-* Type 2: 574,893/576,976 (99.6%)
-* Gestational only: 169/15,717 (1.1%)
-* MODY: 62/62 (100.0%)
+* Unspecified: 3,652/114,955 (3.2%)
+* Type 1: 31,832/31,922 (99.7%)
+* Type 2: 574,340/576,418 (99.6%)
+* Gestational only: 167/15,070 (1.1%)
+* MODY: 61/61 (100.0%)
 * Non-MODY genetic/syndromic: 87/108 (80.6%)
-* Secondary: 143/593 (24.1%)
+* Secondary: 142/584 (24.3%)
 * Malnutrition: 1/1 (100.0%)
-* Other: 30,316/30,401 (99.7%)
+* Other: 30,289/30,374 (99.7%)
 
 Median time between most recent QOF code and index date:
-* Unspecified: 549 days
+* Unspecified: 551 days
 * Type 1: 319 days
-* Type 2: 292 days
-* Gestational only: 1,016 days
+* Type 2: 295 days
+* Gestational only: 911 days
 * MODY: 666 days
 * Non-MODY genetic/syndromic: 493 days
-* Secondary: 502 days
+* Secondary: 513 days
 * Malnutrition: 458 days
 * Other: 262 days
 
@@ -113,44 +113,42 @@ Our diabetes codelist (including all types of diabetes) is 1,361 medcodes. 711 o
 In PRIMIS codelist, some the term descriptions for these codes contain 'diabetes mellitus' but don't in the CPRD Medical Dictionary. We can't really investigate whether these codes would pick up more people than our codelist as our extract relied on our codelist (although could look in full download).
 
 Number in each category with any of the 753 PRIMIS medcodes:
-* Unspecified: 9,655/122,469 (7.9%)
-* Type 1: 31,996/32,005 (100.0%)
-* Type 2: 576,234/576,976 (99.9%)
-* Gestational only: 397/15,717 (2.5%)
-* MODY: 62/62 (100.0%)
+* Unspecified: 9,592/114,955 (8.3%)
+* Type 1: 31,913/31,922 (100.0%)
+* Type 2: 575,677/576,418 (99.9%)
+* Gestational only: 393/15,070 (2.6%)
+* MODY: 61/61 (100.0%)
 * Non-MODY genetic/syndromic: 87/108 (80.6%)
-* Secondary: 593/593 (100.0%)
+* Secondary: 584/584 (100.0%)
 * Malnutrition: 1/1 (100.0%)
-* Other: 30,384/30,401 (99.9%)
+* Other: 30,357/30,374 (99.9%)
 
 &nbsp;
 
 The top diabetes medcodes (from our codelist of 1,361) most frequently used by those in the 'unspecified' group are as below:
-* (16,630 (13.6%) have a high HbA1c measurement)
-* 12,208 (10.0%) have 216201011 'Diabetic retinopathy screening'
-* 11,638 (9.5%) have 616731000006114 **'Diabetes monitoring first letter'**
-* 9,310 (7.6%) have 264676010 **'Diabetic monitoring'**
-* 9180 (7.5%) have 1488393013 'O/E - Right diabetic foot at low risk'
-* 9,146 (7.5%) have 1488397014 'O/E - Left diabetic foot at low risk'
-* 9,146 (7.5%) have 2533110014 **'Referral to diabetes structured education programme'**
-* (8,841 (7.2%) have OHA script)
-* 8,047 (6.6%) have 200111000006116 **'Diabetes mellitus diet education'**
+* (13,964 (12.1%) have a high HbA1c measurement)
+* 12,140 (10.6%) have 216201011 'Diabetic retinopathy screening'
+* 11,592 (10.1%) have 616731000006114 **'Diabetes monitoring first letter'**
+* 9,255 (8.1%) have 264676010 **'Diabetic monitoring'**
+* 9,142 (8.0%) have 1488393013 'O/E - Right diabetic foot at low risk'
+* 9,110 (7.9%) have 2533110014 **'Referral to diabetes structured education programme'**
+* 9,108 (7.9%) have 1488397014 'O/E - Left diabetic foot at low risk'
+* 8,005 (7.0%) have 200111000006116 **'Diabetes mellitus diet education'**
 Next most popular are 'Diabetic annual review' and 'Seen in diabetic eye clinic' codes
 
-If we look in the 92.1% (112,814) without a PRIMIS diabetes code, the top diabetes medcodes are:
-* (12,000 (10.6%) have a high HbA1c measurement)
-* 8,965 (7.9%) have 616731000006114 **'Diabetes monitoring first letter'**
-* 8,255 (7.3%) have 216201011 'Diabetic retinopathy screening'
-* 7,489 (6.6%) have 2533110014 **'Referral to diabetes structured education programme'**
-* 7,470 (6.6%) have 200111000006116 **'Diabetes mellitus diet education'**
-* (6,021 (5.3%) have OHA script)		
-* 5,984 (5.3%) have 264676010 **'Diabetic monitoring'**
-* 5,541 (4.9%) have 21631000000117 **'Diabetes monitoring administration'**
-* 5,223 (4.6%) have 546471000000114 **'Diabetes structured education programme declined'**
-* 5,124 (4.5%) have 616741000006116 **'Diabetes monitoring second letter'**
-* 4,630 (4.1%) have 457231013 'Seen in diabetic eye clinic'
+If we look in the 91.7% (105,363) without a PRIMIS diabetes code, the top diabetes medcodes are:
+* (9,359 (8.9%) have a high HbA1c measurement)
+* 8,924 (8.5%) have 616731000006114 **'Diabetes monitoring first letter'**
+* 8,192 (7.8%) have 216201011 'Diabetic retinopathy screening'
+* 7,460 (7.1%) have 2533110014 **'Referral to diabetes structured education programme'**
+* 7,428 (7.0%) have 200111000006116 **'Diabetes mellitus diet education'**
+* 5,939 (5.6%) have 264676010 **'Diabetic monitoring'**
+* 5,511 (5.2%) have 21631000000117 **'Diabetes monitoring administration'**
+* 5,207 (4.9%) have 546471000000114 **'Diabetes structured education programme declined'**
+* 5,122 (4.9%) have 616741000006116 **'Diabetes monitoring second letter'**
+* 4,601 (4.4%) have 457231013 'Seen in diabetic eye clinic'
 
-59,974/112,814 (53.2%) of those without a PRIMIS diabetes code have a single diabetes medcode only (and no high HbA1c measurements or OHA/insulin scripts). Their top medcodes are:
+59,950/105,363 (56.9%) of those without a PRIMIS diabetes code have a single diabetes medcode only (and no high HbA1c measurements or OHA/insulin scripts). Their top medcodes are:
 * 4,156 (6.9%) have 616731000006114 **'Diabetes monitoring first letter'**
 * 4,151 (6.9%) have 216201011 'Diabetic retinopathy screening'
 * 4,118 (6.9%) have 200111000006116 **'Diabetes mellitus diet education'**
@@ -205,29 +203,29 @@ And looked at the time between diagnosis and first treatment (earliest OHA/insul
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/time_to_treatment.png?" width="1000">
 
-Again, clearly there are data quality issues with more patients than expected being diagnosed close to when they register with their primary care practice (primarily after but some shortly before). This probably reflects old diagnoses (prior to registration) being recorded as if they were new, and hence the shorter time to first treatment for those diagnosed closer to registration. In previous work ([https://bmjopen.bmj.com/content/7/10/e017989](https://bmjopen.bmj.com/content/7/10/e017989)) we removed diagnoses within 3 months (<91 days) of registration start, but using the above plot we have decided to extend this window to -2 to +4 months.
+Again, clearly there are data quality issues with more patients than expected being diagnosed close to when they register with their primary care practice (primarily after but some shortly before). This probably reflects old diagnoses (prior to registration) being recorded as if they were new, and hence the shorter time to first treatment for those diagnosed closer to registration. In previous work ([https://bmjopen.bmj.com/content/7/10/e017989](https://bmjopen.bmj.com/content/7/10/e017989)) we removed diagnoses within 3 months (<91 days) of registration start, but using the above plot we have decided to extend this window to -1 to +3 months.
 
 &nbsp;
 
-🔴 **Rule 3: Clinicians should check diabetes diagnosis dates which are -61 to +122 days (-2 to +4 months) relative to registration start (expected to affect ~5% of cohort). Those with diagnosis dates incorrectly coded as being close to registration when the true date was actually earlier will have a reduced risk of MODY in the MODY calculator and a reduced risk of T1 in the T1DT2D calculator. For the MODY calculator it is important to check individuals with diagnosis dates close to registration as otherwise high risk individuals may be missed. For the T1DT2D calculator it may be worth checking both those with Type 1 who have been flagged as having high Type 2 diabetes risk, and all those with Type 2 and apparent diagnoses close to registration.**
+🔴 **Rule 3: Clinicians should check diabetes diagnosis dates which are -30 to +90 days (-1 to +3 months) relative to registration start (expected to affect ~4% of cohort). Those with diagnosis dates incorrectly coded as being close to registration when the true date was actually earlier will have a reduced risk of MODY in the MODY calculator and a reduced risk of T1 in the T1DT2D calculator. For the MODY calculator it is important to check individuals with diagnosis dates close to registration as otherwise high risk individuals may be missed. For the T1DT2D calculator it may be worth checking both those with Type 1 who have been flagged as having high Type 2 diabetes risk, and all those with Type 2 and apparent diagnoses close to registration.**
 
-For downstream data processing we have removed those with diagnosis dates between -2 to +4 months relative to registration start.
+For downstream data processing we have removed those with diagnosis dates between -1 to +3 months relative to registration start.
 
 &nbsp;
 
-The table below shows which out of a diagnosis code, high HbA1c, or prescription for glucose-lowering medication occurred earliest for patients and was therefore used as the date of diagnosis (after codes in the year of birth were removed for those with Type 2 diabetes). 'Missing' indicates patients with a diagnosis within 3 months (<91 days) of registration start. If patients had >1 of a diabetes code, high HbA1c and/or prescription for OHA/insulin on their date of diagnosis, only the highest ranking of these is shown in the table (rank order: diabetes code > high HbA1c > precription for OHA > prescription for insulin). Note that all HbA1cs prior to 1990 were exclude due to data quality concerns as HbA1c wasn't widely used at this time.
+The table below shows which out of a diagnosis code, high HbA1c, or prescription for glucose-lowering medication occurred earliest for patients and was therefore used as the date of diagnosis (after codes in the year of birth were removed for those with Type 2 diabetes). 'Missing' indicates patients with a diagnosis within -1 to +3 months of registration start. If patients had >1 of a diabetes code, high HbA1c and/or prescription for OHA/insulin on their date of diagnosis, only the highest ranking of these is shown in the table (rank order: diabetes code > high HbA1c > precription for OHA > prescription for insulin). Note that all HbA1cs prior to 1990 were exclude due to data quality concerns as HbA1c wasn't widely used at this time.
 
 | Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | Unspecified and/or type-specific diabetes code | High HbA1c | OHA prescription | Insulin prescription | Missing |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| Any type* (n=747931) | 272842 (36.5%) | 206309 (27.6%) | 479151 (64.1%) | 222700 (29.8%) | 16774 (2.2%) | 1695 (0.2%) | 27611 (3.7%) |
-| Unspecified with no PRIMIS code (n=122469) | 108837 (88.9%) |  0 (0.0%) | 108837 (88.9%) | 8431 (6.9%) | 3287 (2.7%) | 176 (0.1%) | 1738 (1.4%) |
-| Unspecified with PRIMIS code (n=122469) | 108837 (88.9%) |  0 (0.0%) | 108837 (88.9%) | 8431 (6.9%) | 3287 (2.7%) | 176 (0.1%) | 1738 (1.4%) |
-| Type 1 (n=32005) | 11318 (35.4%) | 16875 (52.7%) | 28193 (88.1%) | 1574 (4.9%) | 189 (0.6%) | 753 (2.4%) | 1296 (4.0%) |
-| Type 2 (n=576976) | 144634 (25.1%) | 182636 (31.7%) | 327270 (56.7%) | 212396 (36.8%) | 12414 (2.2%) | 642 (0.1%) | 24254 (4.2%) |
-| Gestational only (n=15717) | 7892 (50.2%) | 6496 (41.3%) | 14388 (91.5%) | 72 (0.5%) | 849 (5.4%) | 100 (0.6%) | 308 (2.0%) |
-| MODY (n=62) | 12 (19.4%) | 28 (45.2%) | 40 (64.5%) | 15 (24.2%) | 2 (3.2%) | 1 (1.6%) | 4 (6.5%) |
-| Non-MODY genetic/syndromic (n=108) | 34 (31.5%) | 52 (48.1%) | 86 (79.6%) | 6 (5.6%) | 5 (4.6%) | 7 (6.5%) | 4 (3.7%) |
-| Secondary (n=593) | 114 (19.2%) | 222 (37.4%) | 336 (56.7%) | 206 (34.7%) | 28 (4.7%) | 16 (2.7%) | 7 (1.2%) |
+| Any type* (n=739119) | 274125 (37.1%) | 210504 (28.5%) | 484629 (65.6%) | 226638 (30.7%) | 17069 (2.3%) | 1836 (0.2%) | 8947 (1.2%) |
+| Unspecified with no PRIMIS code (n=105363) | 98539 (93.5%) | 0 (0.0%) | 98539 (93.5%) | 5041 (4.8%) | 1346 (1.3%) | 65 (0.1%) | 372 (0.4%) |
+| Unspecified with PRIMIS code (n=9592) | 6615 (69.0%) | 0 (0.0%) | 6615 (69.0%) | 2418 (25.2%) | 359 (3.7%) | 59 (0.6%) | 141 (1.5%) |
+| Type 1 (n=31922) | 11731 (36.7%) | 17202 (53.9%) | 28933 (90.6%) | 1630 (5.1%) | 204 (0.6%) | 858 (2.7%) | 297 (0.9%) |
+| Type 2 (n=576418) | 149328 (25.9%) | 186835 (32.4%) | 336163 (58.3%) | 217252 (37.7%) | 14268 (2.5%) | 730 (0.1%) | 8005 (1.4%) |
+| Gestational only (n=15070) | 7751 (51.4%) | 6164 (40.9%) | 13915 (92.3%) | 71 (0.5%) | 856 (5.7%) | 100 (0.7%) | 128 (0.8%) |
+| MODY (n=61) | 14 (23.0%) | 28 (45.9%) | 42 (68.9%) | 14 (23.0%) | 2 (3.3%) | 1 (1.6%) | 2 (3.3%) |
+| Non-MODY genetic/syndromic (n=108) | 35 (32.4%) | 54 (50.0%) | 89 (82.4%) | 7 (6.5%) | 5 (4.6%) | 7 (6.5%) | 0 (0.0%) |
+| Secondary (n=584) | 111 (19.0%) | 221 (37.8%) | 332 (56.8%) | 205 (35.1%) | 29 (5.0%) | 16 (2.7%) | 2 (0.3%) |
 | Malnutrition (n=1) | 1 (100.0%) | 0 (0.0%) | 1 (100.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
 
 \* Excluding 'other'
@@ -238,15 +236,15 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 
 | Diabetes type (as per flowchart above) | Median difference in diagnosis date if only diabetes codes used (days) | Median difference in diagnosis date if only diabetes codes used (days) in patients with a high HbA1c/prescription for glucose-lowering medication earlier than a diabetes code |
 | ---- | ---- | ---- |
-| Any type* (n=719027 with non-missing diagnosis date) | 0 | 26 |
-| Unspecified with no PRIMIS code (n=120679 with non-missing diagnosis date) | 0 | 282 |
-| Unspecified with PRIMIS code (n=120679 with non-missing diagnosis date) | 0 | 282 |
-| Type 1 (n=30664 with non-missing diagnosis date) | 0 | 7 |
-| Type 2 (n=551530 with non-missing diagnosis date)| 0 | 24 |
-| Gestational only (n=15407 with non-missing diagnosis date) | 0 | 552 |
-| MODY (n=57 with non-missing diagnosis date) | 0 | 251 |
-| Non-MODY genetic/syndromic (n=104 with non-missing diagnosis date) | 0 | 422 |
-| Secondary (n=585 with non-missing diagnosis date) | 0 | 31 |
+| Any type* (n=727396 with non-missing diagnosis date) | 0 | 25 |
+| Unspecified with no PRIMIS code (n=104963 with non-missing diagnosis date) | 0 | 301 |
+| Unspecified with PRIMIS code (n=9396 with non-missing diagnosis date) | 0 | 33 |
+| Type 1 (n=31568 with non-missing diagnosis date) | 0 | 7 |
+| Type 2 (n=565781 with non-missing diagnosis date)| 0 | 24 |
+| Gestational only (n=14940 with non-missing diagnosis date) | 0 | 577 |
+| MODY (n=59 with non-missing diagnosis date) | 0 | 204 |
+| Non-MODY genetic/syndromic (n=107 with non-missing diagnosis date) | 0 | 422 |
+| Secondary (n=581 with non-missing diagnosis date) | 0 | 32 |
 | Malnutrition (n=1 with non-missing diagnosis date) | 0 | NA |
 
 &nbsp;
