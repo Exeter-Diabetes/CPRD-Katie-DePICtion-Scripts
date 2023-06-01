@@ -59,8 +59,8 @@ ggplot(diag_dates, aes(x=year_relative_to_birth)) +
   xlab("Year relative to birth year")
 
 diag_dates %>% filter(year_relative_to_birth==0 & class=="type 2") %>% count()
-#1,694
-1694/576976
+#1,693
+1693/576418
 #0.3%
 
 # Exclude codes in year of birth for those with Type 2 diabetes
@@ -77,8 +77,8 @@ ggplot(diag_dates, aes(x=year_relative_to_regstart)) +
   ylim(0, 44000)
 
 diag_dates %>% filter(year_relative_to_regstart==0) %>% count()
-#43,745
-43745/747931
+#43,025
+43025/739119
 #5.8%
 
 
@@ -93,18 +93,18 @@ ggplot(diag_dates2, aes(x=reg_relative_week)) +
   xlab("Week relative to registration start year") +
   ylim(0, 8000)
 
-### Proportion with reg date -2 to +4 months
+### Proportion with reg date -1 to +3 months
 
 diag_dates %>% count()
-#747,931
+#739,119
 diag_dates %>% 
   mutate(reg_relative=as.numeric(difftime(dm_diag_date, regstartdate, units="days"))) %>%
-  filter(reg_relative>=-61 & reg_relative<=122) %>%
+  filter(reg_relative>=-30 & reg_relative<=90) %>%
   count()
-#35,062
+#30,073 =4.1%
 
 
-# Set to missing if diagnosis date???
+# Set to missing if diagnosis date -30 to +90 days (inclusive)
 
 
 ############################################################################################
@@ -151,7 +151,7 @@ cohort_diag_dates <- earliest_latest_codes_long_no_yob %>%
 
 cohort_diag_dates <- cohort_diag_dates %>%
   inner_join((cprd$tables$patient %>% select(patid, regstartdate)), by="patid") %>%
-  mutate(dm_diag_date=if_else(datediff(dm_diag_date, regstartdate)>-61 & datediff(dm_diag_date, regstartdate)<122, as.Date(NA), dm_diag_date),
+  mutate(dm_diag_date=if_else(datediff(dm_diag_date, regstartdate)>=30 & datediff(dm_diag_date, regstartdate)<=90, as.Date(NA), dm_diag_date),
          dm_diag_codetype=ifelse(is.na(dm_diag_date), NA, dm_diag_codetype),
          dm_diag_codetype2=ifelse(is.na(dm_diag_date), NA, dm_diag_codetype2)) %>%
   analysis$cached("cohort_diag_dates_interim_3", unique_indexes="patid")
@@ -162,7 +162,7 @@ cohort_diag_dates <- cohort_diag_dates %>%
 # Look at number diagnosed on different codes
 
 cohort_diag_dates %>% count()
-#747,931
+#739,119
 
 total_by_diag_code_type <- collect(cohort_diag_dates %>% group_by(dm_diag_codetype) %>% summarise(count=n())) 
 
@@ -202,7 +202,7 @@ cohort_diag_dates_codes_only <- earliest_latest_codes_long_no_yob %>%
 
 cohort_diag_dates_codes_only <- cohort_diag_dates_codes_only %>%
   inner_join((cprd$tables$patient %>% select(patid, regstartdate)), by="patid") %>%
-  mutate(dm_diag_date=if_else(dm_diag_date>=regstartdate & datediff(dm_diag_date, regstartdate)<91, as.Date(NA), dm_diag_date),
+  mutate(dm_diag_date=if_else(datediff(dm_diag_date, regstartdate)>=30 & datediff(dm_diag_date, regstartdate)<=90, as.Date(NA), dm_diag_date),
          dm_diag_codetype=ifelse(is.na(dm_diag_date), NA, dm_diag_codetype),
          dm_diag_codetype2=ifelse(is.na(dm_diag_date), NA, dm_diag_codetype2)) %>%
   analysis$cached("cohort_diag_dates_codes_only_interim_2", unique_indexes="patid")
@@ -225,7 +225,7 @@ time_diff_summary <- time_diff %>%
   mutate(median_time_diff_no_0=median(time_diff, na.rm=TRUE)) %>%
   slice(1)
 
-time_diff_summary <- time_diff %>%
+time_diff_summary2 <- time_diff %>%
   mutate(total=n(),
          missing=sum(is.na(time_diff)),
          missing_perc=missing/total,

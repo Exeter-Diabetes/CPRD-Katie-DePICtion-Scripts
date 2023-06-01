@@ -1,7 +1,7 @@
 
-# Look at those with changes in diabetes type over time and/or 'other unspecified diabetes'
+# Look at those with changes in diabetes type over time and/or 'other unspecified diabetes' - just counts
 
-# Calculate diagnosis dates (not yet coded)
+# For mixed T1/T2 group, look at different ways of classifying and calculate diagnosis dates
 
 # Add diagnosis dates and age at diagnosis and time to insulin for all to main cohort table
 
@@ -43,10 +43,41 @@ class_types <- collect(cohort_classification %>%
 
 ############################################################################################
 
-# Determine diagnosis dates and changes in diagnosis type for those with T1/T2 and T2/gestational
-## To do
+# Compare different ways of classifying T1/T2 group: most recent code vs our algorithm
 
-   
+cohort <- cohort %>% analysis$cached("cohort")
+
+t1dt2d_classification <- cohort_classification %>%
+  filter(class=="other" & !is.na(earliest_type_1) & !is.na(earliest_type_2) & is.na(earliest_any_gestational) & is.na(earliest_mody) & is.na(earliest_other_genetic_syndromic) & is.na(earliest_secondary) & is.na(earliest_malnutrition) & is.na(earliest_other_excl)) %>%
+  select(patid, earliest_type_1, latest_type_1, count_type_1, earliest_type_2, latest_type_2, count_type_2) %>%
+  inner_join((cohort %>% select(patid, current_ins_6m, ins_ever)), by="patid") %>%
+  analysis$cached("t1dt2d_classification_interim_1", indexes="patid")
+  
+t1dt2d_classification <- t1dt2d_classification %>%
+  mutate(latest_code_no_ins=ifelse(latest_type_2==latest_type_1, NA,
+                            ifelse(latest_type_2>latest_type_1, "type 2", "type 1")),
+         latest_code_current_ins=ifelse(latest_type_2==latest_type_1, NA,
+                                   ifelse(current_ins_6m==0 | latest_type_2>latest_type_1, "type 2", "type 1")),
+         latest_code_ins_ever=ifelse(latest_type_2==latest_type_1, NA,
+                                   ifelse(ins_ever==0 | latest_type_2>latest_type_1, "type 2", "type 1")),
+         
+         our_algorithm_no_ins=ifelse(count_type_1>=(2*count_type_2), "type 1", "type 2"),
+         our_algorithm_current_ins=ifelse(current_ins_6m==1 & count_type_1>=(2*count_type_2), "type 1", "type 2"),
+         our_algorithm_ins_ever=ifelse(ins_ever==1 & count_type_1>=(2*count_type_2), "type 1", "type 2")) %>%
+  analysis$cached("t1dt2d_classification", indexes="patid")
+         
+t1dt2d_classification %>% count()
+#18,695
+
+t1dt2d_classification %>% filter(latest_code_no_ins==our_algorithm_no_ins) %>% count()
+#14,412 = 77.1%
+
+t1dt2d_classification %>% filter(latest_code_current_ins==our_algorithm_current_ins) %>% count()
+#15,038 = 80.4%
+
+t1dt2d_classification %>% filter(latest_code_ins_ever==our_algorithm_ins_ever) %>% count()
+#14,851 = 79.4%
+
 
 ############################################################################################
 
