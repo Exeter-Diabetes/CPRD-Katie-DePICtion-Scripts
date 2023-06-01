@@ -286,7 +286,7 @@ We have implemented this rule but kept patients separate to those with only Type
 
 &nbsp;
 
-For the other mixed groups: we have assigned diabetes type using the latest code, ignoring gestational codes. Diabetes diagnosis date has been set as the earliest diabetes code, which may underestimate the age of diagnosis, especially for those with gestational diabetes who then develop Type 2 diabetes. Underetsimates of the age of diagnosis will lead to patients having a higher predicted risk of MODY and of Type 1 in the MODy and T1DT2D calculators, so we will look at the effect of this downstream.
+For the other mixed groups: we have assigned diabetes type using the latest code, ignoring gestational codes. Diabetes diagnosis date has been set as the earliest diabetes code, which may underestimate the age of diagnosis, especially for those with gestational diabetes who then develop Type 2 diabetes. Underestimating the age of diagnosis will lead to patients having a higher predicted risk of MODY and of Type 1 in the MODy and T1DT2D calculators, so we will look at the effect of this downstream.
 
 &nbsp;
 
