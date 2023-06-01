@@ -292,6 +292,9 @@ For the other mixed groups: we have assigned diabetes type using the latest code
 
 ### 06_dpctn_diabetes_type_issues
 
+Go back to only including those diagnosed <50
+
+
 Looks at potential miscoding/misclassification of diabetes/diabetes type, including:
 * Those coded as Type 1:
     * With no prescriptions for insulin (could look further at type of insulin e.g. must have basal and bolus; for NDA they exclude from Type 1 if long-acting insulin only)
