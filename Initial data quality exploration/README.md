@@ -217,15 +217,15 @@ The table below shows which out of a diagnosis code, high HbA1c, or prescription
 
 | Diabetes type (as per flowchart above) | Diabetes code for unspecified type | Diabetes code for specific type | Unspecified and/or type-specific diabetes code | High HbA1c | OHA prescription | Insulin prescription | Missing |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| Any type* (n=747931) | 279059 (37.3%) | 211068 (28.2%) | 490127 (65.5%) | 227824 (30.5%) | 18939 (2.5%) | 1902 (0.3%) | 9139 (1.2%) |
-| Unspecified with no PRIMIS code (n=112814) | 102873 (91.2%) |  0 (0.0%) | 102873 (91.2%) | 6121 (5.4%) | 3165 (2.8%) | 125 (0.1%) | 530 (0.5%) |
-| Unspecified with PRIMIS code (n=9655) | 6670 (69.1%) |  0 (0.0%) | 6670 (69.1%) | 2423 (25.1%) | 362 (3.7%) | 59 (0.6%) | 141 (1.5%) |
-| Type 1 (n=32005) | 11759 (36.7%) | 17252 (53.9%) | 29011 (90.6%) | 1632 (5.1%) | 205 (0.6%) | 860 (2.7%) | 297 (0.9%) |
-| Type 2 (n=576976) | 149658 (25.9%) | 186940 (32.4%) | 336598 (58.3%) | 217346 (37.7%) | 14290 (2.5%) | 731 (0.1%) | 8011 (1.4%) |
-| Gestational only (n=15717) | 7933 (50.5%) | 6570 (41.8%) | 14503 (92.3%) | 74 (0.5%) | 881 (5.6%) | 103 (0.7%) | 156 (1.0%) |
-| MODY (n=62) | 14 (22.6%) | 28 (45.2%) | 42 (67.7%) | 15 (24.2%) | 2 (3.2%) | 1 (1.6%) | 2 (3.2%) |
+| Any type* (n=739119) | 274125 (37.1%) | 210504 (28.5%) | 484629 (65.6%) | 226638 (30.7%) | 17069 (2.3%) | 1836 (0.2%) | 8947 (1.2%) |
+| Unspecified with no PRIMIS code (n=105363) | 98539 (93.5%) | 0 (0.0%) | 98539 (93.5%) | 5041 (4.8%) | 1346 (1.3%) | 65 (0.1%) | 372 (0.4%) |
+| Unspecified with PRIMIS code (n=9592) | 6615 (69.0%) | 0 (0.0%) | 6615 (69.0%) | 2418 (25.2%) | 359 (3.7%) | 59 (0.6%) | 141 (1.5%) |
+| Type 1 (n=31922) | 11731 (36.7%) | 17202 (53.9%) | 28933 (90.6%) | 1630 (5.1%) | 204 (0.6%) | 858 (2.7%) | 297 (0.9%) |
+| Type 2 (n=576418) | 149328 (25.9%) | 186835 (32.4%) | 336163 (58.3%) | 217252 (37.7%) | 14268 (2.5%) | 730 (0.1%) | 8005 (1.4%) |
+| Gestational only (n=15070) | 7751 (51.4%) | 6164 (40.9%) | 13915 (92.3%) | 71 (0.5%) | 856 (5.7%) | 100 (0.7%) | 128 (0.8%) |
+| MODY (n=61) | 14 (23.0%) | 28 (45.9%) | 42 (68.9%) | 14 (23.0%) | 2 (3.3%) | 1 (1.6%) | 2 (3.3%) |
 | Non-MODY genetic/syndromic (n=108) | 35 (32.4%) | 54 (50.0%) | 89 (82.4%) | 7 (6.5%) | 5 (4.6%) | 7 (6.5%) | 0 (0.0%) |
-| Secondary (n=593) | 116 (19.6%) | 224 (37.8%) | 340 (57.3%) | 206 (34.7%) | 29 (4.9%) | 16 (2.7%) | 2 (0.3%) |
+| Secondary (n=584) | 111 (19.0%) | 221 (37.8%) | 332 (56.8%) | 205 (35.1%) | 29 (5.0%) | 16 (2.7%) | 2 (0.3%) |
 | Malnutrition (n=1) | 1 (100.0%) | 0 (0.0%) | 1 (100.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
 
 \* Excluding 'other'
@@ -236,15 +236,15 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 
 | Diabetes type (as per flowchart above) | Median difference in diagnosis date if only diabetes codes used (days) | Median difference in diagnosis date if only diabetes codes used (days) in patients with a high HbA1c/prescription for glucose-lowering medication earlier than a diabetes code |
 | ---- | ---- | ---- |
-| Any type* (n=735999 with non-missing diagnosis date) | 0 | 26 |
-| Unspecified with no PRIMIS code (n=112245 with non-missing diagnosis date) | 0 | 454 |
-| Unspecified with PRIMIS code (n=9458 with non-missing diagnosis date) | 0 | 33 |
-| Type 1 (n=31651 with non-missing diagnosis date) | 0 | 7 |
-| Type 2 (n=566329 with non-missing diagnosis date)| 0 | 24 |
-| Gestational only (n=15558 with non-missing diagnosis date) | 0 | 559 |
-| MODY (n=60 with non-missing diagnosis date) | 0 | 251 |
+| Any type* (n=727396 with non-missing diagnosis date) | 0 | 25 |
+| Unspecified with no PRIMIS code (n=104963 with non-missing diagnosis date) | 0 | 301 |
+| Unspecified with PRIMIS code (n=9396 with non-missing diagnosis date) | 0 | 33 |
+| Type 1 (n=31568 with non-missing diagnosis date) | 0 | 7 |
+| Type 2 (n=565781 with non-missing diagnosis date)| 0 | 24 |
+| Gestational only (n=14940 with non-missing diagnosis date) | 0 | 577 |
+| MODY (n=59 with non-missing diagnosis date) | 0 | 204 |
 | Non-MODY genetic/syndromic (n=107 with non-missing diagnosis date) | 0 | 422 |
-| Secondary (n=590 with non-missing diagnosis date) | 0 | 32 |
+| Secondary (n=581 with non-missing diagnosis date) | 0 | 32 |
 | Malnutrition (n=1 with non-missing diagnosis date) | 0 | NA |
 
 &nbsp;
