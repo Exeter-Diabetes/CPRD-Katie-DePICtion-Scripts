@@ -270,13 +270,13 @@ Together these account for 96.8% of those with codes for >1 type of diabetes; al
 
 For the mixed Type 1/Type 2 group, our gold-standard classification algorithm is to classify those with a prescription for insulin (ever) and at least twice as many Type 1 codes as Type 2 codes as Type 1, and everyone else as Type 2. If we use the most recent type-specific code for classification instead:
 * 14,407 (77.1%) are classified 'correctly' i.e. as per the gold-standard algorithm
-    * Of those misclassified: 71% are Type 1 by latest code, and 29% are Type 2 by latest code. Median time to previous code of the other type = 
+    * Of those misclassified: 71% are Type 1 by latest code, and 29% are Type 2 by latest code
 * If we use latest code + current insulin treatment (insulin script within the last 6 months; i.e. classify as Type 2 if not currently insulin treated), 14,789 (79.1%) are classified correctly
     * Of those misclassified: 63% are Type 1 by latest code, and 37% are Type 2 by latest code
 * If we use latest code + insulin treatment ever (i.e. classify as Type 2 if never insulin treated), 14,851 (79.4%) are classified correctly
     * Of those misclassified: 67% are Type 1 by latest code, and 33% are Type 2 by latest code
 
-For those missclassified by using the most recent code, the median time from the index date back to the most recent code of the correct type was 3-3.5 years.
+For those misclassified by using the most recent code, the median time from the index date back to the most recent code of the correct type was 3-3.5 years.
 
 &nbsp;
 
