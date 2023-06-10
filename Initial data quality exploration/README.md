@@ -326,7 +326,7 @@ Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, 
 
 &nbsp;
 
-Missing data and cohort characteristics (NB: BMIs <age of 18 have been removed; for the BMI antyime >= diagnosis values, these constituted 1.9% of the Type 1 values, 0.2% of the Type 2 values, 5.8% of the unspecified values, and <0.1% of the values for those with mixed codes but classified as Type 1 or Type 2 based on latest code):
+Missing data and cohort characteristics (NB: BMIs <age of 18 have been removed; for the BMI anytime >= diagnosis values, these constituted 1.9% of the Type 1 values, 0.2% of the Type 2 values, 5.8% of the unspecified values, 3.3% of the unspecified with PRIMIS code values and <0.1% of the values for those with mixed codes but classified as Type 1 or Type 2 based on latest code):
 
 
 | Characteristic | Class: Type 1 | Class: Type 2 | Class: Unspecified | Class: mixed; latest code=Type 1 | Class: mixed; latest code=Type 2 |
