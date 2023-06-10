@@ -350,7 +350,11 @@ Missing data and cohort characteristics:
 | Missing whether on insulin <= 6 months after diagnosis | 16819 (65.9 %) | 5189 (19.8 %) | 2 (0.0 %) | 3190 (66.8 %) | 2453 (32.0 %) |
 | On OHA or ins (script in last 6 months) | 24542 (96.2 %) | 21910 (83.7 %) | 151 (1.3 %) | 4640 (97.2 %) | 6494 (84.8 %) |
 
+&nbsp;
 
+🔴 **Rule 7: For MODY calculator: use HbA1c and BMI anytime after diagnosis as this reduces missingness. For whether patient is on insulin 6 months after diagnosis, use current insulin status if this is missing. For those with missing family history, run the calculator with family history and see if these individuals appear in those with the highest probability of MODY: if they do then check family history with patient.**
+
+These rules have been implemented in our code.
 
 &nbsp;
 
