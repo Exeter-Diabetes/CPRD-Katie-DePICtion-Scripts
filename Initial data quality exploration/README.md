@@ -358,7 +358,7 @@ Missing data and cohort characteristics (NB: BMIs <age of 18 have been removed; 
 
 &nbsp;
 
-The proportion missing BMI at any point after diagnosis is 9.0% (although this varies greatly between classes: 3.6% for Type 1s, 1.8% for Type 2s, 45.6% for unspecified, 0.5% for those with mixed codes but classified as Type 1 or Type 2 based on latest code. Using separate weight and height measurements to calculate BMI reduces this to 7.8%, but only if weights and heights from those aged <=18 are included, which is not valid (otherwise, BMI missingness is only reduced to 8.2%).
+The proportion missing BMI at any point after diagnosis is 9.1% (although this varies greatly between classes: 3.6% for Type 1s, 1.8% for Type 2s, 45.6% for unspecified, ??% for unspecified with PRIMIS code, 0.5% for those with mixed codes but classified as Type 1 or Type 2 based on latest code. Using separate weight and height measurements to calculate BMI reduces this to 7.2%, but only if weights and heights from those aged <=18 are included, which is not valid (otherwise, BMI missingness is only reduced to 8.2%).
 
 &nbsp;
 
