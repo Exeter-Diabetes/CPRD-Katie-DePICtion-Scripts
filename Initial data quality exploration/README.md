@@ -29,6 +29,11 @@ See upper level of this repository for notes on the aurum package and codelists 
 ### 01_dpctn_cohort
 Defines the cohort as per the flowchart above, and adds in patient characteristics (e.g. sex, ethnicity, age at index date) as well as biomarkers values at/prior to index date (BMI, weight, height, HDL, triglycerides, total cholesterol, HbA1c, GAD/IA2 antibodies, and C-peptide), family history of diabetes, and whether they are non-English speaking / have English as a second language.
 
+
+🔴 **Rule 0: Biomarker cleaning: BMI, HbA1c, total cholesterol, HDL, and triglyceride values outside of the normal detectable range (BMI: 15-100 kg/m2 (used for adult measurements only), HbA1c: 20-195 mmol/mol, total cholesterol: 0.5-20 mmol/L, HDL: 0.2-10 mmol/L, triglyceride:0.1-40 mmol/L) should be ignored.**
+
+We have implemented this in our code.
+
 &nbsp;
 
 ### 02_dpctn_diabetes_type_all_time
