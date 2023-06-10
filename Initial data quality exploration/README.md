@@ -264,6 +264,7 @@ These are the most popular combinations of diabetes type codes in this group:
 * 1,324 (4.4%) Type 2 and secondary
 * 352 (1.2%) Type 1 and gestational
 * 342 (1.1%) Type 1, Type 2 and gestational
+
 Together these account for 96.8% of those with codes for >1 type of diabetes; all remaining combinations are <1% each.
 
 &nbsp;
