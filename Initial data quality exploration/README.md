@@ -293,21 +293,20 @@ For the other mixed groups: we have assigned diabetes type using the latest code
 
 ### 06_dpctn_diabetes_type_issues
 
-Go back to only including those diagnosed <50
+**Only including those diagnosed <=50 years of age as these are the people used for the calculators**
 
+This scripts find proportions with potential miscoding/misclassification of diabetes type (rules adapted from de Lusignan et al. 2012 https://pubmed.ncbi.nlm.nih.gov/21883428/ and the National Diabetes Audit).
 
-Looks at potential miscoding/misclassification of diabetes/diabetes type, including:
-* Those coded as Type 1:
-    * With no prescriptions for insulin (could look further at type of insulin e.g. must have basal and bolus; for NDA they exclude from Type 1 if long-acting insulin only)
-    * With insulin but also taking an OHA other than metformin/SGLT2-inhibitor (as per NDA)
-    * With more than 3 years between diagnosis and initiating insulin treatment
-* Those coded as Type 2:
-    * With less than 6 months between diagnosis and initiating insulin treatment
-    * With no OHA prescriptions prior to insulin initiation
-    * With no OHA/insulin prescriptions or high HbA1c measurements
-* Those coded as gestational only:
-    * With unspecified diabetes codes >1 prior to earliest / >1 year after latest gestational diabetes code (excluding history of gestational diabetes), implying possible Type 1/2 diabetes
-(All to do + can compare frequencies to de Luisignan paper)
+| Diabetes type | Potential issue | Proportion in this dataset with issue and notes | 
+| ---- | ---- | ---- |
+| Type 1 | No insulin prescriptions | 0.5% of those with Type 1 codes only; 4% of those with codes for >1 type of diabetes but assigned Type 1 based on latest codes |
+| Type 1 | No basal or no bolus insulin prescriptions | |
+| Type 1 | With insulin but also with DPP4i/GLP1/sulphonylurea/TZD script (i.e. non-MFN/SGLT2i OHA) script | |
+| Type 1 | With more than 3 years from diagnosis to first insulin script | Of those with insulin scripts and registration before or within 6 months of diagnosis: |
+| Type 2 | On insulin within 6 months of diagnosis | Of those with no insulin scripts or registration before or within 6 months of diagnosis: |
+| Type 2 | With insulin script earlier than earliest OHA script | |
+| Type 2 | With no OHA/insulins scripts or elevated (>=48 mmol/mol) HbA1c masurements in records | |
+| Gestational | With general (i.e. non-type specific) diabetes code more than 1 year earlier or more than a year later than ealriest/latest gestational diabetes code, suggesting Type 1 or Type 2 diabetes | |
 
 &nbsp;
 
