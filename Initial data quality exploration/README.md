@@ -287,7 +287,7 @@ We have implemented this rule but kept patients separate to those with only Type
 
 &nbsp;
 
-For the other mixed groups: we have assigned diabetes type using the latest code, ignoring gestational codes. Diabetes diagnosis date has been set as the earliest diabetes code, which may underestimate the age of diagnosis, especially for those with gestational diabetes who then develop Type 2 diabetes. Underestimating the age of diagnosis will lead to patients having a higher predicted risk of MODY and of Type 1 in the MODy and T1DT2D calculators, so we will look at the effect of this downstream.
+For the other mixed groups: we have assigned diabetes type using the latest code, ignoring gestational codes. Patients with more than one type of code on the same day have been excluded from downstream analysis. Diabetes diagnosis date has been set as the earliest diabetes code, which may underestimate the age of diagnosis, especially for those with gestational diabetes who then develop Type 2 diabetes. Underestimating the age of diagnosis will lead to patients having a higher predicted risk of MODY and of Type 1 in the MODy and T1DT2D calculators, so we will look at the effect of this downstream.
 
 &nbsp;
 
@@ -299,14 +299,14 @@ This scripts find proportions with potential miscoding/misclassification of diab
 
 | Diabetes type | Potential issue | Proportion in this dataset with issue and notes | 
 | ---- | ---- | ---- |
-| Type 1 | No insulin prescriptions | 0.5% of those with Type 1 codes only; % of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
-| Type 1 | No basal or no bolus insulin prescriptions | % of those with Type 1 codes only; % of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
-| Type 1 | With insulin but also with DPP4i/GLP1/sulphonylurea/TZD script (i.e. non-MFN/SGLT2i OHA) script | 5.8% of those with Type 1 codes only; % of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
-| Type 1 | With more than 3 years from diagnosis to first insulin script | Of those with insulin scripts and registration before or within 6 months of diagnosis: % of those with Type 1 codes only; % of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
-| Type 2 | On insulin within 6 months of diagnosis | Of those with no insulin scripts or registration before or within 6 months of diagnosis: 2.2% of those with Type 2 codes only; % of those with codes for >1 type of diabetes but assigned Type 2 based on latest code|
-| Type 2 | With insulin script earlier than earliest OHA script | |
-| Type 2 | With no OHA/insulins scripts or elevated (>=48 mmol/mol) HbA1c masurements in records | |
-| Gestational | With general (i.e. non-type specific) diabetes code more than 1 year earlier or more than a year later than ealriest/latest gestational diabetes code, suggesting Type 1 or Type 2 diabetes | |
+| Type 1 | No insulin prescriptions | 0.5% of those with Type 1 codes only; 1.8% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
+| Type 1 | No basal or no bolus insulin prescriptions | 7.9% of those with Type 1 codes only; 13.4% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
+| Type 1 | With insulin but also with DPP4i/GLP1/sulphonylurea/TZD script (i.e. non-MFN/SGLT2i OHA) script | 5.8% of those with Type 1 codes only; 24.5% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
+| Type 1 | With more than 3 years from diagnosis to first insulin script | Of those with insulin scripts and registration before or within 6 months of diagnosis: 5.1% of those with Type 1 codes only; 11.7% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
+| Type 2 | On insulin within 6 months of diagnosis | Of those with no insulin scripts or registration before or within 6 months of diagnosis: 2.2% of those with Type 2 codes only; 23.8% of those with codes for >1 type of diabetes but assigned Type 2 based on latest code |
+| Type 2 | With insulin script earlier than earliest OHA script or insulin and no OHA scripts | 3.9% of those with Type 2 codes only; 44.1% of those with codes for >1 type of diabetes but assigned Type 2 based on latest code |
+| Type 2 | With no OHA/insulins scripts or elevated (>=48 mmol/mol) HbA1c masurements in records | 1.4% of those with Type 2 codes only; 0.9% of those with codes for >1 type of diabetes but assigned Type 2 based on latest code |
+| Gestational | With general (i.e. non-type specific) diabetes code more than 1 year earlier or more than a year later than earliest/latest gestational diabetes code, suggesting Type 1 or Type 2 diabetes | 24.7% of cohort |
 
 &nbsp;
 
