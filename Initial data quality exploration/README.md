@@ -317,60 +317,40 @@ Patients with the above anomalies have not been removed from our dataset.
 &nbsp;
 
 ### 07_dpctn_mody_calculator
-Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 1-35 years inclusive.
-
-**Not done yet: exploring whether separate weight/height measurements could help with missing BMI**
+Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 1-35 years inclusive, and looks at frequency of missing data.
 
 &nbsp;
 
-Cohort characteristics:
-| Characteristic |  Class: Type 1 |  Class: Type 2 | Class: Unspecified | Class: Type 1/Type 2 | Class: Type 2/gestational |
+Missing data and cohort characteristics:
+
+| Characteristic | Class: Type 1 | Class: Type 2 | Class: Unspecified | Class: mixed; latest code=Type 1 | Class: mixed; latest code=Type 2 |
 | ---- | ---- | ---- | ---- | ---- | ---- |
-| N | 24946 | 26379 | 12646 |||
-| Median (IQR) age at diagnosis (years) | 16.2 (13.8) | 30.9 (6.2) | 27.0 (10.7) |||
-| Median (IQR) current age (years) | 39.6 (23.0) | 42.9 (14.0) | 32.6 (10.9) |||
-| Median (IQR) BMI within 2 years (kg/m2) | 26.2 (6.7) | 32.0 (10.1) | 28.5 (10.6) |||
-| Missing BMI within 2 years | 4256 (17.06%) | 2920 (11.07%) | 7303 (57.75%) |||
-| Median (IQR) time from BMI within 2 years to index date (days) | 184.0 (258.0) | 164.0 (231.0) | 242.0 (322.0) |||
-| Median (IQR) BMI any time >=diagnosis (kg/m2) | 26.0 (6.6) | 32.0 (10.0) | 28.0 (10.3) |||
-| Missing BMI >=diagnosis | 441 (1.77%) | 391 (1.48%) | 5215 (41.24%) |||
-| Median (IQR) time from BMI any time >=diagnosis to index date (days) | 232.0 (398.0) | 187.0 (287.0) | 380.0 (795.0) |||
-| Median (IQR) HbA1c within 2 years (mmol/mol) | 66.0 (21.1) | 61.9 (29.0) | 37.0 (8.0) |||
-| Missing (IQR) HbA1c within 2 years | 1756 (7.04%) | 1434 (5.44%) | 8083 (63.92%) |||
-| Median time from HbA1c within 2 years to index date (days) | 151.0 (212.0) | 131.0 (176.0) | 263.0 (314.0) |||
-| Median (IQR)  HbA1c any time >=diagnosis (mmol/mol) | 67.0 (22.0) | 61.9 (29.1) | 36.0 (6.8) |||
-| Missing HbA1c >=diagnosis | 180 (0.72%) | 115 (0.44%) | 6961 (55.05%) |||
-| Median (IQR) time from HbA1c any time >=diagnosis to index date (days) | 165.0 (250.0) | 141.0 (207.0) | 353.0 (606.0) |||
-| With negative family history of diabetes | 2024 (8.11%) | 1933 (7.33%) | 1074 (8.49%) |||
-| With positive family history of diabetes | 5845 (23.43%) | 11765 (44.60%) | 2492 (19.71%) |||
-| Missing family history of diabetes | 17077 (68.46%) | 12681 (48.07%) | 9080 (71.80%) |||
-| Not on insulin <= 6 months after diagnosis | 2220 (8.90%) | 20382 (77.27%) | 12349 (97.65%) |||
-| On insulin <= 6 months after diagnosis | 5879 (23.57%) | 736 (2.79%) | 158 (1.25%) |||
-| Missing whether on insulin <= 6 months after diagnosis | 16847 (67.53%) | 5261 (19.94%) | 139 (1.10%) |||
-| On OHA or ins (script in last 6 months) | 24021 (96.29%) | 22040 (83.55%) | 529 (4.18%) ||| 
-| Missing any variable required for MODY calculator if use BMI and HbA1c back to diagnosis | 23266 (93.27%) | 15779 (59.81%) | 10913 (86.30%)|||
+| N | 25514 | 26175 | 11799 | 4776 | 7654 |
+| First language not English | 844 (3.3 %) | 3558 (13.6 %) | 911 (7.7 %) | 194 (4.1 %) | 1124 (14.7 %) |
+| Non-English speaking | 175 (0.7 %) | 1063 (4.1 %) | 164 (1.4 %) | 47 (1.0 %) | 416 (5.4 %) |
+| Median (IQR) age at diagnosis (years) | 16.5 (14.0) | 31.0 (6.2) | 27.0 (10.7) | 22.9 (14.8) | 29.5 (7.0) |
+| Median (IQR) current age (years) | 39.6 (23.0) | 42.6 (14.4) | 31.6 (11.0) | 48.6 (21.0) | 44.6 (14.0) |
+| Median (IQR) HbA1c within 2 years (mmol/mol) | 66.0 (21.6) | 62.0 (30.0) | 36.0 (6.8) | 67.0 (22.0) | 60.0 (25.0) |
+| Missing HbA1c within 2 years (mmol/mol) | 1818 (7.1 %) | 1463 (5.6 %) | 7870 (66.7 %) | 175 (3.7 %) | 280 (3.7 %) |
+| Median (IQR) Time to HbA1c within 2 years (days) | 151.0 (212.0) | 131.0 (177.0) | 276.0 (324.0) | 130.0 (174.0) | 123.0 (167.0) |
+| Median (IQR) HbA1c anytime >= diagnosis (mmol/mol) | 66.1 (22.0) | 62.0 (30.0) | 36.0 (6.0) | 67.0 (22.0) | 60.0 (25.0) |
+| Missing HbA1c anytime >= diagnosis (mmol/mol) | 990 (3.9 %) | 554 (2.1 %) | 7427 (62.9 %) | 27 (0.6 %) | 35 (0.5 %) |
+| Median (IQR) Time to HbA1c anytime >= diagnosis (days) | 164.0 (243.0) | 138.0 (202.0) | 358.0 (609.2) | 136.0 (194.0) | 129.0 (179.0) |
+| Median (IQR) BMI within 2 years (kg/m2) | 26.2 (6.7) | 31.9 (9.9) | 28.4 (10.3) | 27.4 (7.0) | 30.8 (8.9) |
+| Missing BMI within 2 years (kg/m2) | 4579 (17.9 %) | 2975 (11.4 %) | 7081 (60.0 %) | 515 (10.8 %) | 656 (8.6 %) |
+| Median (IQR) Time to BMI within 2 years (kg/m2) | 183.0 (254.0) | 164.0 (232.0) | 243.0 (323.0) | 169.0 (236.0) | 155.0 (228.0) |
+| Median (IQR) BMI anytime >= diagnosis (kg/m2) | 26.1 (6.6) | 31.9 (9.9) | 27.9 (10.0) | 27.4 (7.0) | 30.8 (8.9) |
+| Missing BMI anytime >= diagnosis (kg/m2) | 918 (3.6 %) | 468 (1.8 %) | 5383 (45.6 %) | 24 (0.5 %) | 42 (0.5 %) |
+| Median (IQR) Time to BMI anytime >= diagnosis (kg/m2) | 226.0 (386.0) | 187.0 (288.0) | 372.0 (762.2) | 196.0 (294.0) | 173.0 (267.0) |
+| With negative family history of diabetes | 2067 (8.1 %) | 1885 (7.2 %) | 1042 (8.8 %) | 469 (9.8 %) | 697 (9.1 %) |
+| With positive family history of diabetes | 5980 (23.4 %) | 11719 (44.8 %) | 2225 (18.9 %) | 1369 (28.7 %) | 3470 (45.3 %) |
+| Missing family history of diabetes | 17467 (68.5 %) | 12571 (48.0 %) | 8532 (72.3 %) | 2938 (61.5 %) | 3487 (45.6 %) |
+| Not on insulin <= 6 months after diagnosis | 2279 (8.9 %) | 20185 (77.1 %) | 11746 (99.6 %) | 828 (17.3 %) | 3986 (52.1 %) |
+| On insulin <= 6 months after diagnosis | 6416 (25.1 %) | 801 (3.1 %) | 51 (0.4 %) | 758 (15.9 %) | 1215 (15.9 %) |
+| Missing whether on insulin <= 6 months after diagnosis | 16819 (65.9 %) | 5189 (19.8 %) | 2 (0.0 %) | 3190 (66.8 %) | 2453 (32.0 %) |
+| On OHA or ins (script in last 6 months) | 24542 (96.2 %) | 21910 (83.7 %) | 151 (1.3 %) | 4640 (97.2 %) | 6494 (84.8 %) |
 
-&nbsp;
 
-Characteristics of those with no missing MODY calculator variables:
-| Characteristic | Class: Unspecified |  Class: Type 1 |  Class: Type 2 | Class: Type 1/Type 2 | Class: Type 2/gestational |
-| ---- | ---- | ---- | ---- | ---- | ---- |
-| N | 1680 | 10600 | 1733
-| Median age at diagnosis | 23.1 (15.3) | 31.3 (5.7) | 30.1 (7.4) |||
-| Median (IQR) current age (years | 36.6 (19.0) | 41.6 (11.0) | 36.6 (9.0) |||
-| Median BMI any time >=diagnosis | 26.2 (6.8) | 31.9 (9.9) | 30.2 (10.8) |||
-| Median HbA1c any time >=diagnosis | 69.0 (25.0) | 59.0 (27.5) | 37.7 (8.0) |||
-| With negative family history of diabetes | 493 (29.35%) | 1566 (14.77%) | 456 (26.31%) |||
-| With positive family history of diabetes | 1187 (70.65%) | 9034 (85.23%) | 1277 (73.69%) |||
-| Not on insulin <= 6 months after diagnosis | 550 (32.74%) | 10291 (97.08%) | 1696 (97.86%) |||
-| On insulin <= 6 months after diagnosis | 1130 (67.26%) | 309 (2.92%) | 37 (2.14%) |||
-| On OHA or ins (script in last 6 months) | 1613 (96.01%) | 8651 (81.61%) | 137 (7.91%) |||
-
-&nbsp;
-
-Adjusted MODY probabilities for complete cases:
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/mody_calc_adjusted.png?" width="1000">
 
 &nbsp;
 
