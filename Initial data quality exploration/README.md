@@ -310,6 +310,12 @@ This scripts find proportions with potential miscoding/misclassification of diab
 
 &nbsp;
 
+🔴 **Rule 6: Investigate patients with the above anomalies**
+
+For downstream processing the above patients have been removed.
+
+&nbsp;
+
 ### 07_dpctn_mody_calculator
 Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 1-35 years inclusive.
 
