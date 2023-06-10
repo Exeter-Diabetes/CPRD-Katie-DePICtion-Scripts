@@ -300,8 +300,8 @@ This scripts find proportions with potential miscoding/misclassification of diab
 | Diabetes type | Potential issue | Proportion in this dataset with issue and notes | 
 | ---- | ---- | ---- |
 | Type 1 | No insulin prescriptions | 0.5% of those with Type 1 codes only; 4% of those with codes for >1 type of diabetes but assigned Type 1 based on latest codes |
-| Type 1 | No basal or no bolus insulin prescriptions | |
-| Type 1 | With insulin but also with DPP4i/GLP1/sulphonylurea/TZD script (i.e. non-MFN/SGLT2i OHA) script | |
+| Type 1 | No basal or no bolus insulin prescriptions | 0.5% of those with Type 1 codes only; 4% of those with codes for >1 type of diabetes but assigned Type 1 based on latest codes |
+| Type 1 | With insulin but also with DPP4i/GLP1/sulphonylurea/TZD script (i.e. non-MFN/SGLT2i OHA) script | 5.8% of those with Type 1 codes only; 24.5% of those with codes for >1 type of diabetes but assigned Type 1 based on latest codes |
 | Type 1 | With more than 3 years from diagnosis to first insulin script | Of those with insulin scripts and registration before or within 6 months of diagnosis: |
 | Type 2 | On insulin within 6 months of diagnosis | Of those with no insulin scripts or registration before or within 6 months of diagnosis: |
 | Type 2 | With insulin script earlier than earliest OHA script | |
