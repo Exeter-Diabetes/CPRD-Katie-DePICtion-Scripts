@@ -321,7 +321,8 @@ Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, 
 
 &nbsp;
 
-Missing data and cohort characteristics:
+Missing data and cohort characteristics (NB: BMIs <age of 18 have been removed; for the BMI antyime >= diagnosis values, these constituted 1.9% of the Type 1 values, 0.2% of the Type 2 values, 5.8% of the unspecified values, and <0.1% of the values for those with mixed codes but classified as Type 1 or Type 2 based on latest code):
+
 
 | Characteristic | Class: Type 1 | Class: Type 2 | Class: Unspecified | Class: mixed; latest code=Type 1 | Class: mixed; latest code=Type 2 |
 | ---- | ---- | ---- | ---- | ---- | ---- |
@@ -350,37 +351,9 @@ Missing data and cohort characteristics:
 | Missing whether on insulin <= 6 months after diagnosis | 16819 (65.9%) | 5189 (19.8%) | 2 (0.0%) | 3190 (66.8%) | 2453 (32.0%) |
 | On OHA or ins (script in last 6 months) | 24542 (96.2%) | 21910 (83.7%) | 151 (1.3%) | 4640 (97.2%) | 6494 (84.8%) |
 
-
-| Characteristic | Class: Type 1 | Class: Type 2 | Class: Unspecified | Class: mixed; latest code=Type 1 | Class: mixed; latest code=Type 2 |
-
-| N | 25514 | 26175 | 11799 | 4776 | 7654 |
-| First language not English | 844 (3.3 %) | 3558 (13.6 %) | 911 (7.7 %) | 194 (4.1 %) | 1124 (14.7 %) |
-| Non-English speaking | 175 (0.7 %) | 1063 (4.1 %) | 164 (1.4 %) | 47 (1.0 %) | 416 (5.4 %) |
-| Median (IQR) age at diagnosis (years) | 16.5 (14.0) | 31.0 (6.2) | 27.0 (10.7) | 22.9 (14.8) | 29.5 (7.0) |
-| Median (IQR) current age (years) | 39.6 (23.0) | 42.6 (14.4) | 31.6 (11.0) | 48.6 (21.0) | 44.6 (14.0) |
-| Median (IQR) HbA1c within 2 years (mmol/mol) | 66.0 (21.6) | 62.0 (30.0) | 36.0 (6.8) | 67.0 (22.0) | 60.0 (25.0) |
-| Missing HbA1c within 2 years (mmol/mol) | 1818 (7.1 %) | 1463 (5.6 %) | 7870 (66.7 %) | 175 (3.7 %) | 280 (3.7 %) |
-| Median (IQR) time to HbA1c within 2 years (days) | 151.0 (212.0) | 131.0 (177.0) | 276.0 (324.0) | 130.0 (174.0) | 123.0 (167.0) |
-| Median (IQR) HbA1c anytime >= diagnosis (mmol/mol) | 66.1 (22.0) | 62.0 (30.0) | 36.0 (6.0) | 67.0 (22.0) | 60.0 (25.0) |
-| Missing HbA1c anytime >= diagnosis (mmol/mol) | 990 (3.9 %) | 554 (2.1 %) | 7427 (62.9 %) | 27 (0.6 %) | 35 (0.5 %) |
-| Median (IQR) time to HbA1c anytime >= diagnosis (days) | 164.0 (243.0) | 138.0 (202.0) | 358.0 (609.2) | 136.0 (194.0) | 129.0 (179.0) |
-| Median (IQR) BMI within 2 years (kg/m2) | 26.2 (6.7) | 31.9 (9.9) | 28.4 (10.3) | 27.4 (7.0) | 30.8 (8.9) |
-| Missing BMI within 2 years (kg/m2) | 4579 (17.9 %) | 2975 (11.4 %) | 7081 (60.0 %) | 515 (10.8 %) | 656 (8.6 %) |
-| Median (IQR) time to BMI within 2 years (kg/m2) | 183.0 (254.0) | 164.0 (232.0) | 243.0 (323.0) | 169.0 (236.0) | 155.0 (228.0) |
-| Median (IQR) BMI anytime >= diagnosis (kg/m2) | 26.1 (6.6) | 31.9 (9.9) | 27.9 (10.0) | 27.4 (7.0) | 30.8 (8.9) |
-| Missing BMI anytime >= diagnosis (kg/m2) | 918 (3.6 %) | 468 (1.8 %) | 5383 (45.6 %) | 24 (0.5 %) | 42 (0.5 %) |
-| Median (IQR) time to BMI anytime >= diagnosis (kg/m2) | 226.0 (386.0) | 187.0 (288.0) | 372.0 (762.2) | 196.0 (294.0) | 173.0 (267.0) |
-| With negative family history of diabetes | 2067 (8.1 %) | 1885 (7.2 %) | 1042 (8.8 %) | 469 (9.8 %) | 697 (9.1 %) |
-| With positive family history of diabetes | 5980 (23.4 %) | 11719 (44.8 %) | 2225 (18.9 %) | 1369 (28.7 %) | 3470 (45.3 %) |
-| Missing family history of diabetes | 17467 (68.5 %) | 12571 (48.0 %) | 8532 (72.3 %) | 2938 (61.5 %) | 3487 (45.6 %) |
-| Not on insulin <= 6 months after diagnosis | 2279 (8.9 %) | 20185 (77.1 %) | 11746 (99.6 %) | 828 (17.3 %) | 3986 (52.1 %) |
-| On insulin <= 6 months after diagnosis | 6416 (25.1 %) | 801 (3.1 %) | 51 (0.4 %) | 758 (15.9 %) | 1215 (15.9 %) |
-| Missing whether on insulin <= 6 months after diagnosis | 16819 (65.9 %) | 5189 (19.8 %) | 2 (0.0 %) | 3190 (66.8 %) | 2453 (32.0 %) |
-| On OHA or ins (script in last 6 months) | 24542 (96.2 %) | 21910 (83.7 %) | 151 (1.3 %) | 4640 (97.2 %) | 6494 (84.8 %) |
-
 &nbsp;
 
-The proportion missing BMI at any point after diagnosis is 9.0% (although this varies greatly between classes: 3.6% for Type 2s) | 468 (1.8 %) | 5383 (45.6 %) | 24 (0.5 %) | 42 (0.5 %) |
+The proportion missing BMI at any point after diagnosis is 9.0% (although this varies greatly between classes: 3.6% for Type 1s, 1.8% for Type 2s, 45.6% for unspecified, 0.5% for those with mixed codes but classified as Type 1 or Type 2 based on latest code. Using separate weight and height measurements to calculate BMI reduces this to 7.8%, but only if weights and heights from those aged <=18 are included, which is not valid (otherwise, BMI missingness is only reduced to 8.2%).
 
 &nbsp;
 
