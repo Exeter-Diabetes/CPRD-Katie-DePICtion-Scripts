@@ -362,69 +362,66 @@ The proportion missing BMI at any point after diagnosis is 9.1% (although this v
 
 &nbsp;
 
-🔴 **Rule 7: For MODY calculator: use HbA1c and BMI anytime after diagnosis as this reduces missingness. For whether patient is on insulin 6 months after diagnosis, use current insulin status if this is missing. For those with missing family history, run the calculator with family history and see if these individuals appear in those with the highest probability of MODY: if they do then check family history with patient.**
+🔴 **Rule 7: For MODY calculator: use HbA1c and BMI anytime after diagnosis as this reduces missingness. Using weight and height does not add much to BMI measurements. For whether patient is on insulin 6 months after diagnosis, use current insulin status if this is missing. For those with missing family history, run the calculator with family history and see if these individuals appear in those with the highest probability of MODY: if they do then check family history with patient.**
 
 These rules have been implemented in our code.
 
 &nbsp;
 
 ### 08_dpctn_t1dt2d_calculator
-Defines T1DT2D calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 18-50 years inclusive.
-
-**Not done yet: exploring whether separate weight/height measurements could help with missing BMI**
+Defines T1DT2D calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 18-50 years inclusive, and looks at missing variables.
 
 &nbsp;
 
-Cohort characteristics:
-| Characteristic |  Class: Type 1 |  Class: Type 2 | Class: Unspecified | Class: Type 1/Type 2 | Class: Type 2/gestational |
-| ---- | ---- | ---- | ---- | ---- | ---- |
-| N | 14887 | 167485 | 32609 |||
-| Median (IQR) age at diagnosis (years) | 28.5 (12.8) | 43.5 (8.7) | 40.3 (13.4) |||
-| Median (IQR) current age (years | 49.6 (20.7) | 53.8 (12.0) | 45.6 (13.0) |||
-| Median (IQR) BMI within 2 years (kg/m2) | 26.5 (6.5) | 31.2 (8.7) | 29.7 (9.4) |||
-| Missing BMI within 2 years | 2242 (15.06%) | 14944 (8.92%) | 15710 (48.18%) |||
-| Median (IQR) time from BMI within 2 years to index date (days) | 178.0 (249.0) | 158.0 (222.0) | 242.0 (316.0) |||
-| Median (IQR) BMI any time >=diagnosis (kg/m2) | 26.4 (6.5) | 31.2 (8.8) | 29.1 (9.1) |||
-| Missing BMI >=diagnosis | 273 (1.83%) | 1970 (1.18%) | 10263 (31.47%) |||
-| Median (IQR) time from BMI any time >=diagnosis to index date (days) | 215.0 (355.0) | 178.0 (262.0) | 358.0 (715.0) |||
-| Median (IQR) total cholesterol within 2 years (mmol/L) | 4.4 (1.3) | 4.2 (1.4) | 4.9 (1.3) |||
-| Missing total cholesterol within 2 years | 1284 (8.62%) | 7150 (4.27%) | 16455 (50.46%) |||
-| Median (IQR) time from total cholesterol within 2 years to index date (days) | 182.0 (231.0) | 165.0 (194.0) | 256.0 (305.0) |||
-| Median (IQR) total cholesterol any time >=diagnosis (mmol/L) | 4.4 (1.3) | 4.2 (1.5) | 4.9 (1.4) |||
-| Missing total cholesterol >=diagnosis | 229 (1.54%) | 967 (0.58%) | 12848 (39.40%) |||
-| Median (IQR) time from total cholesterol any time >=diagnosis to index date (days) | 199.0 (262.0) | 172.0 (207.0) | 340.0 (623.0) |||
-| Median (IQR) HDL within 2 years (mmol/L) | 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.4) |||
-| Missing HDL within 2 years | 2054 (13.80%) | 11539 (6.89%) | 16919 (51.88%) |||
-| Median (IQR) time from HDL within 2 years to index date (days) | 190.0 (244.0) | 171.0 (198.0) | 260.0 (304.0) |||
-| Median (IQR) HDL any time >=diagnosis (mmol/L)| 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.5) |||
-| Missing HDL >=diagnosis | 423 (2.84%) | 1880 (1.12%) | 13313(40.83%) |||
-| Median (IQR) time from HDL any time >=diagnosis to index date (days) | 219.0 (313.0) | 183.0 (225.0) | 346.0 (637.2 |||
-| Median (IQR) triglyceride within 2 years (mmol/L) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) |||
-| Missing triglyceride within 2 years | 5462 (36.69%) | 48337 (28.86%) | 20386 (62.52%) |||
-| Median (IQR) time from triglyceride within 2 years to index date (days) | 208.0 (263.0) | 190.0 (227.0) | 270.0 (311.5) |||
-| Median (IQR) triglyceride any time >=diagnosis (mmol/L) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) |||
-| Missing triglyceride >=diagnosis | 1531 (10.28%) | 11115 (6.64%) | 16128 (49.46%) |||
-| Median (IQR) time from triglyceride any time >=diagnosis to index date (days) | 337.0 (802.0) | 261.0 (570.0) | 416.0 (839.0) |||
-| Missing any variable required for MODY calculator if use biomarkers back to diagnosis | 1693 (11.37%) | 12588 (7.52%) | 18342 (56.25%) |||
+Missing data and cohort characteristics (NB: BMIs <age of 18 have been removed, these constitute ~0.1% of the BMI values):
+
+| Characteristic | Class: Type 1 | Class: Type 2 | Class: Unspecified | Class: Unspecified with PRIMIS code | Class: mixed; latest code=Type 1 | Class: mixed; latest code=Type 2 |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| N | 15694 | 170012 | 30300 | 2508 | 5586 | 13492 |
+| First language not English | 599 (3.8%) | 20404 (12.0%) | 2915 (9.6%) | 283 (11.3%) | 248 (4.4%) | 1879 (13.9%) |
+| Non-English speaking | 137 (0.9%) | 7021 (4.1%) | 696 (2.3%) | 70 (2.8%) | 80 (1.4%) | 798 (5.9%) |
+| Median (IQR) age at diagnosis (years) | 28.5 (12.8) | 43.5 (8.6) | 40.3 (13.6) | 41.1 (11.6) | 33.5 (14.0) | 34.5 (10.3) |
+| Median (IQR) current age (years) | 49.6 (20.0) | 53.6 (12.8) | 45.6 (13.9) | 48.6 (13.0) | 54.6 (18.0) | 50.6 (15.6) |
+| Median (IQR) BMI within 2 years (mmol/mol) | 26.5 (6.5) | 31.2 (8.8) | 29.5 (9.4) | 30.2 (9.1) | 27.5 (7.1) | 30.8 (8.7) |
+| Missing BMI within 2 years (mmol/mol) | 2392 (15.2%) | 15393 (9.1%) | 15070 (49.7%) | 779 (31.1%) | 555 (9.9%) | 1065 (7.9%) |
+| Median (IQR) time to BMI within 2 years (days) | 179.0 (249.0) | 158.0 (222.0) | 248.0 (321.0) | 200.0 (261.0) | 164.0 (227.0) | 152.0 (217.0) |
+| Median (IQR) BMI anytime >= diagnosis (mmol/mol) | 26.4 (6.5) | 31.2 (8.8) | 29.0 (9.0) | 29.9 (9.0) | 27.5 (7.0) | 30.8 (8.8) |
+| Missing BMI anytime >= diagnosis (mmol/mol) | 315 (2.0%) | 2508 (1.5%) | 10217 (33.7%) | 268 (10.7%) | 23 (0.4%) | 64 (0.5%) |
+| Median (IQR) time to BMI anytime >= diagnosis (days) | 218.0 (356.0) | 178.0 (262.0) | 365.0 (727.0) | 291.0 (595.2) | 190.0 (278.0) | 171.0 (257.0) |
+| Median (IQR) total cholesterol within 2 years (mmol/mol) | 4.4 (1.3) | 4.2 (1.4) | 5.0 (1.4) | 4.6 (1.4) | 4.3 (1.3) | 4.4 (1.4) |
+| Missing total cholesterol within 2 years (mmol/mol) | 1376 (8.8%) | 7468 (4.4%) | 15908 (52.5%) | 687 (27.4%) | 253 (4.5%) | 569 (4.2%) |
+| Median (IQR) time to total cholesterol within 2 years (days) | 183.0 (230.8) | 165.0 (194.0) | 263.0 (308.0) | 200.0 (259.0) | 171.0 (207.0) | 158.0 (196.0) |
+| Median (IQR) total cholesterol anytime >= diagnosis (mmol/mol) | 4.4 (1.3) | 4.2 (1.5) | 5.0 (1.4) | 4.7 (1.4) | 4.3 (1.3) | 4.4 (1.4) |
+| Missing total cholesterol anytime >= diagnosis (mmol/mol) | 279 (1.8%) | 3011 (1.8%) | 12927 (42.7%) | 390 (15.6%) | 25 (0.4%) | 72 (0.5%) |
+| Median (IQR) time to total cholesterol anytime >= diagnosis (days) | 199.0 (261.0) | 171.0 (207.0) | 348.0 (643.0) | 247.0 (419.8) | 179.0 (229.0) | 169.0 (214.0) |
+| Median (IQR) HDL within 2 years (mmol/mol) | 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.4) | 1.2 (0.4) | 1.4 (0.6) | 1.2 (0.5) |
+| Missing HDL within 2 years (mmol/mol) | 2189 (13.9%) | 11923 (7.0%) | 16312 (53.8%) | 750 (29.9%) | 483 (8.6%) | 936 (6.9%) |
+| Median (IQR) time to HDL within 2 years (days) | 191.0 (244.0) | 171.0 (198.0) | 267.0 (311.0) | 200.5 (260.0) | 178.0 (217.0) | 166.0 (203.0) |
+| Median (IQR) HDL anytime >= diagnosis (mmol/mol) | 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.5) | 1.2 (0.5) | 1.4 (0.6) | 1.2 (0.5) |
+| Missing HDL anytime >= diagnosis (mmol/mol) | 508 (3.2%) | 4219 (2.5%) | 13364 (44.1%) | 441 (17.6%) | 56 (1.0%) | 139 (1.0%) |
+| Median (IQR) time to HDL anytime >= diagnosis (days) | 219.0 (313.0) | 180.0 (225.0) | 354.0 (647.2) | 255.0 (458.0) | 194.0 (252.0) | 179.0 (233.0) |
+| Median (IQR) triglyceride within 2 years (mmol/mol) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) | 1.6 (1.4) | 1.2 (1.0) | 1.5 (1.2) |
+| Missing triglyceride within 2 years (mmol/mol) | 5760 (36.7%) | 49068 (28.9%) | 19376 (63.9%) | 1161 (46.3%) | 1738 (31.1%) | 3960 (29.4%) |
+| Median (IQR) time to triglyceride within 2 years (days) | 211.0 (265.0) | 190.0 (228.0) | 276.0 (315.0) | 225.0 (274.0) | 193.0 (249.0) | 185.0 (239.0) |
+| Median (IQR) triglyceride anytime >= diagnosis (mmol/mol) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) | 1.5 (1.3) | 1.1 (1.0) | 1.5 (1.2) |
+| Missing triglyceride anytime >= diagnosis (mmol/mol) | 1681 (10.7%) | 14843 (8.7%) | 15969 (52.7%) | 697 (27.8%) | 296 (5.3%) | 794 (5.9%) |
+| Median (IQR) time to triglyceride anytime >= diagnosis (days) | 337.0 (793.0) | 255.0 (547.0) | 417.0 (831.0) | 346.0 (777.5) | 297.0 (756.0) | 270.0 (612.8) |
 
 &nbsp;
 
 Number with measured GAD and/or IA2 antibodies is very small:
-* GAD: 127 (0.9%) of Type 1, 431 (0.03%) of Type 2, 35 (0.1%) of unspecified
-* IA2: 4 (0.03%) of Type 1, 9 (0.005%) of Type 2, 0 (0.0%) of unspecified
+* GAD: 136 (0.9%) of Type 1, 447 (0.03%) of Type 2, 10 (0.03%) of unspecified, 27 (1.1%) of unspecified with PRIMIS code, 141 (2.5%) of mixed but Type 1 based on latest code and 77 (0.6%) of mixed but Type 2 based on latest code
+* IA2: 4 (0.03%) of Type 1, 9 (0.005%) of Type 2, 0 (0.0%) of unspecified, 0 (0.0%) of unspecified with PRIMIS code, 3 (0.05%) of mixed but Type 1 based on latest code and 1 (0.007%) of mixed but Type 2 based on latest code
 
 &nbsp;
 
-T1D probability using age and BMI only:
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/t1dt2d_age_bmi.png?" width="1000">
-
+Using separate weight and height measurements to calculate BMI where this is missing does not have a substantial impact (reduces from 5.6% missing overall to 4.8%). Only a very small number of people in this cohort have thier most recent weight/height measurements in childhood i.e. before the age of 18.
 
 &nbsp;
 
-T1D probability using age, BMI and lipids:
+🔴 **Rule 8: As for the MODY calculator, use biomarkers anytime after diagnosis as this reduces missingness. Ignore GAD and IA2 measurements as very few individuals are likely to have these.**
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/t1dt2d_lipids.png?" width="1000">
+These rules have been implemented in our code.
 
 &nbsp;
 
