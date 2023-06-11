@@ -96,7 +96,6 @@ graph TD;
     G --> L["Mixed; Type 1:<br>n=4,766<br>(6.4%)"]
     G --> M["Mixed; Type 2:<br>n=7,696<br>(10.4%)"]
 ```
-The MODY calculator was additionally run on those with MODY (and no codes for other diabetes types) diagnosed aged 1-35 years inclusive (n=45).
 
 &nbsp;
 
@@ -104,9 +103,13 @@ The MODY calculator was additionally run on those with MODY (and no codes for ot
 
 Cohort characteristics:
 
-| Characteristic | Type 1 | Type 2 | Unspecified with no PRIMIS code | Unspecified with PRIMIS code | Mixed; Type 1 | Mixed; Type 2 | MODY |
+| Characteristic | Type 1 | Type 2 | Unspecified with no PRIMIS code | Unspecified with PRIMIS code | Mixed; Type 1 | Mixed; Type 2 | Overall excluding 2 x unspecified groups |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 
+
+
+
+The MODY calculator was additionally run on those with MODY (and no codes for other diabetes types) diagnosed aged 1-35 years inclusive (n=45; ?? with no missing variables). The distribution of probabilities are shown below:
 
 
 
