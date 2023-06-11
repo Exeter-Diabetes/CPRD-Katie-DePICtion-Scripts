@@ -179,44 +179,18 @@ Cohort characteristics of those not missing BMI:
 
 | Characteristic | Type 1 | Type 2 | Unspecified with no PRIMIS code | Unspecified with PRIMIS code | Mixed; Type 1 | Mixed; Type 2 | Overall excluding 2 x unspecified groups |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| N | 23639 | 23999 | 3432 | 562 | 4733 | 7631 | 60002 |
-| Median (IQR) age at diagnosis (years) | 16.5 (14.0) | 31.1 (6.0) | 28.9 (8.4) | 28.3 (10.5) | 22.5 (14.8) | 29.5 (7.0) | 26.6 (14.7) |
-| Median (IQR) age at index date (years) | 40.6 (22.0) | 43.6 (15.0) | 34.7 (10.0) | 36.6 (14.0) | 48.6 (21.0) | 44.6 (14.0) | 43.6 (18.0) |
-| Median (IQR) HbA1c (mmol/mol) | 66.1 (22.0) | 62.0 (30.0) | 36.0 (6.0) | 49.0 (29.5) | 67.0 (22.0) | 59.8 (24.9) | 64.0 (26.0) |
-| Median (IQR) BMI (kg/m2) | 26.1 (6.7) | 31.9 (9.9) | 29.1 (10.8) | 28.4 (9.8) | 27.3 (7.1) | 30.8 (9.0) | 28.8 (9.0) |
-| Not on insulin within 6 months of diagnosis | 1995 (8.4%) | 18225 (75.9%) | 3407 (99.3%) | 364 (64.8%) | 792 (16.7%) | 3967 (52.0%) | 24979 (41.6%) |
-| On insulin within 6 months of diagnosis | 5244 (22.2%) | 714 (3.0%) | 24 (0.7%) | 79 (14.1%) | 693 (14.6%) | 1162 (15.2%) | 7813 (13.0%) |
-| Missing insulin within 6 months of diagnosis | 16400 (69.4%) | 5060 (21.1%) | 1 (0.0%) | 119 (21.2%) | 3248 (68.6%) | 2502 (32.8%) | 27210 (45.3%) |
-| Currently on insulin | 22772 (96.3%) | 6699 (27.9%) | 6 (0.2%) | 186 (33.1%) | 4549 (96.1%) | 2665 (34.9%) | 36685 (61.1%) |
-| Currently on insulin or OHA | 22825 (96.6%) | 20361 (84.8%) | 89 (2.6%) | 297 (52.8%) | 4594 (97.1%) | 6441 (84.4%) | 54221 (90.4%) |
-| With no family history of diabetes | 1965 (8.3%) | 1735 (7.2%) | 375 (10.9%) | 45 (8.0%) | 465 (9.8%) | 689 (9.0%) | 4854 (8.1%) |
-| With family history of diabetes | 5666 (24.0%) | 10831 (45.1%) | 974 (28.4%) | 198 (35.2%) | 1360 (28.7%) | 3480 (45.6%) | 21337 (35.6%) |
-| Missing family history of diabetes | 16008 (67.7%) | 11433 (47.6%) | 2083 (60.7%) | 319 (56.8%) | 2908 (61.4%) | 3462 (45.4%) | 33811 (56.3%) |
-| Mean (SD) unadjusted MODY probability using insulin within 6 months and family history | 48.1 (35.5) | 20.5 (27.9) | 56.5 (34.9) | 46.5 (36.6) | 37.8 (35.4) | 37.4 (35.0) | 27.3 (32.1) |
-| Mean (SD) adjusted MODY probability using insulin within 6 months and family history | 19.9 (25.8) | 16.5 (19.1) | 43.1 (26.2) | 31.9 (27.0) | 19.4 (23.5) | 23.3 (21.9) | 18.2 (20.8) |
-| Missing above | 22052 (93.3%) | 14282 (59.5%) | 2083 (60.7%) | 359 (63.9%) | 4268 (90.2%) | 4865 (63.8%) | 45467 (75.8%) |
-| Mean (SD) unadjusted MODY probability using insulin within 6 months or current insulin and family history | 35.3 (31.3) | 23.9 (28.8) | 56.5 (34.9) | 44.3 (36.0) | 32.1 (30.6) | 37.4 (33.8) | 29.9 (31.1) |
-| Mean (SD) adjusted MODY probability using insulin within 6 months or current insulin and family history | 9.3 (17.7) | 14.8 (18.4) | 43.1 (26.2) | 27.9 (26.9) | 9.5 (17.1) | 20.5 (21.9) | 13.8 (19.1) |
-| Missing above | 16008 (67.7%) | 11433 (47.6%) | 2083 (60.7%) | 319 (56.8%) | 2908 (61.4%) | 3462 (45.4%) | 33811 (56.3%) |
-| Mean (SD) unadjusted MODY probability using insulin within 6 months or current insulin and family history (set to 1 where missing) | 42.1 (31.2) | 24.8 (29.4) | 66.0 (34.0) | 47.8 (35.9) | 36.1 (30.9) | 38.3 (33.9) | 34.2 (31.8) |
-| Mean (SD) adjusted MODY probability using insulin within 6 months or current insulin and family history (set to 1 where missing) | 11.3 (19.5) | 15.4 (19.0) | 50.2 (25.7) | 28.0 (27.1) | 10.8 (18.5) | 20.2 (21.6) | 14.1 (19.7) |
-| Mean (SD) unadjusted MODY probability using insulin within 6 months or current insulin and family history (set to 0 where missing) | 19.9 (28.3) | 17.1 (25.8) | 54.2 (35.9) | 33.3 (35.2) | 18.9 (27.4) | 26.9 (31.2) | 19.6 (27.8) |
-| Mean (SD) adjusted MODY probability using insulin within 6 months or current insulin and family history (set to 0 where missing) | 7.2 (17.6) | 11.9 (16.6) | 41.3 (26.9) | 21.4 (26.0) | 7.2 (16.2) | 15.0 (19.6) | 10.1 (17.6) |
-
-&nbsp;
-
-### Top 10% of patients when current insulin used where insulin within 6 months is missing, and family history set to 0 or 1 when missing
-
-When family history set to 1:
-* 90th percentile for adjusted MODY probability = 58%
-* 61.9% having missing family history (n=4139/6688)
-* 6.9% of the Type 1 cohort; 7.9% of the Type 2 cohort; 56.6% of the unspecified with no PRIMIS code cohort; 23.1% of the unspecified with PRIMIS code cohort; 6.1% of the mixed; Type 1 cohort and 10.4% of the mixed; Type 2 cohort
-* Consists of 24.3% Type 1, 28.5% Type 2, 29.0% unspecified with no PRIMIS code, 1.9% unspecified with PRIMIS code, 4.3% mixed; Type 1, and 11.9% mixed; Type 2
-
-When family history set to 0:
-* 90th percentile for adjusted MODY probability = 45.5%
-* 43.1% having missing family history (n=2870/6657)
-* 7.1% of the Type 1 cohort; 7.8% of the Type 2 cohort; 48.2% of the unspecified with no PRIMIS code cohort; 21.7% of the unspecified with PRIMIS code cohort; 6.5% of the mixed; Type 1 cohort and 13.5% of the mixed; Type 2 cohort
-* Consists of 25.2% Type 1, 28.1% Type 2, 24.9% unspecified with no PRIMIS code, 1.8% unspecified with PRIMIS code, 4.6% mixed; Type 1, and 15.4% mixed; Type 2
+| N | 5449 | 13389 | 14412 | 160657 | 19423 | 2123 | 193907 |
+| Median (IQR) age at diagnosis (years) | 33.5 (14.0) | 34.5 (10.2) | 28.5 (12.7) | 43.5 (8.6) | 41.3 (12.4) | 41.6 (11.2) | 42.3 (10.7) |
+| Median (IQR) age at index date (years) | 54.6 (17.9) | 50.6 (16.0) | 49.6 (20.0) | 53.6 (12.0) | 46.6 (12.0) | 48.7 (13.0) | 53.6 (13.0) |
+| Median (IQR) BMI (kg/m2) | 27.4 (7.1) | 30.8 (8.8) | 26.4 (6.5) | 31.2 (8.8) | 29.0 (9.0) | 29.9 (9.0) | 30.8 (8.8) |
+| Median (IQR) total cholesterol (mmol/L) | 4.3 (1.3) | 4.4 (1.4) | 4.4 (1.3) | 4.2 (1.5) | 5.0 (1.4) | 4.7 (1.4) | 4.2 (1.4) |
+| Missing total cholesterol | 26 (0.5%) | 69 (0.5%) | 169 (1.2%) | 2113 (1.3%) | 5261 (27.1%) | 221 (10.4%) | 2377 (1.2%) |
+| Median (IQR) HDL (mmol/L) | 1.4 (0.6) | 1.2 (0.5) | 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.5) | 1.2 (0.5) | 1.2 (0.4) |
+| Missing HDL | 57 (1.0%) | 135 (1.0%) | 360 (2.5%) | 3235 (2.0%) | 5593 (28.8%) | 269 (12.7%) | 3787 (2.0%) |
+| Median (IQR) triglycerides (mmol/L) | 1.2 (1.0) | 1.5 (1.2) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) | 1.5 (1.3) | 1.6 (1.3) |
+| Missing triglycerides | 289 (5.3%) | 785 (5.9%) | 1430 (9.9%) | 13364 (8.3%) | 7681 (39.5%) | 497 (23.4%) | 15868 (8.2%) |
+| Mean (SD) clinical prediction model probability | 37.3 (29.5) | 23.1 (23.3) | 51.0 (30.9) | 10.6 (14.5) | 21.1 (25.3) | 17.8 (22.6) | 15.2 (20.9) |
+| Mean (SD) lipid prediction model probability | 11.9 (16.8) | 4.3 (9.1) | 19.1 (21.1) | 1.5 (4.2) | 3.2 (8.3) | 3.5 (9.4) | 3.3 (9.2) |
+| Missing lipid prediction model probability | 294 (5.4%) | 796 (5.9%) | 1451 (10.1%) | 13509 (8.4%) | 7733 (39.8%) | 505 (23.8%) | 16050 (8.3%) |
 
 &nbsp;
