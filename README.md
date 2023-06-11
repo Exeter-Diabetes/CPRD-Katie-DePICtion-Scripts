@@ -50,7 +50,7 @@ graph TD;
 
 ```mermaid
 graph TD;
-    G["<b>Final DePICtion cohort:<b> n=265,175"] --> |"Unspecific codes<br>only"| H["Unspecified: <br>n=34,118<br>(12.9%)<br>(2,558 have<br>PRIMIS code)"]
+    G["<b>Final DePICtion cohort:</b> n=265,175"] --> |"Unspecific codes<br>only"| H["Unspecified: <br>n=34,118<br>(12.9%)<br>(2,558 have<br>PRIMIS code)"]
     G --> |"T1D codes*"| I["Type 1: <br>n=28,964<br>(10.9%)"]
     G --> |"T2D codes*"| J["Type 2: <br>n=164,866<br>(62.2%)"]
     G --> |"Gestational codes*"| K["Gestational <br>only: <br>n=14,833<br>(5.6%)"]
@@ -89,8 +89,8 @@ The MODY calculator cohort consists those with current diagnosis of Type 1 (mixe
 
 ```mermaid
 graph TD;
-    G["<b>MODY cohort:<b> n=74,141"] --> H["Type 1:<br>n=24,638(33.2%)"]
-    G --> I["Type 2:<br>n=24,704(33.3%)"]
+    G["<b>MODY cohort:</b> n=74,141"] --> H["Type 1:<br>n=24,638<br>(33.2%)"]
+    G --> I["Type 2:<br>n=24,704<br>(33.3%)"]
     G --> J["Unspecified<br>no PRIMIS code:<br>n=11,548<br>(15.6%)"]
     G --> K["Unspecified<br>with PRIMIS code: <br>n=789<br>(1.1%)"]
     G --> L["Mixed; Type 1:<br>n=4,766<br>(6.4%)"]
