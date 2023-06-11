@@ -95,6 +95,10 @@ graph TD;
     G --> K["Unspecified<br>with PRIMIS code: <br>n=789<br>(1.1%)"]
     G --> L["Mixed; Type 1:<br>n=4,766<br>(6.4%)"]
     G --> M["Mixed; Type 2:<br>n=7,696<br>(10.4%)"]
+    H --> N["Not missing<br>HbA1c or BMI:<br>23,639"]
+    
+    
+    
 ```
 
 &nbsp;
