@@ -89,17 +89,20 @@ The MODY calculator cohort consists those with current diagnosis of Type 1 (mixe
 
 ```mermaid
 graph TD;
-    G["<b>MODY cohort:</b> n=74,141"] --> H["Type 1:<br>n=24,638<br>(33.2%)"]
+    G["<b>MODY calculator cohort:</b> n=74,141"] --> H["Type 1:<br>n=24,638<br>(33.2%)"]
     G --> I["Type 2:<br>n=24,704<br>(33.3%)"]
     G --> J["Unspecified<br>no PRIMIS code:<br>n=11,548<br>(15.6%)"]
     G --> K["Unspecified<br>with PRIMIS code: <br>n=789<br>(1.1%)"]
     G --> L["Mixed; Type 1:<br>n=4,766<br>(6.4%)"]
     G --> M["Mixed; Type 2:<br>n=7,696<br>(10.4%)"]
-    H --> N["Not missing<br>HbA1c or BMI:<br>23,639"]
-    
-    
-    
+    H --> N["Not missing<br>HbA1c or BMI:<br>23,639 (95.9%)"]
+    I --> O["Not missing<br>HbA1c or BMI:<br>23,999 (97.1%)"]
+    J --> P["Not missing<br>HbA1c or BMI:<br>3,432 (29.7%)"]
+    K --> Q["Not missing<br>HbA1c or BMI:<br>562 (71.2%)"]
+    L --> R["Not missing<br>HbA1c or BMI:<br>4,733 (99.3%)"]
+    M --> S["Not missing<br>HbA1c or BMI:<br>7,631 (99.2%)"]
 ```
+MODY calculator cohort not missing HbA1c or BMI: n=63,996 (86.3% of original MODY calculator cohort).
 
 &nbsp;
 
