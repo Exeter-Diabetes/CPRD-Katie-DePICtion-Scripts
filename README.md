@@ -59,7 +59,7 @@ graph TD;
     G --> |"Secondary codes*"| N["Secondary: <br>n=593 <br>(0.1%)"]
     G --> |"Malnutrition-<br>related codes*"| O["Malnutrition-<br>related: <br>n=1 <br>(0.0%)"]
     G --> |"Other specified<br>type codes*"| P["Other specified<br>type: <br>n=1 <br>(0.0%)"]  
-    G --> |"Mix of diabetes<br>type codes"| Q["Mix of diabetes types: <br>n=30,401 <br>(4.0%)"]
+    G --> |"Mix of diabetes<br>type codes"| Q["Mix of<br>diabetes types: <br>n=30,401 <br>(4.0%)"]
     Q --> |"Type 1 based<br>on latest code"| R["Mixed; Type 1: <br>n=30,401 <br>(4.0%)"]
     Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=30,401 <br>(4.0%)"]
 ```
