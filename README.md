@@ -85,7 +85,7 @@ Patients with a diabetes-related medcode ([full list here](https://github.com/Ex
 
 ## MODY calculator (script: 02b_dpctn_mody_calculator)
 
-The MODY cohort consists those with current diagnosis of Type 1 (mixed or otherwise), Type 2 (mixed or otherwise), or unspecified diabetes, diagnosed aged 1-35 years inclusive:
+The MODY calculator cohort consists those with current diagnosis of Type 1 (mixed or otherwise), Type 2 (mixed or otherwise), or unspecified diabetes, diagnosed aged 1-35 years inclusive:
 
 ```mermaid
 graph TD;
@@ -93,9 +93,19 @@ graph TD;
     G --> I["Type 2:<br>n=24,704(33.3%)"]
     G --> J["Unspecified<br>no PRIMIS code:<br>n=11,548<br>(15.6%)"]
     G --> K["Unspecified<br>with PRIMIS code: <br>n=789<br>(1.1%)"]
-    G --> L["Mixed; type 1:<br>n=4,766<br>(6.4%)"]
-    G --> M["Mixed; type 2:<br>n=7,696<br>(10.4%)"]
+    G --> L["Mixed; Type 1:<br>n=4,766<br>(6.4%)"]
+    G --> M["Mixed; Type 2:<br>n=7,696<br>(10.4%)"]
 ```
+The MODY calculator was additionally run on those with MODY (and no codes for other diabetes types) diagnosed aged 1-35 years inclusive (n=45).
+
+&nbsp;
+
+
+
+Cohort characteristics:
+
+| Characteristic | Type 1 | Type 2 | Unspecified with no PRIMIS code | Unspecified with PRIMIS code | Mixed; Type 1 | Mixed; Type 2 | MODY |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 
 
 
