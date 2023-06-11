@@ -62,6 +62,7 @@ graph TD;
     G --> |"Mix of diabetes<br>type codes"| Q["Mix of<br>diabetes types: <br>n=30,401 <br>(4.0%)"]
     Q --> |"Type 1 based<br>on latest code"| R["Mixed; Type 1: <br>n=30,401 <br>(4.0%)"]
     Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=30,401 <br>(4.0%)"]
+    Q --> |"Other based<br>on latest code"| T["Mixed; other: <br>n=30,401 <br>(4.0%)"]
 ```
 \* Could also have diabetes codes of unspecified type
 
