@@ -50,7 +50,7 @@ graph TD;
 
 ```mermaid
 graph TD;
-    G["<b>Final DePICtion cohort:<b> n=265,175"] --> |"Unspecific codes <br>only"| H["Unspecified: <br>n=122,469 <br>(15.9%)"]
+    G["<b>Final DePICtion cohort:<b> n=265,175"] --> |"Unspecific codes<br>only"| H["Unspecified: <br>n=122,469 <br>(15.9%)"]
     G --> |"T1D codes*"| I["Type 1: <br>n=32,005 <br>(4.2%)"]
     G --> |"T2D codes*"| J["Type 2: <br>n=576,976 <br>(75.0%)"]
     G --> |"Gestational codes*"| K["Gestational <br>only: <br>n=15,717 <br>(2.0%)"]
@@ -59,9 +59,9 @@ graph TD;
     G --> |"Secondary codes*"| N["Secondary: <br>n=593 <br>(0.1%)"]
     G --> |"Malnutrition-<br>related codes*"| O["Malnutrition-<br>related: <br>n=1 <br>(0.0%)"]
     G --> |"Other specified<br>type codes*"| P["Other specified<br>type: <br>n=1 <br>(0.0%)"]  
-    G --> |"Mix of diabetes type codes"| Q["Mix of diabetes types: <br>n=30,401 <br>(4.0%)"]
-    Q --> |"Type 1 based on latest code"| R["Mixed; Type 1: <br>n=30,401 <br>(4.0%)"]
-    Q --> |"Type 2 based on latest code"| S["Mixed; Type 2: <br>n=30,401 <br>(4.0%)"]
+    G --> |"Mix of diabetes<br>type codes"| Q["Mix of diabetes types: <br>n=30,401 <br>(4.0%)"]
+    Q --> |"Type 1 based<br>on latest code"| R["Mixed; Type 1: <br>n=30,401 <br>(4.0%)"]
+    Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=30,401 <br>(4.0%)"]
 ```
 \* Could also have diabetes codes of unspecified type
 
