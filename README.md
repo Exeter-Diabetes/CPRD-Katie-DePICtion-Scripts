@@ -95,8 +95,8 @@ graph TD;
     G --> L["Mixed; Type 1:<br>n=4,766<br>(6.4%)"]
     G --> M["Mixed; Type 2:<br>n=7,696<br>(10.4%)"]
     H --> N["Not missing<br>HbA1c or BMI:<br>23,639 (95.9%)"]
-    I --> O["Not missing<br>HbA1c or BMI:<br> (97.1%)"]
-    J --> P["Not missing<br>HbA1c or BMI:<br> (29.7%)"]
+    I --> O["Not missing<br>HbA1c or BMI:<br>23,999 (97.1%)"]
+    J --> P["Not missing<br>HbA1c or BMI:<br>3,432 (29.7%)"]
     K --> Q["Not missing<br>HbA1c or BMI:<br>562 (71.2%)"]
     L --> R["Not missing<br>HbA1c or BMI:<br>4,733 (99.3%)"]
     M --> S["Not missing<br>HbA1c or BMI:<br>7,631 (99.2%)"]
@@ -152,31 +152,30 @@ When family history set to 0:
 &nbsp;
 
 
+## T1D/T2D calculator (script: 03b_dpctn_t1dt2d_calculator)
 
-## MODY calculator (script: 02b_dpctn_mody_calculator)
-
-The MODY calculator cohort consists those with current diagnosis of Type 1 (mixed or otherwise), Type 2 (mixed or otherwise), or unspecified diabetes, diagnosed aged 1-35 years inclusive:
+The T1D/T2D calculator cohort consists those with current diagnosis of Type 1 (mixed or otherwise), Type 2 (mixed or otherwise), or unspecified diabetes, diagnosed aged 18-50 years inclusive:
 
 ```mermaid
 graph TD;
-    G["<b>MODY calculator cohort:</b> n=74,141"] --> H["Type 1:<br>n=24,638<br>(33.2%)"]
-    G --> I["Type 2:<br>n=24,704<br>(33.3%)"]
-    G --> J["Unspecified<br>no PRIMIS code:<br>n=11,548<br>(15.6%)"]
-    G --> K["Unspecified<br>with PRIMIS code: <br>n=789<br>(1.1%)"]
-    G --> L["Mixed; Type 1:<br>n=4,766<br>(6.4%)"]
-    G --> M["Mixed; Type 2:<br>n=7,696<br>(10.4%)"]
-    H --> N["Not missing<br>HbA1c or BMI:<br>23,639 (95.9%)"]
-    I --> O["Not missing<br>HbA1c or BMI:<br> (97.1%)"]
-    J --> P["Not missing<br>HbA1c or BMI:<br> (29.7%)"]
-    K --> Q["Not missing<br>HbA1c or BMI:<br>562 (71.2%)"]
-    L --> R["Not missing<br>HbA1c or BMI:<br>4,733 (99.3%)"]
-    M --> S["Not missing<br>HbA1c or BMI:<br>7,631 (99.2%)"]
+    G["<b>T1D/T2D calculator cohort:</b> n=228,986"] --> H["Type 1:<br>n=14,696<br>(6.4%)"]
+    G --> I["Type 2:<br>n=163,158<br>(71.3%)"]
+    G --> J["Unspecified<br>no PRIMIS code:<br>n=29,811<br>(13.0%)"]
+    G --> K["Unspecified<br>with PRIMIS code: <br>n=2,389<br>(1.0%)"]
+    G --> L["Mixed; Type 1:<br>n=5,473<br>(2.4%)"]
+    G --> M["Mixed; Type 2:<br>n=13,459<br>(5.9%)"]
+    H --> N["Not missing<br>BMI:<br>14,412 (98.1%)"]
+    I --> O["Not missing<br>BMI:<br>160,657 (98.5%)"]
+    J --> P["Not missing<br>BMI:<br>19,423 (65.2%)"]
+    K --> Q["Not missing<br>BMI:<br>2,123 (88.9%)"]
+    L --> R["Not missing<br>BMI:<br>5,449 (99.6%)"]
+    M --> S["Not missing<br>BMI:<br>13,389 (99.5%)"]
 ```
-MODY calculator cohort not missing HbA1c or BMI: n=63,996 (86.3% of original MODY calculator cohort).
+T1D/T2D calculator cohort not missing BMI: n=215,453 (94.1% of original T1D/T2D calculator cohort).
 
 &nbsp;
 
-Cohort characteristics of those not missing HbA1c or BMI:
+Cohort characteristics of those not missing BMI:
 
 | Characteristic | Type 1 | Type 2 | Unspecified with no PRIMIS code | Unspecified with PRIMIS code | Mixed; Type 1 | Mixed; Type 2 | Overall excluding 2 x unspecified groups |
 | --- | --- | --- | --- | --- | --- | --- | --- |
