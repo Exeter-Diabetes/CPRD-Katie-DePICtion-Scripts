@@ -1,12 +1,12 @@
 # CPRD-Katie-DePICtion-Scripts
 
-### Introduction
+## Introduction
 
 This repository contains the R scripts used to implement the Exeter Diabetes MODY calculator and T1D/T2D calculator in a CPRD Aurum dataset as part of the DePICtion project. Our [CPRD-Cohort-scripts respository](https://github.com/Exeter-Diabetes/CPRD-Cohort-scripts) has similar scripts for defining different cohorts in this same dataset.
 
 &nbsp;
 
-### Rules for data handling
+## Rules for data handling
 
 As a result of the work in the 'Initial data quality exploration' directory in this repository, a number of rules for implementing these calculators and dealing with data quality issues were decided upon. These aim to be pragmatic (easily implemented) so that the MODY and T1D/T2D calculators can easily be run in primary care data, whilst excluding as few patients as possible due to e.g. missing data issues. These calculators aim to identify those whose diabetes type is misclassified: i.e. those with a Type 1 or Type 2 diabetes diagnosis who may have MODY, those with a Type 1 diagnosis who may actually have Type 2, and those with a Type 2 diagnosis who may actually have Type 1. The rules aim to minimise the chance of missing these misclassified cases.
 
@@ -27,7 +27,7 @@ As a result of the work in the 'Initial data quality exploration' directory in t
 
 &nbsp;
 
-### Cohort definition
+## Cohort definition
 
 Using the above rules, we defined a a cohorts of adult with diabetes registered in primary care on 01/02/2020, diagnosed age <=50 years, with diabetes type assigned:
 
@@ -71,7 +71,7 @@ Of the final cohort, 3.4% were non-English speaking, and a further 10.5% had a f
 
 &nbsp;
 
-## Extract details
+### Extract details
 Patients with a diabetes-related medcode ([full list here](https://github.com/Exeter-Diabetes/CPRD-Katie-MASTERMIND-Scripts/blob/main/Extract-details/diab_med_codes_2020.txt)) in the Observation table were extracted from the October 2020 CPRD Aurum release. See below for full inclusion criteria:
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Cohort-scripts/blob/main/Extract-details/download_details1.PNG" width="370">
@@ -113,7 +113,7 @@ Cohort characteristics of those not missing HbA1c or BMI:
 
 &nbsp;
 
-#### Top 10% of patients when current insulin 
+### Top 10% of patients when current insulin 
 
 
 &nbsp;
@@ -124,7 +124,7 @@ The MODY calculator was additionally run on those with MODY (and no codes for ot
 
 
 
-### 07_dpctn_mody_calculator
+## 07_dpctn_mody_calculator
 Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 1-35 years inclusive.
 
 **Not done yet: exploring whether separate weight/height measurements could help with missing BMI**
