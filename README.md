@@ -50,7 +50,7 @@ graph TD;
 
 ```mermaid
 graph TD;
-    G["<b>Final DePICtion cohort:<b> n=265,175"] --> |"Unspecific codes<br>only"| H["Unspecified: <br>n=34,118<br>(12.9%)"]
+    G["<b>Final DePICtion cohort:<b> n=265,175"] --> |"Unspecific codes<br>only"| H["Unspecified: <br>n=34,118<br>(12.9%)<br>(2,558 have<br>PRIMIS code)"]
     G --> |"T1D codes*"| I["Type 1: <br>n=28,964<br>(10.9%)"]
     G --> |"T2D codes*"| J["Type 2: <br>n=164,866<br>(62.2%)"]
     G --> |"Gestational codes*"| K["Gestational <br>only: <br>n=14,833<br>(5.6%)"]
