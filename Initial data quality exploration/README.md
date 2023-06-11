@@ -338,16 +338,16 @@ Missing data and cohort characteristics (NB: BMIs <age of 18 have been removed; 
 | Median (IQR) current age (years) | 39.6 (23.0) | 42.6 (14.4) | 31.6 (11.0) | 34.6 (12.8) | 48.6 (21.0) | 44.6 (14.0) |
 | Median (IQR) HbA1c within 2 years (mmol/mol) | 66.0 (21.6) | 62.0 (30.0) | 36.0 (6.8) | 50.9 (29.2) | 67.0 (22.0) | 60.0 (25.0) |
 | Missing HbA1c within 2 years (mmol/mol) | 1818 (7.1%) | 1463 (5.6%) | 7870 (66.7%) | 262 (31.3%) | 175 (3.7%) | 280 (3.7%) |
-| Median (IQR) Time to HbA1c within 2 years (days) | 151.0 (212.0) | 131.0 (177.0) | 276.0 (324.0) | 185.0 (255.5) | 130.0 (174.0) | 123.0 (167.0) |
-| Median (IQR) HbA1c anytime >= diagnosis (mmol/mol) | 66.1 (22.0) | 62.0 (30.0) | 36.0 (6.0) | 49.0 (29.0) | 67.0 (22.0) | 60.0 (25.0) |
-| Missing HbA1c anytime >= diagnosis (mmol/mol) | 990 (3.9%) | 554 (2.1%) | 7427 (62.9%) | 213 (25.4%) | 27 (0.6%) | 35 (0.5%) |
-| Median (IQR) Time to HbA1c anytime >= diagnosis (days) | 164.0 (243.0) | 138.0 (202.0) | 358.0 (609.2) | 221.5 (373.0) | 136.0 (194.0) | 129.0 (179.0) |
+| Median (IQR) time to HbA1c within 2 years (days) | 151.0 (212.0) | 131.0 (177.0) | 276.0 (324.0) | 185.0 (255.5) | 130.0 (174.0) | 123.0 (167.0) |
+| Median (IQR) HbA1c anytime >= diagnosis (mmol/mol) | 67.0 (22.0) | 62.0 (30.0) | 36.0 (6.0) | 49.0 (29.1) | 67.1 (22.0) | 60.0 (25.0) |
+| Missing HbA1c anytime >= diagnosis (mmol/mol) | 224 (0.9%) | 379 (1.4%) | 6941 (58.8%) | 168 (20.1%) | 9 (0.2%) | 18 (0.2%) |
+| Median (IQR) time to HbA1c anytime >= diagnosis (days) | 164.0 (243.0) | 138.0 (202.0) | 358.0 (609.2) | 221.5 (373.0) | 136.0 (194.0) | 129.0 (179.0) |
 | Median (IQR) BMI within 2 years (kg/m2) | 26.2 (6.7) | 31.9 (9.9) | 28.4 (10.3) | 29.2 (10.3) | 27.4 (7.0) | 30.8 (8.9) |
 | Missing BMI within 2 years (kg/m2) | 4579 (17.9%) | 2975 (11.4%) | 7081 (60.0%) | 321 (38.4%) | 515 (10.8%) | 656 (8.6%) |
-| Median (IQR) Time to BMI within 2 years (kg/m2) | 183.0 (254.0) | 164.0 (232.0) | 243.0 (323.0) | 194.0 (286.2) | 169.0 (236.0) | 155.0 (228.0) |
+| Median (IQR) time to BMI within 2 years (kg/m2) | 183.0 (254.0) | 164.0 (232.0) | 243.0 (323.0) | 194.0 (286.2) | 169.0 (236.0) | 155.0 (228.0) |
 | Median (IQR) BMI anytime >= diagnosis (kg/m2) | 26.1 (6.6) | 31.9 (9.9) | 27.9 (10.0) | 28.4 (9.9) | 27.4 (7.0) | 30.8 (8.9) |
 | Missing BMI anytime >= diagnosis (kg/m2) | 918 (3.6%) | 468 (1.8%) | 5383 (45.6%) | 147 (17.6%) | 24 (0.5%) | 42 (0.5%) |
-| Median (IQR) Time to BMI anytime >= diagnosis (kg/m2) | 226.0 (386.0) | 187.0 (288.0) | 372.0 (762.2) | 318.5 (682.2) | 196.0 (294.0) | 173.0 (267.0) |
+| Median (IQR) time to BMI anytime >= diagnosis (kg/m2) | 226.0 (386.0) | 187.0 (288.0) | 372.0 (762.2) | 318.5 (682.2) | 196.0 (294.0) | 173.0 (267.0) |
 | With negative family history of diabetes | 2067 (8.1%) | 1885 (7.2%) | 1042 (8.8%) | 65 (7.8%) | 469 (9.8%) | 697 (9.1%) |
 | With positive family history of diabetes | 5980 (23.4%) | 11719 (44.8%) | 2225 (18.9%) | 261 (31.2%) | 1369 (28.7%) | 3470 (45.3%) |
 | Missing family history of diabetes | 17467 (68.5%) | 12571 (48.0%) | 8532 (72.3%) | 511 (61.1%) | 2938 (61.5%) | 3487 (45.6%) |
@@ -358,7 +358,7 @@ Missing data and cohort characteristics (NB: BMIs <age of 18 have been removed; 
 
 &nbsp;
 
-The proportion missing BMI at any point after diagnosis is 9.1% (although this varies greatly between classes: 3.6% for Type 1s, 1.8% for Type 2s, 45.6% for unspecified, ??% for unspecified with PRIMIS code, 0.5% for those with mixed codes but classified as Type 1 or Type 2 based on latest code. Using separate weight and height measurements to calculate BMI reduces this to 7.2%, but only if weights and heights from those aged <=18 are included, which is not valid (otherwise, BMI missingness is only reduced to 8.2%).
+The proportion missing BMI at any point after diagnosis is 9.1% (although this varies greatly between classes: 3.6% for Type 1s, 1.8% for Type 2s, 45.6% for unspecified, 17.6% for unspecified with PRIMIS code, 0.5% for those with mixed codes but classified as Type 1 or Type 2 based on latest code. Using separate weight and height measurements to calculate BMI reduces this to 7.2%, but only if weights and heights from those aged <=18 are included, which is not valid (otherwise, BMI missingness is only reduced to 8.2%).
 
 &nbsp;
 
