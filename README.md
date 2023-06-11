@@ -106,15 +106,17 @@ MODY calculator cohort not missing HbA1c or BMI: n=63,996 (86.3% of original MOD
 
 &nbsp;
 
-
-
-Cohort characteristics:
+Cohort characteristics of those not missing HbA1c or BMI:
 
 | Characteristic | Type 1 | Type 2 | Unspecified with no PRIMIS code | Unspecified with PRIMIS code | Mixed; Type 1 | Mixed; Type 2 | Overall excluding 2 x unspecified groups |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 
+&nbsp;
+
+#### Top 10% of patients when current insulin 
 
 
+&nbsp;
 
 The MODY calculator was additionally run on those with MODY (and no codes for other diabetes types) diagnosed aged 1-35 years inclusive (n=45; ?? with no missing variables). The distribution of probabilities are shown below:
 
