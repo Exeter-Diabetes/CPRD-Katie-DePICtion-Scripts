@@ -39,6 +39,20 @@ graph TD;
     D -->|"Patients who are aged>=18 years at the index date (01/02/2020)"|E["<b>Data quality exploration cohort:<b> n=769,493"]
     E -->|"Patients who don't have a diagnosis date between -30 and +90 days of registration start"|F["n=769,493"]
     F -->|"Patients diagnosed aged <=50 years"|G["<b>Final DePICtion cohort:<b> n=769,493"]
+    G --> |"Unspecific codes <br>only"| H["Unspecified: <br>n=122,469 <br>(15.9%)"]
+    G --> |"T1D codes*"| I["Type 1: <br>n=32,005 <br>(4.2%)"]
+    G --> |"T2D codes*"| J["Type 2: <br>n=576,976 <br>(75.0%)"]
+    G --> |"Gestational codes*"| K["Gestational <br>only: <br>n=15,717 <br>(2.0%)"]
+    G --> |"MODY codes*"| L["MODY: <br>n=62 <br>(0.0%)"]
+    G --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| M["Non-MODY <br>genetic/<br>syndromic: <br>n=108 <br>(0.0%)"]
+    G --> |"Secondary codes*"| N["Secondary: <br>n=593 <br>(0.1%)"]
+    G --> |"Malnutrition-<br>related codes*"| O["Malnutrition-<br>related: <br>n=1 <br>(0.0%)"]
+    G --> |"Other specified<br>type codes*"| P["Other specified<br>type: <br>n=1 <br>(0.0%)"]
+      
+    G --> |"Other including mix <br>of diabetes types and/<br>or codes for 'other <br>specific diabetes'"| K["Coding errors <br>or type changes<br> over time: <br>n=30,401 <br>(4.0%)"]
+```
+    
+    
 ```
 
 \* Extract actually contained n=1,481,294 unique patients (1,481,884 in total but some duplicates) but included n=309 with registration start dates in 2020 (which did not fulfil the extract criteria of having a diabetes-related medcode between 01/01/2004-06/11/2020 and >=1 year of data after this; some of these were also not 'acceptable' by [CPRD's definition](https://cprd.com/sites/default/files/2023-02/CPRD%20Aurum%20Glossary%20Terms%20v2.pdf)). NB: removing those with registration start date in 2020 also removed all of those with a 'patienttypeid' not equal to 3 ('regular'). See next section for further details on the extract.
@@ -61,7 +75,11 @@ Patients with a diabetes-related medcode ([full list here](https://github.com/Ex
 &nbsp;
 
 
-## Scripts
+## MODY calculator (script: 02b_dpctn_mody_calculator)
+
+
+
+
 
 Data from CPRD was provided as raw text files which were imported into a MySQL database using a custom-built package ([aurum](https://github.com/Exeter-Diabetes/CPRD-analysis-package)) built by Dr Robert Challen. This package also includes functions to allow easy querying of the MySQL tables from R, using the 'dbplyr' tidyverse package. Codelists used for querying the data (denoted as 'codes${codelist_name}' in scripts) can be found in our [CPRD-Codelists repository](https://github.com/Exeter-Diabetes/CPRD-Codelists). 
 
@@ -77,18 +95,7 @@ Defines the cohort as per the flowchart above, and adds in patient characteristi
 ### 02_dpctn_diabetes_type_all_time
 Uses diabetes type codes to define diabetes type as per the below flowchart:
 
-```mermaid
-graph TD;
-    A["<b>DePICtion cohort</b>: n=769,493"] --> |"Unspecific codes <br>only"| B["Unspecified: <br>n=122,469 <br>(15.9%)"]
-    A --> |"T1D codes*"| C["Type 1: <br>n=32,005 <br>(4.2%)"]
-    A --> |"T2D codes*"| D["Type 2: <br>n=576,976 <br>(75.0%)"]
-    A --> |"Gestational codes*"| E["Gestational <br>only: <br>n=15,717 <br>(2.0%)"]
-    A --> |"MODY codes*"| G["MODY: <br>n=62 <br>(0.0%)"]
-    A --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| H["Non-MODY <br>genetic/<br>syndromic: <br>n=108 <br>(0.0%)"]
-    A --> |"Secondary codes*"| I["Secondary: <br>n=593 <br>(0.1%)"]
-    A --> |"Malnutrition-<br>related codes*"| J["Malnutrition-<br>related: <br>n=1 <br>(0.0%)"]
-    A --> |"Other including mix <br>of diabetes types and/<br>or codes for 'other <br>specific diabetes'"| K["Coding errors <br>or type changes<br> over time: <br>n=30,401 <br>(4.0%)"]
-```
+
 
 \* Could also have diabetes codes of unspecified type. For gestational diabetes only: earliest and latest codes for unspecified diabetes must be no more than a year prior to earliest gestational diabetes code (excluding 'history of gestational diabetes' codes) and no more than a year after latest gestational diabetes code (excluding 'history of gestational diabetes' codes).
 
