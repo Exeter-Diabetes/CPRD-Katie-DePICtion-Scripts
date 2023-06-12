@@ -194,3 +194,10 @@ Cohort characteristics of those not missing BMI:
 | Missing lipid prediction model probability | 1451 (10.1%) | 13509 (8.4%) | 7733 (39.8%) | 505 (23.8%) | 294 (5.4%) | 796 (5.9%) | 16050 (8.3%) |
 
 &nbsp;
+
+Histogram of age and BMI model:
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/t1dt2d_age_bmi.png?" width="1000">
+
+
+
