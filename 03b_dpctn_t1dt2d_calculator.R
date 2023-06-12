@@ -11,14 +11,14 @@ rm(list=ls())
 
 cprd = CPRDData$new(cprdEnv = "test-remote",cprdConf = "~/.aurum.yaml")
 
-analysis = cprd$analysis("dpctn")
+analysis = cprd$analysis("dpctn_final")
 
 
 ############################################################################################
 
-# Get cohort info with diagnosis dates
+# Get cohort info
 
-cohort <- cohort %>% analysis$cached("cohort_with_diag_dates")
+cohort <- cohort %>% analysis$cached("cohort")
 
 
 ############################################################################################
@@ -27,77 +27,27 @@ cohort <- cohort %>% analysis$cached("cohort_with_diag_dates")
 ## At the moment don't have T1/T2 and T2/gestational people
 
 t1dt2d_cohort <- cohort %>%
-  filter(dm_diag_age>=18 & dm_diag_age<=50 & (class=="type 1" | class=="type 2" | class=="unspecified")) %>%
-  mutate(bmi_2_years=ifelse(bmiindexdiff>=-731, bmi, NA),
-         bmi_2_years_datediff=ifelse(!is.na(bmi_2_years), -bmiindexdiff, NA),
-         
-         totalchol_2_years=ifelse(totalcholesterolindexdiff>=-731, totalcholesterol, NA),
-         totalchol_2_years_datediff=ifelse(!is.na(totalchol_2_years), -totalcholesterolindexdiff, NA),
-         
-         hdl_2_years=ifelse(hdlindexdiff>=-731, hdl, NA),
-         hdl_2_years_datediff=ifelse(!is.na(hdl_2_years), -hdlindexdiff, NA),
-         
-         triglyceride_2_years=ifelse(triglycerideindexdiff>=-731, triglyceride, NA),
-         triglyceride_2_years_datediff=ifelse(!is.na(triglyceride_2_years), -triglycerideindexdiff, NA),
-         
-         bmi_post_diag=ifelse(bmidate>=dm_diag_date, bmi, NA),
-         bmi_post_diag_datediff=ifelse(!is.na(bmi_post_diag), -bmiindexdiff, NA),
-         
-         totalchol_post_diag=ifelse(totalcholesteroldate>=dm_diag_date, totalcholesterol, NA),
-         totalchol_post_diag_datediff=ifelse(!is.na(totalchol_post_diag), -totalcholesterolindexdiff, NA),
-         
-         hdl_post_diag=ifelse(hdldate>=dm_diag_date, hdl, NA),
-         hdl_post_diag_datediff=ifelse(!is.na(hdl_post_diag), -hdlindexdiff, NA),
-         
-         triglyceride_post_diag=ifelse(triglyceridedate>=dm_diag_date, triglyceride, NA),
-         triglyceride_post_diag_datediff=ifelse(!is.na(triglyceride_post_diag), -triglycerideindexdiff, NA)) %>%
-  
+  filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="unspecified" | diabetes_type=="unspecified_with_primis" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2")) %>%
+  mutate(age_at_bmi=datediff(bmidate, dob)/365.25,
+         bmi_post_diag=ifelse(bmidate>=diagnosis_date & age_at_bmi>=18, bmi, NA),
+         totalchol_post_diag=ifelse(totalcholesteroldate>=diagnosis_date, totalcholesterol, NA),
+         hdl_post_diag=ifelse(hdldate>=diagnosis_date, hdl, NA),
+         triglyceride_post_diag=ifelse(triglyceridedate>=diagnosis_date, triglyceride, NA)) %>%
   analysis$cached("t1dt2d_cohort", unique_indexes="patid")
 
-t1dt2d_cohort %>% group_by(class) %>% count()
+t1dt2d_cohort %>% count()
+
+t1dt2d_cohort %>% group_by(diabetes_type) %>% count()
+
 
 
 ############################################################################################
 
-# Look at missing variables
+# Run T1DT2D calculator
 
-t1dt2d_cohort_local <- collect(t1dt2d_cohort %>%
-                               select(class, dm_diag_age, age_at_index, bmi_2_years, bmi_post_diag, totalchol_2_years, totalchol_post_diag, hdl_2_years, hdl_post_diag, triglyceride_2_years, triglyceride_post_diag, bmi_2_years_datediff, bmi_post_diag_datediff, totalchol_2_years_datediff, totalchol_post_diag_datediff, hdl_2_years_datediff, hdl_post_diag_datediff, triglyceride_2_years_datediff, triglyceride_post_diag_datediff)) %>%
-  mutate(bmi_2_years_datediff=as.numeric(bmi_2_years_datediff),
-         bmi_post_diag_datediff=as.numeric(bmi_post_diag_datediff),
-         totalchol_2_years_datediff=as.numeric(totalchol_2_years_datediff),
-         totalchol_post_diag_datediff=as.numeric(totalchol_post_diag_datediff),
-         hdl_2_years_datediff=as.numeric(hdl_2_years_datediff),
-         hdl_post_diag_datediff=as.numeric(hdl_post_diag_datediff),
-         triglyceride_2_years_datediff=as.numeric(triglyceride_2_years_datediff),
-         triglyceride_post_diag_datediff=as.numeric(triglyceride_post_diag_datediff))
+t1dt2d_calc_results <- t1dt2d_cohort %>%
+  filter(!is.na(bmi_post_diag)) %>%
   
- 
-as_flextable(summarizor(t1dt2d_cohort_local, by="class", overall_label="overall"))
-
-
-t1dt2d_cohort_local <- t1dt2d_cohort_local %>%
-  mutate(missing_any_var=ifelse(is.na(bmi_post_diag) | is.na(totalchol_post_diag) | is.na(hdl_post_diag) | is.na(triglyceride_post_diag), 1, 0))
-
-table(t1dt2d_cohort_local$class, t1dt2d_cohort_local$missing_any_var)
-
-prop.table(table(t1dt2d_cohort_local$class, t1dt2d_cohort_local$missing_any_var), margin=1)
-
-
-t1dt2d_cohort <- t1dt2d_cohort %>%
-  mutate(with_gad=ifelse(!is.na(earliest_negative_gad) | !is.na(earliest_positive_gad), 1, 0),
-         with_ia2=ifelse(!is.na(earliest_negative_ia2) | !is.na(earliest_positive_ia2), 1, 0))
-
-t1dt2d_cohort %>% 
-  group_by(class) %>%
-  summarise(count=n())
-
-
-############################################################################################
-
-# Calculate scores with and without lipids
-
-t1dt2d_scores <- t1dt2d_cohort %>%
   mutate(sex=ifelse(gender==2, 0, ifelse(gender==1, 1, NA)),
          
          clinical_pred_score=37.94+(-5.09*log(dm_diag_age))+(-6.34*log(bmi_post_diag)),
@@ -110,22 +60,101 @@ t1dt2d_scores <- t1dt2d_cohort %>%
          standard_trigs=(triglyceride_post_diag-1.719634)/1.771004,
          lipid_pred_score=(-1.4963*standard_bmi)+(-1.3358*standard_age)+(standard_cholesterol*-0.2473)+(sex*0.3026)+(0.6999*standard_hdl)+(-0.5322*standard_trigs)-4.0927,
          lipid_pred_prob=exp(lipid_pred_score)/(1+exp(lipid_pred_score))) %>%
-  analysis$cached("t1dt2d_scores", unique_indexes="patid")
+  analysis$cached("t1dt2d_calc_results", unique_indexes="patid")
+    
+    
+t1dt2d_calc_results %>% count()
 
-t1dt2d_scores_local <- collect(t1dt2d_scores %>% select(class, clinical_pred_prob, lipid_pred_prob))
+t1dt2d_calc_results %>% group_by(diabetes_type) %>% count()
+
+
+#Cohort characteristics
+
+t1dt2d_scores_local <- collect(t1dt2d_calc_results %>% select(diabetes_type, dm_diag_age, age_at_index, bmi_post_diag, totalchol_post_diag, hdl_post_diag, triglyceride_post_diag, clinical_pred_prob, lipid_pred_prob)) %>%
+  mutate(clinical_pred_prob=clinical_pred_prob*100,
+         lipid_pred_prob=lipid_pred_prob*100)
+
+
+n_format <- function(n, percent) {
+  z <- character(length = length(n))
+  wcts <- !is.na(n)
+  z[wcts] <- sprintf("%.0f (%.01f%%)",
+                     n[wcts], percent[wcts] * 100)
+  z
+}
+
+stat_format <- function(stat, num1, num2,
+                        num1_mask = "%.001f",
+                        num2_mask = "(%.001f)") {
+  z_num <- character(length = length(num1))
+  
+  is_mean_sd <- !is.na(num1) & !is.na(num2) & stat %in% "mean_sd"
+  is_median_iqr <- !is.na(num1) & !is.na(num2) &
+    stat %in% "median_iqr"
+  is_range <- !is.na(num1) & !is.na(num2) & stat %in% "range"
+  is_num_1 <- !is.na(num1) & is.na(num2)
+  
+  z_num[is_num_1] <- sprintf(num1_mask, num1[is_num_1])
+  
+  z_num[is_mean_sd] <- paste0(
+    sprintf(num1_mask, num1[is_mean_sd]),
+    " ",
+    sprintf(num2_mask, num2[is_mean_sd])
+  )
+  z_num[is_median_iqr] <- paste0(
+    sprintf(num1_mask, num1[is_median_iqr]),
+    " ",
+    sprintf(num2_mask, num2[is_median_iqr])
+  )
+  z_num[is_range] <- paste0(
+    "[",
+    sprintf(num1_mask, num1[is_range]),
+    " - ",
+    sprintf(num1_mask, num2[is_range]),
+    "]"
+  )
+  
+  z_num
+}
+
+z <- summarizor(t1dt2d_scores_local, by="diabetes_type", overall_label="overall")
+
+tab_2 <- tabulator(z,
+                   rows = c("variable", "stat"),
+                   columns = "diabetes_type",
+                   `Est.` = as_paragraph(
+                     as_chunk(stat_format(stat, value1, value2))),
+                   `N` = as_paragraph(as_chunk(n_format(cts, percent)))
+)
+
+as_flextable(tab_2, separate_with = "variable")
+
+
+## Overall excluding unspecified groups
+
+t1dt2d_scores_local2 <- collect(t1dt2d_calc_results %>% filter(diabetes_type!="unspecified" & diabetes_type!="unspecified_with_primis") %>% select(diabetes_type, dm_diag_age, age_at_index, bmi_post_diag, totalchol_post_diag, hdl_post_diag, triglyceride_post_diag, clinical_pred_prob, lipid_pred_prob)) %>%
+  mutate(clinical_pred_prob=clinical_pred_prob*100,
+         lipid_pred_prob=lipid_pred_prob*100)
+
+
+z <- summarizor(t1dt2d_scores_local2, by="diabetes_type", overall_label="overall")
+
+tab_2 <- tabulator(z,
+                   rows = c("variable", "stat"),
+                   columns = "diabetes_type",
+                   `Est.` = as_paragraph(
+                     as_chunk(stat_format(stat, value1, value2))),
+                   `N` = as_paragraph(as_chunk(n_format(cts, percent)))
+)
+
+as_flextable(tab_2, separate_with = "variable")
+
+
 
 ## Age + BMI model
-ggplot (t1dt2d_scores_local, aes(x=clinical_pred_prob, fill=class)) + 
+ggplot (t1dt2d_scores_local, aes(x=clinical_pred_prob, fill=diabetes_type)) + 
   geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
   scale_y_continuous(labels = scales::percent)
-
-
-## Lipid model
-ggplot (t1dt2d_scores_local, aes(x=lipid_pred_prob, fill=class)) + 
-  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.005) +
-  scale_y_continuous(labels = scales::percent) +
-  xlim(0, 0.3) +
-  ylim(0, 0.25)
 
 
 

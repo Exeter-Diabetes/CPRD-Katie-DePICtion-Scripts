@@ -19,9 +19,16 @@ analysis = cprd$analysis("dpctn")
 
 ############################################################################################
 
+# Set index date
+
+index_date <- as.Date("2020-02-01")
+
+
+############################################################################################
+
 # Look at categories of patients by combination of diabetes type codes
 
-cohort_classification <- cohort_classification %>% analysis$cached("cohort_classification")
+cohort_classification <- cohort_classification %>% analysis$cached("cohort_classification_with_primis")
 
 class_types <- collect(cohort_classification %>%
                          filter(class=="other") %>%
@@ -69,14 +76,43 @@ t1dt2d_classification <- t1dt2d_classification %>%
 t1dt2d_classification %>% count()
 #18,695
 
-t1dt2d_classification %>% filter(latest_code_no_ins==our_algorithm_no_ins) %>% count()
-#14,412 = 77.1%
+t1dt2d_classification %>% filter(latest_code_no_ins==our_algorithm_ins_ever) %>% count()
+#14,407 = 77.1%
 
-t1dt2d_classification %>% filter(latest_code_current_ins==our_algorithm_current_ins) %>% count()
-#15,038 = 80.4%
+t1dt2d_classification %>% filter(latest_code_no_ins!=our_algorithm_ins_ever) %>% group_by(latest_code_no_ins, our_algorithm_ins_ever) %>% count()
+
+median_time <- collect(t1dt2d_classification %>%
+                         filter(latest_code_no_ins!=our_algorithm_ins_ever) %>%
+                         mutate(time_to_correct_code=ifelse(our_algorithm_ins_ever=="type 1", datediff(index_date, latest_type_1), datediff(index_date, latest_type_2))))
+
+summary(median_time$time_to_correct_code)
+#1,142 days = 3.1 years
+
+
+t1dt2d_classification %>% filter(latest_code_current_ins==our_algorithm_ins_ever) %>% count()
+#14,789 = 79.1%
+
+t1dt2d_classification %>% filter(latest_code_current_ins!=our_algorithm_ins_ever) %>% group_by(latest_code_current_ins, our_algorithm_ins_ever) %>% count()
+
+median_time <- collect(t1dt2d_classification %>%
+                         filter(latest_code_current_ins!=our_algorithm_ins_ever) %>%
+                         mutate(time_to_correct_code=ifelse(our_algorithm_ins_ever=="type 1", datediff(index_date, latest_type_1), datediff(index_date, latest_type_2))))
+
+summary(median_time$time_to_correct_code)
+#1,088 days
+
 
 t1dt2d_classification %>% filter(latest_code_ins_ever==our_algorithm_ins_ever) %>% count()
 #14,851 = 79.4%
+
+t1dt2d_classification %>% filter(latest_code_ins_ever!=our_algorithm_ins_ever) %>% group_by(latest_code_ins_ever, our_algorithm_ins_ever) %>% count()
+
+median_time <- collect(t1dt2d_classification %>%
+                         filter(latest_code_ins_ever!=our_algorithm_ins_ever) %>%
+                         mutate(time_to_correct_code=ifelse(our_algorithm_ins_ever=="type 1", datediff(index_date, latest_type_1), datediff(index_date, latest_type_2))))
+
+summary(median_time$time_to_correct_code)
+#1,142 days
 
 
 ############################################################################################
@@ -86,14 +122,58 @@ t1dt2d_classification %>% filter(latest_code_ins_ever==our_algorithm_ins_ever) %
 cohort <- cohort %>% analysis$cached("cohort")
 
 
-## Diagnosis dates for patients not in class "other" i.e. with diabetes code of only one type
+## Diagnosis dates (based on codes only) for patients not in class "other" i.e. with diabetes code of only one type
 
-cohort_diag_dates <- cohort_diag_dates %>% analysis$cached("cohort_diag_dates_interim_3", unique_indexes="patid")
+cohort_diag_dates_not_other <- cohort_diag_dates %>% analysis$cached("cohort_diag_dates_codes_only_interim_2", unique_indexes="patid")
 
 
-## Diagnosis dates for patients with T1/T2 and T2/gestational
-### To do as above
+## Diagnosis dates for patients in class 'other' - only those with Type 1 and Type 2; Type 2 and gestational; Type 2 and secondary; Type 1 and gestational; or Type 1, Type 2 and gestational
+### If class is Type 2, haven't removed if in year of birth
 
+earliest_latest_codes_long_no_yob <- earliest_latest_codes_long_no_yob %>% analysis$cached("earliest_latest_codes_long_no_yob")
+
+cohort_other_class <- cohort_classification %>%
+  filter((!is.na(earliest_type_1) & !is.na(earliest_type_2) & is.na(earliest_any_gestational) & is.na(earliest_mody) & is.na(earliest_other_genetic_syndromic) & is.na(earliest_secondary) & is.na(earliest_malnutrition) & is.na(earliest_other_excl)) |
+      (is.na(earliest_type_1) & !is.na(earliest_type_2) & !is.na(earliest_any_gestational) & is.na(earliest_mody) & is.na(earliest_other_genetic_syndromic) & is.na(earliest_secondary) & is.na(earliest_malnutrition) & is.na(earliest_other_excl)) |
+         (is.na(earliest_type_1) & !is.na(earliest_type_2) & is.na(earliest_any_gestational) & is.na(earliest_mody) & is.na(earliest_other_genetic_syndromic) & !is.na(earliest_secondary) & is.na(earliest_malnutrition) & is.na(earliest_other_excl)) |
+            (!is.na(earliest_type_1) & is.na(earliest_type_2) & !is.na(earliest_any_gestational) & is.na(earliest_mody) & is.na(earliest_other_genetic_syndromic) & is.na(earliest_secondary) & is.na(earliest_malnutrition) & is.na(earliest_other_excl)) |
+               (!is.na(earliest_type_1) & !is.na(earliest_type_2) & !is.na(earliest_any_gestational) & is.na(earliest_mody) & is.na(earliest_other_genetic_syndromic) & is.na(earliest_secondary) & is.na(earliest_malnutrition) & is.na(earliest_other_excl))) %>%
+  select(patid) %>%
+  inner_join(earliest_latest_codes_long_no_yob, by="patid") %>%
+  filter(category!="unspecified" & category!="remission" & category!="high_hba1c" & category!="oha_script" & category!="insulin_script") %>%
+  group_by(patid) %>%
+  mutate(latest_type_code_date=max(latest, na.rm=TRUE)) %>%
+  filter(latest==latest_type_code_date) %>%
+  mutate(category=ifelse(category=="type_1", "type 1",
+                         ifelse(category=="type_2", "type 2", category))) %>%
+  summarise(new_class=sql("group_concat(distinct category order by category separator ' & ')")) %>%
+  ungroup() %>%
+  mutate(class=paste("mixed;", new_class)) %>%
+  select(patid, class) %>%
+  analysis$cached("cohort_other_class", unique_indexes="patid")
+  
+
+cohort_diag_dates_other <- earliest_latest_codes_long_no_yob %>%
+  filter(class=="other" & category!="high_hba1c" & category!="oha_script" & category!="insulin_script") %>%
+  group_by(patid) %>%
+  summarise(dm_diag_date=min(earliest, na.rm=TRUE)) %>%
+  ungroup() %>%
+  analysis$cached("cohort_diag_dates_codes_only_interim_4", unique_indexes="patid")
+
+cohort_diag_dates_other <- cohort_diag_dates_other %>%
+  inner_join((cprd$tables$patient %>% select(patid, regstartdate)), by="patid") %>%
+  mutate(dm_diag_date=if_else(datediff(dm_diag_date, regstartdate)>=-30 & datediff(dm_diag_date, regstartdate)<=90, as.Date(NA), dm_diag_date)) %>%
+  analysis$cached("cohort_diag_dates_codes_only_interim_5", unique_indexes="patid")
+
+cohort_diag_dates_other <- cohort_other_class %>%
+  inner_join(cohort_diag_dates_other, by="patid") %>%
+  analysis$cached("cohort_diag_dates_codes_only_interim_6", unique_indexes="patid")
+
+
+cohort_diag_dates_all <- cohort_diag_dates_not_other %>%
+  select(patid, class, dm_diag_date) %>%
+  union_all(cohort_diag_dates_other) %>%
+  analysis$cached("cohort_diag_dates_all", unique_indexes="patid")
 
 
 ## Earliest insulin per patient (clean - those before patient DOB removed)
@@ -106,14 +186,19 @@ earliest_insulin <- cohort_clean_dm_indications %>%
   summarise(earliest_ins=min(date, na.rm=TRUE)) %>%
   ungroup() %>%
   analysis$cached("earliest_ins", unique_indexes="patid")
+## NB: this is identical to earliest_insulin_script in main cohort table
 
 
-## Combine (need to add in diagnosis dates for patients with T1/T2 and T2/gestational once done)
+## Combine
 ### Time to insulin should be set to missing if diagnosed >6 months before registration start
 
 cohort_with_diag_dates <- cohort %>%
-  left_join((cohort_diag_dates %>% select(patid, class, dm_diag_date)), by="patid") %>%
+  left_join((cohort_diag_dates_all %>% select(patid, class, dm_diag_date)), by="patid") %>%
   left_join(earliest_insulin, by="patid") %>%
   mutate(time_to_ins_days=ifelse(is.na(earliest_ins) | datediff(regstartdate, dm_diag_date)>183, NA, datediff(earliest_ins, dm_diag_date)),
          dm_diag_age=round((datediff(dm_diag_date, dob))/365.25, 1)) %>%
   analysis$cached("cohort_with_diag_dates", unique_indexes="patid")
+
+
+## Those in groups not analysed (mixed codes except for most popular groups) will have missing class
+

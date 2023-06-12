@@ -1,7 +1,7 @@
 
 # Create new table with all IDs in download who are registered on 01/02/2020 and adults at this date
 
-# Pull in current BMI, HbA1c, total cholesterol, HDL, triglycerides, GAD antibodies (ever prior to index date), IA2 antibodies (ever prior to index date), C-peptide, current treatment (and whether have ins/OHA script), family history of diabetes (raw and clean)
+# Pull in current BMI, HbA1c, total cholesterol, HDL, triglycerides, weight, height, GAD and IA2 antibodies, C-peptide (ever prior to index date), current treatment (and whether have ins/OHA script), family history of diabetes, and whether are non-English speaking / have English as a second language
 
 ############################################################################################
 
@@ -170,7 +170,7 @@ cohort %>% count()
 ## Use closest date to index date as long as prior to this
 
 
-biomarkers <- c("bmi", "hdl", "triglyceride", "totalcholesterol", "hba1c")
+biomarkers <- c("bmi", "hdl", "triglyceride", "totalcholesterol", "hba1c", "weight", "height")
 
 
 # Pull out all raw biomarker values and cache
@@ -241,9 +241,10 @@ for (i in biomarkers) {
 
 
 # For each biomarker, find baseline value at index date
-## Use closest date to index date as long as prior to this
+## Use closest date to index date as long as prior to this - weight and height don't need to be on same day as height doesn't change
 
 analysis = cprd$analysis("dpctn")
+
 
 for (i in biomarkers) {
   
@@ -551,4 +552,59 @@ final_fh <- fh_code_types %>%
 
 cohort <- cohort %>%
   left_join((final_fh %>% select(patid, fh_diabetes)), by="patid") %>%
+  analysis$cached("cohort_interim_7", unique_indexes="patid")
+
+
+############################################################################################
+
+# Add in whether non-English speaking or English not first language
+## If have codes for both, assume non-English speaking
+
+analysis = cprd$analysis("all_patid")
+
+## Raw language codes
+raw_language_medcodes <- cprd$tables$observation %>%
+  inner_join(codes$language, by="medcodeid") %>%
+  analysis$cached("raw_language_medcodes", indexes=c("patid", "obsdate"))
+
+## Clean language codes
+clean_language_medcodes <- raw_language_medcodes %>%
+  inner_join(cprd$tables$validDateLookup, by="patid") %>%
+  filter(obsdate>=min_dob & obsdate<=gp_ons_end_date) %>%
+  select(patid, date=obsdate, language_cat) %>%
+  analysis$cached("clean_language_medcodes", indexes=c("patid", "date"))
+
+
+analysis = cprd$analysis("dpctn")
+
+non_english <- clean_language_medcodes %>%
+  filter(language_cat=="Non-English speaking") %>%
+  distinct(patid) %>%
+  mutate(non_english=1L)
+
+english_not_first <- clean_language_medcodes %>%
+  filter(language_cat=="First Language Not English") %>%
+  distinct(patid) %>%
+  mutate(english_not_first=1L)
+
+cohort <- cohort %>%
+  left_join(non_english, by="patid") %>%
+  left_join(english_not_first, by="patid") %>%
+  mutate(language=ifelse(!is.na(non_english) & non_english==1, "Non-English speaking",
+                         ifelse(!is.na(english_not_first) & english_not_first==1, "First language not English", NA))) %>%
+  select(-c(non_english, english_not_first)) %>%
   analysis$cached("cohort", unique_indexes="patid")
+
+
+cohort %>% count()
+#769493
+
+cohort %>% filter(!is.na(language) & language=="Non-English speaking") %>% count()
+#20917
+20917/769493 #2.7%
+
+cohort %>% filter(!is.na(language) & language=="First language not English") %>% count()
+#55746
+55746/769493 #7.2%
+
+

@@ -151,7 +151,7 @@ cohort_diag_dates <- earliest_latest_codes_long_no_yob %>%
 
 cohort_diag_dates <- cohort_diag_dates %>%
   inner_join((cprd$tables$patient %>% select(patid, regstartdate)), by="patid") %>%
-  mutate(dm_diag_date=if_else(datediff(dm_diag_date, regstartdate)>=30 & datediff(dm_diag_date, regstartdate)<=90, as.Date(NA), dm_diag_date),
+  mutate(dm_diag_date=if_else(datediff(dm_diag_date, regstartdate)>=-30 & datediff(dm_diag_date, regstartdate)<=90, as.Date(NA), dm_diag_date),
          dm_diag_codetype=ifelse(is.na(dm_diag_date), NA, dm_diag_codetype),
          dm_diag_codetype2=ifelse(is.na(dm_diag_date), NA, dm_diag_codetype2)) %>%
   analysis$cached("cohort_diag_dates_interim_3", unique_indexes="patid")

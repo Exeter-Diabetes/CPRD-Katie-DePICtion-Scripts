@@ -1,7 +1,14 @@
 
 # Create new table with all IDs in download who are registered on 01/02/2020 and adults at this date
 
-# Pull in current BMI, HbA1c, total cholesterol, HDL, triglycerides, GAD antibodies (ever prior to index date), IA2 antibodies (ever prior to index date), C-peptide, current treatment (and whether have ins/OHA script), family history of diabetes (raw and clean)
+# Define diagnosis date based on earliest diabetes code: exclude those diagnsoed between -30 and +90 days of registration or >50 years of age
+
+# Define diabetes type based on (latest) type codes
+
+# Pull in variables for MODY and T1D/T2D calculator: current BMI, HbA1c, total cholesterol, HDL, triglycerides, current treatment (and whether have ins/OHA script), family history of diabetes, time to insulin
+
+# Pull in other variables of interest: GAD and IA2 antibodies (ever prior to index date), C-peptide (ever prior to index date), and whether are non-English speaking / have English as a second language
+
 
 ############################################################################################
 
@@ -15,7 +22,7 @@ cprd = CPRDData$new(cprdEnv = "test-remote",cprdConf = "~/.aurum.yaml")
 codesets = cprd$codesets()
 codes = codesets$getAllCodeSetVersion(v = "31/10/2021")
 
-analysis = cprd$analysis("dpctn")
+analysis = cprd$analysis("dpctn_final")
 
 
 ############################################################################################
@@ -60,7 +67,7 @@ raw_exclusion_diabetes_medcodes <- cprd$tables$observation %>%
   inner_join(codes$exclusion_diabetes, by="medcodeid") %>%
   analysis$cached("raw_exclusion_diabetes_medcodes", indexes=c("patid", "obsdate", "exclusion_diabetes_cat"))
 
-analysis = cprd$analysis("dpctn")
+analysis = cprd$analysis("dpctn_final")
 
 acceptable_patids_with_valid_diabetes_code <- acceptable_patids %>%
   select(patid, pracid, regstartdate, regenddate) %>%
@@ -86,7 +93,7 @@ acceptable_patids_with_valid_diabetes_code %>% count()
 
 ############################################################################################
 
-# Create cohort table
+# Find IDs of those registered on 01/02/2020
 
 # Include general patient variables as per all_diabetes_cohort:
 ## gender
@@ -111,7 +118,7 @@ analysis = cprd$analysis("all_patid")
 ethnicity <- ethnicity %>% analysis$cached("ethnicity")
 
 
-analysis = cprd$analysis("dpctn")
+analysis = cprd$analysis("dpctn_final")
 
 cohort <- acceptable_patids_with_valid_diabetes_code %>%
   inner_join(cprd$tables$patient, by="patid") %>%
@@ -154,11 +161,145 @@ cohort <- cohort %>%
 cohort %>% count()
 # 769,493
 
+
+############################################################################################
+
+# Define diabetes type
+
+## Combine all diabetes codes prior to/at index date
+
+analysis = cprd$analysis("dpctn_final")
+
+all_patid_clean_dm_codes <- raw_diabetes_medcodes %>%
+  select(patid, date=obsdate, category=all_diabetes_cat) %>%
+  union_all(raw_exclusion_diabetes_medcodes %>%
+              filter(exclusion_diabetes_cat!="diabetes insipidus") %>%
+              select(patid, date=obsdate, category=exclusion_diabetes_cat)) %>%
+  filter(date<=index_date) %>%
+  analysis$cached("all_patid_clean_dm_codes", indexes=c("patid", "date", "category"))
+
+
+## Find code counts for each diabetes type
+
+all_patid_code_counts <- all_patid_clean_dm_codes %>%
+  group_by(patid, category) %>%
+  summarise(count=n()) %>%
+  ungroup() %>%
+  pivot_wider(id_cols=patid, names_from=category, values_from=count, values_fill=list(count=0)) %>%
+  analysis$cached("all_patid_code_counts", indexes="patid")
+
+## NB: no insulin receptor Abs codes
+
+
+## Find latest type code, excluding unspecified and gestational
+ 
+all_patid_latest_type_code <- all_patid_clean_dm_codes %>%
+  filter(category!="unspecified" & category!="gestational" & category!="gestational history") %>%
+  group_by(patid) %>%
+  mutate(most_recent_date=max(date, na.rm=TRUE)) %>%
+  filter(date==most_recent_date) %>%
+  summarise(provisional_diabetes_type=sql("group_concat(distinct category order by category separator ' & ')")) %>%
+  ungroup() %>%
+  analysis$cached("all_patid_latest_type_code", indexes="patid")
+
+
+## Find who has PRIMIS code
+### Use table from Initial data quality checks/03a_dpctn_diabetes_qof_primis_codelist.R
+
+analysis = cprd$analysis("dpctn")
+
+with_primis_clean <- with_primis_clean %>% analysis$cached("with_primis_clean")
+
+analysis = cprd$analysis("dpctn_final")
+
+with_primis_clean <- with_primis_clean %>%
+  distinct(patid) %>%
+  mutate(with_primis=1L)
+
+
+## Determine diabetes type and add to cohort table
+
+diabetes_type <- cohort %>%
+  select(patid) %>%
+  left_join(all_patid_code_counts, by="patid") %>%
+  left_join(all_patid_latest_type_code, by="patid") %>%
+  left_join(with_primis_clean, by="patid") %>%
+  mutate(diabetes_type=case_when(
+    `type 1`==0 & `type 2`==0 & gestational==0 & `gestational history`==0 & malnutrition==0 & mody==0 & `other unspec`==0 & `other/unspec genetic inc syndromic`==0 & secondary==0 & is.na(with_primis) ~ "unspecified",
+    
+    `type 1`==0 & `type 2`==0 & gestational==0 & `gestational history`==0 & malnutrition==0 & mody==0 & `other unspec`==0 & `other/unspec genetic inc syndromic`==0 & secondary==0 & !is.na(with_primis) ~ "unspecified_with_primis",
+    
+    `type 1`>0 & `type 2`==0 & gestational==0 & `gestational history`==0 & malnutrition==0 & mody==0 & `other unspec`==0 & `other/unspec genetic inc syndromic`==0 & secondary==0 ~ "type 1",
+    
+    `type 1`==0 & `type 2`>0 & gestational==0 & `gestational history`==0 & malnutrition==0 & mody==0 & `other unspec`==0 & `other/unspec genetic inc syndromic`==0 & secondary==0 ~ "type 2",
+    
+    `type 1`==0 & `type 2`==0 & (gestational>0 | `gestational history`>0) & malnutrition==0 & mody==0 & `other unspec`==0 & `other/unspec genetic inc syndromic`==0 & secondary==0 ~ "gestational",
+    
+    `type 1`==0 & `type 2`==0 & gestational==0 & `gestational history`==0 & malnutrition==0 & mody==0 & `other unspec`==0 & `other/unspec genetic inc syndromic`==0 & secondary==0 ~ "insulin receptor abs",
+    
+    `type 1`==0 & `type 2`==0 & gestational==0 & `gestational history`==0 & malnutrition>0 & mody==0 & `other unspec`==0 & `other/unspec genetic inc syndromic`==0 & secondary==0 ~ "malnutrition",
+    
+    `type 1`==0 & `type 2`==0 & gestational==0 & `gestational history`==0 & malnutrition==0 & mody>0 & `other unspec`==0 & `other/unspec genetic inc syndromic`==0 & secondary==0 ~ "mody",
+    
+    `type 1`==0 & `type 2`==0 & gestational==0 & `gestational history`==0 & malnutrition==0 & mody==0 & `other unspec`>0 & `other/unspec genetic inc syndromic`>0 & secondary==0 ~ "other unspec",
+    
+    `type 1`==0 & `type 2`==0 & gestational==0 & `gestational history`==0 & malnutrition==0 & mody==0 & `other unspec`==0 & `other/unspec genetic inc syndromic`>0 & secondary==0 ~ "other/unspec genetic inc syndromic",
+    
+    `type 1`==0 & `type 2`==0 & gestational==0 & `gestational history`==0 & malnutrition==0 & mody==0 & `other unspec`==0 & `other/unspec genetic inc syndromic`==0 & secondary>0 ~ "secondary"),
+    
+    diabetes_type=ifelse(!is.na(diabetes_type), diabetes_type, paste("mixed;", provisional_diabetes_type))) %>%
+  
+  select(patid, diabetes_type) %>%
+  
+  analysis$cached("diabetes_type", unique_indexes="patid")
+    
+cohort <- cohort %>%
+  inner_join(diabetes_type, by="patid") %>%
+  analysis$cached("cohort_interim_3", unique_indexes="patid")
+
+
+############################################################################################
+
+# Define diagnosis dates
+## Exclude codes if Type 2 and in year in birth
+
+diagnosis_dates <- all_patid_clean_dm_codes %>%
+  inner_join(cohort, by="patid") %>%
+  filter(!(diabetes_type=="type 2" & year(date)==year(dob))) %>%
+  group_by(patid) %>%
+  summarise(diagnosis_date=min(date, na.rm=TRUE)) %>%
+  ungroup() %>%
+  analysis$cached("diagnosis_dates", unique_indexes="patid")
+
+
+# Add to cohort table and remove those with diagnosis date within -30 to +90 days of registration start
+
+cohort <- cohort %>%
+  inner_join(diagnosis_dates, by="patid") %>%
+  filter(datediff(diagnosis_date, regstartdate)< -30 | datediff(diagnosis_date, regstartdate)>90) %>%
+  analysis$cached("cohort_interim_4", unique_indexes="patid")
+
+cohort %>% count()
+#741,291
+
+
+# Remove those diagnosed aged >50
+
+cohort <- cohort %>%
+  mutate(dm_diag_age=round((datediff(diagnosis_date, dob))/365.25, 1)) %>%
+  filter(dm_diag_age<=50) %>%
+  analysis$cached("cohort_interim_5", unique_indexes="patid")
+
+cohort %>% count()
+#265,175
+
+
+
 ############################################################################################
 
 # Add in biomarkers
 
-## Don't set any limit on how far back to go - will investigate later
+## Don't set any limit on how far back to go - will remove those before diagnosis
 
 # Clean biomarkers:
 ## Only keep those within acceptable value limits
@@ -241,9 +382,10 @@ for (i in biomarkers) {
 
 
 # For each biomarker, find baseline value at index date
-## Use closest date to index date as long as prior to this
+## Use closest date to index date as long as prior to this - weight and height don't need to be on same day as height doesn't change
 
-analysis = cprd$analysis("dpctn")
+analysis = cprd$analysis("dpctn_final")
+
 
 for (i in biomarkers) {
   
@@ -271,7 +413,7 @@ for (i in biomarkers) {
   
 }
 
-cohort <- cohort %>% analysis$cached("cohort_interim_3", unique_indexes="patid")
+cohort <- cohort %>% analysis$cached("cohort_interim_6", unique_indexes="patid")
 
 
 ############################################################################################
@@ -300,7 +442,7 @@ raw_ia2 <- cprd$tables$observation %>%
 
 # Assume 0 values are 0, not missing
 
-analysis = cprd$analysis("dpctn")
+analysis = cprd$analysis("dpctn_final")
 
 ### GAD
 
@@ -365,7 +507,7 @@ ia2 <- earliest_ia2 %>%
 cohort <- cohort %>%
   left_join(gad, by="patid") %>%
   left_join(ia2, by="patid") %>%
-  analysis$cached("cohort_interim_4", unique_indexes="patid")
+  analysis$cached("cohort_interim_7", unique_indexes="patid")
 
 
 ############################################################################################
@@ -400,7 +542,7 @@ raw_c_peptide %>% filter(c_peptide_cat=="blood") %>% group_by(numunitid) %>% sum
 ### No indication as to whether blood samples are fasted or not so assume not
 ## Assume 0 values are 0, not missing
 
-analysis = cprd$analysis("dpctn")
+analysis = cprd$analysis("dpctn_final")
 
 processed_c_peptide <- raw_c_peptide %>%
   filter(obsdate<=index_date & !is.na(testvalue) & numunitid!=283 & numunitid!=229 & !(numunitid==899 & c_peptide_cat=="blood")) %>%
@@ -442,7 +584,7 @@ c_pep <- earliest_c_pep %>%
 
 cohort <- cohort %>%
   left_join(c_pep, by="patid") %>%
-  analysis$cached("cohort_interim_5", unique_indexes="patid")
+  analysis$cached("cohort_interim_8", unique_indexes="patid")
 
 
 ############################################################################################
@@ -473,7 +615,7 @@ clean_insulin <- cprd$tables$drugIssue %>%
 
 # Find most recent prior to index date
 
-analysis = cprd$analysis("dpctn")
+analysis = cprd$analysis("dpctn_final")
 
 latest_oha <- clean_oha %>%
   filter(date<=index_date) %>%
@@ -484,7 +626,7 @@ latest_oha <- clean_oha %>%
          current_oha_3m=ifelse(indexdatediff>=-91, 1L, 0L),
          current_oha_6m=ifelse(indexdatediff>=-183, 1L, 0L),
          oha_ever=1L) %>%
-  select(patid, current_oha_3m, current_oha_6m) %>%
+  select(patid, current_oha_3m, current_oha_6m, oha_ever) %>%
   analysis$cached("current_oha", unique_indexes="patid")
   
 latest_insulin <- clean_insulin %>%
@@ -496,14 +638,14 @@ latest_insulin <- clean_insulin %>%
          current_ins_3m=ifelse(indexdatediff>=-91, 1L, 0L),
          current_ins_6m=ifelse(indexdatediff>=-183, 1L, 0L),
          ins_ever=1L) %>%
-  select(patid, current_ins_3m, current_ins_6m) %>%
+  select(patid, current_ins_3m, current_ins_6m, ins_ever) %>%
   analysis$cached("current_ins", unique_indexes="patid")
 
 cohort <- cohort %>%
   left_join(latest_oha, by="patid") %>%
   left_join(latest_insulin, by="patid") %>%
   mutate(across(c("current_oha_3m", "current_oha_6m", "oha_ever", "current_ins_3m", "current_ins_6m", "ins_ever"), coalesce, 0L)) %>%
-  analysis$cached("cohort_interim_6", unique_indexes="patid")
+  analysis$cached("cohort_interim_9", unique_indexes="patid")
 
 
 ############################################################################################
@@ -529,7 +671,7 @@ clean_fh_diabetes_medcodes <- raw_fh_diabetes %>%
   analysis$cached("clean_fh_diabetes_medcodes", indexes=c("patid", "date"))
 
 
-analysis = cprd$analysis("dpctn")
+analysis = cprd$analysis("dpctn_final")
 
 fh_code_types <- clean_fh_diabetes_medcodes %>%
   filter(fh_diabetes_cat!="positive - sibling" & fh_diabetes_cat!="positive - child" & fh_diabetes_cat!="positive - gestational" & date<=index_date) %>%
@@ -551,4 +693,87 @@ final_fh <- fh_code_types %>%
 
 cohort <- cohort %>%
   left_join((final_fh %>% select(patid, fh_diabetes)), by="patid") %>%
+  analysis$cached("cohort_interim_10", unique_indexes="patid")
+
+
+############################################################################################
+
+# Add in whether non-English speaking or English not first language
+## If have codes for both, assume non-English speaking
+
+analysis = cprd$analysis("all_patid")
+
+## Raw language codes
+raw_language_medcodes <- cprd$tables$observation %>%
+  inner_join(codes$language, by="medcodeid") %>%
+  analysis$cached("raw_language_medcodes", indexes=c("patid", "obsdate"))
+
+## Clean language codes
+clean_language_medcodes <- raw_language_medcodes %>%
+  inner_join(cprd$tables$validDateLookup, by="patid") %>%
+  filter(obsdate>=min_dob & obsdate<=gp_ons_end_date) %>%
+  select(patid, date=obsdate, language_cat) %>%
+  analysis$cached("clean_language_medcodes", indexes=c("patid", "date"))
+
+
+analysis = cprd$analysis("dpctn_final")
+
+non_english <- clean_language_medcodes %>%
+  filter(language_cat=="Non-English speaking") %>%
+  distinct(patid) %>%
+  mutate(non_english=1L)
+
+english_not_first <- clean_language_medcodes %>%
+  filter(language_cat=="First Language Not English") %>%
+  distinct(patid) %>%
+  mutate(english_not_first=1L)
+
+cohort <- cohort %>%
+  left_join(non_english, by="patid") %>%
+  left_join(english_not_first, by="patid") %>%
+  mutate(language=ifelse(!is.na(non_english) & non_english==1, "Non-English speaking",
+                         ifelse(!is.na(english_not_first) & english_not_first==1, "First language not English", NA))) %>%
+  select(-c(non_english, english_not_first)) %>%
+  analysis$cached("cohort_interim_11", unique_indexes="patid")
+
+
+cohort %>% count()
+#265175
+
+cohort %>% filter(!is.na(language) & language=="Non-English speaking") %>% count()
+#9065
+9065/265175 #3.4%
+
+cohort %>% filter(!is.na(language) & language=="First language not English") %>% count()
+#27863
+27863/265175 #10.5%
+
+
+############################################################################################
+
+# Add time to insulin
+
+## Earliest insulin per patient
+
+earliest_insulin <- clean_insulin %>%
+  group_by(patid) %>%
+  summarise(earliest_ins=min(date, na.rm=TRUE)) %>%
+  ungroup() %>%
+  analysis$cached("earliest_insulin", unique_indexes="patid")
+
+## Combine
+### Time to insulin should be set to missing if diagnosed >6 months before registration start
+
+cohort <- cohort %>%
+  left_join(earliest_insulin, by="patid") %>%
+  mutate(time_to_ins_days=ifelse(is.na(earliest_ins) | datediff(regstartdate, diagnosis_date)>183, NA, datediff(earliest_ins, diagnosis_date))) %>%
   analysis$cached("cohort", unique_indexes="patid")
+
+
+############################################################################################
+
+# Look at diabetes type counts
+
+counts <- collect(cohort %>% group_by(diabetes_type) %>% count())
+
+

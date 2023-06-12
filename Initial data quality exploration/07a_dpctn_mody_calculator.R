@@ -1,5 +1,6 @@
 
 # Apply the MODY calculator to everyone in prevalent cohort diagnosed aged 1-35 years
+## Just looking at missing variables in this script
 
 ############################################################################################
 
@@ -24,10 +25,10 @@ cohort <- cohort %>% analysis$cached("cohort_with_diag_dates")
 ############################################################################################
 
 # Define MODY cohort: patients diagnosed with a current Type 1 or Type 2 diagnosis or unspecified type, diagnosed aged 1-35
-## At the moment don't have T1/T2 and T2/gestational people
+## Need to remove BMI if <18 years of age
 
 mody_cohort <- cohort %>%
-  filter(dm_diag_age>=1 & dm_diag_age<=35 & (class=="type 1" | class=="type 2" | class=="unspecified")) %>%
+  filter(dm_diag_age>=1 & dm_diag_age<=35 & (class=="type 1" | class=="type 2" | class=="unspecified" | class=="unspecified_with_primis" | class=="mixed; type 1" | class=="mixed; type 2")) %>%
   mutate(hba1c_2_years=ifelse(hba1cindexdiff>=-731, hba1c, NA),
          hba1c_2_years_datediff=ifelse(!is.na(hba1c_2_years), hba1cindexdiff, NA),
          bmi_2_years=ifelse(bmiindexdiff>=-731, bmi, NA),
@@ -39,9 +40,72 @@ mody_cohort <- cohort %>%
          insulin_6_months=ifelse(!is.na(time_to_ins_days) & time_to_ins_days<=183, 1,
                                  ifelse((!is.na(time_to_ins_days) & time_to_ins_days>183) | ins_ever==0, 0, NA)),
          insoha=ifelse(current_oha_6m==1 | current_ins_6m==1, 1L, 0L)) %>%
-  analysis$cached("mody_cohort", unique_indexes="patid")
+  analysis$cached("mody_cohort_interim_1", unique_indexes="patid")
+
+
+mody_cohort %>% count()
+#76755
 
 mody_cohort %>% group_by(class) %>% count()
+# type 1                      25514
+# type 2                      26175
+# unspecified                 11799
+# unspecified_with_primis     837
+# mixed; type 2               7654
+# mixed; type 1               4776
+
+
+## Check proportion where BMI is for aged <18
+
+mody_cohort %>% mutate(age_at_bmi=datediff(bmidate, dob)/365.25) %>% filter(age_at_bmi<18) %>% count()
+#1247
+1247/76755 #1.6%
+
+
+mody_cohort %>% mutate(age_at_bmi=datediff(bmidate, dob)/365.25) %>% filter(age_at_bmi<18) %>% group_by(class) %>% count()
+# type 1                      483 #1.9%
+# type 2                      45 #0.2%
+# unspecified                 682 #5.8%
+# unspecified_with_primis     28 #3.3%
+# mixed; type 1               5 #0.06%
+# mixed; type 2               4 #0.08%
+
+
+## Remake without BMI for <18 years
+
+mody_cohort <- mody_cohort %>%
+  mutate(age_at_bmi=datediff(bmidate, dob)/365.25,
+         bmi_2_years=ifelse(age_at_bmi<18, NA, bmi_2_years),
+         bmi_2_years_datediff=ifelse(age_at_bmi<18, NA, bmi_2_years_datediff),
+         bmi_post_diag=ifelse(age_at_bmi<18, NA, bmi_post_diag),
+         bmi_post_diag_datediff=ifelse(age_at_bmi<18, NA, bmi_post_diag_datediff)) %>%
+  analysis$cached("mody_cohort", unique_indexes="patid")
+
+
+############################################################################################
+
+# Check that separate weight and height measurements don't add
+
+mody_cohort %>% filter(is.na(bmi_post_diag)) %>% count()
+#6982
+6982/76755 #9.1%
+
+
+mody_cohort %>%
+  mutate(weight_post_diag=ifelse(weightdate>=dm_diag_date, weight, NA)) %>%
+  filter(is.na(bmi_post_diag) & !is.na(height) & !is.na(weight_post_diag)) %>%
+  count()
+#1464
+1464/76755 #1.9%
+  
+mody_cohort %>%
+  mutate(weight_post_diag=ifelse(weightdate>=dm_diag_date, weight, NA),
+         age_at_weight=datediff(weightdate, dob)/365.25,
+         age_at_height=datediff(heightdate, dob)/365.25) %>%
+  filter(is.na(bmi_post_diag) & !is.na(height) & !is.na(weight_post_diag) & age_at_weight>=18 & age_at_height>=18) %>%
+  count()
+#653
+653/76755 #0.9%
 
 
 ############################################################################################
@@ -49,104 +113,67 @@ mody_cohort %>% group_by(class) %>% count()
 # Look at missing variables
 
 mody_cohort_local <- collect(mody_cohort %>%
-                               select(class, dm_diag_age, age_at_index, fh_diabetes, starts_with("hba1c"), starts_with("bmi"), ins_ever, insulin_6_months, insoha)) %>%
+                               select(class, language, dm_diag_age, age_at_index, fh_diabetes, starts_with("hba1c"), starts_with("bmi"), ins_ever, insulin_6_months, insoha)) %>%
   mutate(fh_diabetes=as.factor(fh_diabetes),
          insulin_6_months=as.factor(insulin_6_months),
          insoha=as.factor(insoha),
+         ins_ever=as.factor(ins_ever),
          bmi_2_years_datediff=-(as.numeric(bmi_2_years_datediff)),
          bmi_post_diag_datediff=-(as.numeric(bmi_post_diag_datediff)),
          hba1c_2_years_datediff=-(as.numeric(hba1c_2_years_datediff)),
          hba1c_post_diag_datediff=-(as.numeric(hba1c_post_diag_datediff)))
+
+
+n_format <- function(n, percent) {
+  z <- character(length = length(n))
+  wcts <- !is.na(n)
+  z[wcts] <- sprintf("%.0f (%.01f%%)",
+                     n[wcts], percent[wcts] * 100)
+  z
+}
+
+stat_format <- function(stat, num1, num2,
+                        num1_mask = "%.01f",
+                        num2_mask = "(%.01f)") {
+  z_num <- character(length = length(num1))
   
-as_flextable(summarizor(mody_cohort_local, by="class", overall_label="overall"))
-
-mody_cohort_local <- mody_cohort_local %>%
-  mutate(missing_any_var=ifelse(is.na(bmi_post_diag_datediff) | is.na(hba1c_post_diag_datediff) | is.na(fh_diabetes) | is.na(insulin_6_months), 1, 0))
-
-table(mody_cohort_local$class, mody_cohort_local$missing_any_var)
-
-prop.table(table(mody_cohort_local$class, mody_cohort_local$missing_any_var), margin=1)
-
-
-############################################################################################
-
-# Find small subset with complete variables and calculate MODY probability
-
-complete_mody_cohort <- mody_cohort %>%
-  filter(!is.na(fh_diabetes) & !is.na(bmi_post_diag) & !is.na(hba1c_post_diag) & !is.na(insulin_6_months)) %>%
+  is_mean_sd <- !is.na(num1) & !is.na(num2) & stat %in% "mean_sd"
+  is_median_iqr <- !is.na(num1) & !is.na(num2) &
+    stat %in% "median_iqr"
+  is_range <- !is.na(num1) & !is.na(num2) & stat %in% "range"
+  is_num_1 <- !is.na(num1) & is.na(num2)
   
-  mutate(hba1c_post_diag_perc=(0.09148*hba1c_post_diag)+2.152,
-         
-         mody_logOR=ifelse(insulin_6_months==1,
-                           1.8196 + (3.1404*fh_diabetes) - (0.0829*age_at_index) - (0.6598*hba1c_post_diag_perc) + (0.1011*dm_diag_age) + (1.3131*gender),
-                           19.28 - (0.3154*dm_diag_age) - (0.2324*bmi_post_diag) - (0.6276*hba1c_post_diag_perc) + (1.7473*fh_diabetes) - (0.0352*age_at_index) - (0.9952*insoha) + (0.6943*gender)),
-         
-         mody_prob=exp(mody_logOR)/(1+exp(mody_logOR)),
-         
-         mody_adj_prob=ifelse(insulin_6_months==1, case_when(
-           mody_prob < 0.1 ~ 0.7,
-           mody_prob < 0.2 ~ 1.9,
-           mody_prob < 0.3 ~ 2.6,
-           mody_prob < 0.4 ~ 4.0,
-           mody_prob < 0.5 ~ 4.9,
-           mody_prob < 0.6 ~ 6.4,
-           mody_prob < 0.7 ~ 7.2,
-           mody_prob < 0.8 ~ 8.2,
-           mody_prob < 0.9 ~ 12.6,
-           mody_prob < 1.0 ~ 49.4
-         ),
-         case_when(
-           mody_prob < 0.1 ~ 4.6,
-           mody_prob < 0.2 ~ 15.1,
-           mody_prob < 0.3 ~ 21.0,
-           mody_prob < 0.4 ~ 24.4,
-           mody_prob < 0.5 ~ 32.9,
-           mody_prob < 0.6 ~ 35.8,
-           mody_prob < 0.7 ~ 45.5,
-           mody_prob < 0.8 ~ 58.0,
-           mody_prob < 0.9 ~ 62.4,
-           mody_prob < 1.0 ~ 75.5
-         ))) %>%
+  z_num[is_num_1] <- sprintf(num1_mask, num1[is_num_1])
   
-  analysis$cached("complete_mody_cohort", unique_indexes="patid")
+  z_num[is_mean_sd] <- paste0(
+    sprintf(num1_mask, num1[is_mean_sd]),
+    " ",
+    sprintf(num2_mask, num2[is_mean_sd])
+  )
+  z_num[is_median_iqr] <- paste0(
+    sprintf(num1_mask, num1[is_median_iqr]),
+    " ",
+    sprintf(num2_mask, num2[is_median_iqr])
+  )
+  z_num[is_range] <- paste0(
+    "[",
+    sprintf(num1_mask, num1[is_range]),
+    " - ",
+    sprintf(num1_mask, num2[is_range]),
+    "]"
+  )
+  
+  z_num
+}
 
-complete_case_score <- collect(complete_mody_cohort %>% select(class, insulin_6_months, fh_diabetes, dm_diag_age, age_at_index, bmi_post_diag, hba1c_post_diag, hba1c_post_diag_perc, insoha, mody_prob, mody_adj_prob)) %>%
-  mutate(mody_prob=as.numeric(mody_prob),
-         mody_adj_prob=as.numeric(mody_adj_prob),
-         fh_diabetes=as.factor(fh_diabetes),
-         insulin_6_months=as.factor(insulin_6_months),
-         insoha=as.factor(insoha))
-#14,013
+z <- summarizor(mody_cohort_local, by="class", overall_label="overall")
 
-table(complete_case_score$class)
+tab_2 <- tabulator(z,
+                   rows = c("variable", "stat"),
+                   columns = "class",
+                   `Est.` = as_paragraph(
+                     as_chunk(stat_format(stat, value1, value2))),
+                   `N` = as_paragraph(as_chunk(n_format(cts, percent)))
+)
 
-as_flextable(summarizor((complete_case_score %>% select(class, dm_diag_age, age_at_index, bmi_post_diag, hba1c_post_diag, fh_diabetes, insulin_6_months, insoha)), by="class", overall_label="overall"))
-
-
-## Histogram of unadjusted
-ggplot (complete_case_score, aes(x=mody_prob)) + 
-  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
-  scale_y_continuous(labels = scales::percent)
-
-## Histogram of adjusted
-ggplot (complete_case_score, aes(x=mody_adj_prob)) + 
-  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=2) +
-  scale_y_continuous(labels = scales::percent)
-
-## Histogram of adjusted - coloured by code category
-ggplot (complete_case_score, aes(x=mody_adj_prob, fill=class)) + 
-  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=2) +
-  scale_y_continuous(labels = scales::percent)
-
-complete_case_score <- complete_case_score %>% mutate(new_class=paste0(class," ins_6_mos=",insulin_6_months))
-
-## Histogram of adjusted - coloured by code category
-ggplot (complete_case_score, aes(x=mody_adj_prob, fill=new_class)) + 
-  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=2) +
-  scale_y_continuous(labels = scales::percent)
-
-
-
-
-
-
+as_flextable(tab_2, separate_with = "variable")
