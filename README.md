@@ -197,7 +197,7 @@ Cohort characteristics of those not missing BMI:
 
 Histogram of age and BMI model:
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/t1dt2d_age_bmi_new.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/t1dt2d_age_bmi.png?" width="1000">
 
 
 
