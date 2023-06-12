@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The scripts in this directory use a cohort of adults with diabetes registered in primary care on 01/02/2020 to explore data quality issues, particularly around diabetes type coding and diagnosis dates, and determine rules to identify those with poor quality data. The below diagram shows the contruction of this cohort:
+The scripts in this directory use a cohort of adults with diabetes registered in primary care on 01/02/2020 to explore data quality issues, particularly around diabetes type coding and diagnosis dates, and determine rules to identify those with poor quality data. The below diagram shows the construction of this cohort:
 
 ```mermaid
 graph TD;
@@ -27,7 +27,12 @@ See upper level of this repository for notes on the aurum package and codelists 
 &nbsp;
 
 ### 01_dpctn_cohort
-Defines the cohort as per the flowchart above, and adds in patient characteristics (e.g. sex, ethnicity, age at index date) as well as biomarkers values at/prior to index date (BMI, HDL, triglycerides, total cholesterol, HbA1c, GAD/IA2 antibodies, and C-peptide) and family history of diabetes.
+Defines the cohort as per the flowchart above, and adds in patient characteristics (e.g. sex, ethnicity, age at index date) as well as biomarkers values at/prior to index date (BMI, weight, height, HDL, triglycerides, total cholesterol, HbA1c, GAD/IA2 antibodies, and C-peptide), family history of diabetes, and whether they are non-English speaking / have English as a second language.
+
+
+🔴 **Rule 0: Biomarker cleaning: BMI, HbA1c, total cholesterol, HDL, and triglyceride values outside of the normal detectable range (BMI: 15-100 kg/m2 (used for adult measurements only), HbA1c: 20-195 mmol/mol, total cholesterol: 0.5-20 mmol/L, HDL: 0.2-10 mmol/L, triglyceride:0.1-40 mmol/L) should be ignored.**
+
+We have implemented this in our code.
 
 &nbsp;
 
@@ -47,9 +52,7 @@ graph TD;
     A --> |"Other including mix <br>of diabetes types and/<br>or codes for 'other <br>specific diabetes'"| K["Coding errors <br>or type changes<br> over time: <br>n=30,374 <br>(3.9%)"]
 ```
 
-\* Could also have diabetes codes of unspecified type. For gestational diabetes only: earliest and latest codes for unspecified diabetes must be no more than a year prior to earliest gestational diabetes code (excluding 'history of gestational diabetes' codes) and no more than a year after latest gestational diabetes code (excluding 'history of gestational diabetes' codes).
-
-\** All gestational diabetes codes (excluding 'history of gestational diabetes' codes) must be earlier than the earliest Type 2 diabetes code.
+\* Could also have diabetes codes of unspecified type
 
 &nbsp;
 
@@ -259,152 +262,164 @@ For downstream data processing we have used diagnosis dates as determined by dia
 Looks at patients with codes for >1 type of diabetes (n=30,401; classified as 'other' as per above flowchart) to determine diagnosis dates and when changes in diagnosis occurred.
 
 These are the most popular combinations of diabetes type codes in this group:
-* 18,710 (61.5%) Type 1 and Type 2
-* 8,704 (28.6%) Type 2 and gestational
-* 1,326 (4.4%) Type 2 and secondary
+* 18,695 (61.6%) Type 1 and Type 2
+* 8,695 (28.6%) Type 2 and gestational
+* 1,324 (4.4%) Type 2 and secondary
 * 352 (1.2%) Type 1 and gestational
 * 342 (1.1%) Type 1, Type 2 and gestational
-Together these account for 96.9% of those with codes for >1 type of diabetes; all remaining combinations are <1% each.
 
-To do: determine diagnosis dates for most populous groups (T1/T2 and T2/gestational) and when diagnosis changed (or whether codes of second diabetes type are likely to be a mistake).
+Together these account for 96.8% of those with codes for >1 type of diabetes; all remaining combinations are <1% each.
 
-Also finds age at diagnosis and time to insulin initiation from diagnosis to all those with codes for 1 type of diabetes, and those for with codes for both T1/T2 or both T2/gestational.
+&nbsp;
+
+For the mixed Type 1/Type 2 group, our gold-standard classification algorithm is to classify those with a prescription for insulin (ever) and at least twice as many Type 1 codes as Type 2 codes as Type 1, and everyone else as Type 2. If we use the most recent type-specific code for classification instead:
+* 14,407 (77.1%) are classified 'correctly' i.e. as per the gold-standard algorithm
+    * Of those misclassified: 71% are Type 1 by latest code, and 29% are Type 2 by latest code
+* If we use latest code + current insulin treatment (insulin script within the last 6 months; i.e. classify as Type 2 if not currently insulin treated), 14,789 (79.1%) are classified correctly
+    * Of those misclassified: 63% are Type 1 by latest code, and 37% are Type 2 by latest code
+* If we use latest code + insulin treatment ever (i.e. classify as Type 2 if never insulin treated), 14,851 (79.4%) are classified correctly
+    * Of those misclassified: 67% are Type 1 by latest code, and 33% are Type 2 by latest code
+
+For those misclassified by using the most recent code, the median time from the index date back to the most recent code of the correct type was 3-3.5 years.
+
+&nbsp;
+
+🔴 **Rule 5: Use the most recent diabetes code to assign type, but check those with codes of both types within the last 5 years**
+
+We have implemented this rule but kept patients separate to those with only Type 1 or only Type 2 codes for further analysis downstream.
+
+&nbsp;
+
+For the other mixed groups: we have assigned diabetes type using the latest code, ignoring gestational codes. Patients with more than one type of code on the same day have been excluded from downstream analysis. Diabetes diagnosis date has been set as the earliest diabetes code, which may underestimate the age of diagnosis, especially for those with gestational diabetes who then develop Type 2 diabetes. Underestimating the age of diagnosis will lead to patients having a higher predicted risk of MODY and of Type 1 in the MODy and T1DT2D calculators, so we will look at the effect of this downstream.
 
 &nbsp;
 
 ### 06_dpctn_diabetes_type_issues
-**NB: The MODY and T1D/T2D calculators are only intended for those diagnosed <=50 years of age (MODY: aged 1-35; T1D/T2D: aged 18-50, both inclusive), so in this script, only those diagnosed <50 years of age were included.**
 
-Looks at potential miscoding/misclassification of diabetes/diabetes type, including:
-* Those coded as Type 1:
-    * With no prescriptions for insulin (could look further at type of insulin e.g. must have basal and bolus; for NDA they exclude from Type 1 if long-acting insulin only)
-    * With insulin but also taking an OHA other than metformin/SGLT2-inhibitor (as per NDA)
-    * With more than 3 years between diagnosis and initiating insulin treatment
-* Those coded as Type 2:
-    * With less than 6 months between diagnosis and initiating insulin treatment
-    * With no OHA prescriptions prior to insulin initiation
-    * With no OHA/insulin prescriptions or high HbA1c measurements
-* Those coded as gestational only:
-    * With unspecified diabetes codes >1 prior to earliest / >1 year after latest gestational diabetes code (excluding history of gestational diabetes), implying possible Type 1/2 diabetes
-(All to do + can compare frequencies to de Luisignan paper)
+**Only including those diagnosed <=50 years of age as these are the people used for the calculators**
+
+This scripts find proportions with potential miscoding/misclassification of diabetes type (rules adapted from de Lusignan et al. 2012 https://pubmed.ncbi.nlm.nih.gov/21883428/ and the National Diabetes Audit).
+
+| Diabetes type | Potential issue | Proportion in this dataset with issue and notes | 
+| ---- | ---- | ---- |
+| Type 1 | No insulin prescriptions | 0.5% of those with Type 1 codes only; 1.8% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
+| Type 1 | No basal or no bolus insulin prescriptions | 7.9% of those with Type 1 codes only; 13.4% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
+| Type 1 | With insulin but also with DPP4i/GLP1/sulphonylurea/TZD script (i.e. non-MFN/SGLT2i OHA) script | 5.8% of those with Type 1 codes only; 24.5% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
+| Type 1 | With more than 3 years from diagnosis to first insulin script | Of those with insulin scripts and registration before or within 6 months of diagnosis: 5.1% of those with Type 1 codes only; 11.7% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
+| Type 2 | On insulin within 6 months of diagnosis | Of those with no insulin scripts or registration before or within 6 months of diagnosis: 2.2% of those with Type 2 codes only; 23.8% of those with codes for >1 type of diabetes but assigned Type 2 based on latest code |
+| Type 2 | With insulin script earlier than earliest OHA script or insulin and no OHA scripts | 3.9% of those with Type 2 codes only; 44.1% of those with codes for >1 type of diabetes but assigned Type 2 based on latest code |
+| Type 2 | With no OHA/insulins scripts or elevated (>=48 mmol/mol) HbA1c measurements in records | 1.4% of those with Type 2 codes only; 0.9% of those with codes for >1 type of diabetes but assigned Type 2 based on latest code |
+| Gestational | With general (i.e. non-type specific) diabetes code more than 1 year earlier or more than a year later than earliest/latest gestational diabetes code, suggesting Type 1 or Type 2 diabetes | 24.7% of cohort |
+
+&nbsp;
+
+🔴 **Rule 6: Investigate patients with the above anomalies**
+
+Patients with the above anomalies have not been removed from our dataset.
 
 &nbsp;
 
 ### 07_dpctn_mody_calculator
-Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 1-35 years inclusive.
-
-**Not done yet: exploring whether separate weight/height measurements could help with missing BMI**
+Defines MODY calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 1-35 years inclusive, and looks at frequency of missing data.
 
 &nbsp;
 
-Cohort characteristics:
-| Characteristic |  Class: Type 1 |  Class: Type 2 | Class: Unspecified | Class: Type 1/Type 2 | Class: Type 2/gestational |
-| ---- | ---- | ---- | ---- | ---- | ---- |
-| N | 24946 | 26379 | 12646 |||
-| Median (IQR) age at diagnosis (years) | 16.2 (13.8) | 30.9 (6.2) | 27.0 (10.7) |||
-| Median (IQR) current age (years) | 39.6 (23.0) | 42.9 (14.0) | 32.6 (10.9) |||
-| Median (IQR) BMI within 2 years (kg/m2) | 26.2 (6.7) | 32.0 (10.1) | 28.5 (10.6) |||
-| Missing BMI within 2 years | 4256 (17.06%) | 2920 (11.07%) | 7303 (57.75%) |||
-| Median (IQR) time from BMI within 2 years to index date (days) | 184.0 (258.0) | 164.0 (231.0) | 242.0 (322.0) |||
-| Median (IQR) BMI any time >=diagnosis (kg/m2) | 26.0 (6.6) | 32.0 (10.0) | 28.0 (10.3) |||
-| Missing BMI >=diagnosis | 441 (1.77%) | 391 (1.48%) | 5215 (41.24%) |||
-| Median (IQR) time from BMI any time >=diagnosis to index date (days) | 232.0 (398.0) | 187.0 (287.0) | 380.0 (795.0) |||
-| Median (IQR) HbA1c within 2 years (mmol/mol) | 66.0 (21.1) | 61.9 (29.0) | 37.0 (8.0) |||
-| Missing (IQR) HbA1c within 2 years | 1756 (7.04%) | 1434 (5.44%) | 8083 (63.92%) |||
-| Median time from HbA1c within 2 years to index date (days) | 151.0 (212.0) | 131.0 (176.0) | 263.0 (314.0) |||
-| Median (IQR)  HbA1c any time >=diagnosis (mmol/mol) | 67.0 (22.0) | 61.9 (29.1) | 36.0 (6.8) |||
-| Missing HbA1c >=diagnosis | 180 (0.72%) | 115 (0.44%) | 6961 (55.05%) |||
-| Median (IQR) time from HbA1c any time >=diagnosis to index date (days) | 165.0 (250.0) | 141.0 (207.0) | 353.0 (606.0) |||
-| With negative family history of diabetes | 2024 (8.11%) | 1933 (7.33%) | 1074 (8.49%) |||
-| With positive family history of diabetes | 5845 (23.43%) | 11765 (44.60%) | 2492 (19.71%) |||
-| Missing family history of diabetes | 17077 (68.46%) | 12681 (48.07%) | 9080 (71.80%) |||
-| Not on insulin <= 6 months after diagnosis | 2220 (8.90%) | 20382 (77.27%) | 12349 (97.65%) |||
-| On insulin <= 6 months after diagnosis | 5879 (23.57%) | 736 (2.79%) | 158 (1.25%) |||
-| Missing whether on insulin <= 6 months after diagnosis | 16847 (67.53%) | 5261 (19.94%) | 139 (1.10%) |||
-| On OHA or ins (script in last 6 months) | 24021 (96.29%) | 22040 (83.55%) | 529 (4.18%) ||| 
-| Missing any variable required for MODY calculator if use BMI and HbA1c back to diagnosis | 23266 (93.27%) | 15779 (59.81%) | 10913 (86.30%)|||
+Missing data and cohort characteristics (NB: BMIs <age of 18 have been removed; for the BMI anytime >= diagnosis values, these constituted 1.9% of the Type 1 values, 0.2% of the Type 2 values, 5.8% of the unspecified values, 3.3% of the unspecified with PRIMIS code values and <0.1% of the values for those with mixed codes but classified as Type 1 or Type 2 based on latest code):
+
+
+| Characteristic | Class: Type 1 | Class: Type 2 | Class: Unspecified | Class: Unspecified with PRIMIS code | Class: mixed; latest code=Type 1 | Class: mixed; latest code=Type 2 |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| N | 25514 | 26175 | 11799 | 837 | 4776 | 7654 |
+| First language not English | 844 (3.3%) | 3558 (13.6%) | 911 (7.7%) | 84 (10.0%) | 194 (4.1%) | 1124 (14.7%) |
+| Non-English speaking | 175 (0.7%) | 1063 (4.1%) | 164 (1.4%) | 17 (2.0%) | 47 (1.0%) | 416 (5.4%) |
+| Median (IQR) age at diagnosis (years) | 16.5 (14.0) | 31.0 (6.2) | 27.0 (10.7) | 27.5 (11.2) | 22.9 (14.8) | 29.5 (7.0) |
+| Median (IQR) current age (years) | 39.6 (23.0) | 42.6 (14.4) | 31.6 (11.0) | 34.6 (12.8) | 48.6 (21.0) | 44.6 (14.0) |
+| Median (IQR) HbA1c within 2 years (mmol/mol) | 66.0 (21.6) | 62.0 (30.0) | 36.0 (6.8) | 50.9 (29.2) | 67.0 (22.0) | 60.0 (25.0) |
+| Missing HbA1c within 2 years (mmol/mol) | 1818 (7.1%) | 1463 (5.6%) | 7870 (66.7%) | 262 (31.3%) | 175 (3.7%) | 280 (3.7%) |
+| Median (IQR) time to HbA1c within 2 years (days) | 151.0 (212.0) | 131.0 (177.0) | 276.0 (324.0) | 185.0 (255.5) | 130.0 (174.0) | 123.0 (167.0) |
+| Median (IQR) HbA1c anytime >= diagnosis (mmol/mol) | 67.0 (22.0) | 62.0 (30.0) | 36.0 (6.0) | 49.0 (29.1) | 67.1 (22.0) | 60.0 (25.0) |
+| Missing HbA1c anytime >= diagnosis (mmol/mol) | 224 (0.9%) | 379 (1.4%) | 6941 (58.8%) | 168 (20.1%) | 9 (0.2%) | 18 (0.2%) |
+| Median (IQR) time to HbA1c anytime >= diagnosis (days) | 164.0 (243.0) | 138.0 (202.0) | 358.0 (609.2) | 221.5 (373.0) | 136.0 (194.0) | 129.0 (179.0) |
+| Median (IQR) BMI within 2 years (kg/m2) | 26.2 (6.7) | 31.9 (9.9) | 28.4 (10.3) | 29.2 (10.3) | 27.4 (7.0) | 30.8 (8.9) |
+| Missing BMI within 2 years (kg/m2) | 4579 (17.9%) | 2975 (11.4%) | 7081 (60.0%) | 321 (38.4%) | 515 (10.8%) | 656 (8.6%) |
+| Median (IQR) time to BMI within 2 years (kg/m2) | 183.0 (254.0) | 164.0 (232.0) | 243.0 (323.0) | 194.0 (286.2) | 169.0 (236.0) | 155.0 (228.0) |
+| Median (IQR) BMI anytime >= diagnosis (kg/m2) | 26.1 (6.6) | 31.9 (9.9) | 27.9 (10.0) | 28.4 (9.9) | 27.4 (7.0) | 30.8 (8.9) |
+| Missing BMI anytime >= diagnosis (kg/m2) | 918 (3.6%) | 468 (1.8%) | 5383 (45.6%) | 147 (17.6%) | 24 (0.5%) | 42 (0.5%) |
+| Median (IQR) time to BMI anytime >= diagnosis (kg/m2) | 226.0 (386.0) | 187.0 (288.0) | 372.0 (762.2) | 318.5 (682.2) | 196.0 (294.0) | 173.0 (267.0) |
+| With negative family history of diabetes | 2067 (8.1%) | 1885 (7.2%) | 1042 (8.8%) | 65 (7.8%) | 469 (9.8%) | 697 (9.1%) |
+| With positive family history of diabetes | 5980 (23.4%) | 11719 (44.8%) | 2225 (18.9%) | 261 (31.2%) | 1369 (28.7%) | 3470 (45.3%) |
+| Missing family history of diabetes | 17467 (68.5%) | 12571 (48.0%) | 8532 (72.3%) | 511 (61.1%) | 2938 (61.5%) | 3487 (45.6%) |
+| Not on insulin <= 6 months after diagnosis | 2279 (8.9%) | 20185 (77.1%) | 11746 (99.6%) | 584 (69.8%) | 828 (17.3%) | 3986 (52.1%) |
+| On insulin <= 6 months after diagnosis | 6416 (25.1%) | 801 (3.1%) | 51 (0.4%) | 120 (14.3%) | 758 (15.9%) | 1215 (15.9%) |
+| Missing whether on insulin <= 6 months after diagnosis | 16819 (65.9%) | 5189 (19.8%) | 2 (0.0%) | 133 (15.9%) | 3190 (66.8%) | 2453 (32.0%) |
+| On OHA or ins (script in last 6 months) | 24542 (96.2%) | 21910 (83.7%) | 151 (1.3%) | 375 (44.8%) | 4640 (97.2%) | 6494 (84.8%) |
 
 &nbsp;
 
-Characteristics of those with no missing MODY calculator variables:
-| Characteristic | Class: Unspecified |  Class: Type 1 |  Class: Type 2 | Class: Type 1/Type 2 | Class: Type 2/gestational |
-| ---- | ---- | ---- | ---- | ---- | ---- |
-| N | 1680 | 10600 | 1733
-| Median age at diagnosis | 23.1 (15.3) | 31.3 (5.7) | 30.1 (7.4) |||
-| Median (IQR) current age (years | 36.6 (19.0) | 41.6 (11.0) | 36.6 (9.0) |||
-| Median BMI any time >=diagnosis | 26.2 (6.8) | 31.9 (9.9) | 30.2 (10.8) |||
-| Median HbA1c any time >=diagnosis | 69.0 (25.0) | 59.0 (27.5) | 37.7 (8.0) |||
-| With negative family history of diabetes | 493 (29.35%) | 1566 (14.77%) | 456 (26.31%) |||
-| With positive family history of diabetes | 1187 (70.65%) | 9034 (85.23%) | 1277 (73.69%) |||
-| Not on insulin <= 6 months after diagnosis | 550 (32.74%) | 10291 (97.08%) | 1696 (97.86%) |||
-| On insulin <= 6 months after diagnosis | 1130 (67.26%) | 309 (2.92%) | 37 (2.14%) |||
-| On OHA or ins (script in last 6 months) | 1613 (96.01%) | 8651 (81.61%) | 137 (7.91%) |||
+The proportion missing BMI at any point after diagnosis is 9.1% (although this varies greatly between classes: 3.6% for Type 1s, 1.8% for Type 2s, 45.6% for unspecified, 17.6% for unspecified with PRIMIS code, 0.5% for those with mixed codes but classified as Type 1 or Type 2 based on latest code. Using separate weight and height measurements to calculate BMI reduces this to 7.2%, but only if weights and heights from those aged <=18 are included, which is not valid (otherwise, BMI missingness is only reduced to 8.2%).
 
 &nbsp;
 
-Adjusted MODY probabilities for complete cases:
+🔴 **Rule 7: For MODY calculator: use HbA1c and BMI anytime after diagnosis as this reduces missingness. Using weight and height does not add much to BMI measurements. For whether patient is on insulin 6 months after diagnosis, use current insulin status if this is missing. For those with missing family history, run the calculator with family history and see if these individuals appear in those with the highest probability of MODY: if they do then check family history with patient.**
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/mody_calc_adjusted.png?" width="1000">
+These rules have been implemented in our code.
 
 &nbsp;
 
 ### 08_dpctn_t1dt2d_calculator
-Defines T1DT2D calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 18-50 years inclusive.
-
-**Not done yet: exploring whether separate weight/height measurements could help with missing BMI**
+Defines T1DT2D calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 18-50 years inclusive, and looks at missing variables.
 
 &nbsp;
 
-Cohort characteristics:
-| Characteristic |  Class: Type 1 |  Class: Type 2 | Class: Unspecified | Class: Type 1/Type 2 | Class: Type 2/gestational |
-| ---- | ---- | ---- | ---- | ---- | ---- |
-| N | 14887 | 167485 | 32609 |||
-| Median (IQR) age at diagnosis (years) | 28.5 (12.8) | 43.5 (8.7) | 40.3 (13.4) |||
-| Median (IQR) current age (years | 49.6 (20.7) | 53.8 (12.0) | 45.6 (13.0) |||
-| Median (IQR) BMI within 2 years (kg/m2) | 26.5 (6.5) | 31.2 (8.7) | 29.7 (9.4) |||
-| Missing BMI within 2 years | 2242 (15.06%) | 14944 (8.92%) | 15710 (48.18%) |||
-| Median (IQR) time from BMI within 2 years to index date (days) | 178.0 (249.0) | 158.0 (222.0) | 242.0 (316.0) |||
-| Median (IQR) BMI any time >=diagnosis (kg/m2) | 26.4 (6.5) | 31.2 (8.8) | 29.1 (9.1) |||
-| Missing BMI >=diagnosis | 273 (1.83%) | 1970 (1.18%) | 10263 (31.47%) |||
-| Median (IQR) time from BMI any time >=diagnosis to index date (days) | 215.0 (355.0) | 178.0 (262.0) | 358.0 (715.0) |||
-| Median (IQR) total cholesterol within 2 years (mmol/L) | 4.4 (1.3) | 4.2 (1.4) | 4.9 (1.3) |||
-| Missing total cholesterol within 2 years | 1284 (8.62%) | 7150 (4.27%) | 16455 (50.46%) |||
-| Median (IQR) time from total cholesterol within 2 years to index date (days) | 182.0 (231.0) | 165.0 (194.0) | 256.0 (305.0) |||
-| Median (IQR) total cholesterol any time >=diagnosis (mmol/L) | 4.4 (1.3) | 4.2 (1.5) | 4.9 (1.4) |||
-| Missing total cholesterol >=diagnosis | 229 (1.54%) | 967 (0.58%) | 12848 (39.40%) |||
-| Median (IQR) time from total cholesterol any time >=diagnosis to index date (days) | 199.0 (262.0) | 172.0 (207.0) | 340.0 (623.0) |||
-| Median (IQR) HDL within 2 years (mmol/L) | 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.4) |||
-| Missing HDL within 2 years | 2054 (13.80%) | 11539 (6.89%) | 16919 (51.88%) |||
-| Median (IQR) time from HDL within 2 years to index date (days) | 190.0 (244.0) | 171.0 (198.0) | 260.0 (304.0) |||
-| Median (IQR) HDL any time >=diagnosis (mmol/L)| 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.5) |||
-| Missing HDL >=diagnosis | 423 (2.84%) | 1880 (1.12%) | 13313(40.83%) |||
-| Median (IQR) time from HDL any time >=diagnosis to index date (days) | 219.0 (313.0) | 183.0 (225.0) | 346.0 (637.2 |||
-| Median (IQR) triglyceride within 2 years (mmol/L) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) |||
-| Missing triglyceride within 2 years | 5462 (36.69%) | 48337 (28.86%) | 20386 (62.52%) |||
-| Median (IQR) time from triglyceride within 2 years to index date (days) | 208.0 (263.0) | 190.0 (227.0) | 270.0 (311.5) |||
-| Median (IQR) triglyceride any time >=diagnosis (mmol/L) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) |||
-| Missing triglyceride >=diagnosis | 1531 (10.28%) | 11115 (6.64%) | 16128 (49.46%) |||
-| Median (IQR) time from triglyceride any time >=diagnosis to index date (days) | 337.0 (802.0) | 261.0 (570.0) | 416.0 (839.0) |||
-| Missing any variable required for MODY calculator if use biomarkers back to diagnosis | 1693 (11.37%) | 12588 (7.52%) | 18342 (56.25%) |||
+Missing data and cohort characteristics (NB: BMIs <age of 18 have been removed, these constitute ~0.1% of the BMI values):
+
+| Characteristic | Class: Type 1 | Class: Type 2 | Class: Unspecified | Class: Unspecified with PRIMIS code | Class: mixed; latest code=Type 1 | Class: mixed; latest code=Type 2 |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| N | 15694 | 170012 | 30300 | 2508 | 5586 | 13492 |
+| First language not English | 599 (3.8%) | 20404 (12.0%) | 2915 (9.6%) | 283 (11.3%) | 248 (4.4%) | 1879 (13.9%) |
+| Non-English speaking | 137 (0.9%) | 7021 (4.1%) | 696 (2.3%) | 70 (2.8%) | 80 (1.4%) | 798 (5.9%) |
+| Median (IQR) age at diagnosis (years) | 28.5 (12.8) | 43.5 (8.6) | 40.3 (13.6) | 41.1 (11.6) | 33.5 (14.0) | 34.5 (10.3) |
+| Median (IQR) current age (years) | 49.6 (20.0) | 53.6 (12.8) | 45.6 (13.9) | 48.6 (13.0) | 54.6 (18.0) | 50.6 (15.6) |
+| Median (IQR) BMI within 2 years (mmol/mol) | 26.5 (6.5) | 31.2 (8.8) | 29.5 (9.4) | 30.2 (9.1) | 27.5 (7.1) | 30.8 (8.7) |
+| Missing BMI within 2 years (mmol/mol) | 2392 (15.2%) | 15393 (9.1%) | 15070 (49.7%) | 779 (31.1%) | 555 (9.9%) | 1065 (7.9%) |
+| Median (IQR) time to BMI within 2 years (days) | 179.0 (249.0) | 158.0 (222.0) | 248.0 (321.0) | 200.0 (261.0) | 164.0 (227.0) | 152.0 (217.0) |
+| Median (IQR) BMI anytime >= diagnosis (mmol/mol) | 26.4 (6.5) | 31.2 (8.8) | 29.0 (9.0) | 29.9 (9.0) | 27.5 (7.0) | 30.8 (8.8) |
+| Missing BMI anytime >= diagnosis (mmol/mol) | 315 (2.0%) | 2508 (1.5%) | 10217 (33.7%) | 268 (10.7%) | 23 (0.4%) | 64 (0.5%) |
+| Median (IQR) time to BMI anytime >= diagnosis (days) | 218.0 (356.0) | 178.0 (262.0) | 365.0 (727.0) | 291.0 (595.2) | 190.0 (278.0) | 171.0 (257.0) |
+| Median (IQR) total cholesterol within 2 years (mmol/mol) | 4.4 (1.3) | 4.2 (1.4) | 5.0 (1.4) | 4.6 (1.4) | 4.3 (1.3) | 4.4 (1.4) |
+| Missing total cholesterol within 2 years (mmol/mol) | 1376 (8.8%) | 7468 (4.4%) | 15908 (52.5%) | 687 (27.4%) | 253 (4.5%) | 569 (4.2%) |
+| Median (IQR) time to total cholesterol within 2 years (days) | 183.0 (230.8) | 165.0 (194.0) | 263.0 (308.0) | 200.0 (259.0) | 171.0 (207.0) | 158.0 (196.0) |
+| Median (IQR) total cholesterol anytime >= diagnosis (mmol/mol) | 4.4 (1.3) | 4.2 (1.5) | 5.0 (1.4) | 4.7 (1.4) | 4.3 (1.3) | 4.4 (1.4) |
+| Missing total cholesterol anytime >= diagnosis (mmol/mol) | 279 (1.8%) | 3011 (1.8%) | 12927 (42.7%) | 390 (15.6%) | 25 (0.4%) | 72 (0.5%) |
+| Median (IQR) time to total cholesterol anytime >= diagnosis (days) | 199.0 (261.0) | 171.0 (207.0) | 348.0 (643.0) | 247.0 (419.8) | 179.0 (229.0) | 169.0 (214.0) |
+| Median (IQR) HDL within 2 years (mmol/mol) | 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.4) | 1.2 (0.4) | 1.4 (0.6) | 1.2 (0.5) |
+| Missing HDL within 2 years (mmol/mol) | 2189 (13.9%) | 11923 (7.0%) | 16312 (53.8%) | 750 (29.9%) | 483 (8.6%) | 936 (6.9%) |
+| Median (IQR) time to HDL within 2 years (days) | 191.0 (244.0) | 171.0 (198.0) | 267.0 (311.0) | 200.5 (260.0) | 178.0 (217.0) | 166.0 (203.0) |
+| Median (IQR) HDL anytime >= diagnosis (mmol/mol) | 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.5) | 1.2 (0.5) | 1.4 (0.6) | 1.2 (0.5) |
+| Missing HDL anytime >= diagnosis (mmol/mol) | 508 (3.2%) | 4219 (2.5%) | 13364 (44.1%) | 441 (17.6%) | 56 (1.0%) | 139 (1.0%) |
+| Median (IQR) time to HDL anytime >= diagnosis (days) | 219.0 (313.0) | 180.0 (225.0) | 354.0 (647.2) | 255.0 (458.0) | 194.0 (252.0) | 179.0 (233.0) |
+| Median (IQR) triglyceride within 2 years (mmol/mol) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) | 1.6 (1.4) | 1.2 (1.0) | 1.5 (1.2) |
+| Missing triglyceride within 2 years (mmol/mol) | 5760 (36.7%) | 49068 (28.9%) | 19376 (63.9%) | 1161 (46.3%) | 1738 (31.1%) | 3960 (29.4%) |
+| Median (IQR) time to triglyceride within 2 years (days) | 211.0 (265.0) | 190.0 (228.0) | 276.0 (315.0) | 225.0 (274.0) | 193.0 (249.0) | 185.0 (239.0) |
+| Median (IQR) triglyceride anytime >= diagnosis (mmol/mol) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) | 1.5 (1.3) | 1.1 (1.0) | 1.5 (1.2) |
+| Missing triglyceride anytime >= diagnosis (mmol/mol) | 1681 (10.7%) | 14843 (8.7%) | 15969 (52.7%) | 697 (27.8%) | 296 (5.3%) | 794 (5.9%) |
+| Median (IQR) time to triglyceride anytime >= diagnosis (days) | 337.0 (793.0) | 255.0 (547.0) | 417.0 (831.0) | 346.0 (777.5) | 297.0 (756.0) | 270.0 (612.8) |
 
 &nbsp;
 
 Number with measured GAD and/or IA2 antibodies is very small:
-* GAD: 127 (0.9%) of Type 1, 431 (0.03%) of Type 2, 35 (0.1%) of unspecified
-* IA2: 4 (0.03%) of Type 1, 9 (0.005%) of Type 2, 0 (0.0%) of unspecified
+* GAD: 136 (0.9%) of Type 1, 447 (0.03%) of Type 2, 10 (0.03%) of unspecified, 27 (1.1%) of unspecified with PRIMIS code, 141 (2.5%) of mixed but Type 1 based on latest code and 77 (0.6%) of mixed but Type 2 based on latest code
+* IA2: 4 (0.03%) of Type 1, 9 (0.005%) of Type 2, 0 (0.0%) of unspecified, 0 (0.0%) of unspecified with PRIMIS code, 3 (0.05%) of mixed but Type 1 based on latest code and 1 (0.007%) of mixed but Type 2 based on latest code
 
 &nbsp;
 
-T1D probability using age and BMI only:
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/t1dt2d_age_bmi.png?" width="1000">
-
+Using separate weight and height measurements to calculate BMI where this is missing does not have a substantial impact (reduces from 5.6% missing overall to 4.8%). Only a very small number of people in this cohort have thier most recent weight/height measurements in childhood i.e. before the age of 18.
 
 &nbsp;
 
-T1D probability using age, BMI and lipids:
+🔴 **Rule 8: As for the MODY calculator, use biomarkers anytime after diagnosis as this reduces missingness. Ignore GAD and IA2 measurements as very few individuals are likely to have these.**
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/t1dt2d_lipids.png?" width="1000">
+These rules have been implemented in our code.
 
 &nbsp;
 
