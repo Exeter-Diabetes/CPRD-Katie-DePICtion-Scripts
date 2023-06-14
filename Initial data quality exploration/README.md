@@ -239,15 +239,15 @@ The table below shows what the impact would be of using diabetes code (unspecifi
 
 | Diabetes type (as per flowchart above) | Median difference in diagnosis date if only diabetes codes used (days) | Median difference in diagnosis date if only diabetes codes used (days) in patients with a high HbA1c/prescription for glucose-lowering medication earlier than a diabetes code |
 | ---- | ---- | ---- |
-| Any type* (n=727396 with non-missing diagnosis date) | 0 | 25 |
-| Unspecified with no PRIMIS code (n=104963 with non-missing diagnosis date) | 0 | 301 |
-| Unspecified with PRIMIS code (n=9396 with non-missing diagnosis date) | 0 | 33 |
-| Type 1 (n=31568 with non-missing diagnosis date) | 0 | 7 |
-| Type 2 (n=565781 with non-missing diagnosis date)| 0 | 24 |
-| Gestational only (n=14940 with non-missing diagnosis date) | 0 | 577 |
-| MODY (n=59 with non-missing diagnosis date) | 0 | 204 |
-| Non-MODY genetic/syndromic (n=107 with non-missing diagnosis date) | 0 | 422 |
-| Secondary (n=581 with non-missing diagnosis date) | 0 | 32 |
+| Any type* (n=708995 with non-missing diagnosis date) | 0 | 26 |
+| Unspecified with no PRIMIS code (n=104371 with non-missing diagnosis date) | 0 | 297 |
+| Unspecified with PRIMIS code (n=9089 with non-missing diagnosis date) | 0 | 32 |
+| Type 1 (n=30353 with non-missing diagnosis date) | 0 | 7 |
+| Type 2 (n=549676 with non-missing diagnosis date)| 0 | 24 |
+| Gestational only (n=14770 with non-missing diagnosis date) | 0 | 555 |
+| MODY (n=55 with non-missing diagnosis date) | 0 | 204 |
+| Non-MODY genetic/syndromic (n=104 with non-missing diagnosis date) | 0 | 422 |
+| Secondary (n=576 with non-missing diagnosis date) | 0 | 32 |
 | Malnutrition (n=1 with non-missing diagnosis date) | 0 | NA |
 
 &nbsp;
