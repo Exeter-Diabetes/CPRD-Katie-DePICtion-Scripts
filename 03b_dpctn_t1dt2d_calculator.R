@@ -151,9 +151,13 @@ as_flextable(tab_2, separate_with = "variable")
 
 
 
+t1dt2d_scores_local <- t1dt2d_scores_local %>%
+  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "unspecified", "unspecified_with_primis", "mixed; type 1", "mixed; type 2")))
+
+
 ## Age + BMI model
 ggplot (t1dt2d_scores_local, aes(x=clinical_pred_prob, fill=diabetes_type)) + 
-  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=1) +
   scale_y_continuous(labels = scales::percent)
 
 
