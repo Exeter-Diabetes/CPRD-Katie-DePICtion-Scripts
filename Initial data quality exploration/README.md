@@ -349,9 +349,9 @@ Missing data and cohort characteristics (NB: BMIs <age of 18 have been removed; 
 | With negative family history of diabetes | 2001 (8.1%) | 1819 (7.2%) | 976 (8.4%) | 64 (8.0%) | 453 (9.8%) | 678 (9.1%) |
 | With positive family history of diabetes | 5799 (23.4%) | 11248 (44.6%) | 2182 (18.7%) | 246 (30.8%) | 1330 (28.7%) | 3362 (45.2%) |
 | Missing family history of diabetes | 16965 (68.5%) | 12155 (48.2%) | 8509 (72.9%) | 488 (61.2%) | 2847 (61.5%) | 3401 (45.7%) |
-| Not on insulin <= 6 months after diagnosis | 2147 (8.7%) | 19305 (76.5%) | 11615 (99.6%) | 559 (70.1%) | 779 (16.8%) | 3845 (51.7%) |
-| On insulin <= 6 months after diagnosis | 5799 (23.4%) | 728 (2.9%) | 50 (0.4%) | 106 (13.3%) | 661 (14.3%) | 1143 (15.4%) |
-| Missing whether on insulin <= 6 months after diagnosis | 16819 (67.9%) | 5189 (20.6%) | 2 (0.0%) | 133 (16.7%) | 3190 (68.9%) | 2453 (33.0%) |
+| Not on insulin <= 6 months after diagnosis | 4375 (17.7%) | 21753 (86.2%) | 11616 (99.6%) | 571 (71.6%) | 1483 (32.0%) | 4739 (63.7%) |
+| On insulin <= 6 months after diagnosis | 7720 (31.2%)	| 857 (3.4%) | 51 (0.4%) | 124 (15.5%) | 908 (19.6%) | 1396 (18.8%) |
+| Missing whether on insulin <= 6 months after diagnosis | 12670 (51.2%) | 2612 (10.4%) | 0 (0.0%) | 103 (12.9%) | 2239 (48.4%) | 1306 (17.6%) |
 | On OHA or ins (script in last 6 months) | 23845 (96.3%) | 21126 (83.8%) | 150 (1.3%) | 352 (44.1%) | 4501 (97.2%) | 6316 (84.9%) |
 
 &nbsp;
