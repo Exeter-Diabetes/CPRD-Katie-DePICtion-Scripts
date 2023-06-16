@@ -141,6 +141,8 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 | Current insulin = 1 | 96.3% | 27.9% | 96.1% | 34.9% | 61.1% |
 | Insulin within 6 months = 1 or current insulin = 1 if time to insulin missing | 89.0% | 20.0% | 81.2 | 37.8% | 54.3% |
 
+For those with missing insulin within 6 months (i.e. where registration > 6 months after diagnosis), how , how long between diagnosis and registration start?
+
 
 
 
