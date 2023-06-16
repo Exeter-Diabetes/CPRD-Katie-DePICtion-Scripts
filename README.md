@@ -14,15 +14,14 @@ As a result of the work in the 'Initial data quality exploration' directory in t
 
 | Rule purpose | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Rationale and expected effect | How this is dealt with in our analysis |
 | --- | --- | --- | --- |
-| Cohort definition | Cohort is everybody with a code for diabetes | This high-sensitivity approach means we include everybody with diabetes, reducing bias which may arise from excluding those with poor quality coding i.e. those who don't have elevated HbA1c measurements in their records. Depending on the codelist used, we may include some people without diabetes who then need to be removed as they will end up with high MODY probabilities. | We have used a very broad codelist, but divided those with no type-specific codes into those with and without a code from a narrower diabetes codelists (PRIMIS codelist). |
-| Diabetes type | Diabetes type is determined by codes i.e. if a person has codes for Type 2 diabetes, they are defined as Type 2. If they have codes for multiple types of diabetes, the most recent code is used. If they have no type-specific codes then the clinician needs to check this; the proportion of people with no type-specific codes will vary with the codelist used to define the cohort. | Most recent code is used as their diagnosis may have changed over time. In addition, using most recent code matched the 'gold standard' diagnosis (based on code frequencies - see https://www.jclinepi.com/article/S0895-4356(22)00272-4/fulltext) in 77% of cases for a cohort with both Type 1 and Type 2 codes - see Initial data quality exploration (NB: to be more certain of current diagnosis, those with codes for >1 type of diabetes in the last 5 years can be investigated further). See note on those with gestational diabetes in next rule | We have implemented these rules, but excluded some groups with a small number of patients (see below flowchart) |
-| Diabetes type discrepancies | Patients with discrepancies between their diabetes type as determined above and other variables in their records need to be investigated further. NB: those with both Type 1 and Type 2 codes should be excluded from this analysis as they are likely to have these discrepancies, reflecting changes in clinician diagnosis over time | Rules based on https://onlinelibrary.wiley.com/doi/10.1111/j.1464-5491.2011.03419.x and the National Diabetes Audit:<br />* Type 1 with no insulin prescriptions (affected <1% of our Type 1 cohort)<br />* Type 1 with no basal or bolus insulin prescriptions (8% of our Type 1 cohort)<br />* Type 1 with prescription for insulin but also DPP4i/GLP1/SU/TZD (6% of our Type 1 cohort)<br />* Type 1 with more than 3 years between diagnosis and earliest insulin script (5% of our Type 1 cohort)<br />* Type 2 but on insulin within 6 months of diagnosis (2% of our Type 2 cohort)<br />* Type 2 with insulin script but no OHA scripts earlier than this (4% of our Type 2 cohort)<br />* Type 2 with no OHA/insulin scripts or elevated HbA1c measurements (1% of our Type 1 cohort))<br />* Gestational diabetes but codes for diabetes (of no specific type) more than 1 year before earliest gestational code or more than 1 year after latest gestational code (excluding 'history of gestational diabetes' codes), suggesting they may have Type 1 or Type 2 (25% of our gestational cohort) | We have not implemented these rules or excluded patients with these discrepanices |
+| Cohort definition | Cohort is everybody with a code for diabetes | This high-sensitivity approach means we include everybody with diabetes, reducing bias which may arise from excluding those with poor quality coding i.e. those who don't have elevated HbA1c measurements in their records. Depending on the codelist used, we may include some people without diabetes who then need to be removed as they will end up with high MODY probabilities. | We have used a very broad codelist, but this identified a large number of individuals with no diabetes type-specific codes who we have not been able to run the calculators on |
+| Diabetes type | Diabetes type is determined by codes i.e. if a person has codes for Type 2 diabetes, they are defined as Type 2. If they have codes for multiple types of diabetes, the most recent code is used. If they have no type-specific codes then the clinician needs to check this; the proportion of people with no type-specific codes will vary with the codelist used to define the cohort. | Most recent code is used as their diagnosis may have changed over time. In addition, using most recent code matched the 'gold standard' diagnosis (based on code frequencies - see https://www.jclinepi.com/article/S0895-4356(22)00272-4/fulltext) in 77% of cases for a cohort with both Type 1 and Type 2 codes - see Initial data quality exploration (NB: to be more certain of current diagnosis, those with codes for >1 type of diabetes in the last 5 years can be investigated further). NB: we found that 25% of our gestational diabetes cohort had codes for diabetes (of no specific type) more than 1 year before earliest gestational code or more than 1 year after latest gestational code (excluding 'history of gestational diabetes' codes), suggesting they may have Type 1 or Type 2; we have not applied the calculators to these people | We have implemented these rules, but have only applied the calculators to those with a current diagnosis of Type 1 or Type 2 diabetes (see below flowchart) |
 | Diabetes diagnosis date 1 | Diagnosis date is determined as the earliest code for diabetes | There is a minimal time difference (see Initial data quality exploration) if the earliest of a code, an elevated HbA1c, or an OHA/insulin script is used instead | We have implemented this rule |
 | Diabetes diagnosis date 2 | Those with diagnoses in their year of birth should be investigated further | We found an excess of diabetes codes in the year of birth compared to later years (<1% of our cohort, see Initial data quality exploration), suggesting miscoding. Patients with this issue should be investigated, especially those with Type 1, those with Type 2 who have a high probability of Type 1 from the T1D/T2D calculator, and those with a high MODY probability (as the effect of this issue is to incorrectly lower the age of diagnosis). | For those with Type 2 (and no codes for other types of diabetes), we have ignored diabetes codes in the year of birth |
 | Diabetes diagnosis date 3 | Those with diagnoses between -30 and +90 days (inclusive) of registration start) should be investigated further | We found an excess of diabetes codes around registration start (4% of our cohort, see Initial data quality exploration),  (compared to later years; see Initial data quality exploration), probably reflecting old diagnoses (prior to registration) being recorded as if they were new. Patients with this issue should be investigated, especially those with Type 2, those with Type 1 who have a high probability of Type 1 from the T1D/T2D calculator, and all those on which the MODY calculator is being run (as the effect of this issue is to incorrectly increase the age of diagnosis). | We have excluded individuals with diagnosis dates in this time range |
 | Biomarkers 1 | BMI, HbA1c, total cholesterol, HDL, and triglyceride values outside of the normal detectable range (BMI: 15-100 kg/m2 (used for adult measurements only), HbA1c: 20-195 mmol/mol, total cholesterol: 0.5-20 mmol/L, HDL: 0.2-10 mmol/L, triglyceride:0.1-40 mmol/L) should be ignored | | We have implemented this rule |
-| Biomarkers 2 | The most recent biomarker values can be used, going back as far as (but not before) diagnosis. BMIs in those aged <18 years should be removed. Separate weight and height measurements should not be used to calculate missing BMIs as they do not add much | This reduces missingness in our Type 1 and Type 2 cohorts (compared to using values within the last 2 years only): HbA1c: 6-7% reduced to 1-2%, BMI: 11-18% reduced to 2-4%, total cholesterol: 4-9% reduced to 2%, HDL: 7-14% reduced to 2-3%, triglycerides: 29-37% reduced to 9-11%. | We implemented this rule |
-| Additional MODY calculator variable 1 | If whether the patient began insulin within 6 months of diagnosis is missing, use whether they are on insulin now | Missingness was very high for this variable in our Type 1 cohort (66%) as most were diagnosed prior to registration | We implemented this rule |
+| Biomarkers 2 | The most recent biomarker values can be used, going back as far as (but not before) diagnosis. BMIs in those aged <18 years should be removed. Separate weight and height measurements should not be used to calculate missing BMIs as they do not add much | This reduces missingness in our Type 1 and Type 2 cohorts (compared to using values within the last 2 years only): HbA1c: 6-7% reduced to 1-2%, BMI: 11-18% reduced to 2-4%, total cholesterol: 4-9% reduced to 2%, HDL: 7-14% reduced to 2-3%, triglycerides: 29-37% reduced to 9-11%. | We implemented this rule but looked at the distribution of time between most recent measurement and index date |
+| Additional MODY calculator variable 1 | If whether the patient began insulin within 6 months of diagnosis is missing, use whether they are on insulin now | Missingness was very high for this variable in our Type 1 cohort (66%) as most were diagnosed prior to registration | We implemented this rule but looked at the level of missingness |
 | Additional MODY calculator variable 2 | If family history of diabetes is missing, assume they do have a family history, and then investigate this for those who score highly on the MODY calculator | Missingness was high for this variable in our Type 1 and Type 2 cohorts (48-69%) | We implemented this rule |
 
 &nbsp;
@@ -37,8 +36,7 @@ graph TD;
     B -->|"Patients with a diabetes-specific code** with >=1 year data prior and after"|C["n=1,314,373"]
     C -->|"Patients registered on 01/02/2020 (all have diabetes code and therefore diabetes diagnosis <br> before this date due to the requirement to have 1 year of data after)"|D["n=779,498"]
     D -->|"Patients who are aged>=18 years at the index date (01/02/2020)"|E["<b>Data quality exploration cohort:</b> n=769,493"]
-    E -->|"Patients who don't have a diagnosis date between -30 and +90 days of registration start"|F["n=741,291"]
-    F -->|"Patients diagnosed aged <=50 years"|G["<b>Final DePICtion cohort:</b> n=265,175"]
+    E -->|"Patients diagnosed aged <=50 years"|F["<b>Final DePICtion cohort:</b> n=277,097"]
 ```
 \* Extract actually contained n=1,481,294 unique patients (1,481,884 in total but some duplicates) but included n=309 with registration start dates in 2020 (which did not fulfil the extract criteria of having a diabetes-related medcode between 01/01/2004-06/11/2020 and >=1 year of data after this; some of these were also not 'acceptable' by [CPRD's definition](https://cprd.com/sites/default/files/2023-02/CPRD%20Aurum%20Glossary%20Terms%20v2.pdf)). NB: removing those with registration start date in 2020 also removed all of those with a 'patienttypeid' not equal to 3 ('regular'). See next section for further details on the extract.
 
@@ -50,24 +48,24 @@ graph TD;
 
 ```mermaid
 graph TD;
-    G["<b>Final DePICtion cohort:</b> n=265,175"] --> |"Unspecific codes<br>only"| H["Unspecified: <br>n=34,118<br>(12.9%)<br>(2,558 have<br>PRIMIS code)"]
-    G --> |"T1D codes*"| I["Type 1: <br>n=28,964<br>(10.9%)"]
-    G --> |"T2D codes*"| J["Type 2: <br>n=164,866<br>(62.2%)"]
-    G --> |"Gestational codes*"| K["Gestational <br>only: <br>n=14,833<br>(5.6%)"]
-    G --> |"MODY codes*"| L["MODY: <br>n=52<br>(0.0%)"]
-    G --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| M["Non-MODY <br>genetic/<br>syndromic: <br>n=96<br>(0.0%)"]
-    G --> |"Secondary codes*"| N["Secondary: <br>n=182<br>(0.1%)"]
+    G["<b>Final DePICtion cohort:</b> n=277,097"] --> |"Unspecific codes<br>only"| H["Unspecified: <br>n=34,626<br>(12.5%)<br>(2,713 have<br>PRIMIS code)"]
+    G --> |"T1D codes*"| I["Type 1: <br>n=30,339<br>(10.9%)"]
+    G --> |"T2D codes*"| J["Type 2: <br>n=172,719<br>(62.7%)"]
+    G --> |"Gestational codes*"| K["Gestational <br>only: <br>n=15,033<br>(5.4%)"]
+    G --> |"MODY codes*"| L["MODY: <br>n=56<br>(0.0%)"]
+    G --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| M["Non-MODY <br>genetic/<br>syndromic: <br>n=101<br>(0.0%)"]
+    G --> |"Secondary codes*"| N["Secondary: <br>n=186<br>(0.1%)"]
     G --> |"Other specified<br>type codes*"| P["Other specified<br>type: <br>n=1<br>(0.0%)"]  
-    G --> |"Mix of diabetes<br>type codes"| Q["Mix of<br>diabetes types: <br>n=22,063<br>(8.3%)"]
-    Q --> |"Type 1 based<br>on latest code"| R["Mixed; Type 1: <br>n=7,316<br>(2.8%)"]
-    Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=14,109<br>(5.3%)"]
-    Q --> |"Other based<br>on latest code"| T["Mixed; other: <br>n=638<br>(0.2%)"]
+    G --> |"Mix of diabetes<br>type codes"| Q["Mix of<br>diabetes types: <br>n=23,036<br>(8.3%)"]
+    Q --> |"Type 1 based<br>on latest code"| R["Mixed; Type 1: <br>n=7,633<br>(2.8%)"]
+    Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=14,745<br>(5.3%)"]
+    Q --> |"Other based<br>on latest code"| T["Mixed; other: <br>n=658<br>(0.2%)"]
 ```
 \* Could also have diabetes codes of unspecified type
 
 &nbsp;
 
-Of the final cohort, 3.4% were non-English speaking, and a further 10.5% had a first language which was not English.
+Of the final cohort, 3.5% were non-English speaking, and a further 10.7% had a first language which was not English.
 
 &nbsp;
 
@@ -88,22 +86,62 @@ The MODY calculator cohort consists those with current diagnosis of Type 1 (mixe
 
 ```mermaid
 graph TD;
-    G["<b>MODY calculator cohort:</b> n=74,141"] --> H["Type 1:<br>n=24,638<br>(33.2%)"]
-    G --> I["Type 2:<br>n=24,704<br>(33.3%)"]
-    G --> J["Unspecified<br>no PRIMIS code:<br>n=11,548<br>(15.6%)"]
-    G --> K["Unspecified<br>with PRIMIS code: <br>n=789<br>(1.1%)"]
-    G --> L["Mixed; Type 1:<br>n=4,766<br>(6.4%)"]
-    G --> M["Mixed; Type 2:<br>n=7,696<br>(10.4%)"]
-    H --> N["Not missing<br>HbA1c or BMI:<br>23,639 (95.9%)"]
-    I --> O["Not missing<br>HbA1c or BMI:<br>23,999 (97.1%)"]
-    J --> P["Not missing<br>HbA1c or BMI:<br>3,432 (29.7%)"]
-    K --> Q["Not missing<br>HbA1c or BMI:<br>562 (71.2%)"]
-    L --> R["Not missing<br>HbA1c or BMI:<br>4,733 (99.3%)"]
-    M --> S["Not missing<br>HbA1c or BMI:<br>7,631 (99.2%)"]
+    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>n=277,097"] --> |"Diagnosed aged 1-35 years (inclusive)"| B["n=87,455"]
+    B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=12,538 (14.3%)"]
+    B --> |"Assigned diabetes type based on codes"| D["n=74,917 (85.7%)"]
+    D --> |"Assigned Type 1 or Type 2"| E["n=64,674 (86.3%)<br>30,543 Type 1 and 34,131 Type 2"]
+    E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=2,870 (4.4%)<br>1,139 Type 1 and 1,731 Type 2"]
+    E --> G["n=61,804 (95.6%)<br>29,404 Type 1 and 32,400 Type 2"]
+    G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032Type 1 and 770 Type 2"]
+    G --> I["<b>MODY calculator cohort</b>: n=60,002 (97.1%)<br>28,372 Type 1 and 31,630 Type 2"]
+   
+   
 ```
-MODY calculator cohort not missing HbA1c or BMI: n=63,996 (86.3% of original MODY calculator cohort).
 
 &nbsp;
+
+### MODY calculator variables
+
+#### HbA1c
+
+Distribution of time between HbA1c and current (index) date (01/02/2020):
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_hba1c.png?" width="1000">
+
+| Proportion with HbA1c within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| 6 months | 54.2% | 60.6% | 61.3% | 63.4% | 58.5% |
+| 1 year | 80.1% | 84.5% | 85.7% | 87.5% | 83.2% |
+| 2 years | 94.1% | 95.1% | 96.5% | 96.5% | 95.0% |
+| 5 years | 99.1% | 99.1% | 99.7% | 99.6% | 99.2% |
+
+&nbsp;
+
+#### BMI
+
+Distribution of time between BMI and current (index) date (01/02/2020):
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_bmi.png?" width="1000">
+
+| Proportion with HbA1c within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| 6 months | 42.7% | 49.0% | 47.8% | 51.2% | 46.7% |
+| 1 year | 67.6% | 75.1% | 73.9% | 76.7% | 72.3% |
+| 2 years | 85.2% | 90.1% | 89.5% | 91.7% | 88.3% |
+| 5 years | 96.9% | 98.1% | 98.1% | 98.6% | 97.7% |
+
+&nbsp;
+
+
+
+
+
+
+
+#### BMI
+#### Time to insulin (whether within 6 months or not)
+#### Family history of diabetes
+
 
 Cohort characteristics of those not missing HbA1c or BMI:
 
