@@ -48,24 +48,24 @@ graph TD;
 
 ```mermaid
 graph TD;
-    G["<b>Final DePICtion cohort:</b> n=265,175"] --> |"Unspecific codes<br>only"| H["Unspecified: <br>n=34,118<br>(12.9%)<br>(2,558 have<br>PRIMIS code)"]
-    G --> |"T1D codes*"| I["Type 1: <br>n=28,964<br>(10.9%)"]
-    G --> |"T2D codes*"| J["Type 2: <br>n=164,866<br>(62.2%)"]
-    G --> |"Gestational codes*"| K["Gestational <br>only: <br>n=14,833<br>(5.6%)"]
-    G --> |"MODY codes*"| L["MODY: <br>n=52<br>(0.0%)"]
-    G --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| M["Non-MODY <br>genetic/<br>syndromic: <br>n=96<br>(0.0%)"]
-    G --> |"Secondary codes*"| N["Secondary: <br>n=182<br>(0.1%)"]
+    G["<b>Final DePICtion cohort:</b> n=277,097"] --> |"Unspecific codes<br>only"| H["Unspecified: <br>n=34,626<br>(12.5%)<br>(2,713 have<br>PRIMIS code)"]
+    G --> |"T1D codes*"| I["Type 1: <br>n=30,339<br>(10.9%)"]
+    G --> |"T2D codes*"| J["Type 2: <br>n=172,719<br>(62.7%)"]
+    G --> |"Gestational codes*"| K["Gestational <br>only: <br>n=15,033<br>(5.4%)"]
+    G --> |"MODY codes*"| L["MODY: <br>n=56<br>(0.0%)"]
+    G --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| M["Non-MODY <br>genetic/<br>syndromic: <br>n=101<br>(0.0%)"]
+    G --> |"Secondary codes*"| N["Secondary: <br>n=186<br>(0.1%)"]
     G --> |"Other specified<br>type codes*"| P["Other specified<br>type: <br>n=1<br>(0.0%)"]  
-    G --> |"Mix of diabetes<br>type codes"| Q["Mix of<br>diabetes types: <br>n=22,063<br>(8.3%)"]
-    Q --> |"Type 1 based<br>on latest code"| R["Mixed; Type 1: <br>n=7,316<br>(2.8%)"]
-    Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=14,109<br>(5.3%)"]
-    Q --> |"Other based<br>on latest code"| T["Mixed; other: <br>n=638<br>(0.2%)"]
+    G --> |"Mix of diabetes<br>type codes"| Q["Mix of<br>diabetes types: <br>n=23,036<br>(8.3%)"]
+    Q --> |"Type 1 based<br>on latest code"| R["Mixed; Type 1: <br>n=7,633<br>(2.8%)"]
+    Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=14,745<br>(5.3%)"]
+    Q --> |"Other based<br>on latest code"| T["Mixed; other: <br>n=658<br>(0.2%)"]
 ```
 \* Could also have diabetes codes of unspecified type
 
 &nbsp;
 
-Of the final cohort, 3.4% were non-English speaking, and a further 10.5% had a first language which was not English.
+Of the final cohort, 3.5% were non-English speaking, and a further 10.7% had a first language which was not English.
 
 &nbsp;
 
