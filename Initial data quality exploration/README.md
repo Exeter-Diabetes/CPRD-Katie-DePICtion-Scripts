@@ -371,49 +371,49 @@ Defines T1DT2D calculator cohort: those with current diagnosis of Type 1, Type 2
 
 &nbsp;
 
-Missing data and cohort characteristics (NB: BMIs <age of 18 have been removed, these constitute ~0.1% of the BMI values):
+Missing data and cohort characteristics (NB: BMIs <age of 18 have been removed, these constitute ~0.02% of the BMI values):
 
 | Characteristic | Class: Type 1 | Class: Type 2 | Class: Unspecified | Class: Unspecified with PRIMIS code | Class: mixed; latest code=Type 1 | Class: mixed; latest code=Type 2 |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| N | 15694 | 170012 | 30300 | 2508 | 5586 | 13492 |
-| First language not English | 599 (3.8%) | 20404 (12.0%) | 2915 (9.6%) | 283 (11.3%) | 248 (4.4%) | 1879 (13.9%) |
-| Non-English speaking | 137 (0.9%) | 7021 (4.1%) | 696 (2.3%) | 70 (2.8%) | 80 (1.4%) | 798 (5.9%) |
-| Median (IQR) age at diagnosis (years) | 28.5 (12.8) | 43.5 (8.6) | 40.3 (13.6) | 41.1 (11.6) | 33.5 (14.0) | 34.5 (10.3) |
-| Median (IQR) current age (years) | 49.6 (20.0) | 53.6 (12.8) | 45.6 (13.9) | 48.6 (13.0) | 54.6 (18.0) | 50.6 (15.6) |
-| Median (IQR) BMI within 2 years (mmol/mol) | 26.5 (6.5) | 31.2 (8.8) | 29.5 (9.4) | 30.2 (9.1) | 27.5 (7.1) | 30.8 (8.7) |
-| Missing BMI within 2 years (mmol/mol) | 2392 (15.2%) | 15393 (9.1%) | 15070 (49.7%) | 779 (31.1%) | 555 (9.9%) | 1065 (7.9%) |
-| Median (IQR) time to BMI within 2 years (days) | 179.0 (249.0) | 158.0 (222.0) | 248.0 (321.0) | 200.0 (261.0) | 164.0 (227.0) | 152.0 (217.0) |
-| Median (IQR) BMI anytime >= diagnosis (mmol/mol) | 26.4 (6.5) | 31.2 (8.8) | 29.0 (9.0) | 29.9 (9.0) | 27.5 (7.0) | 30.8 (8.8) |
-| Missing BMI anytime >= diagnosis (mmol/mol) | 315 (2.0%) | 2508 (1.5%) | 10217 (33.7%) | 268 (10.7%) | 23 (0.4%) | 64 (0.5%) |
-| Median (IQR) time to BMI anytime >= diagnosis (days) | 218.0 (356.0) | 178.0 (262.0) | 365.0 (727.0) | 291.0 (595.2) | 190.0 (278.0) | 171.0 (257.0) |
+| N | 14738 | 164166 | 30046 | 2403 | 5371 | 13062 |
+| First language not English | 524 (3.6%) | 19400 (11.8%) | 2901 (9.7%) | 256 (10.7%) | 229 (4.3%) | 1824 (14.0%) |
+| Non-English speaking | 118 (0.8%) | 6642 (4.0%) | 694 (2.3%) | 64 (2.7%) | 73 (1.4%) | 773 (5.9%) |
+| Median (IQR) age at diagnosis (years) | 28.5 (12.8) | 43.5 (8.6) | 40.3 (13.5) | 41.2 (11.6) | 33.5 (14.0) | 34.5 (10.2) |
+| Median (IQR) current age (years) | 49.6 (20.0) | 53.6 (12.0) | 45.6 (14.0) | 48.6 (12.7) | 54.6 (17.0) | 50.6 (16.0) |
+| Median (IQR) BMI within 2 years (mmol/mol) | 26.5 (6.5) | 31.2 (8.8) | 29.5 (9.4) | 30.3 (9.2) | 27.5 (7.1) | 30.8 (8.7) |
+| Missing BMI within 2 years (mmol/mol) | 2209 (15.0%) | 14731 (9.0%) | 14948 (49.8%) | 747 (31.1%) | 535 (10.0%) | 1027 (7.9%) |
+| Median (IQR) time to BMI within 2 years (days) | 178.0 (248.0) | 158.0 (222.0) | 248.0 (321.0) | 204.0 (265.2) | 164.0 (227.0) | 152.0 (217.0) |
+| Median (IQR) BMI anytime >= diagnosis (mmol/mol) | 26.4 (6.5) | 31.2 (8.8) | 29.0 (9.1) | 30.0 (9.0) | 27.5 (7.0) | 30.8 (8.8) |
+| Missing BMI anytime >= diagnosis (mmol/mol) | 280 (1.9%) | 2432 (1.5%) | 10206 (34.0%) | 258 (10.7%) | 23 (0.4%) | 63 (0.5%) |
+| Median (IQR) time to BMI anytime >= diagnosis (days) | 215.0 (354.0) | 178.0 (259.0) | 362.5 (721.0) | 292.0 (595.0) | 188.5 (278.0) | 171.0 (256.0) |
 | Median (IQR) total cholesterol within 2 years (mmol/mol) | 4.4 (1.3) | 4.2 (1.4) | 5.0 (1.4) | 4.6 (1.4) | 4.3 (1.3) | 4.4 (1.4) |
-| Missing total cholesterol within 2 years (mmol/mol) | 1376 (8.8%) | 7468 (4.4%) | 15908 (52.5%) | 687 (27.4%) | 253 (4.5%) | 569 (4.2%) |
-| Median (IQR) time to total cholesterol within 2 years (days) | 183.0 (230.8) | 165.0 (194.0) | 263.0 (308.0) | 200.0 (259.0) | 171.0 (207.0) | 158.0 (196.0) |
+| Missing total cholesterol within 2 years (mmol/mol) | 1269 (8.6%) | 7071 (4.3%) | 15775 (52.5%) | 663 (27.6%) | 243 (4.5%) | 542 (4.1%) |
+| Median (IQR) time to total cholesterol within 2 years (days) | 180.0 (230.0) | 165.0 (194.0) | 263.0 (308.0) | 201.0 (261.0) | 170.5 (209.0) | 157.0 (196.0) |
 | Median (IQR) total cholesterol anytime >= diagnosis (mmol/mol) | 4.4 (1.3) | 4.2 (1.5) | 5.0 (1.4) | 4.7 (1.4) | 4.3 (1.3) | 4.4 (1.4) |
-| Missing total cholesterol anytime >= diagnosis (mmol/mol) | 279 (1.8%) | 3011 (1.8%) | 12927 (42.7%) | 390 (15.6%) | 25 (0.4%) | 72 (0.5%) |
-| Median (IQR) time to total cholesterol anytime >= diagnosis (days) | 199.0 (261.0) | 171.0 (207.0) | 348.0 (643.0) | 247.0 (419.8) | 179.0 (229.0) | 169.0 (214.0) |
+| Missing total cholesterol anytime >= diagnosis (mmol/mol) | 254 (1.7%) | 2950 (1.8%) | 12875 (42.9%) | 378 (15.7%) | 25 (0.5%) | 71 (0.5%) |
+| Median (IQR) time to total cholesterol anytime >= diagnosis (days) | 199.0 (261.0) | 171.0 (206.0) | 347.0 (637.0) | 248.0 (430.0) | 179.0 (226.0) | 166.0 (212.5) |
 | Median (IQR) HDL within 2 years (mmol/mol) | 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.4) | 1.2 (0.4) | 1.4 (0.6) | 1.2 (0.5) |
-| Missing HDL within 2 years (mmol/mol) | 2189 (13.9%) | 11923 (7.0%) | 16312 (53.8%) | 750 (29.9%) | 483 (8.6%) | 936 (6.9%) |
-| Median (IQR) time to HDL within 2 years (days) | 191.0 (244.0) | 171.0 (198.0) | 267.0 (311.0) | 200.5 (260.0) | 178.0 (217.0) | 166.0 (203.0) |
+| Missing HDL within 2 years (mmol/mol) | 2032 (13.8%) | 11406 (6.9%) | 16177 (53.8%) | 724 (30.1%) | 467 (8.7%) | 898 (6.9%) |
+| Median (IQR) time to HDL within 2 years (days) | 187.0 (244.0) | 171.0 (198.0) | 267.0 (311.0) | 204.0 (264.5) | 177.0 (217.0) | 165.0 (203.0) |
 | Median (IQR) HDL anytime >= diagnosis (mmol/mol) | 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.5) | 1.2 (0.5) | 1.4 (0.6) | 1.2 (0.5) |
-| Missing HDL anytime >= diagnosis (mmol/mol) | 508 (3.2%) | 4219 (2.5%) | 13364 (44.1%) | 441 (17.6%) | 56 (1.0%) | 139 (1.0%) |
-| Median (IQR) time to HDL anytime >= diagnosis (days) | 219.0 (313.0) | 180.0 (225.0) | 354.0 (647.2) | 255.0 (458.0) | 194.0 (252.0) | 179.0 (233.0) |
-| Median (IQR) triglyceride within 2 years (mmol/mol) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) | 1.6 (1.4) | 1.2 (1.0) | 1.5 (1.2) |
-| Missing triglyceride within 2 years (mmol/mol) | 5760 (36.7%) | 49068 (28.9%) | 19376 (63.9%) | 1161 (46.3%) | 1738 (31.1%) | 3960 (29.4%) |
-| Median (IQR) time to triglyceride within 2 years (days) | 211.0 (265.0) | 190.0 (228.0) | 276.0 (315.0) | 225.0 (274.0) | 193.0 (249.0) | 185.0 (239.0) |
-| Median (IQR) triglyceride anytime >= diagnosis (mmol/mol) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) | 1.5 (1.3) | 1.1 (1.0) | 1.5 (1.2) |
-| Missing triglyceride anytime >= diagnosis (mmol/mol) | 1681 (10.7%) | 14843 (8.7%) | 15969 (52.7%) | 697 (27.8%) | 296 (5.3%) | 794 (5.9%) |
-| Median (IQR) time to triglyceride anytime >= diagnosis (days) | 337.0 (793.0) | 255.0 (547.0) | 417.0 (831.0) | 346.0 (777.5) | 297.0 (756.0) | 270.0 (612.8) |
+| Missing HDL anytime >= diagnosis (mmol/mol) | 463 (3.1%) | 4128 (2.5%) | 13295 (44.2%) | 428 (17.8%) | 55 (1.0%) | 133 (1.0%) |
+| Median (IQR) time to HDL anytime >= diagnosis (days) | 219.0 (307.5) | 180.0 (224.0) | 353.0 (646.0) | 256.0 (460.0) | 193.0 (253.0) | 178.0 (233.0) |
+| Median (IQR) triglyceride within 2 years (mmol/mol) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) | 1.6 (1.5) | 1.2 (1.0) | 1.5 (1.2) |
+| Missing triglyceride within 2 years (mmol/mol) | 5403 (36.7%) | 47453 (28.9%) | 19224 (64.0%) | 1116 (46.4%) | 1686 (31.4%) | 3828 (29.3%) |
+| Median (IQR) time to triglyceride within 2 years (days) | 208.0 (263.0) | 190.0 (228.0) | 276.0 (315.0) | 225.0 (273.5) | 192.0 (248.0) | 184.0 (238.0) |
+| Median (IQR) triglyceride anytime >= diagnosis (mmol/mol) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) | 1.5 (1.3) | 1.2 (1.0) | 1.5 (1.2) |
+| Missing triglyceride anytime >= diagnosis (mmol/mol) | 1562 (10.6%) | 14489 (8.8%) | 15881 (52.9%) | 672 (28.0%) | 286 (5.3%) | 771 (5.9%) |
+| Median (IQR) time to triglyceride anytime >= diagnosis (days) | 334.0 (798.0) | 255.0 (547.0) | 416.0 (827.0) | 348.0 (789.5) | 297.0 (779.0) | 269.0 (609.5) |
 
 &nbsp;
 
 Number with measured GAD and/or IA2 antibodies is very small:
-* GAD: 136 (0.9%) of Type 1, 447 (0.03%) of Type 2, 10 (0.03%) of unspecified, 27 (1.1%) of unspecified with PRIMIS code, 141 (2.5%) of mixed but Type 1 based on latest code and 77 (0.6%) of mixed but Type 2 based on latest code
-* IA2: 4 (0.03%) of Type 1, 9 (0.005%) of Type 2, 0 (0.0%) of unspecified, 0 (0.0%) of unspecified with PRIMIS code, 3 (0.05%) of mixed but Type 1 based on latest code and 1 (0.007%) of mixed but Type 2 based on latest code
+* GAD: 124 (0.8%) of Type 1, 423 (0.3%) of Type 2, 10 (0.03%) of unspecified, 27 (1.1%) of unspecified with PRIMIS code, 136 (2.5%) of mixed but Type 1 based on latest code and 73 (0.6%) of mixed but Type 2 based on latest code
+* IA2: 4 (0.03%) of Type 1, 9 (0.005%) of Type 2, 0 (0.0%) of unspecified, 0 (0.0%) of unspecified with PRIMIS code, 3 (0.06%) of mixed but Type 1 based on latest code and 1 (0.008%) of mixed but Type 2 based on latest code
 
 &nbsp;
 
-Using separate weight and height measurements to calculate BMI where this is missing does not have a substantial impact (reduces from 5.6% missing overall to 4.8%). Only a very small number of people in this cohort have thier most recent weight/height measurements in childhood i.e. before the age of 18.
+Using separate weight and height measurements to calculate BMI where this is missing does not have a substantial impact (reduces from 5.8% missing overall to 5.0%). Only a very small number of people in this cohort have thier most recent weight/height measurements in childhood i.e. before the age of 18.
 
 &nbsp;
 
