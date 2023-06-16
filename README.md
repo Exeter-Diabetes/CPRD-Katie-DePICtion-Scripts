@@ -87,12 +87,12 @@ The MODY calculator cohort consists those with current diagnosis of Type 1 (mixe
 ```mermaid
 graph TD;
     A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>n=277,097"] --> |"Diagnosed aged 1-35 years (inclusive)"| B["n=87,455"]
-    B --> |"Unspecified diabetes type codes only suggesting no diabetes"| C["n=12,538 (14.3%)"]
+    B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=12,538 (14.3%)"]
     B --> |"Assigned diabetes type based on codes"| D["n=74,917 (85.7%)"]
     D --> |"Assigned Type 1 or Type 2"| E["n=64,674 (86.3%). n=30,543 Type 1 and n=34,131 Type 2"]
-    E --> |"Without valid diagnosis date (between -30 and +90 days of registration start)"| F["n=2,870 (4.4%). n=1,139 Type 1 and n=1,731 Type 2"]
+    E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=2,870 (4.4%). n=1,139 Type 1 and n=1,731 Type 2"]
     E --> G["n=61,804 (95.6%). n=29,404 Type 1 and n=32,400 Type 2"]
-    G --> |"Missing HbA1c or BMI before diagnosis"|H["n=1,802 (2.9%). n=1,032 Type 1 and n=770 Type 2"]
+    G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%). n=1,032 Type 1 and n=770 Type 2"]
     G --> I["<b>MODY calculator cohort<\b>: n=60,002 (97.1%). n=28,372 Type 1 and n=31,630 Type 2"]
    
    
