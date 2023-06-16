@@ -97,9 +97,11 @@ graph TD;
    
    
 ```
-MODY calculator cohort not missing HbA1c or BMI: n=63,996 (86.3% of original MODY calculator cohort).
 
 &nbsp;
+
+
+
 
 Cohort characteristics of those not missing HbA1c or BMI:
 
