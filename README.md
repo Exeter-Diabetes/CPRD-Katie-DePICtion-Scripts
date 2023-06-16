@@ -89,18 +89,58 @@ graph TD;
     A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>n=277,097"] --> |"Diagnosed aged 1-35 years (inclusive)"| B["n=87,455"]
     B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=12,538 (14.3%)"]
     B --> |"Assigned diabetes type based on codes"| D["n=74,917 (85.7%)"]
-    D --> |"Assigned Type 1 or Type 2"| E["n=64,674 (86.3%)<br>n=30,543 Type 1 and n=34,131 Type 2"]
-    E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=2,870 (4.4%)<br>n=1,139 Type 1 and n=1,731 Type 2"]
-    E --> G["n=61,804 (95.6%)<br>n=29,404 Type 1 and n=32,400 Type 2"]
-    G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%). n=1,032<br>Type 1 and n=770 Type 2"]
-    G --> I["<b>MODY calculator cohort</b>: n=60,002 (97.1%)<br>n=28,372 Type 1 and n=31,630 Type 2"]
+    D --> |"Assigned Type 1 or Type 2"| E["n=64,674 (86.3%)<br>30,543 Type 1 and 34,131 Type 2"]
+    E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=2,870 (4.4%)<br>1,139 Type 1 and 1,731 Type 2"]
+    E --> G["n=61,804 (95.6%)<br>29,404 Type 1 and 32,400 Type 2"]
+    G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032Type 1 and 770 Type 2"]
+    G --> I["<b>MODY calculator cohort</b>: n=60,002 (97.1%)<br>28,372 Type 1 and 31,630 Type 2"]
    
    
 ```
 
 &nbsp;
 
+### MODY calculator variables
 
+#### HbA1c
+
+Distribution of time between HbA1c and current (index) date (01/02/2020):
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_hba1c.png?" width="1000">
+
+| Proportion with HbA1c within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| 6 months | 54.2% | 60.6% | 61.3% | 63.4% | 58.5% |
+| 1 year | 80.1% | 84.5% | 85.7% | 87.5% | 83.2% |
+| 2 years | 94.1% | 95.1% | 96.5% | 96.5% | 95.0% |
+| 5 years | 99.1% | 99.1% | 99.7% | 99.6% | 99.2% |
+
+&nbsp;
+
+#### BMI
+
+Distribution of time between BMI and current (index) date (01/02/2020):
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_bmi.png?" width="1000">
+
+| Proportion with HbA1c within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| 6 months | 42.7% | 49.0% | 47.8% | 51.2% | 46.7% |
+| 1 year | 67.6% | 75.1% | 73.9% | 76.7% | 72.3% |
+| 2 years | 85.2% | 90.1% | 89.5% | 91.7% | 88.3% |
+| 5 years | 96.9% | 98.1% | 98.1% | 98.6% | 97.7% |
+
+&nbsp;
+
+
+
+
+
+
+
+#### BMI
+#### Time to insulin (whether within 6 months or not)
+#### Family history of diabetes
 
 
 Cohort characteristics of those not missing HbA1c or BMI:
