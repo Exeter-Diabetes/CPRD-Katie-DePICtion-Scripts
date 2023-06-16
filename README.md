@@ -143,7 +143,7 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 For those with missing insulin within 6 months (i.e. where registration > 6 months after diagnosis) but currently treated with insulin, how long between diagnosis and earliest insulin script?
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_ins_for_missing.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_ins_where_missing.png?" width="1000">
 
 &nbsp;
 
