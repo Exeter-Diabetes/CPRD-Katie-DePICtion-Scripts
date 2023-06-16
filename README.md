@@ -132,14 +132,19 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 &nbsp;
 
-
-
-
-
-
-
-#### BMI
 #### Time to insulin (whether within 6 months or not)
+
+|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| Insulin within 6 months = 1 of non-missing | 72.4% | 3.8% | 46.7% | 22.7% | 23.8% |
+| Missing insulin within 6 months | 42.7% | 49.0% | 47.8% | 51.2% | 45.3% |
+| Current insulin = 1 | 96.3% | 27.9% | 96.1% | 34.9% | 61.1% |
+| Insulin within 6 months = 1 or current insulin = 1 if time to insulin missing | 89.0% | 20.0% | 81.2 | 37.8% | 54.3% |
+
+
+
+
+
 #### Family history of diabetes
 
 
