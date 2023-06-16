@@ -57,22 +57,22 @@ t1dt2d_cohort <- cohort %>%
 
 
 t1dt2d_cohort %>% count()
-#237592
+#229786
 
 t1dt2d_cohort %>% group_by(class) %>% count()
-# type 1                    15694
-# type 2                   170012
-# unspecified               30300
-# unspecified_with_primis    2508
-# mixed; type 1              5586
-# mixed; type 2             13492
+# type 1                    14738
+# type 2                   164166
+# unspecified               30046
+# unspecified_with_primis    2403
+# mixed; type 1              5371
+# mixed; type 2             13062
 
 
 ## Check proportion where BMI is for aged <18
 
 t1dt2d_cohort %>% mutate(age_at_bmi=datediff(bmidate, dob)/365.25) %>% filter(age_at_bmi<18) %>% count()
-#346
-346/237592 #0.1%
+#345
+345/229786 #0.02%
 
 
 ## Remake without BMI for <18 years
@@ -181,16 +181,16 @@ t1dt2d_cohort %>%
 # Check that separate weight and height measurements don't add
 
 t1dt2d_cohort %>% filter(is.na(bmi_post_diag)) %>% count()
-#13395
-13395/237592 #5.6%
+#13262
+13262/229786 #5.8%
 
 
 t1dt2d_cohort %>%
   mutate(weight_post_diag=ifelse(weightdate>=dm_diag_date, weight, NA)) %>%
   filter(is.na(bmi_post_diag) & !is.na(height) & !is.na(weight_post_diag)) %>%
   count()
-#1941
-1941/237592 #0.8%
+#1912
+1912/229786 #0.8%
 
 t1dt2d_cohort %>%
   mutate(weight_post_diag=ifelse(weightdate>=dm_diag_date, weight, NA),
@@ -198,6 +198,6 @@ t1dt2d_cohort %>%
          age_at_height=datediff(heightdate, dob)/365.25) %>%
   filter(is.na(bmi_post_diag) & !is.na(height) & !is.na(weight_post_diag) & age_at_weight>=18 & age_at_height>=18) %>%
   count()
-#1869
-1869/237592 #0.8%
+#1840
+1840/229786 #0.8%
 

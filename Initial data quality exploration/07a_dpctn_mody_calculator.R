@@ -44,31 +44,30 @@ mody_cohort <- cohort %>%
 
 
 mody_cohort %>% count()
-#76755
+#74523
 
 mody_cohort %>% group_by(class) %>% count()
-# type 1                      25514
-# type 2                      26175
-# unspecified                 11799
-# unspecified_with_primis     837
-# mixed; type 2               7654
-# mixed; type 1               4776
-
+# type 1                      24765
+# type 2                      25222
+# unspecified                 11667
+# unspecified_with_primis     798
+# mixed; type 1               4630
+# mixed; type 2               7441
 
 ## Check proportion where BMI is for aged <18
 
 mody_cohort %>% mutate(age_at_bmi=datediff(bmidate, dob)/365.25) %>% filter(age_at_bmi<18) %>% count()
-#1247
-1247/76755 #1.6%
+#1234
+1234/74523 #1.7%
 
 
 mody_cohort %>% mutate(age_at_bmi=datediff(bmidate, dob)/365.25) %>% filter(age_at_bmi<18) %>% group_by(class) %>% count()
-# type 1                      483 #1.9%
-# type 2                      45 #0.2%
+# type 1                      473 #1.9%
+# type 2                      44 #0.2%
 # unspecified                 682 #5.8%
-# unspecified_with_primis     28 #3.3%
-# mixed; type 1               5 #0.06%
-# mixed; type 2               4 #0.08%
+# unspecified_with_primis     26 #3.3%
+# mixed; type 1               5 #0.1%
+# mixed; type 2               4 #0.05%
 
 
 ## Remake without BMI for <18 years
@@ -87,16 +86,16 @@ mody_cohort <- mody_cohort %>%
 # Check that separate weight and height measurements don't add
 
 mody_cohort %>% filter(is.na(bmi_post_diag)) %>% count()
-#6982
-6982/76755 #9.1%
+#6918
+6918/74523 #9.3%
 
 
 mody_cohort %>%
   mutate(weight_post_diag=ifelse(weightdate>=dm_diag_date, weight, NA)) %>%
   filter(is.na(bmi_post_diag) & !is.na(height) & !is.na(weight_post_diag)) %>%
   count()
-#1464
-1464/76755 #1.9%
+#1436
+1436/74523 #1.9%
   
 mody_cohort %>%
   mutate(weight_post_diag=ifelse(weightdate>=dm_diag_date, weight, NA),
@@ -104,8 +103,8 @@ mody_cohort %>%
          age_at_height=datediff(heightdate, dob)/365.25) %>%
   filter(is.na(bmi_post_diag) & !is.na(height) & !is.na(weight_post_diag) & age_at_weight>=18 & age_at_height>=18) %>%
   count()
-#653
-653/76755 #0.9%
+#637
+637/74523 #0.9%
 
 
 ############################################################################################

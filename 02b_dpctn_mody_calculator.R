@@ -23,25 +23,140 @@ cohort <- cohort %>% analysis$cached("cohort")
 
 ############################################################################################
 
-# Define MODY cohort: patients diagnosed with a current Type 1 or Type 2 diagnosis or unspecified type, diagnosed aged 1-35
-## At the moment don't have T1/T2 and T2/gestational people
+# Look at cohort size
+
+cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35) %>% count()
+#87455
+
+cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="unspecified" | diabetes_type=="unspecified_with_primis")) %>% count()
+#12538
+
+cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
+#64674
+
+cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
+#30543
+
+cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & is.na(diagnosis_date)) %>% count()
+#2870
+
+cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & is.na(diagnosis_date)) %>% count()
+#1139
+2870-1139
+
+cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & !is.na(diagnosis_date)) %>% count()
+#61804
+
+cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & !is.na(diagnosis_date)) %>% count()
+#29404
+61804-29404
+
+
+# Define MODY cohort: patients diagnosed with a current Type 1 or Type 2 diagnosis, diagnosed aged 1-35, with valid diagnosis date and BMI/HbA1c before diagnosis
 
 mody_cohort <- cohort %>%
-  filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="unspecified" | diabetes_type=="unspecified_with_primis" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2")) %>%
+  filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2") & !is.na(diagnosis_date)) %>%
   mutate(hba1c_post_diag=ifelse(hba1cdate>=diagnosis_date, hba1c, NA),
+         hba1c_post_diag_datediff=ifelse(!is.na(hba1c_post_diag), hba1cindexdiff, NA),
          age_at_bmi=datediff(bmidate, dob)/365.25,
          bmi_post_diag=ifelse(bmidate>=diagnosis_date & age_at_bmi>=18, bmi, NA),
-         insulin_6_months=ifelse(!is.na(time_to_ins_days) & time_to_ins_days<=183, 1,
-                                 ifelse((!is.na(time_to_ins_days) & time_to_ins_days>183) | ins_ever==0, 0, NA)),
+         bmi_post_diag_datediff=ifelse(!is.na(bmi_post_diag), bmiindexdiff, NA),
+         insulin_6_months=ifelse(!is.na(time_to_ins_days) & time_to_ins_days<=183, 1L,
+                                 ifelse((!is.na(time_to_ins_days) & time_to_ins_days>183) | ins_ever==0, 0L, NA)),
          insoha=ifelse(current_oha_6m==1 | current_ins_6m==1, 1L, 0L)) %>%
+  filter(!is.na(bmi_post_diag) & !is.na(hba1c_post_diag)) %>%
   analysis$cached("mody_cohort", unique_indexes="patid")
 
 mody_cohort %>% count()
+#60002
 
 mody_cohort %>% group_by(diabetes_type) %>% count()
+# type 1          23639
+# type 2          23999
+# mixed; type 2    7631
+# mixed; type 1    4733
 
 
 ############################################################################################
+
+# Look at variables
+
+mody_vars <- mody_cohort %>%
+  select(diabetes_type, hba1c_post_diag_datediff, bmi_post_diag_datediff, diagnosis_date, regstartdate, earliest_ins,  time_to_ins_days, insulin_6_months, fh_diabetes) %>%
+  collect() %>%
+  mutate(hba1c_post_diag_datediff_yrs=as.numeric(hba1c_post_diag_datediff)/365.25,
+         bmi_post_diag_datediff_yrs=as.numeric(bmi_post_diag_datediff)/365.25,
+         diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "mixed; type 1", "mixed; type 2")))
+
+
+## Time to HbA1c
+
+ggplot ((mody_vars %>% filter(hba1c_post_diag_datediff_yrs>-3)), aes(x=hba1c_post_diag_datediff_yrs, fill=diabetes_type)) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.05) +
+  scale_y_continuous(labels = scales::percent) +
+  xlab("Years from HbA1c to current date") +
+  ylab("Percentage")
+
+
+mody_vars <- mody_vars %>%
+  mutate(hba1c_in_6_mos=hba1c_post_diag_datediff_yrs>=-0.5,
+         hba1c_in_1_yr=hba1c_post_diag_datediff_yrs>=-1,
+         hba1c_in_2_yrs=hba1c_post_diag_datediff_yrs>=-2,
+         hba1c_in_5_yrs=hba1c_post_diag_datediff_yrs>=-5)
+
+prop.table(table(mody_vars$hba1c_in_6_mos))
+prop.table(table(mody_vars$diabetes_type, mody_vars$hba1c_in_6_mos), margin=1)
+
+prop.table(table(mody_vars$hba1c_in_1_yr))
+prop.table(table(mody_vars$diabetes_type, mody_vars$hba1c_in_1_yr), margin=1)
+
+prop.table(table(mody_vars$hba1c_in_2_yrs))
+prop.table(table(mody_vars$diabetes_type, mody_vars$hba1c_in_2_yrs), margin=1)
+
+prop.table(table(mody_vars$hba1c_in_5_yrs))
+prop.table(table(mody_vars$diabetes_type, mody_vars$hba1c_in_5_yrs), margin=1)
+
+
+
+## Time to BMI
+
+ggplot ((mody_vars %>% filter(bmi_post_diag_datediff_yrs>-3)), aes(x=bmi_post_diag_datediff_yrs, fill=diabetes_type)) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.05) +
+  scale_y_continuous(labels = scales::percent) +
+  xlab("Years from BMI to current date") +
+  ylab("Percentage")
+
+
+mody_vars <- mody_vars %>%
+  mutate(bmi_in_6_mos=bmi_post_diag_datediff_yrs>=-0.5,
+         bmi_in_1_yr=bmi_post_diag_datediff_yrs>=-1,
+         bmi_in_2_yrs=bmi_post_diag_datediff_yrs>=-2,
+         bmi_in_5_yrs=bmi_post_diag_datediff_yrs>=-5)
+
+prop.table(table(mody_vars$bmi_in_6_mos))
+prop.table(table(mody_vars$diabetes_type, mody_vars$bmi_in_6_mos), margin=1)
+
+prop.table(table(mody_vars$bmi_in_1_yr))
+prop.table(table(mody_vars$diabetes_type, mody_vars$bmi_in_1_yr), margin=1)
+
+prop.table(table(mody_vars$bmi_in_2_yrs))
+prop.table(table(mody_vars$diabetes_type, mody_vars$bmi_in_2_yrs), margin=1)
+
+prop.table(table(mody_vars$bmi_in_5_yrs))
+prop.table(table(mody_vars$diabetes_type, mody_vars$bmi_in_5_yrs), margin=1)
+
+
+
+
+
+
+
+
+
+
+
+############################################################################################
+
 
 # Run MODY calculator
 

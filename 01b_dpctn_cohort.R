@@ -272,27 +272,27 @@ diagnosis_dates <- all_patid_clean_dm_codes %>%
   analysis$cached("diagnosis_dates", unique_indexes="patid")
 
 
-# Add to cohort table and remove those with diagnosis date within -30 to +90 days of registration start
+# Add to cohort table and remove those diagnosed aged >50
 
 cohort <- cohort %>%
   inner_join(diagnosis_dates, by="patid") %>%
-  filter(datediff(diagnosis_date, regstartdate)< -30 | datediff(diagnosis_date, regstartdate)>90) %>%
+  mutate(dm_diag_age=round((datediff(diagnosis_date, dob))/365.25, 1)) %>%
+  filter(dm_diag_age<=50) %>%
   analysis$cached("cohort_interim_4", unique_indexes="patid")
 
 cohort %>% count()
-#741,291
+#277,097
 
 
-# Remove those diagnosed aged >50
+# Set diagnosis date to missing where within -30 to +90 days of registration start
+## Keep age at diagnosis
 
 cohort <- cohort %>%
-  mutate(dm_diag_age=round((datediff(diagnosis_date, dob))/365.25, 1)) %>%
-  filter(dm_diag_age<=50) %>%
+  mutate(diagnosis_date=if_else(datediff(diagnosis_date, regstartdate)< -30 | datediff(diagnosis_date, regstartdate)>90, diagnosis_date, as.Date(NA))) %>%
   analysis$cached("cohort_interim_5", unique_indexes="patid")
 
 cohort %>% count()
-#265,175
-
+#277,097
 
 
 ############################################################################################
@@ -738,15 +738,15 @@ cohort <- cohort %>%
 
 
 cohort %>% count()
-#265175
+#277097
 
 cohort %>% filter(!is.na(language) & language=="Non-English speaking") %>% count()
-#9065
-9065/265175 #3.4%
+#9747
+9747/277097 #3.5%
 
 cohort %>% filter(!is.na(language) & language=="First language not English") %>% count()
-#27863
-27863/265175 #10.5%
+#29766
+29766/277097 #10.7%
 
 
 ############################################################################################
