@@ -141,6 +141,8 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 | Current insulin = 1 | 96.3% | 27.9% | 96.1% | 34.9% | 61.1% |
 | Insulin within 6 months = 1 or current insulin = 1 if time to insulin missing | 80.6% | 12.4% | 67.1% | 32.1% | 46.0% |
 
+&nbsp;
+
 For those with missing insulin within 6 months (i.e. where registration > 6 months after diagnosis) but currently treated with insulin, how long between diagnosis and earliest insulin script?
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_ins_where_missing.png?" width="1000">
