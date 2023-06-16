@@ -2,7 +2,7 @@
 # Apply the MODY calculator to everyone in prevalent cohort diagnosed aged 1-35 years
 
 ############################################################################################
-
+  
 # Setup
 library(tidyverse)
 library(aurum)
@@ -61,8 +61,9 @@ mody_cohort <- cohort %>%
          age_at_bmi=datediff(bmidate, dob)/365.25,
          bmi_post_diag=ifelse(bmidate>=diagnosis_date & age_at_bmi>=18, bmi, NA),
          bmi_post_diag_datediff=ifelse(!is.na(bmi_post_diag), bmiindexdiff, NA),
-         insulin_6_months=ifelse(!is.na(time_to_ins_days) & time_to_ins_days<=183, 1L,
-                                 ifelse((!is.na(time_to_ins_days) & time_to_ins_days>183) | ins_ever==0, 0L, NA)),
+         insulin_6_months=ifelse(is.na(earliest_ins), 0L,
+                                  ifelse(datediff(earliest_ins, diagnosis_date)>183 & datediff(regstartdate, diagnosis_date)>183 & datediff(earliest_ins, regstartdate)<=183, NA,
+                                         ifelse(datediff(earliest_ins, diagnosis_date)<=183, 1L, 0L))),
          insoha=ifelse(current_oha_6m==1 | current_ins_6m==1, 1L, 0L)) %>%
   filter(!is.na(bmi_post_diag) & !is.na(hba1c_post_diag)) %>%
   analysis$cached("mody_cohort", unique_indexes="patid")
@@ -82,7 +83,7 @@ mody_cohort %>% group_by(diabetes_type) %>% count()
 # Look at variables
 
 mody_vars <- mody_cohort %>%
-  select(diabetes_type, hba1c_post_diag_datediff, bmi_post_diag_datediff, diagnosis_date, regstartdate, earliest_ins,  time_to_ins_days, insulin_6_months, fh_diabetes) %>%
+  select(diabetes_type, hba1c_post_diag_datediff, bmi_post_diag_datediff, diagnosis_date, regstartdate, earliest_ins,  time_to_ins_days, insulin_6_months, fh_diabetes, current_ins_6m, regstartdate) %>%
   collect() %>%
   mutate(hba1c_post_diag_datediff_yrs=as.numeric(hba1c_post_diag_datediff)/365.25,
          bmi_post_diag_datediff_yrs=as.numeric(bmi_post_diag_datediff)/365.25,
@@ -147,12 +148,33 @@ prop.table(table(mody_vars$diabetes_type, mody_vars$bmi_in_5_yrs), margin=1)
 
 
 
+## Time to insulin
 
+prop.table(table(mody_vars$diabetes_type, mody_vars$insulin_6_months), margin=1)
+prop.table(table(mody_vars$insulin_6_months))
 
+prop.table(table(mody_vars$diabetes_type, mody_vars$insulin_6_months, useNA="always"), margin=1)
+prop.table(table(mody_vars$insulin_6_months, useNA="always"))
 
+prop.table(table(mody_vars$diabetes_type, mody_vars$current_ins_6m), margin=1)
+prop.table(table(mody_vars$current_ins_6m))
 
+mody_vars <- mody_vars %>%
+  mutate(insulin_6_months_no_missing=ifelse(!is.na(insulin_6_months), insulin_6_months, current_ins_6m))
 
+prop.table(table(mody_vars$diabetes_type, mody_vars$insulin_6_months_no_missing), margin=1)
+prop.table(table(mody_vars$insulin_6_months_no_missing))
 
+time_to_ins <- mody_vars %>%
+  filter(is.na(insulin_6_months) & current_ins_6m==1) %>%
+  mutate(time_to_ins_yrs=as.numeric(difftime(earliest_ins, diagnosis_date, units="days"))/365.25) %>%
+  select(diabetes_type, diagnosis_date, earliest_ins, time_to_ins_yrs)
+
+ggplot (time_to_ins, aes(x=time_to_ins_yrs, fill=diabetes_type)) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=1) +
+  scale_y_continuous(labels = scales::percent) +
+  xlab("Years from diagnosis to earliest insulin script") +
+  ylab("Percentage")
 
 
 ############################################################################################

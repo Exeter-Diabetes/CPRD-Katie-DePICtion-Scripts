@@ -39,6 +39,9 @@ mody_cohort <- cohort %>%
          bmi_post_diag_datediff=ifelse(!is.na(bmi_post_diag), bmiindexdiff, NA),
          insulin_6_months=ifelse(!is.na(time_to_ins_days) & time_to_ins_days<=183, 1,
                                  ifelse((!is.na(time_to_ins_days) & time_to_ins_days>183) | ins_ever==0, 0, NA)),
+         insulin_6_months2=ifelse(is.na(earliest_ins), 0L,
+                                  ifelse(datediff(earliest_ins, dm_diag_date)>183 & datediff(regstartdate, dm_diag_date)>183 & datediff(earliest_ins, regstartdate)<=183, NA,
+                                  ifelse(datediff(earliest_ins, dm_diag_date)<=183, 1L, 0L))),
          insoha=ifelse(current_oha_6m==1 | current_ins_6m==1, 1L, 0L)) %>%
   analysis$cached("mody_cohort_interim_1", unique_indexes="patid")
 
@@ -112,9 +115,10 @@ mody_cohort %>%
 # Look at missing variables
 
 mody_cohort_local <- collect(mody_cohort %>%
-                               select(class, language, dm_diag_age, age_at_index, fh_diabetes, starts_with("hba1c"), starts_with("bmi"), ins_ever, insulin_6_months, insoha)) %>%
+                               select(class, language, dm_diag_age, age_at_index, fh_diabetes, starts_with("hba1c"), starts_with("bmi"), ins_ever, insulin_6_months, insulin_6_months2, insoha)) %>%
   mutate(fh_diabetes=as.factor(fh_diabetes),
          insulin_6_months=as.factor(insulin_6_months),
+         insulin_6_months2=as.factor(insulin_6_months2),
          insoha=as.factor(insoha),
          ins_ever=as.factor(ins_ever),
          bmi_2_years_datediff=-(as.numeric(bmi_2_years_datediff)),
