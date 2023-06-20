@@ -151,6 +151,16 @@ For those with missing insulin within 6 months (i.e. where they have insulin scr
 
 #### Family history of diabetes
 
+|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| Family history of diabetes = 1 = 1 of non-missing | 74.2% | 86.2% | 74.5% | 83.5% | 81.5% |
+| Missing family history of diabetes | 67.7% | 47.6% | 61.4% | 45.4% | 56.3% |
+
+&nbsp;
+
+### MODY calculator results
+
+
 &nbsp;
 
 ## T1D/T2D calculator (script: 03b_dpctn_t1dt2d_calculator)
