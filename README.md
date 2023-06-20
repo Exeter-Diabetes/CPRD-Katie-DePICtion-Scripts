@@ -92,7 +92,7 @@ graph TD;
     D --> |"Assigned Type 1 or Type 2"| E["n=64,674 (86.3%)<br>30,543 Type 1 and 34,131 Type 2"]
     E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=2,870 (4.4%)<br>1,139 Type 1 and 1,731 Type 2"]
     E --> G["n=61,804 (95.6%)<br>29,404 Type 1 and 32,400 Type 2"]
-    G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032Type 1 and 770 Type 2"]
+    G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032 Type 1 and 770 Type 2"]
     G --> I["<b>MODY calculator cohort</b>: n=60,002 (97.1%)<br>28,372 Type 1 and 31,630 Type 2"]
    
    
@@ -141,13 +141,32 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 | Current insulin = 1 | 96.3% | 27.9% | 96.1% | 34.9% | 61.1% |
 | Insulin within 6 months = 1 or current insulin = 1 if time to insulin missing | 80.6% | 12.4% | 67.1% | 32.1% | 46.0% |
 
-For those with missing insulin within 6 months (i.e. where registration > 6 months after diagnosis) but currently treated with insulin, how long between diagnosis and earliest insulin script?
+&nbsp;
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_ins_for_missing.png?" width="1000">
+For those with missing insulin within 6 months (i.e. where they have insulin scripts at some point, registration > 6 months after diagnosis, and earliest insulin script is within the 6 months after registration) but currently treated with insulin, how long between diagnosis and earliest insulin script?
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_ins_where_missing.png?" width="1000">
 
 &nbsp;
 
 #### Family history of diabetes
+
+|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| Family history of diabetes = 1 of non-missing | 74.2% | 86.2% | 74.5% | 83.5% | 81.5% |
+| Missing family history of diabetes | 67.7% | 47.6% | 61.4% | 45.4% | 56.3% |
+
+&nbsp;
+
+### MODY calculator results for those with non-missing family history of diabetes
+
+|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| Mean adjusted probability | 12.5% (n=7631) | 15.5% (n=12566) | 21.4% (n=4169) | 13.7% (n=1825) | 15.4% (n=26191) |
+| Mean adjusted probability for those of White ethnicity | 12.4% (n=6822) | 14.0% (n=6512) | 19.5% (n=2196) | 13.4% (n=1525) | 14.0% (n=17055) |
+| Mean adjusted probability for those of non-White ethnicity | 13.8% (n=735) | 17.1% (n=5907) | 15.0% (n=291) | 23.5% (n=1959) | 18.2% (8892) |
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution.png?" width="1000">
 
 &nbsp;
 
