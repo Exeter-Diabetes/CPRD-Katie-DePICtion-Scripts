@@ -153,13 +153,18 @@ For those with missing insulin within 6 months (i.e. where they have insulin scr
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Family history of diabetes = 1 = 1 of non-missing | 74.2% | 86.2% | 74.5% | 83.5% | 81.5% |
+| Family history of diabetes = 1 of non-missing | 74.2% | 86.2% | 74.5% | 83.5% | 81.5% |
 | Missing family history of diabetes | 67.7% | 47.6% | 61.4% | 45.4% | 56.3% |
 
 &nbsp;
 
-### MODY calculator results
+### MODY calculator results for those with non-missing family history of diabetes
 
+|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| Mean adjusted probability | 23.0% (n=7631) | 16.4% (n=12566) | 23.4% (n=4169) | 22.9% (n=1825) | 19.0% (n=26191) |
+| Mean adjusted probability for those of White ethnicity | 23.3% (n=6822) | 14.8% (n=6512) | 22.0% (n=2196) | 23.1% (n=1525) | 18.5% (n=17055) |
+| Mean adjusted probability for those of non-White ethnicity | 19.9% (n=735) | 18.1% (n=5907) | 20.8% (n=291) | 24.9% (n=1959) | 19.8% (8892) |
 
 &nbsp;
 
