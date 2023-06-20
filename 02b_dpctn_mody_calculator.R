@@ -167,7 +167,8 @@ prop.table(table(mody_vars$insulin_6_months_no_missing))
 
 time_to_ins <- mody_vars %>%
   filter(is.na(insulin_6_months) & current_ins_6m==1) %>%
-  mutate(time_to_ins_yrs=as.numeric(difftime(earliest_ins, diagnosis_date, units="days"))/365.25) %>%
+  mutate(time_to_ins_yrs=as.numeric(difftime(earliest_ins, diagnosis_date, units="days"))/365.25,
+         time_to_reg_yrs=as.numeric(difftime(regstartdate, diagnosis_date, units="days"))/365.25) %>%
   select(diabetes_type, diagnosis_date, earliest_ins, time_to_ins_yrs)
 
 ggplot (time_to_ins, aes(x=time_to_ins_yrs, fill=diabetes_type)) + 
@@ -328,7 +329,8 @@ ggplot(total_cohort, aes(x=diabetes_type, y=mody_adj_prob)) +
 
 ggplot(mody_calc_results_local, aes(x=mody_prob, fill=diabetes_type, color=diabetes_type)) +
   geom_histogram(binwidth=0.01) +
-  theme(text = element_text(size = 20))
+  xlab("MODY unadjusted probability")#+
+  #theme(text = element_text(size = 20))
   
 
 
