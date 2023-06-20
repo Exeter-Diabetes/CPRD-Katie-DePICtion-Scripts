@@ -145,6 +145,11 @@ For those with missing insulin within 6 months (i.e. where they have insulin scr
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_ins_where_missing.png?" width="1000">
 
+And how long between diagnosis and registration start? (Should be similar to above, time to insulin only treated as missing if first insulin script is within 6 months of registration start)
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_reg.png?" width="1000">
+
+
 &nbsp;
 
 #### Family history of diabetes
