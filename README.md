@@ -92,7 +92,7 @@ graph TD;
     D --> |"Assigned Type 1 or Type 2"| E["n=64,674 (86.3%)<br>30,543 Type 1 and 34,131 Type 2"]
     E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=2,870 (4.4%)<br>1,139 Type 1 and 1,731 Type 2"]
     E --> G["n=61,804 (95.6%)<br>29,404 Type 1 and 32,400 Type 2"]
-    G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032Type 1 and 770 Type 2"]
+    G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032 Type 1 and 770 Type 2"]
     G --> I["<b>MODY calculator cohort</b>: n=60,002 (97.1%)<br>28,372 Type 1 and 31,630 Type 2"]
    
    
