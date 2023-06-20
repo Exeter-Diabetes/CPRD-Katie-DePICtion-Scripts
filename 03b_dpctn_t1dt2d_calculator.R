@@ -138,6 +138,18 @@ t1dt2d_calc_results <- t1dt2d_cohort %>%
     
     
 
+t1dt2d_calc_results_local <- t1dt2d_calc_results %>%
+  select(diabetes_type, sex, dm_diag_age, bmi_post_diag, clinical_pred_prob, totalchol_post_diag, hdl_post_diag, triglyceride_post_diag, lipid_pred_prob) %>%
+  collect()
+  
+  
+## Plot distribution
+
+ggplot(t1dt2d_calc_results_local, aes(x=clinical_pred_prob, fill=diabetes_type, color=diabetes_type)) +
+  geom_histogram(binwidth=0.01) +
+  xlab("Clinical prediction model probability")#+
+#theme(text = element_text(size = 20))
+
 
 
 
