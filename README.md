@@ -94,8 +94,6 @@ graph TD;
     E --> G["n=61,804 (95.6%)<br>29,404 Type 1 and 32,400 Type 2"]
     G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032 Type 1 and 770 Type 2"]
     G --> I["<b>MODY calculator cohort</b>: n=60,002 (97.1%)<br>28,372 Type 1 and 31,630 Type 2"]
-   
-   
 ```
 
 &nbsp;
@@ -147,6 +145,11 @@ For those with missing insulin within 6 months (i.e. where they have insulin scr
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_ins_where_missing.png?" width="1000">
 
+And how long between diagnosis and registration start? (Should be similar to above, time to insulin only treated as missing if first insulin script is within 6 months of registration start)
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_reg.png?" width="1000">
+
+
 &nbsp;
 
 #### Family history of diabetes
@@ -166,13 +169,31 @@ For those with missing insulin within 6 months (i.e. where they have insulin scr
 | Mean adjusted probability for those of White ethnicity | 12.4% (n=6822) | 14.0% (n=6512) | 19.5% (n=2196) | 13.4% (n=1525) | 14.0% (n=17055) |
 | Mean adjusted probability for those of non-White ethnicity | 13.8% (n=735) | 17.1% (n=5907) | 15.0% (n=291) | 23.5% (n=1959) | 18.2% (8892) |
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_probability.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_histogram.png?" width="1000">
 
 &nbsp;
 
 ## T1D/T2D calculator (script: 03b_dpctn_t1dt2d_calculator)
 
 The T1D/T2D calculator cohort consists those with current diagnosis of Type 1 (mixed or otherwise), Type 2 (mixed or otherwise), or unspecified diabetes, diagnosed aged 18-50 years inclusive:
+
+```mermaid
+graph TD;
+    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>n=277,097"] --> |"Diagnosed aged 18-50 years (inclusive)"| B["n=87,455"]
+    B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=12,538 (14.3%)"]
+    B --> |"Assigned diabetes type based on codes"| D["n=74,917 (85.7%)"]
+    D --> |"Assigned Type 1 or Type 2"| E["n=64,674 (86.3%)<br>30,543 Type 1 and 34,131 Type 2"]
+    E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=2,870 (4.4%)<br>1,139 Type 1 and 1,731 Type 2"]
+    E --> G["n=61,804 (95.6%)<br>29,404 Type 1 and 32,400 Type 2"]
+    G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032 Type 1 and 770 Type 2"]
+    G --> I["<b>MODY calculator cohort</b>: n=60,002 (97.1%)<br>28,372 Type 1 and 31,630 Type 2"]
+```
+
+&nbsp;
+
+
+
+
 
 ```mermaid
 graph TD;
