@@ -121,7 +121,7 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_bmi.png?" width="1000">
 
-| Proportion with HbA1c within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| Proportion with BMI within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
 | 6 months | 42.7% | 49.0% | 47.8% | 51.2% | 46.7% |
 | 1 year | 67.6% | 75.1% | 73.9% | 76.7% | 72.3% |
@@ -184,60 +184,32 @@ graph TD;
     B --> |"Assigned diabetes type based on codes"| D["n=223,469 (87.2%)"]
     D --> |"Assigned Type 1 or Type 2"| E["n=207,722 (93.0%)<br>21,646 Type 1 and 186,076 Type 2"]
     E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=10,936 (5.3%)<br>1,477 Type 1 and 9,459 Type 2"]
-    E --> G["n=196,786 (94.7%)<br>20,169 Type 1 and 196,786 Type 2"]
-    G --> |"Missing BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032 Type 1 and 770 Type 2"]
-    G --> I["<b>T1D/T2D calculator cohort</b>: n=60,002 (97.1%)<br>28,372 Type 1 and 31,630 Type 2 (10% vs 90%)"]
-    I --> |"With cholesterol, HDL and triglyceride measurements"|J["<b>T1D/T2D lipid calculator cohort</b>: n=60,002 (97.1%)<br>28,372 Type 1 and 31,630 Type 2 (10% vs 90%)"]
+    E --> G["n=196,786 (94.7%)<br>20,169 Type 1 and 176,617 Type 2"]
+    G --> |"Missing BMI<br>before diagnosis"|H["n=2,879 (1.5%)<br>308 Type 1 and 2,571 Type 2"]
+    G --> I["<b>T1D/T2D calculator cohort</b>: n=193,907 (98.5%)<br>19,861 Type 1 and 174,046 Type 2 (10.2% vs 89.8%)"]
+    I --> |"With cholesterol, HDL and triglyceride measurements"|J["<b>T1D/T2D lipid calculator cohort</b>: n=177,857 (91.7%)<br>18,116 Type 1 and 159,741 Type 2 (10.2% vs 89.8%)"]
 ```
 
 &nbsp;
 
+### T1D/T2D calculator variables
 
+#### BMI
 
+Distribution of time between BMI and current (index) date (01/02/2020):
 
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_bmi.png?" width="1000">
 
-```mermaid
-graph TD;
-    G["<b>T1D/T2D calculator cohort:</b> n=228,986"] --> H["Type 1:<br>n=14,696<br>(6.4%)"]
-    G --> I["Type 2:<br>n=163,158<br>(71.3%)"]
-    G --> J["Unspecified<br>no PRIMIS code:<br>n=29,811<br>(13.0%)"]
-    G --> K["Unspecified<br>with PRIMIS code: <br>n=2,389<br>(1.0%)"]
-    G --> L["Mixed; Type 1:<br>n=5,473<br>(2.4%)"]
-    G --> M["Mixed; Type 2:<br>n=13,459<br>(5.9%)"]
-    H --> N["Not missing<br>BMI:<br>14,412 (98.1%)"]
-    I --> O["Not missing<br>BMI:<br>160,657 (98.5%)"]
-    J --> P["Not missing<br>BMI:<br>19,423 (65.2%)"]
-    K --> Q["Not missing<br>BMI:<br>2,123 (88.9%)"]
-    L --> R["Not missing<br>BMI:<br>5,449 (99.6%)"]
-    M --> S["Not missing<br>BMI:<br>13,389 (99.5%)"]
-```
-T1D/T2D calculator cohort not missing BMI: n=215,453 (94.1% of original T1D/T2D calculator cohort).
+| Proportion with HbA1c within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| 6 months | 42.7% | 49.0% | 47.8% | 51.2% | 46.7% |
+| 1 year | 67.6% | 75.1% | 73.9% | 76.7% | 72.3% |
+| 2 years | 85.2% | 90.1% | 89.5% | 91.7% | 88.3% |
+| 5 years | 96.9% | 98.1% | 98.1% | 98.6% | 97.7% |
 
 &nbsp;
 
-Cohort characteristics of those not missing BMI:
-
-| Characteristic | Type 1 | Type 2 | Unspecified with no PRIMIS code | Unspecified with PRIMIS code | Mixed; Type 1 | Mixed; Type 2 | Overall excluding 2 x unspecified groups |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| N | 14412 | 160657 | 19423 | 2123 | 5449 | 13389 | 193907 |
-| Median (IQR) age at diagnosis (years) | 28.5 (12.7) | 43.5 (8.6) | 41.3 (12.4) | 41.6 (11.2) | 33.5 (14.0) | 34.5 (10.2) | 42.3 (10.7) |
-| Median (IQR) age at index date (years) | 49.6 (20.0) | 53.6 (12.0) | 46.6 (12.0) | 48.7 (13.0) | 54.6 (17.9) | 50.6 (16.0) | 53.6 (13.0) |
-| Median (IQR) BMI (kg/m2) | 26.4 (6.5) | 31.2 (8.8) | 29.0 (9.0) | 29.9 (9.0) | 27.4 (7.1) | 30.8 (8.8) | 30.8 (8.8) |
-| Median (IQR) total cholesterol (mmol/L) | 4.4 (1.3) | 4.2 (1.5) | 5.0 (1.4) | 4.7 (1.4) | 4.3 (1.3) | 4.4 (1.4) | 4.2 (1.4) |
-| Missing total cholesterol | 169 (1.2%) | 2113 (1.3%) | 5261 (27.1%) | 221 (10.4%) | 26 (0.5%) | 69 (0.5%) | 2377 (1.2%) |
-| Median (IQR) HDL (mmol/L) | 1.5 (0.6) | 1.1 (0.4) | 1.3 (0.5) | 1.2 (0.5) | 1.4 (0.6) | 1.2 (0.5) | 1.2 (0.4) |
-| Missing HDL | 360 (2.5%) | 3235 (2.0%) | 5593 (28.8%) | 269 (12.7%) | 57 (1.0%) | 135 (1.0%) | 3787 (2.0%) |
-| Median (IQR) triglycerides (mmol/L) | 1.1 (0.8) | 1.7 (1.3) | 1.4 (1.1) | 1.5 (1.3) | 1.2 (1.0) | 1.5 (1.2) | 1.6 (1.3) |
-| Missing triglycerides | 1430 (9.9%) | 13364 (8.3%) | 7681 (39.5%) | 497 (23.4%) | 289 (5.3%) | 785 (5.9%) | 15868 (8.2%) |
-| Mean (SD) clinical prediction model probability | 51.0 (30.9) | 10.6 (14.5) | 21.1 (25.3) | 17.8 (22.6) | 37.3 (29.5) | 23.1 (23.3) | 15.2 (20.9) |
-| Mean (SD) lipid prediction model probability | 19.1 (21.1) | 1.5 (4.2) | 3.2 (8.3) | 3.5 (9.4) | 11.9 (16.8) | 4.3 (9.1) | 3.3 (9.2) |
-| Missing lipid prediction model probability | 1451 (10.1%) | 13509 (8.4%) | 7733 (39.8%) | 505 (23.8%) | 294 (5.4%) | 796 (5.9%) | 16050 (8.3%) |
+### T1D/T2D calculator results
 
 &nbsp;
-
-Histogram of age and BMI model:
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/t1dt2d_age_bmi.png?" width="1000">
-
-
 
