@@ -169,12 +169,18 @@ time_to_ins <- mody_vars %>%
   filter(is.na(insulin_6_months) & current_ins_6m==1) %>%
   mutate(time_to_ins_yrs=as.numeric(difftime(earliest_ins, diagnosis_date, units="days"))/365.25,
          time_to_reg_yrs=as.numeric(difftime(regstartdate, diagnosis_date, units="days"))/365.25) %>%
-  select(diabetes_type, diagnosis_date, earliest_ins, time_to_ins_yrs)
+  select(diabetes_type, diagnosis_date, earliest_ins, time_to_ins_yrs, time_to_reg_yrs)
 
 ggplot (time_to_ins, aes(x=time_to_ins_yrs, fill=diabetes_type)) + 
   geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=1) +
   scale_y_continuous(labels = scales::percent) +
   xlab("Years from diagnosis to earliest insulin script") +
+  ylab("Percentage")
+
+ggplot (time_to_ins, aes(x=time_to_reg_yrs, fill=diabetes_type)) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=1) +
+  scale_y_continuous(labels = scales::percent) +
+  xlab("Years from diagnosis to registration start") +
   ylab("Percentage")
 
 
@@ -403,4 +409,22 @@ tab_2 <- tabulator(z,
 as_flextable(tab_2, separate_with = "variable")
 
 
+### How many added if treat family history as 1?
+
+mody_calc_results_local_fh1 <- mody_calc_results %>%
+  filter(is.na(fh_diabetes)) %>%
+  collect() %>%
+  mutate(diabetes_type2=ifelse(diabetes_type=="type 1" | diabetes_type=="mixed; type 1", "type 1", "type 2"),
+         diabetes_type=factor(diabetes_type, levels=c("type 1", "mixed; type 1", "type 2", "mixed; type 2")))
+
+total_cohort <- mody_calc_results_local_fh1 %>%
+  union_all(mody_calc_results_local_fh1 %>% mutate(diabetes_type=paste(diabetes_type2,"overall"))) %>%
+  union_all(mody_calc_results_local_fh1 %>% mutate(diabetes_type="overall")) %>%
+  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1 overall", "type 1", "mixed; type 1", "type 2 overall", "type 2", "mixed; type 2", "overall")))
+
+
+total_cohort <- total_cohort %>%
+  filter(mody_prob_no_missing_fh1>0.95)
+
+total_cohort %>% group_by(diabetes_type) %>% count()
 

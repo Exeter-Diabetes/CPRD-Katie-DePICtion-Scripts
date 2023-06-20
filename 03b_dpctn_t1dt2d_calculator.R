@@ -23,16 +23,48 @@ cohort <- cohort %>% analysis$cached("cohort")
 
 ############################################################################################
 
+# Look at cohort size
+
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50) %>% count()
+#256166
+
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="unspecified" | diabetes_type=="unspecified_with_primis")) %>% count()
+#32697
+
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
+#207722
+
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
+#21646
+
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & is.na(diagnosis_date)) %>% count()
+#10936
+
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & is.na(diagnosis_date)) %>% count()
+#1477
+10936-1477
+
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & !is.na(diagnosis_date)) %>% count()
+#196786
+
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & !is.na(diagnosis_date)) %>% count()
+#20169
+196786-20169
+
+
+
 # Define T1DT2D cohort: patients diagnosed with a current Type 1 or Type 2 diagnosis or unspecified type, diagnosed aged 18-50
 ## At the moment don't have T1/T2 and T2/gestational people
 
 t1dt2d_cohort <- cohort %>%
-  filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="unspecified" | diabetes_type=="unspecified_with_primis" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2")) %>%
+  filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2")) %>%
   mutate(age_at_bmi=datediff(bmidate, dob)/365.25,
          bmi_post_diag=ifelse(bmidate>=diagnosis_date & age_at_bmi>=18, bmi, NA),
+         bmi_post_diag_datediff=ifelse(!is.na(bmi_post_diag), bmiindexdiff, NA),
          totalchol_post_diag=ifelse(totalcholesteroldate>=diagnosis_date, totalcholesterol, NA),
          hdl_post_diag=ifelse(hdldate>=diagnosis_date, hdl, NA),
          triglyceride_post_diag=ifelse(triglyceridedate>=diagnosis_date, triglyceride, NA)) %>%
+  filter(!is.na(bmi_post_diag)) %>%
   analysis$cached("t1dt2d_cohort", unique_indexes="patid")
 
 t1dt2d_cohort %>% count()
@@ -40,13 +72,55 @@ t1dt2d_cohort %>% count()
 t1dt2d_cohort %>% group_by(diabetes_type) %>% count()
 
 
+t1dt2d_cohort %>% filter(!is.na(totalchol_post_diag) & !is.na(hdl_post_diag) & !is.na(triglyceride_post_diag)) %>% count()
+#177857
+
+t1dt2d_cohort %>% filter(!is.na(totalchol_post_diag) & !is.na(hdl_post_diag) & !is.na(triglyceride_post_diag)) %>% group_by(diabetes_type) %>% count()
+
+
+############################################################################################
+
+# Look at time to BMI
+
+t1dt2d_vars <- t1dt2d_cohort %>%
+  select(diabetes_type, bmi_post_diag_datediff) %>%
+  collect() %>%
+  mutate(bmi_post_diag_datediff_yrs=as.numeric(bmi_post_diag_datediff)/365.25)
+
+
+## Time to BMI
+
+ggplot ((t1dt2d_vars %>% filter(bmi_post_diag_datediff_yrs>-3)), aes(x=bmi_post_diag_datediff_yrs, fill=diabetes_type)) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.05) +
+  scale_y_continuous(labels = scales::percent) +
+  xlab("Years from BMI to current date") +
+  ylab("Percentage")
+
+
+t1dt2d_vars <- t1dt2d_vars %>%
+  mutate(bmi_in_6_mos=bmi_post_diag_datediff_yrs>=-0.5,
+         bmi_in_1_yr=bmi_post_diag_datediff_yrs>=-1,
+         bmi_in_2_yrs=bmi_post_diag_datediff_yrs>=-2,
+         bmi_in_5_yrs=bmi_post_diag_datediff_yrs>=-5)
+
+prop.table(table(t1dt2d_vars$bmi_in_6_mos))
+prop.table(table(t1dt2d_vars$diabetes_type, t1dt2d_vars$bmi_in_6_mos), margin=1)
+
+prop.table(table(t1dt2d_vars$bmi_in_1_yr))
+prop.table(table(t1dt2d_vars$diabetes_type, t1dt2d_vars$bmi_in_1_yr), margin=1)
+
+prop.table(table(t1dt2d_vars$bmi_in_2_yrs))
+prop.table(table(t1dt2d_vars$diabetes_type, t1dt2d_vars$bmi_in_2_yrs), margin=1)
+
+prop.table(table(t1dt2d_vars$bmi_in_5_yrs))
+prop.table(table(t1dt2d_vars$diabetes_type, t1dt2d_vars$bmi_in_5_yrs), margin=1)
+
 
 ############################################################################################
 
 # Run T1DT2D calculator
 
 t1dt2d_calc_results <- t1dt2d_cohort %>%
-  filter(!is.na(bmi_post_diag)) %>%
   
   mutate(sex=ifelse(gender==2, 0, ifelse(gender==1, 1, NA)),
          
@@ -63,102 +137,10 @@ t1dt2d_calc_results <- t1dt2d_cohort %>%
   analysis$cached("t1dt2d_calc_results", unique_indexes="patid")
     
     
-t1dt2d_calc_results %>% count()
-
-t1dt2d_calc_results %>% group_by(diabetes_type) %>% count()
-
-
-#Cohort characteristics
-
-t1dt2d_scores_local <- collect(t1dt2d_calc_results %>% select(diabetes_type, dm_diag_age, age_at_index, bmi_post_diag, totalchol_post_diag, hdl_post_diag, triglyceride_post_diag, clinical_pred_prob, lipid_pred_prob)) %>%
-  mutate(clinical_pred_prob=clinical_pred_prob*100,
-         lipid_pred_prob=lipid_pred_prob*100)
-
-
-n_format <- function(n, percent) {
-  z <- character(length = length(n))
-  wcts <- !is.na(n)
-  z[wcts] <- sprintf("%.0f (%.01f%%)",
-                     n[wcts], percent[wcts] * 100)
-  z
-}
-
-stat_format <- function(stat, num1, num2,
-                        num1_mask = "%.001f",
-                        num2_mask = "(%.001f)") {
-  z_num <- character(length = length(num1))
-  
-  is_mean_sd <- !is.na(num1) & !is.na(num2) & stat %in% "mean_sd"
-  is_median_iqr <- !is.na(num1) & !is.na(num2) &
-    stat %in% "median_iqr"
-  is_range <- !is.na(num1) & !is.na(num2) & stat %in% "range"
-  is_num_1 <- !is.na(num1) & is.na(num2)
-  
-  z_num[is_num_1] <- sprintf(num1_mask, num1[is_num_1])
-  
-  z_num[is_mean_sd] <- paste0(
-    sprintf(num1_mask, num1[is_mean_sd]),
-    " ",
-    sprintf(num2_mask, num2[is_mean_sd])
-  )
-  z_num[is_median_iqr] <- paste0(
-    sprintf(num1_mask, num1[is_median_iqr]),
-    " ",
-    sprintf(num2_mask, num2[is_median_iqr])
-  )
-  z_num[is_range] <- paste0(
-    "[",
-    sprintf(num1_mask, num1[is_range]),
-    " - ",
-    sprintf(num1_mask, num2[is_range]),
-    "]"
-  )
-  
-  z_num
-}
-
-z <- summarizor(t1dt2d_scores_local, by="diabetes_type", overall_label="overall")
-
-tab_2 <- tabulator(z,
-                   rows = c("variable", "stat"),
-                   columns = "diabetes_type",
-                   `Est.` = as_paragraph(
-                     as_chunk(stat_format(stat, value1, value2))),
-                   `N` = as_paragraph(as_chunk(n_format(cts, percent)))
-)
-
-as_flextable(tab_2, separate_with = "variable")
-
-
-## Overall excluding unspecified groups
-
-t1dt2d_scores_local2 <- collect(t1dt2d_calc_results %>% filter(diabetes_type!="unspecified" & diabetes_type!="unspecified_with_primis") %>% select(diabetes_type, dm_diag_age, age_at_index, bmi_post_diag, totalchol_post_diag, hdl_post_diag, triglyceride_post_diag, clinical_pred_prob, lipid_pred_prob)) %>%
-  mutate(clinical_pred_prob=clinical_pred_prob*100,
-         lipid_pred_prob=lipid_pred_prob*100)
-
-
-z <- summarizor(t1dt2d_scores_local2, by="diabetes_type", overall_label="overall")
-
-tab_2 <- tabulator(z,
-                   rows = c("variable", "stat"),
-                   columns = "diabetes_type",
-                   `Est.` = as_paragraph(
-                     as_chunk(stat_format(stat, value1, value2))),
-                   `N` = as_paragraph(as_chunk(n_format(cts, percent)))
-)
-
-as_flextable(tab_2, separate_with = "variable")
 
 
 
-t1dt2d_scores_local <- t1dt2d_scores_local %>%
-  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "unspecified", "unspecified_with_primis", "mixed; type 1", "mixed; type 2")))
 
-
-## Age + BMI model
-ggplot (t1dt2d_scores_local, aes(x=clinical_pred_prob, fill=diabetes_type)) + 
-  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=1) +
-  scale_y_continuous(labels = scales::percent)
 
 
 
