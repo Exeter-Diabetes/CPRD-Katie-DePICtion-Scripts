@@ -162,9 +162,9 @@ For those with missing insulin within 6 months (i.e. where they have insulin scr
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Mean adjusted probability | 23.0% (n=7631) | 16.4% (n=12566) | 23.4% (n=4169) | 22.9% (n=1825) | 19.0% (n=26191) |
-| Mean adjusted probability for those of White ethnicity | 23.3% (n=6822) | 14.8% (n=6512) | 22.0% (n=2196) | 23.1% (n=1525) | 18.5% (n=17055) |
-| Mean adjusted probability for those of non-White ethnicity | 19.9% (n=735) | 18.1% (n=5907) | 20.8% (n=291) | 24.9% (n=1959) | 19.8% (8892) |
+| Mean adjusted probability | 12.5% (n=7631) | 15.5% (n=12566) | 21.4% (n=4169) | 13.7% (n=1825) | 15.4% (n=26191) |
+| Mean adjusted probability for those of White ethnicity | 12.4% (n=6822) | 14.0% (n=6512) | 19.5% (n=2196) | 13.4% (n=1525) | 14.0% (n=17055) |
+| Mean adjusted probability for those of non-White ethnicity | 13.8% (n=735) | 17.1% (n=5907) | 15.0% (n=291) | 23.5% (n=1959) | 18.2% (8892) |
 
 &nbsp;
 
