@@ -198,7 +198,7 @@ graph TD;
 
 Distribution of time between BMI and current (index) date (01/02/2020):
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_bmi_t1dt2d.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1t2_time_to_bmi.png?" width="1000">
 
 | Proportion with BMI within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
