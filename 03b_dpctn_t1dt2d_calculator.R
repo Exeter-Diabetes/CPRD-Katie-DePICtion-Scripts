@@ -140,7 +140,8 @@ t1dt2d_calc_results <- t1dt2d_cohort %>%
 
 t1dt2d_calc_results_local <- t1dt2d_calc_results %>%
   select(diabetes_type, sex, dm_diag_age, bmi_post_diag, clinical_pred_prob, totalchol_post_diag, hdl_post_diag, triglyceride_post_diag, lipid_pred_prob) %>%
-  collect()
+  collect() %>%
+  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "mixed; type 1", "type 2", "mixed; type 2")))
   
   
 ## Plot distribution
