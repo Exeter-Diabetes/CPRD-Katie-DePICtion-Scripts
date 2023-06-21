@@ -85,7 +85,8 @@ t1dt2d_cohort %>% filter(!is.na(totalchol_post_diag) & !is.na(hdl_post_diag) & !
 t1dt2d_vars <- t1dt2d_cohort %>%
   select(diabetes_type, bmi_post_diag_datediff) %>%
   collect() %>%
-  mutate(bmi_post_diag_datediff_yrs=as.numeric(bmi_post_diag_datediff)/365.25)
+  mutate(bmi_post_diag_datediff_yrs=as.numeric(bmi_post_diag_datediff)/365.25) %>%
+  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "mixed; type 1", "mixed; type 2")))
 
 
 ## Time to BMI
@@ -141,7 +142,7 @@ t1dt2d_calc_results <- t1dt2d_cohort %>%
 t1dt2d_calc_results_local <- t1dt2d_calc_results %>%
   select(diabetes_type, sex, dm_diag_age, bmi_post_diag, clinical_pred_prob, totalchol_post_diag, hdl_post_diag, triglyceride_post_diag, lipid_pred_prob) %>%
   collect() %>%
-  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "mixed; type 1", "type 2", "mixed; type 2")))
+  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "mixed; type 1", "mixed; type 2")))
   
   
 ## Plot distribution
