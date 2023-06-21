@@ -319,7 +319,7 @@ mody_calc_results_local <- mody_calc_results %>%
   filter(!is.na(fh_diabetes)) %>%
   collect() %>%
   mutate(diabetes_type2=ifelse(diabetes_type=="type 1" | diabetes_type=="mixed; type 1", "type 1", "type 2"),
-         diabetes_type=factor(diabetes_type, levels=c("type 1", "mixed; type 1", "type 2", "mixed; type 2")))
+         diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "mixed; type 1", "mixed; type 2")))
 
 total_cohort <- mody_calc_results_local %>%
   union_all(mody_calc_results_local %>% mutate(diabetes_type=paste(diabetes_type2,"overall"))) %>%

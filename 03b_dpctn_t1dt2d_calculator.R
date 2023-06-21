@@ -151,6 +151,10 @@ ggplot(t1dt2d_calc_results_local, aes(x=clinical_pred_prob, fill=diabetes_type, 
 #theme(text = element_text(size = 20))
 
 
+## Look at those with scores >90%
+
+t1dt2d_calc_results_local %>% filter(clinical_pred_prob>0.9) %>% count()
+t1dt2d_calc_results_local %>% filter(clinical_pred_prob>0.9) %>% group_by(diabetes_type) %>% count()
 
 
 
