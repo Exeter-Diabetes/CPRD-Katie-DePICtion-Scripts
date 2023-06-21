@@ -211,7 +211,7 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 ### T1D/T2D calculator results
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1dt2d_age_bmi.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1t2_age_bmi.png?" width="1000">
 
 &nbsp;
 
