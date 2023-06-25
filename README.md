@@ -86,8 +86,8 @@ The MODY calculator cohort consists those with current diagnosis of Type 1 (mixe
 
 ```mermaid
 graph TD;
-    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>276,623"] --> |"Diagnosed aged 1-35 years (inclusive;<br>originally MODY calculator limits)"| H["n=87,708"]
-    H--> |"Diagnosed aged 18-35 years (inclusive)"| B["n=68,302"]
+    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>276,623"] --> |"Diagnosed aged 1-35 years (inclusive;<br>originally MODY calculator limits)"| J["n=87,708"]
+    J --> |"Diagnosed aged 18-35 years (inclusive)"| B["n=68,302"]
     B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=10,645 (15.6%)"]
     B --> |"Assigned diabetes type based on codes"| D["n=57,657 (84.4%)"]
     D --> |"Assigned Type 1 or Type 2"| E["n=47,684 (82.7%)<br>14,851 Type 1 and 32,833 Type 2"]
