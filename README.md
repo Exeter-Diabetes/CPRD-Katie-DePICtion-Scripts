@@ -36,7 +36,7 @@ graph TD;
     B -->|"Patients with a diabetes-specific code** with >=1 year data prior and after"|C["n=1,314,373"]
     C -->|"Patients registered on 01/02/2020 (all have diabetes code and therefore diabetes diagnosis <br> before this date due to the requirement to have 1 year of data after)"|D["n=779,498"]
     D -->|"Patients who are aged>=18 years at the index date (01/02/2020)"|E["<b>Data quality exploration cohort:</b> n=769,493"]
-    E -->|"Patients diagnosed aged <=50 years"|F["<b>Final DePICtion cohort:</b> n=277,097"]
+    E -->|"Patients diagnosed aged <=50 years"|F["<b>Final DePICtion cohort:</b> n=276,623"]
 ```
 \* Extract actually contained n=1,481,294 unique patients (1,481,884 in total but some duplicates) but included n=309 with registration start dates in 2020 (which did not fulfil the extract criteria of having a diabetes-related medcode between 01/01/2004-06/11/2020 and >=1 year of data after this; some of these were also not 'acceptable' by [CPRD's definition](https://cprd.com/sites/default/files/2023-02/CPRD%20Aurum%20Glossary%20Terms%20v2.pdf)). NB: removing those with registration start date in 2020 also removed all of those with a 'patienttypeid' not equal to 3 ('regular'). See next section for further details on the extract.
 
@@ -48,18 +48,18 @@ graph TD;
 
 ```mermaid
 graph TD;
-    G["<b>Final DePICtion cohort:</b> n=277,097"] --> |"Unspecific codes<br>only"| H["Unspecified: <br>n=34,626<br>(12.5%)<br>(2,713 have<br>PRIMIS code)"]
-    G --> |"T1D codes*"| I["Type 1: <br>n=30,339<br>(10.9%)"]
-    G --> |"T2D codes*"| J["Type 2: <br>n=172,719<br>(62.7%)"]
+    G["<b>Final DePICtion cohort:</b> n=276,623"] --> |"Unspecific codes<br>only"| H["Unspecified: <br>n=34,621<br>(12.5%)<br>(2,711 have<br>PRIMIS code)"]
+    G --> |"T1D codes*"| I["Type 1: <br>n=30,338<br>(11.0%)"]
+    G --> |"T2D codes*"| J["Type 2: <br>n=173,277<br>(62.6%)"]
     G --> |"Gestational codes*"| K["Gestational <br>only: <br>n=15,033<br>(5.4%)"]
     G --> |"MODY codes*"| L["MODY: <br>n=56<br>(0.0%)"]
     G --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| M["Non-MODY <br>genetic/<br>syndromic: <br>n=101<br>(0.0%)"]
     G --> |"Secondary codes*"| N["Secondary: <br>n=186<br>(0.1%)"]
     G --> |"Other specified<br>type codes*"| P["Other specified<br>type: <br>n=1<br>(0.0%)"]  
-    G --> |"Mix of diabetes<br>type codes"| Q["Mix of<br>diabetes types: <br>n=23,036<br>(8.3%)"]
-    Q --> |"Type 1 based<br>on latest code"| R["Mixed; Type 1: <br>n=7,633<br>(2.8%)"]
-    Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=14,745<br>(5.3%)"]
-    Q --> |"Other based<br>on latest code"| T["Mixed; other: <br>n=658<br>(0.2%)"]
+    G --> |"Mix of diabetes<br>type codes"| Q["Mix of<br>diabetes types: <br>n=23,010<br>(8.3%)"]
+    Q --> |"Type 1 based<br>on latest code"| R["Mixed; Type 1: <br>n=7,627<br>(2.8%)"]
+    Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=14,726<br>(5.3%)"]
+    Q --> |"Other based<br>on latest code"| T["Mixed; other: <br>n=657<br>(0.2%)"]
 ```
 \* Could also have diabetes codes of unspecified type
 
@@ -82,18 +82,19 @@ Patients with a diabetes-related medcode ([full list here](https://github.com/Ex
 
 ## MODY calculator (script: 02b_dpctn_mody_calculator)
 
-The MODY calculator cohort consists those with current diagnosis of Type 1 (mixed or otherwise), Type 2 (mixed or otherwise), or unspecified diabetes, diagnosed aged 1-35 years inclusive:
+The MODY calculator cohort consists those with current diagnosis of Type 1 (mixed or otherwise), Type 2 (mixed or otherwise), or unspecified diabetes, diagnosed aged 18-35 years inclusive:
 
 ```mermaid
 graph TD;
-    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>n=277,097"] --> |"Diagnosed aged 1-35 years (inclusive)"| B["n=87,455"]
-    B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=12,538 (14.3%)"]
-    B --> |"Assigned diabetes type based on codes"| D["n=74,917 (85.7%)"]
-    D --> |"Assigned Type 1 or Type 2"| E["n=64,674 (86.3%)<br>30,543 Type 1 and 34,131 Type 2"]
-    E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=2,870 (4.4%)<br>1,139 Type 1 and 1,731 Type 2"]
-    E --> G["n=61,804 (95.6%)<br>29,404 Type 1 and 32,400 Type 2"]
-    G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032 Type 1 and 770 Type 2"]
-    G --> I["<b>MODY calculator cohort</b>: n=60,002 (97.1%)<br>28,372 Type 1 and 31,630 Type 2"]
+    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>276,623"] --> |"Diagnosed aged 1-35 years (inclusive;<br>originally MODY calculator limits)"| H["n=87,708"]
+    H--> |"Diagnosed aged 18-35 years (inclusive)"| B["n=68,302"]
+    B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=10,645 (15.6%)"]
+    B --> |"Assigned diabetes type based on codes"| D["n=57,657 (84.4%)"]
+    D --> |"Assigned Type 1 or Type 2"| E["n=47,684 (82.7%)<br>14,851 Type 1 and 32,833 Type 2"]
+    E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=2,654 (5.6%)<br>950 Type 1 and 1,704 Type 2"]
+    E --> G["n=45,030 (94.4%)<br>13,901 Type 1 and 31,129 Type 2"]
+    G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=998 (2.2%)<br>285 Type 1 and 713 Type 2"]
+    G --> I["<b>MODY calculator cohort</b>: n=44,032 (97.8%)<br>13,616 Type 1 and 30,416 Type 2"]
 ```
 
 &nbsp;
@@ -104,14 +105,14 @@ graph TD;
 
 Distribution of time between HbA1c and current (index) date (01/02/2020):
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_hba1c.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_hba1c.png?" width="1000">
 
 | Proportion with HbA1c within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| 6 months | 54.2% | 60.6% | 61.3% | 63.4% | 58.5% |
-| 1 year | 80.1% | 84.5% | 85.7% | 87.5% | 83.2% |
-| 2 years | 94.1% | 95.1% | 96.5% | 96.5% | 95.0% |
-| 5 years | 99.1% | 99.1% | 99.7% | 99.6% | 99.2% |
+| 6 months | 55.8% | 60.7% | 61.7% | 63.9% | 60.1% |
+| 1 year | 81.7% | 84.7% | 86.7% | 87.9% | 84.6% |
+| 2 years | 94.7% | 95.2% | 96.9% | 96.7% | 95.4% |
+| 5 years | 99.3% | 99.1% | 99.7% | 99.5% | 99.3% |
 
 &nbsp;
 
@@ -119,14 +120,14 @@ Distribution of time between HbA1c and current (index) date (01/02/2020):
 
 Distribution of time between BMI and current (index) date (01/02/2020):
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_bmi.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_bmi.png?" width="1000">
 
 | Proportion with BMI within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| 6 months | 42.7% | 49.0% | 47.8% | 51.2% | 46.7% |
-| 1 year | 67.6% | 75.1% | 73.9% | 76.7% | 72.3% |
-| 2 years | 85.2% | 90.1% | 89.5% | 91.7% | 88.3% |
-| 5 years | 96.9% | 98.1% | 98.1% | 98.6% | 97.7% |
+| 6 months | 43.4% | 49.0% | 47.6% | 51.7% | 48.0% |
+| 1 year | 68.9% | 75.2% | 74.5% | 77.4% | 74.0% |
+| 2 years | 85.9% | 90.1% | 89.9% | 92.0% | 89.4% |
+| 5 years | 97.0% | 98.2% | 98.1% | 98.7% | 98.0% |
 
 &nbsp;
 
@@ -134,20 +135,20 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Insulin within 6 months = 1 of non-missing | 63.1% | 3.9% | 39.1% | 22.6% | 24.9% |
-| Missing insulin within 6 months | 52.3% | 10.7% | 48.4% | 51.2% | 17.4% |
-| Current insulin = 1 | 96.3% | 27.9% | 96.1% | 34.9% | 61.1% |
-| Insulin within 6 months = 1 or current insulin = 1 if time to insulin missing | 80.6% | 12.4% | 67.1% | 32.1% | 46.0% |
+| Insulin within 6 months = 1 of non-missing | 63.8% | 3.8% | 39.4% | 22.3% | 18.4% |
+| Missing insulin within 6 months | 48.7% | 10.6% | 44.5% | 15.4% | 22.9% |
+| Current insulin = 1 | 96.1% | 27.9% | 95,7% | 32.0% | 49.6% |
+| Insulin within 6 months = 1 or current insulin = 1 if time to insulin missing | 79.7% | 12.3% | 64.9% | 30.4% | 35.0% |
 
 &nbsp;
 
 For those with missing insulin within 6 months (i.e. where they have insulin scripts at some point, registration > 6 months after diagnosis, and earliest insulin script is within the 6 months after registration) but currently treated with insulin, how long between diagnosis and earliest insulin script?
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_ins_where_missing.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_ins_where_missing.png?" width="1000">
 
 And how long between diagnosis and registration start? (Should be similar to above, time to insulin only treated as missing if first insulin script is within 6 months of registration start)
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_time_to_reg.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_reg.png?" width="1000">
 
 
 &nbsp;
@@ -156,8 +157,8 @@ And how long between diagnosis and registration start? (Should be similar to abo
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Family history of diabetes = 1 of non-missing | 74.2% | 86.2% | 74.5% | 83.5% | 81.5% |
-| Missing family history of diabetes | 67.7% | 47.6% | 61.4% | 45.4% | 56.3% |
+| Family history of diabetes = 1 of non-missing | 73.0% | 86.3% | 75.7% | 83.7% | 82.9% |
+| Missing family history of diabetes | 64.9% | 47.4% | 59.9% | 44.3% | 52.0% |
 
 &nbsp;
 
@@ -165,11 +166,11 @@ And how long between diagnosis and registration start? (Should be similar to abo
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Mean adjusted probability | 12.5% (n=7631) | 15.5% (n=12566) | 21.4% (n=4169) | 13.7% (n=1825) | 15.4% (n=26191) |
-| Mean adjusted probability for those of White ethnicity | 12.4% (n=6822) | 14.0% (n=6512) | 19.5% (n=2196) | 13.4% (n=1525) | 14.0% (n=17055) |
-| Mean adjusted probability for those of non-White ethnicity | 13.8% (n=735) | 17.1% (n=5907) | 15.0% (n=291) | 23.5% (n=1959) | 18.2% (8892) |
+| Mean adjusted probability | 10.2% (n=3712) | 14.3% (n=12234) | 11.3% (n=1223) | 20.9% (n=3980) | 14.7% (n=21149) |
+| Mean adjusted probability for those of White ethnicity | 9.9% (n=3293) | 12.6% (n=6315) | 10.7% (n=1000) | 18.6% (n=2057) | 12.7% (n=12665) |
+| Mean adjusted probability for those of non-White ethnicity | 13.1% (n=382) | 16.2% (n=5774) | 14.2% (n=218) | 23.3% (n=1910) | 17.6% (8284) |
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_histogram.png?" width="1000">
 
 &nbsp;
 
@@ -179,15 +180,15 @@ The T1D/T2D calculator cohort consists those with current diagnosis of Type 1 (m
 
 ```mermaid
 graph TD;
-    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>n=277,097"] --> |"Diagnosed aged 18-50 years (inclusive)"| B["n=256,166"]
-    B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=32,697 (12.8%)"]
-    B --> |"Assigned diabetes type based on codes"| D["n=223,469 (87.2%)"]
-    D --> |"Assigned Type 1 or Type 2"| E["n=207,722 (93.0%)<br>21,646 Type 1 and 186,076 Type 2"]
-    E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=10,936 (5.3%)<br>1,477 Type 1 and 9,459 Type 2"]
-    E --> G["n=196,786 (94.7%)<br>20,169 Type 1 and 176,617 Type 2"]
-    G --> |"Missing BMI<br>before diagnosis"|H["n=2,879 (1.5%)<br>308 Type 1 and 2,571 Type 2"]
-    G --> I["<b>T1D/T2D calculator cohort</b>: n=193,907 (98.5%)<br>19,861 Type 1 and 174,046 Type 2 (10.2% vs 89.8%)"]
-    I --> |"With cholesterol, HDL and triglyceride measurements"|J["<b>T1D/T2D lipid calculator cohort</b>: n=177,857 (91.7%)<br>18,116 Type 1 and 159,741 Type 2 (10.2% vs 89.8%)"]
+    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>n=276,623"] --> |"Diagnosed aged 18-50 years (inclusive)"| B["n=256,690"]
+    B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=32,705 (12.7%)"]
+    B --> |"Assigned diabetes type based on codes"| D["n=223,985 (87.3%)"]
+    D --> |"Assigned Type 1 or Type 2"| E["n=208,236 (93.0%)<br>21,747 Type 1 and 186,489 Type 2"]
+    E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=10,952 (5.3%)<br>1,479 Type 1 and 9,473 Type 2"]
+    E --> G["n=197,284 (94.7%)<br>20,268 Type 1 and 177,016 Type 2"]
+    G --> |"Missing BMI<br>before diagnosis"|H["n=2,880 (1.5%)<br>308 Type 1 and 2,572 Type 2"]
+    G --> I["<b>T1D/T2D calculator cohort</b>: n=194,404 (98.5%)<br>19,960 Type 1 and 174,444 Type 2 (10.3% vs 89.7%)"]
+    I --> |"With cholesterol, HDL and triglyceride measurements"|J["<b>T1D/T2D lipid calculator cohort</b>: n=178,346 (91.7%)<br>18,212 Type 1 and 160,134 Type 2 (10.2% vs 89.8%)"]
 ```
 
 &nbsp;
