@@ -366,6 +366,38 @@ These rules have been implemented in our code.
 
 &nbsp;
 
+#### Investigating time to insulin in those diagnosed under 18
+
+We found that in those with a high MODY probability, there were many classified as Type 1, diagnosed under the age of 18 years, but apparently not receiving insulin within 6 months of diagnosis. This seems unlikely and may reflect insulin prescribing from secondary care, which we do not capture. We investigated time to insulin in those with Type 1 (with Type 1 specific codes only) diagnosed under and at/over 18 in the whole MODY calculator cohort. We also looked at whether a Type 1 code within 6 months of diagnosis could be used as a proxy:
+
+| | Diagnosed <18 years | Diagnosed >=18 years |
+| ---- | ---- | ---- |
+| On insulin within 6 months (where not missing) | 62.3% | 70.3% |
+| On insulin within 6 months (where not missing) by year of diagnosis: 1960-1969 (n=14/12) | 0% | 0% |
+| On insulin within 6 months (where not missing) by year of diagnosis: 1970-1979 (n=41/32) | 0% | 0% |
+| On insulin within 6 months (where not missing) by year of diagnosis: 1980-1989 (n=64/71) | 4.7% | 5.6% |
+| On insulin within 6 months (where not missing) by year of diagnosis: 1990-1999 (n=137/189) | 51.1% | 49.2% |
+| On insulin within 6 months (where not missing) by year of diagnosis: 2000-2009 (n=220/276) | 86.4% | 80.4% |
+| On insulin within 6 months (where not missing) by year of diagnosis: 2010-2020 (n=125/472) | 89.6% | 89.2% |
+| Currently on insulin (prescription in last 6 months) | 96.0% | 95.6% |
+| On insulin within 6 months where current insulin used if missing | 91.2% | 88.7% |
+| Type 1 code within 6 months of diagnosis | 89.0% | 85.9% |
+
+&nbsp;
+
+If we just look at those with MODY probability >0.95: 73.6% are diagnosed under 18.
+
+| | Diagnosed <18 years | Diagnosed >=18 years |
+| ---- | ---- | ---- |
+| On insulin within 6 months (where not missing) | 1.3% | 72% |
+| On insulin within 6 months where current insulin used if missing | 2.5% | 60.6% |
+
+&nbsp;
+
+🔴 **Rule 8: For MODY calculator: only include those diagnosed >=18 years. This is because ~10% of those diagnosed <18 have a time to insulin >6 months, which is unlikely to be true, and these people score very highly on the MODY calcuulator. Although a similar proportion of those diagnosed >=18 have a time to insulin of >6 months, this is more likely based on their age at diagnosis and fewer appear in the cohort with high MODY probability.**
+
+&nbsp;
+
 ### 08_dpctn_t1dt2d_calculator
 Defines T1DT2D calculator cohort: those with current diagnosis of Type 1, Type 2, or unspecified diabetes, diagnosed aged 18-50 years inclusive, and looks at missing variables.
 
@@ -417,7 +449,7 @@ Using separate weight and height measurements to calculate BMI where this is mis
 
 &nbsp;
 
-🔴 **Rule 8: As for the MODY calculator, use biomarkers anytime after diagnosis as this reduces missingness. Ignore GAD and IA2 measurements as very few individuals are likely to have these.**
+🔴 **Rule 9: As for the MODY calculator, use biomarkers anytime after diagnosis as this reduces missingness. Ignore GAD and IA2 measurements as very few individuals are likely to have these.**
 
 These rules have been implemented in our code.
 
