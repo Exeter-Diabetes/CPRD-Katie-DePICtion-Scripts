@@ -373,6 +373,12 @@ We found that in those with a high MODY probability, there were many classified 
 | | Diagnosed <18 years | Diagnosed >=18 years |
 | ---- | ---- | ---- |
 | On insulin within 6 months (where not missing) | 62.3% | 70.3% |
+| On insulin within 6 months (where not missing) by year of diagnosis: 1960-1969 (n=14/12) | 0% | 0% |
+| On insulin within 6 months (where not missing) by year of diagnosis: 1970-1979 (n=41/32) | 0% | 0% |
+| On insulin within 6 months (where not missing) by year of diagnosis: 1980-1989 (n=64/71) | 4.7% | 5.6% |
+| On insulin within 6 months (where not missing) by year of diagnosis: 1990-1999 (n=137/189) | 51.1% | 49.2% |
+| On insulin within 6 months (where not missing) by year of diagnosis: 2000-2009 (n=220/276) | 86.4% | 80.4% |
+| On insulin within 6 months (where not missing) by year of diagnosis: 2010-2020 (n=125/472) | 89.6% | 89.2% |
 | Currently on insulin (prescription in last 6 months) | 96.0% | 95.6% |
 | On insulin within 6 months where current insulin used if missing | 91.2% | 88.7% |
 | Type 1 code within 6 months of diagnosis | 89.0% | 85.9% |
