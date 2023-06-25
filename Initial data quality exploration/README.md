@@ -379,7 +379,7 @@ We found that in those with a high MODY probability, there were many classified 
 
 &nbsp;
 
-If we just look at those with MODy probability >0.95: 73.6% are diagnosed under 18.
+If we just look at those with MODY probability >0.95: 73.6% are diagnosed under 18.
 
 | | Diagnosed <18 years | Diagnosed >=18 years |
 | ---- | ---- | ---- |
