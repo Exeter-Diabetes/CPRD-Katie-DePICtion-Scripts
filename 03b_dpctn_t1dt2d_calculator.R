@@ -26,37 +26,42 @@ cohort <- cohort %>% analysis$cached("cohort")
 # Look at cohort size
 
 cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50) %>% count()
-#256166
+#256690
 
 cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="unspecified" | diabetes_type=="unspecified_with_primis")) %>% count()
-#32697
+#32705
+32705/256690 #12.7
+256690-32705 #223985
 
 cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
-#207722
+#208236
+208236/223985 #93.0%
 
 cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
-#21646
+#21747
+208236-21747 #186489
 
 cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & is.na(diagnosis_date)) %>% count()
-#10936
+#10952
+10952/208236 #5.3
 
 cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & is.na(diagnosis_date)) %>% count()
-#1477
-10936-1477
+#1479
+10952-1479 #9473
 
 cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & !is.na(diagnosis_date)) %>% count()
-#196786
+#197284
 
 cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & !is.na(diagnosis_date)) %>% count()
-#20169
-196786-20169
+#20268
+197284-20268
 
 
 
 # Define T1DT2D cohort: patients diagnosed with a current Type 1 or Type 2 diagnosis or unspecified type, diagnosed aged 18-50
 ## At the moment don't have T1/T2 and T2/gestational people
 
-t1dt2d_cohort <- cohort %>%
+t1dt2d_calc_cohort <- cohort %>%
   filter(dm_diag_age>=18 & dm_diag_age<=50 & (diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2")) %>%
   mutate(age_at_bmi=datediff(bmidate, dob)/365.25,
          bmi_post_diag=ifelse(bmidate>=diagnosis_date & age_at_bmi>=18, bmi, NA),
@@ -65,17 +70,27 @@ t1dt2d_cohort <- cohort %>%
          hdl_post_diag=ifelse(hdldate>=diagnosis_date, hdl, NA),
          triglyceride_post_diag=ifelse(triglyceridedate>=diagnosis_date, triglyceride, NA)) %>%
   filter(!is.na(bmi_post_diag)) %>%
-  analysis$cached("t1dt2d_cohort", unique_indexes="patid")
+  analysis$cached("t1dt2d_calc_cohort", unique_indexes="patid")
 
-t1dt2d_cohort %>% count()
+t1dt2d_calc_cohort %>% count()
+#194404
+197284-194404 #2880
+2880/197284 #1.5
+  
+t1dt2d_calc_cohort %>% group_by(diabetes_type) %>% count()
+14486+5474 #19960
+161010+13434 #174444
+19960/194404 #10.3%
+20268-19960 #308
 
-t1dt2d_cohort %>% group_by(diabetes_type) %>% count()
+t1dt2d_calc_cohort %>% filter(!is.na(totalchol_post_diag) & !is.na(hdl_post_diag) & !is.na(triglyceride_post_diag)) %>% count()
+#178346
+178346/194404 #91.7
 
-
-t1dt2d_cohort %>% filter(!is.na(totalchol_post_diag) & !is.na(hdl_post_diag) & !is.na(triglyceride_post_diag)) %>% count()
-#177857
-
-t1dt2d_cohort %>% filter(!is.na(totalchol_post_diag) & !is.na(hdl_post_diag) & !is.na(triglyceride_post_diag)) %>% group_by(diabetes_type) %>% count()
+t1dt2d_calc_cohort %>% filter(!is.na(totalchol_post_diag) & !is.na(hdl_post_diag) & !is.na(triglyceride_post_diag)) %>% group_by(diabetes_type) %>% count()
+13033+5179 #18212
+147496+12638 #160134
+18212/178346 #10.2%
 
 
 ############################################################################################

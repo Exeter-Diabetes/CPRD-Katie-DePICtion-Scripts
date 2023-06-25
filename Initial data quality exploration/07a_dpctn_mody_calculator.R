@@ -180,3 +180,133 @@ tab_2 <- tabulator(z,
 )
 
 as_flextable(tab_2, separate_with = "variable")
+
+
+###########################################################################################################################
+
+# Time to insulin in those diagnosed under 18 with Type 1 - doesn't look right
+
+## Run MODY calculator just for those with non-missing family history
+
+mody_calc_results <- mody_cohort %>%
+  
+  mutate(insulin_6_months_no_missing=ifelse(!is.na(insulin_6_months), insulin_6_months, current_ins_6m),
+         
+         hba1c_post_diag_perc=(0.09148*hba1c_post_diag)+2.152,
+         
+         mody_logOR=ifelse(is.na(fh_diabetes), NA,
+                           ifelse(insulin_6_months_no_missing==1, 1.8196 + (3.1404*fh_diabetes) - (0.0829*age_at_index) - (0.6598*hba1c_post_diag_perc) + (0.1011*dm_diag_age) + (1.3131*gender),
+                                  19.28 - (0.3154*dm_diag_age) - (0.2324*bmi_post_diag) - (0.6276*hba1c_post_diag_perc) + (1.7473*fh_diabetes) - (0.0352*age_at_index) - (0.9952*insoha) + (0.6943*gender))),
+         
+         mody_prob=exp(mody_logOR)/(1+exp(mody_logOR)),
+         
+         mody_adj_prob=ifelse(insulin_6_months_no_missing==1, case_when(
+           mody_prob < 0.1 ~ 0.7,
+           mody_prob < 0.2 ~ 1.9,
+           mody_prob < 0.3 ~ 2.6,
+           mody_prob < 0.4 ~ 4.0,
+           mody_prob < 0.5 ~ 4.9,
+           mody_prob < 0.6 ~ 6.4,
+           mody_prob < 0.7 ~ 7.2,
+           mody_prob < 0.8 ~ 8.2,
+           mody_prob < 0.9 ~ 12.6,
+           mody_prob < 1.0 ~ 49.4
+         ),
+         case_when(
+           mody_prob < 0.1 ~ 4.6,
+           mody_prob < 0.2 ~ 15.1,
+           mody_prob < 0.3 ~ 21.0,
+           mody_prob < 0.4 ~ 24.4,
+           mody_prob < 0.5 ~ 32.9,
+           mody_prob < 0.6 ~ 35.8,
+           mody_prob < 0.7 ~ 45.5,
+           mody_prob < 0.8 ~ 58.0,
+           mody_prob < 0.9 ~ 62.4,
+           mody_prob < 1.0 ~ 75.5
+         ))) %>%
+  
+  analysis$cached("mody_calc_results", unique_indexes="patid")
+
+
+## Look at time to insulin in those not missing family history
+
+mody_calc_results_local <- mody_calc_results %>%
+  filter(!is.na(fh_diabetes) & class=="type 1") %>%
+  select(class, dm_diag_date, dm_diag_age, insulin_6_months, insulin_6_months_no_missing, current_ins_6m, mody_prob) %>%
+  collect() %>%
+  mutate(diagnosis_under_18=factor(ifelse(dm_diag_age<18, "under18", "18andover"), levels=c("under18", "18andover")),
+         insulin_6_months=factor(insulin_6_months, levels=c(1,0)),
+         insulin_6_months_no_missing=factor(insulin_6_months_no_missing, levels=c(1,0)),
+         current_ins_6m=factor(current_ins_6m, levels=c(1,0)))
+
+
+prop.table(table(mody_calc_results_local$insulin_6_months, mody_calc_results_local$diagnosis_under_18), margin=2)
+
+prop.table(table(mody_calc_results_local$current_ins_6m, mody_calc_results_local$diagnosis_under_18), margin=2)
+
+prop.table(table(mody_calc_results_local$insulin_6_months_no_missing, mody_calc_results_local$diagnosis_under_18), margin=2)
+
+
+mody_calc_results_local <- mody_calc_results_local %>%
+  mutate(diag_year=format(dm_diag_date,"%Y"),
+         diag_year_grouped=ifelse(diag_year>=1960 & diag_year<1970, "1960-1969",
+                                  ifelse(diag_year>=1970 & diag_year<1980, "1970-1999",
+                                         ifelse(diag_year>=1980 & diag_year<1990, "1980-1989",
+                                                ifelse(diag_year>=1990 & diag_year<2000, "1990-1999",
+                                                       ifelse(diag_year>=2000 & diag_year<2010, "2000-2009",
+                                                              ifelse(diag_year>=2010 & diag_year<2021, "2010-2020", NA)))))))
+
+table(mody_calc_results_local$diag_year_grouped, mody_calc_results_local$diagnosis_under_18)
+
+mody_calc_results_local %>% filter(!is.na(insulin_6_months)) %>% group_by(diagnosis_under_18, diag_year_grouped) %>% summarise(count_6_months=sum(insulin_6_months=="1"), count=n()) %>% mutate(prop=count_6_months/count)
+
+prop.table(table(mody_calc_results_local$insulin_6_months, mody_calc_results_local$diagnosis_under_18, mody_calc_results_local$diag_year_grouped), margin=2)
+
+
+
+
+
+## Earliest type-specific code
+
+earliest_latest_codes_long <- earliest_latest_codes_long %>% analysis$cached("earliest_latest_codes_long")
+
+all_patid_earliest_type_1_code <- earliest_latest_codes_long %>%
+  filter(category=="type_1") %>%
+  select(patid, earliest_type_1=earliest) %>%
+  analysis$cached("all_patid_earliest_type_1_code", unique_indexes="patid")
+
+
+mody_calc_results_local <- mody_calc_results %>%
+  left_join(all_patid_earliest_type_1_code, by="patid") %>%
+  mutate(earliest_type_1_6m=ifelse(!is.na(earliest_type_1) & datediff(earliest_type_1, dm_diag_date)<=183, "yes",
+                                   ifelse(!is.na(earliest_type_1), "no", NA))) %>%
+  filter(!is.na(fh_diabetes) & class=="type 1") %>%
+  select(class, dm_diag_age, insulin_6_months, insulin_6_months_no_missing, current_ins_6m, earliest_type_1_6m, mody_prob) %>%
+  collect() %>%
+  mutate(diagnosis_under_18=factor(ifelse(dm_diag_age<18, "under18", "18andover"), levels=c("under18", "18andover")),
+         insulin_6_months=factor(insulin_6_months, levels=c(1,0)),
+         insulin_6_months_no_missing=factor(insulin_6_months_no_missing, levels=c(1,0)),
+         current_ins_6m=factor(current_ins_6m, levels=c(1,0)),
+         earliest_type_1_6m=factor(earliest_type_1_6m, levels=c("yes","no")))
+
+prop.table(table(mody_calc_results_local$earliest_type_1_6m, mody_calc_results_local$diagnosis_under_18), margin=2)
+
+
+test <- mody_calc_results_local %>%
+  filter(mody_prob>0.95)
+
+prop.table(table(test$diagnosis_under_18))
+
+prop.table(table(test$insulin_6_months, test$diagnosis_under_18), margin=2)
+
+prop.table(table(test$insulin_6_months_no_missing, test$diagnosis_under_18), margin=2)
+
+
+###########################################################################################################################
+
+# Look at MODY cohort
+
+
+
+
+

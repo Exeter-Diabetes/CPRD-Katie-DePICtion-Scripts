@@ -116,10 +116,14 @@ primis_extras <- primis_aurum %>% anti_join(dpctn_diabetes_list, by=c("MedCodeId
 
 primis_aurum <- primis_aurum %>% select(medcodeid=MedCodeId)
 
-with_primis_clean <- cprd$tables$observation %>%
+with_primis <- cprd$tables$observation %>%
   inner_join(primis_aurum, by="medcodeid", copy=TRUE) %>%
+  filter(obsdate<=index_date) %>%
+  analysis$cached("with_primis", indexes="patid")
+
+with_primis_clean <- with_primis %>%
   inner_join(cprd$tables$validDateLookup, by="patid") %>%
-  filter(obsdate>=min_dob & obsdate<=index_date) %>%
+  filter(obsdate>=min_dob) %>%
   analysis$cached("with_primis_clean", indexes="patid")
 
 cohort_with_primis_clean <- cohort_classification %>%

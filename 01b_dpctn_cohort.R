@@ -1,7 +1,7 @@
 
 # Create new table with all IDs in download who are registered on 01/02/2020 and adults at this date
 
-# Define diagnosis date based on earliest diabetes code: exclude those diagnsoed between -30 and +90 days of registration or >50 years of age
+# Define diagnosis date based on earliest diabetes code: exclude those diagnosed between -30 and +90 days of registration or >50 years of age
 
 # Define diabetes type based on (latest) type codes
 
@@ -164,24 +164,24 @@ cohort %>% count()
 
 ############################################################################################
 
-# Define diabetes type
+# Define diabetes type (NB: not removing codes before DOB for this)
 
 ## Combine all diabetes codes prior to/at index date
 
 analysis = cprd$analysis("dpctn_final")
 
-all_patid_clean_dm_codes <- raw_diabetes_medcodes %>%
+all_patid_dm_codes <- raw_diabetes_medcodes %>%
   select(patid, date=obsdate, category=all_diabetes_cat) %>%
   union_all(raw_exclusion_diabetes_medcodes %>%
               filter(exclusion_diabetes_cat!="diabetes insipidus") %>%
               select(patid, date=obsdate, category=exclusion_diabetes_cat)) %>%
   filter(date<=index_date) %>%
-  analysis$cached("all_patid_clean_dm_codes", indexes=c("patid", "date", "category"))
+  analysis$cached("all_patid_dm_codes", indexes=c("patid", "date", "category"))
 
 
 ## Find code counts for each diabetes type
 
-all_patid_code_counts <- all_patid_clean_dm_codes %>%
+all_patid_code_counts <- all_patid_dm_codes %>%
   group_by(patid, category) %>%
   summarise(count=n()) %>%
   ungroup() %>%
@@ -193,7 +193,7 @@ all_patid_code_counts <- all_patid_clean_dm_codes %>%
 
 ## Find latest type code, excluding unspecified and gestational
  
-all_patid_latest_type_code <- all_patid_clean_dm_codes %>%
+all_patid_latest_type_code <- all_patid_dm_codes %>%
   filter(category!="unspecified" & category!="gestational" & category!="gestational history") %>%
   group_by(patid) %>%
   mutate(most_recent_date=max(date, na.rm=TRUE)) %>%
@@ -208,11 +208,11 @@ all_patid_latest_type_code <- all_patid_clean_dm_codes %>%
 
 analysis = cprd$analysis("dpctn")
 
-with_primis_clean <- with_primis_clean %>% analysis$cached("with_primis_clean")
+with_primis <- with_primis %>% analysis$cached("with_primis")
 
 analysis = cprd$analysis("dpctn_final")
 
-with_primis_clean <- with_primis_clean %>%
+with_primis <- with_primis %>%
   distinct(patid) %>%
   mutate(with_primis=1L)
 
@@ -223,7 +223,7 @@ diabetes_type <- cohort %>%
   select(patid) %>%
   left_join(all_patid_code_counts, by="patid") %>%
   left_join(all_patid_latest_type_code, by="patid") %>%
-  left_join(with_primis_clean, by="patid") %>%
+  left_join(with_primis, by="patid") %>%
   mutate(diabetes_type=case_when(
     `type 1`==0 & `type 2`==0 & gestational==0 & `gestational history`==0 & malnutrition==0 & mody==0 & `other unspec`==0 & `other/unspec genetic inc syndromic`==0 & secondary==0 & is.na(with_primis) ~ "unspecified",
     
@@ -261,9 +261,12 @@ cohort <- cohort %>%
 ############################################################################################
 
 # Define diagnosis dates
+## Remove if before DOB
 ## Exclude codes if Type 2 and in year in birth
 
-diagnosis_dates <- all_patid_clean_dm_codes %>%
+diagnosis_dates <- all_patid_dm_codes %>%
+  inner_join(cprd$tables$validDateLookup, by="patid") %>%
+  filter(date>=min_dob) %>%
   inner_join(cohort, by="patid") %>%
   filter(!(diabetes_type=="type 2" & year(date)==year(dob))) %>%
   group_by(patid) %>%
@@ -281,7 +284,7 @@ cohort <- cohort %>%
   analysis$cached("cohort_interim_4", unique_indexes="patid")
 
 cohort %>% count()
-#277,097
+#276,623
 
 
 # Set diagnosis date to missing where within -30 to +90 days of registration start
@@ -292,7 +295,7 @@ cohort <- cohort %>%
   analysis$cached("cohort_interim_5", unique_indexes="patid")
 
 cohort %>% count()
-#277,097
+#276,623
 
 
 ############################################################################################
@@ -738,15 +741,15 @@ cohort <- cohort %>%
 
 
 cohort %>% count()
-#277097
+#276623
 
 cohort %>% filter(!is.na(language) & language=="Non-English speaking") %>% count()
-#9747
-9747/277097 #3.5%
+#9737
+9737/276623 #3.5%
 
 cohort %>% filter(!is.na(language) & language=="First language not English") %>% count()
-#29766
-29766/277097 #10.7%
+#29738
+29738/276623 #10.8%
 
 
 ############################################################################################

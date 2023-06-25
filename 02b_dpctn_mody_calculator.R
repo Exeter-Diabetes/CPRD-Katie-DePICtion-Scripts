@@ -26,36 +26,44 @@ cohort <- cohort %>% analysis$cached("cohort")
 # Look at cohort size
 
 cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35) %>% count()
-#87455
+#87708
 
-cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="unspecified" | diabetes_type=="unspecified_with_primis")) %>% count()
-#12538
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=35) %>% count()
+#68302
 
-cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
-#64674
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=35 & (diabetes_type=="unspecified" | diabetes_type=="unspecified_with_primis")) %>% count()
+#10645
+10645/68302 #15.6%
+68302-10645 #57657
 
-cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
-#30543
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=35 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
+#47684
+47684/57657 #82.7%
 
-cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & is.na(diagnosis_date)) %>% count()
-#2870
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=35 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
+#14851
+47684-14851 #32833
 
-cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & is.na(diagnosis_date)) %>% count()
-#1139
-2870-1139
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=35 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & is.na(diagnosis_date)) %>% count()
+#2654
+2654/47684 #5.6
 
-cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & !is.na(diagnosis_date)) %>% count()
-#61804
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=35 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & is.na(diagnosis_date)) %>% count()
+#950
+2654-950
 
-cohort %>% filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & !is.na(diagnosis_date)) %>% count()
-#29404
-61804-29404
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=35 & (diabetes_type=="type 2" | diabetes_type=="mixed; type 2" | diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & !is.na(diagnosis_date)) %>% count()
+#45030
+
+cohort %>% filter(dm_diag_age>=18 & dm_diag_age<=35 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1") & !is.na(diagnosis_date)) %>% count()
+#13901
+45030-13901
 
 
 # Define MODY cohort: patients diagnosed with a current Type 1 or Type 2 diagnosis, diagnosed aged 1-35, with valid diagnosis date and BMI/HbA1c before diagnosis
 
-mody_cohort <- cohort %>%
-  filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2") & !is.na(diagnosis_date)) %>%
+mody_calc_cohort <- cohort %>%
+  filter(dm_diag_age>=18 & dm_diag_age<=35 & (diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2") & !is.na(diagnosis_date)) %>%
   mutate(hba1c_post_diag=ifelse(hba1cdate>=diagnosis_date, hba1c, NA),
          hba1c_post_diag_datediff=ifelse(!is.na(hba1c_post_diag), hba1cindexdiff, NA),
          age_at_bmi=datediff(bmidate, dob)/365.25,
@@ -66,23 +74,30 @@ mody_cohort <- cohort %>%
                                          ifelse(datediff(earliest_ins, diagnosis_date)<=183, 1L, 0L))),
          insoha=ifelse(current_oha_6m==1 | current_ins_6m==1, 1L, 0L)) %>%
   filter(!is.na(bmi_post_diag) & !is.na(hba1c_post_diag)) %>%
-  analysis$cached("mody_cohort", unique_indexes="patid")
+  analysis$cached("mody_calc_cohort", unique_indexes="patid")
 
-mody_cohort %>% count()
-#60002
+mody_calc_cohort %>% count()
+#44032
+45030-44032 #998
+998/45030 #2.2
 
-mody_cohort %>% group_by(diabetes_type) %>% count()
-# type 1          23639
-# type 2          23999
-# mixed; type 2    7631
-# mixed; type 1    4733
+mody_calc_cohort %>% group_by(diabetes_type) %>% count()
+# type 1          10566
+# type 2          23261
+# mixed; type 2    7155
+# mixed; type 1    3050
+10566+3050 #13616
+23261+7155 #30416
+
+13901-13616 #285 
+31129-30416 #713
 
 
 ############################################################################################
 
 # Look at variables
 
-mody_vars <- mody_cohort %>%
+mody_vars <- mody_calc_cohort %>%
   select(diabetes_type, hba1c_post_diag_datediff, bmi_post_diag_datediff, diagnosis_date, regstartdate, earliest_ins,  time_to_ins_days, insulin_6_months, fh_diabetes, current_ins_6m, regstartdate) %>%
   collect() %>%
   mutate(hba1c_post_diag_datediff_yrs=as.numeric(hba1c_post_diag_datediff)/365.25,
@@ -199,7 +214,7 @@ prop.table(table(mody_vars$fh_diabetes, useNA="always"))
 
 # Run MODY calculator
 
-mody_calc_results <- mody_cohort %>%
+mody_calc_results <- mody_calc_cohort %>%
  
   mutate(insulin_6_months_no_missing=ifelse(!is.na(insulin_6_months), insulin_6_months, current_ins_6m),
          
@@ -427,4 +442,102 @@ total_cohort <- total_cohort %>%
   filter(mody_prob_no_missing_fh1>0.95)
 
 total_cohort %>% group_by(diabetes_type) %>% count()
+
+
+############################################################################################
+
+# Look at time to insulin
+
+mody_calc_results_local <- mody_calc_results %>%
+  filter(!is.na(fh_diabetes)) %>%
+  select(diabetes_type, dm_diag_age, insulin_6_months, current_ins_6m) %>%
+  collect() %>%
+  mutate(diagnosis_under_18=factor(ifelse(dm_diag_age<18, "under18", "18andover"), levels=c("under18", "18andover")),
+         insulin_6_months=factor(insulin_6_months, levels=c(1,0)),
+         current_ins_6m=factor(current_ins_6m, levels=c(1,0)))
+         
+
+prop.table(table(mody_calc_results_local$insulin_6_months, mody_calc_results_local$diagnosis_under_18), margin=2)
+
+prop.table(table(mody_calc_results_local$diabetes_type, mody_calc_results_local$diagnosis_under_18), margin=2)
+
+table(mody_calc_results_local$diabetes_type, mody_calc_results_local$diagnosis_under_18)
+
+prop.table(table((mody_calc_results_local %>% filter(diabetes_type=="type 1"))$insulin_6_months, (mody_calc_results_local%>% filter(diabetes_type=="type 1"))$diagnosis_under_18), margin=2)
+
+prop.table(table((mody_calc_results_local %>% filter(diabetes_type=="type 2"))$insulin_6_months, (mody_calc_results_local%>% filter(diabetes_type=="type 2"))$diagnosis_under_18), margin=2)
+
+prop.table(table((mody_calc_results_local %>% filter(diabetes_type=="type 1"))$current_ins_6m, (mody_calc_results_local%>% filter(diabetes_type=="type 1"))$diagnosis_under_18), margin=2)
+
+prop.table(table((mody_calc_results_local %>% filter(diabetes_type=="type 2"))$current_ins_6m, (mody_calc_results_local%>% filter(diabetes_type=="type 2"))$diagnosis_under_18), margin=2)
+
+
+
+## Earliest type-specific code
+
+all_patid_clean_dm_codes <- all_patid_clean_dm_codes %>% analysis$cached("all_patid_clean_dm_codes")
+
+all_patid_earliest_type_1_code <- all_patid_clean_dm_codes %>%
+  filter(category=="type 1") %>%
+  group_by(patid) %>%
+  summarise(earliest_type_1=min(date, na.rm=TRUE)) %>%
+  ungroup() %>%
+  analysis$cached("all_patid_earliest_type_1_code", unique_indexes="patid")
+
+
+mody_calc_results_local <- mody_calc_results %>%
+  left_join(all_patid_earliest_type_1_code, by="patid") %>%
+  mutate(earliest_type_1_6m=ifelse(!is.na(earliest_type_1) & datediff(earliest_type_1, diagnosis_date)<=183, "yes",
+                                   ifelse(!is.na(earliest_type_1), "no", NA))) %>%
+  filter(!is.na(fh_diabetes)) %>%
+  select(diabetes_type, diagnosis_date, dm_diag_age, insulin_6_months, insulin_6_months_no_missing, current_ins_6m, earliest_type_1, earliest_type_1_6m, mody_prob) %>%
+  collect() %>%
+  mutate(diagnosis_under_18=factor(ifelse(dm_diag_age<18, "under18", "18andover"), levels=c("under18", "18andover")),
+         insulin_6_months=factor(insulin_6_months, levels=c(1,0)),
+         current_ins_6m=factor(current_ins_6m, levels=c(1,0)),
+         earliest_type_1_6m=factor(earliest_type_1_6m, levels=c("yes","no")))
+
+prop.table(table((mody_calc_results_local %>% filter(diabetes_type=="type 1"))$earliest_type_1_6m, (mody_calc_results_local%>% filter(diabetes_type=="type 1"))$diagnosis_under_18), margin=2)
+
+mody_calc_results_local <- mody_calc_results_local %>%
+  mutate(ins_or_code=ifelse((!is.na(insulin_6_months) & insulin_6_months==1) | (!is.na(earliest_type_1_6m) & earliest_type_1_6m=="yes"), 1, 0)) 
+
+prop.table(table((mody_calc_results_local %>% filter(diabetes_type=="type 1"))$ins_or_code, (mody_calc_results_local%>% filter(diabetes_type=="type 1"))$diagnosis_under_18), margin=2)
+
+
+test <- mody_calc_results_local %>%
+  filter(mody_prob>0.95)
+
+prop.table(table((test %>% filter(diabetes_type=="type 1"))$insulin_6_months, (test %>% filter(diabetes_type=="type 1"))$diagnosis_under_18), margin=2)
+
+prop.table(table((test %>% filter(diabetes_type=="type 1"))$insulin_6_months_no_missing, (test %>% filter(diabetes_type=="type 1"))$diagnosis_under_18), margin=2)
+
+prop.table(table((test %>% filter(diabetes_type=="type 1"))$diagnosis_under_18))
+
+
+
+
+############################################################################################
+
+
+
+### How many added if treat family history as 1?
+
+mody_calc_results_local_fh1 <- mody_calc_results %>%
+  filter(is.na(fh_diabetes)) %>%
+  collect() %>%
+  mutate(diabetes_type2=ifelse(diabetes_type=="type 1" | diabetes_type=="mixed; type 1", "type 1", "type 2"),
+         diabetes_type=factor(diabetes_type, levels=c("type 1", "mixed; type 1", "type 2", "mixed; type 2")))
+
+total_cohort <- mody_calc_results_local_fh1 %>%
+  union_all(mody_calc_results_local_fh1 %>% mutate(diabetes_type=paste(diabetes_type2,"overall"))) %>%
+  union_all(mody_calc_results_local_fh1 %>% mutate(diabetes_type="overall")) %>%
+  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1 overall", "type 1", "mixed; type 1", "type 2 overall", "type 2", "mixed; type 2", "overall")))
+
+
+total_cohort <- total_cohort %>%
+  filter(mody_prob_no_missing_fh1>0.95)
+
+total_cohort %>% group_by(diabetes_type) %>% count()
+
 
