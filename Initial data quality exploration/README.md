@@ -377,9 +377,18 @@ We found that in those with a high MODY probability, there were many classified 
 | On insulin within 6 months where current insulin used if missing | 91.2% | 88.7% |
 | Type 1 code within 6 months of diagnosis | 89.0% | 85.9% |
 
+&nbsp;
 
-🔴 **Rule 8: For MODY calculator: only include those diagnosed >=18 years. This is because ~10% of those diagnosed <18 have a time to insulin >6 months, which is unlikely to be true, and these people score very highly on the MODY calcuulator. Although a similar proportion of those diagnosed >=18 have a time to insulin of >6 months, this is more likely based on their age at diagnosis.**
+If we just look at those with MODy probability >0.95: 73.6% are diagnosed under 18.
 
+| | Diagnosed <18 years | Diagnosed >=18 years |
+| ---- | ---- | ---- |
+| On insulin within 6 months (where not missing) | 1.3% | 72% |
+| On insulin within 6 months where current insulin used if missing | 2.5% | 60.6% |
+
+&nbsp;
+
+🔴 **Rule 8: For MODY calculator: only include those diagnosed >=18 years. This is because ~10% of those diagnosed <18 have a time to insulin >6 months, which is unlikely to be true, and these people score very highly on the MODY calcuulator. Although a similar proportion of those diagnosed >=18 have a time to insulin of >6 months, this is more likely based on their age at diagnosis and fewer appear in the cohort with high MODY probability.**
 
 &nbsp;
 
