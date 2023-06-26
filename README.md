@@ -242,10 +242,17 @@ Distribution of time between **triglyceride** and current (index) date (01/02/20
 | Mean lipid prediction model probability for those of non-White ethnicity | 18.3% (n=1025) | 2.4% (n=50682) | 10.6% (n=635) | 4.4% (n=5186) | 2.9% (n=57528) 
 | Missing lipid prediction model probability | 0.7% | 7.0% | 0.2% | 0.4% | 8.3% |
 
+&nbsp;
 
+**Clinical prediction model distribution:**
 
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1dt2d_clinical_histogram.png?" width="1000">
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1t2_agebmi.png?" width="1000">
+&nbsp;
+
+**Lipid prediction model distribution:**
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1dt2d_lipid_histogram.png?" width="1000">
 
 &nbsp;
 
