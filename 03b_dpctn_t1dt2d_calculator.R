@@ -144,7 +144,7 @@ prop.table(table(t1dt2d_vars$diabetes_type, t1dt2d_vars$bmi_in_5_yrs), margin=1)
 ggplot ((t1dt2d_vars %>% filter(totalchol_post_diag_datediff_yrs>-3)), aes(x=totalchol_post_diag_datediff_yrs, fill=diabetes_type)) + 
   geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.05) +
   scale_y_continuous(labels = scales::percent) +
-  xlab("Years from totaol cholesterol to current date") +
+  xlab("Years from total cholesterol to current date") +
   ylab("Percentage")
 
 
@@ -170,7 +170,7 @@ ggplot ((t1dt2d_vars %>% filter(triglyceride_post_diag_datediff_yrs>-3)), aes(x=
 
 # Run T1DT2D calculator
 
-t1dt2d_calc_results <- t1dt2d_cohort %>%
+t1dt2d_calc_results <- t1dt2d_calc_cohort %>%
   
   mutate(sex=ifelse(gender==2, 0, ifelse(gender==1, 1, NA)),
          
@@ -187,19 +187,74 @@ t1dt2d_calc_results <- t1dt2d_cohort %>%
   analysis$cached("t1dt2d_calc_results", unique_indexes="patid")
     
     
-
 t1dt2d_calc_results_local <- t1dt2d_calc_results %>%
-  select(diabetes_type, sex, dm_diag_age, bmi_post_diag, clinical_pred_prob, totalchol_post_diag, hdl_post_diag, triglyceride_post_diag, lipid_pred_prob) %>%
+  select(diabetes_type, ethnicity_5cat, sex, dm_diag_age, bmi_post_diag, clinical_pred_prob, totalchol_post_diag, hdl_post_diag, triglyceride_post_diag, lipid_pred_prob) %>%
   collect() %>%
   mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "mixed; type 1", "mixed; type 2")))
   
   
+# Mean scores per group
+
+## Clinical model
+### All
+a <- t1dt2d_calc_results_local %>% group_by(diabetes_type) %>% summarise(mean_clinical_pred_prob=mean(clinical_pred_prob), clin_count=n())
+b <- t1dt2d_calc_results_local %>% summarise(mean_clinical_pred_prob=mean(clinical_pred_prob), clin_count=n()) %>% mutate(diabetes_type="overall")
+
+### White
+c <- t1dt2d_calc_results_local %>% filter(!is.na(ethnicity_5cat) & ethnicity_5cat==0) %>% group_by(diabetes_type) %>% summarise(mean_clinical_pred_prob_w=mean(clinical_pred_prob), clin_count_w=n())
+d <- t1dt2d_calc_results_local %>% filter(!is.na(ethnicity_5cat) & ethnicity_5cat==0) %>% summarise(mean_clinical_pred_prob_w=mean(clinical_pred_prob), clin_count_w=n()) %>% mutate(diabetes_type="overall")
+
+### Non-White
+e <- t1dt2d_calc_results_local %>% filter(!is.na(ethnicity_5cat) & ethnicity_5cat!=0) %>% group_by(diabetes_type) %>% summarise(mean_clinical_pred_prob_nw=mean(clinical_pred_prob), clin_count_nw=n())
+f <- t1dt2d_calc_results_local %>% filter(!is.na(ethnicity_5cat) & ethnicity_5cat!=0) %>% summarise(mean_clinical_pred_prob_nw=mean(clinical_pred_prob), clin_count_nw=n()) %>% mutate(diabetes_type="overall")
+
+
+## Lipid model
+### All
+
+t1dt2d_calc_results_local_lipid <- t1dt2d_calc_results_local %>% filter(!is.na(lipid_pred_prob))
+
+g <- t1dt2d_calc_results_local_lipid %>% group_by(diabetes_type) %>% summarise(mean_lipid_pred_prob=mean(lipid_pred_prob), lipid_count=n())
+h <- t1dt2d_calc_results_local_lipid %>% summarise(mean_lipid_pred_prob=mean(lipid_pred_prob), lipid_count=n()) %>% mutate(diabetes_type="overall")
+
+### White
+i <- t1dt2d_calc_results_local_lipid %>% filter(!is.na(ethnicity_5cat) & ethnicity_5cat==0) %>% group_by(diabetes_type) %>% summarise(mean_lipid_pred_prob_w=mean(lipid_pred_prob), lipid_count_w=n())
+j <- t1dt2d_calc_results_local_lipid %>% filter(!is.na(ethnicity_5cat) & ethnicity_5cat==0) %>% summarise(mean_lipid_pred_prob_w=mean(lipid_pred_prob), lipid_count_w=n()) %>% mutate(diabetes_type="overall")
+
+### Non-White
+k <- t1dt2d_calc_results_local_lipid %>% filter(!is.na(ethnicity_5cat) & ethnicity_5cat!=0) %>% group_by(diabetes_type) %>% summarise(mean_lipid_pred_prob_nw=mean(lipid_pred_prob), lipid_count_nw=n())
+l <- t1dt2d_calc_results_local_lipid %>% filter(!is.na(ethnicity_5cat) & ethnicity_5cat!=0) %>% summarise(mean_lipid_pred_prob_nw=mean(lipid_pred_prob, na.rm=TRUE), lipid_count_nw=n()) %>% mutate(diabetes_type="overall")
+
+### Missing in all
+t1dt2d_calc_results_local <- t1dt2d_calc_results_local %>%
+  mutate(missing_lipid=is.na(lipid_pred_prob))
+
+prop.table(table(t1dt2d_calc_results_local$missing_lipid))
+
+prop.table(table(t1dt2d_calc_results_local$diabetes_type, t1dt2d_calc_results_local$missing_lipid))
+
+table <- (rbind(a, b)) %>%
+  inner_join((rbind(c, d)), by="diabetes_type") %>%
+  inner_join((rbind(e, f)), by="diabetes_type") %>%
+  inner_join((rbind(g, h)), by="diabetes_type") %>%
+  inner_join((rbind(i, j)), by="diabetes_type") %>%
+  inner_join((rbind(k, l)), by="diabetes_type")
+
+
+
+
 ## Plot distribution
 
-ggplot(t1dt2d_calc_results_local, aes(x=clinical_pred_prob, fill=diabetes_type, color=diabetes_type)) +
-  geom_histogram(binwidth=0.01) +
-  xlab("Clinical prediction model probability")#+
-#theme(text = element_text(size = 20))
+ggplot(t1dt2d_calc_results_local, aes(x=clinical_pred_prob*100, fill=diabetes_type, color=diabetes_type)) +
+  geom_histogram(binwidth=1) +
+  xlab("Clinical prediction model probability (%)")
+
+ggplot(t1dt2d_calc_results_local, aes(x=lipid_pred_prob*100, fill=diabetes_type, color=diabetes_type)) +
+  geom_histogram(binwidth=1) +
+  xlab("Lipid prediction model probability (%)")
+
+
+
 
 
 ## Look at those with scores >90%
