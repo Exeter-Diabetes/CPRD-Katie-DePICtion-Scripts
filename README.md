@@ -232,6 +232,20 @@ Distribution of time between **triglyceride** and current (index) date (01/02/20
 
 ### T1D/T2D calculator results
 
+|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| Mean clinical predication model probability | 51.0% (n=14486) | 10.6% (n=161010) | 37.3% (n=5474) | 23.1% (n=13434) | 15.2% (n=194404) 
+| Mean clinical predication model probability for those of White ethnicity | 51.0% (n=13064) | 8.1% (n=102775) | 37.3% (n=4731) | 20.9% (n=7875) | 14.3% (n=128445) 
+| Mean clinical predication model probability for those of non-White ethnicity | 51.2% (n=1129) | 15.3% (n=54633) | 38.0% (n=658) | 26.4% (n=5438) | 17.2% (n=61858) 
+| Mean lipid predication model probability | 19.1% (n=14486) | 1.5% (n=161010) | 11.9% (n=5474) | 4.3% (n=13434) | 3.3% (n=194404) 
+| Mean lipid predication model probability for those of White ethnicity | 19.2% (n=13064) | 1.1% (n=102775) | 12.2% (n=4731) | 4.2% (n=7875) | 3.5% (n=128445) 
+| Mean lipid predication model probability for those of non-White ethnicity | 18.3% (n=1129) | 2.4% (n=54633) | 10.6% (n=658) | 4.4% (n=5438) | 2.9% (n=61858) 
+| Missing lipid predication model probability | 0.7% | 7.0% | 0.2% | 0.4% | 8.3% |
+
+
+![image](https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/assets/75259370/9dd6ebd5-87a7-4a4b-aa4a-ec3c4351968e)
+
+
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1t2_agebmi.png?" width="1000">
 
 &nbsp;
