@@ -248,6 +248,10 @@ Distribution of time between **triglyceride** and current (index) date (01/02/20
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1dt2d_clinical_histogram.png?" width="1000">
 
+| Clinical prediction model probability | Proportion on insulin within 6 months of diagnosis |
+| --- | --- | 
+| | |
+
 &nbsp;
 
 **Lipid prediction model distribution:**
