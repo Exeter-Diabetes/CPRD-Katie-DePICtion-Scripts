@@ -67,8 +67,11 @@ t1dt2d_calc_cohort <- cohort %>%
          bmi_post_diag=ifelse(bmidate>=diagnosis_date & age_at_bmi>=18, bmi, NA),
          bmi_post_diag_datediff=ifelse(!is.na(bmi_post_diag), bmiindexdiff, NA),
          totalchol_post_diag=ifelse(totalcholesteroldate>=diagnosis_date, totalcholesterol, NA),
+         totalchol_post_diag_datediff=ifelse(!is.na(totalchol_post_diag), totalcholesterolindexdiff, NA),
          hdl_post_diag=ifelse(hdldate>=diagnosis_date, hdl, NA),
-         triglyceride_post_diag=ifelse(triglyceridedate>=diagnosis_date, triglyceride, NA)) %>%
+         hdl_post_diag_datediff=ifelse(!is.na(hdl_post_diag), hdlindexdiff, NA),
+         triglyceride_post_diag=ifelse(triglyceridedate>=diagnosis_date, triglyceride, NA),
+         triglyceride_post_diag_datediff=ifelse(!is.na(triglyceride_post_diag), triglycerideindexdiff, NA)) %>%
   filter(!is.na(bmi_post_diag)) %>%
   analysis$cached("t1dt2d_calc_cohort", unique_indexes="patid")
 
@@ -97,10 +100,13 @@ t1dt2d_calc_cohort %>% filter(!is.na(totalchol_post_diag) & !is.na(hdl_post_diag
 
 # Look at time to BMI
 
-t1dt2d_vars <- t1dt2d_cohort %>%
-  select(diabetes_type, bmi_post_diag_datediff) %>%
+t1dt2d_vars <- t1dt2d_calc_cohort %>%
+  select(diabetes_type, bmi_post_diag_datediff, totalchol_post_diag_datediff, hdl_post_diag_datediff, triglyceride_post_diag_datediff) %>%
   collect() %>%
-  mutate(bmi_post_diag_datediff_yrs=as.numeric(bmi_post_diag_datediff)/365.25) %>%
+  mutate(bmi_post_diag_datediff_yrs=as.numeric(bmi_post_diag_datediff)/365.25,
+         totalchol_post_diag_datediff_yrs=as.numeric(totalchol_post_diag_datediff)/365.25,
+         hdl_post_diag_datediff_yrs=as.numeric(hdl_post_diag_datediff)/365.25,
+         triglyceride_post_diag_datediff_yrs=as.numeric(triglyceride_post_diag_datediff)/365.25) %>%
   mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "mixed; type 1", "mixed; type 2")))
 
 
@@ -130,6 +136,34 @@ prop.table(table(t1dt2d_vars$diabetes_type, t1dt2d_vars$bmi_in_2_yrs), margin=1)
 
 prop.table(table(t1dt2d_vars$bmi_in_5_yrs))
 prop.table(table(t1dt2d_vars$diabetes_type, t1dt2d_vars$bmi_in_5_yrs), margin=1)
+
+
+
+## Time to total chol
+
+ggplot ((t1dt2d_vars %>% filter(totalchol_post_diag_datediff_yrs>-3)), aes(x=totalchol_post_diag_datediff_yrs, fill=diabetes_type)) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.05) +
+  scale_y_continuous(labels = scales::percent) +
+  xlab("Years from totaol cholesterol to current date") +
+  ylab("Percentage")
+
+
+## Time to HDL
+
+ggplot ((t1dt2d_vars %>% filter(hdl_post_diag_datediff_yrs>-3)), aes(x=hdl_post_diag_datediff_yrs, fill=diabetes_type)) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.05) +
+  scale_y_continuous(labels = scales::percent) +
+  xlab("Years from HDL to current date") +
+  ylab("Percentage")
+
+
+## Time to triglyceride
+
+ggplot ((t1dt2d_vars %>% filter(triglyceride_post_diag_datediff_yrs>-3)), aes(x=triglyceride_post_diag_datediff_yrs, fill=diabetes_type)) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.05) +
+  scale_y_continuous(labels = scales::percent) +
+  xlab("Years from triglyceride to current date") +
+  ylab("Percentage")
 
 
 ############################################################################################
