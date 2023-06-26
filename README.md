@@ -199,14 +199,34 @@ graph TD;
 
 Distribution of time between BMI and current (index) date (01/02/2020):
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1t2_time_to_bmi.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1dt2d_time_to_bmi.png?" width="1000">
 
 | Proportion with BMI within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
 | 6 months | 44.0% | 50.8% | 48.7% | 52.0% | 50.3% |
 | 1 year | 69.7% | 78.2% | 75.4% | 78.4% | 77.5% |
 | 2 years | 86.4% | 92.0% | 90.2% | 92.3% | 91.6% |
-| 5 years | 97.0% | 98.6% | 98.1% | 98.7% | 98.5% |
+| 5 years | 97.0% | 98.6% | 98.2% | 98.7% | 98.5% |
+
+&nbsp;
+
+#### Lipids
+
+Distribution of time between **total cholesterol** and current (index) date (01/02/2020):
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1dt2d_time_to_total_chol.png?" width="1000">
+
+&nbsp;
+
+Distribution of time between **HDL** and current (index) date (01/02/2020):
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1dt2d_time_to_hdl.png?" width="1000">
+
+&nbsp;
+
+Distribution of time between **triglyceride** and current (index) date (01/02/2020):
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1dt2d_time_to_triglyceride.png?" width="1000">
 
 &nbsp;
 
