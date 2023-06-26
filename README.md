@@ -250,7 +250,16 @@ Distribution of time between **triglyceride** and current (index) date (01/02/20
 
 | Clinical prediction model probability | Proportion on insulin within 6 months of diagnosis |
 | --- | --- | 
-| | |
+| 0-10% | 32.8% |
+| >10-20% | 16.0% |
+| >20-30% | 9.8% |
+| >30-40% | 7.5% |
+| >40-50% | 5.6% |
+| >50-60% | 5.5% |
+| >60-70% | 4.9% |
+| >70-80% | 5.3% |
+| >80-90% | 5.7% |
+| >90% | 6.8% |
 
 &nbsp;
 
