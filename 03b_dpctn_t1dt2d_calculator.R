@@ -6,10 +6,13 @@
 # Setup
 library(tidyverse)
 library(aurum)
+library(EHRBiomarkr)
 library(flextable)
 rm(list=ls())
 
 cprd = CPRDData$new(cprdEnv = "test-remote",cprdConf = "~/.aurum.yaml")
+codesets = cprd$codesets()
+codes = codesets$getAllCodeSetVersion(v = "31/10/2021")
 
 analysis = cprd$analysis("dpctn_final")
 
@@ -188,7 +191,10 @@ t1dt2d_calc_results <- t1dt2d_calc_cohort %>%
     
     
 t1dt2d_calc_results_local <- t1dt2d_calc_results %>%
-  select(diabetes_type, ethnicity_5cat, sex, dm_diag_age, bmi_post_diag, clinical_pred_prob, totalchol_post_diag, hdl_post_diag, triglyceride_post_diag, lipid_pred_prob) %>%
+  mutate(insulin_6_months=ifelse(is.na(earliest_ins), 0L,
+                                 ifelse(datediff(earliest_ins, diagnosis_date)>183 & datediff(regstartdate, diagnosis_date)>183 & datediff(earliest_ins, regstartdate)<=183, NA,
+                                        ifelse(datediff(earliest_ins, diagnosis_date)<=183, 1L, 0L)))) %>%
+  select(diabetes_type, ethnicity_5cat, sex, dm_diag_age, bmi_post_diag, clinical_pred_prob, totalchol_post_diag, hdl_post_diag, triglyceride_post_diag, lipid_pred_prob, insulin_6_months) %>%
   collect() %>%
   mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "mixed; type 1", "mixed; type 2")))
   
@@ -255,12 +261,186 @@ ggplot(t1dt2d_calc_results_local, aes(x=lipid_pred_prob*100, fill=diabetes_type,
 
 
 
+## Look at time to insulin by deciles of model
+
+t1dt2d_calc_results_local <- t1dt2d_calc_results_local %>%
+  mutate(clinical_pred_prob_group=ifelse(clinical_pred_prob<=0.1, "0-0.1",
+                                         ifelse(clinical_pred_prob<=0.2, "0.1-0.2",
+                                                ifelse(clinical_pred_prob<=0.3, "0.2-0.3",
+                                                       ifelse(clinical_pred_prob<=0.4, "0.3-0.4",
+                                                              ifelse(clinical_pred_prob<=0.5, "0.4-0.5",
+                                                                     ifelse(clinical_pred_prob<=0.6, "0.5-0.6",
+                                                                            ifelse(clinical_pred_prob<=0.7, "0.6-0.7",
+                                                                                   ifelse(clinical_pred_prob<=0.8, "0.7-0.8",
+                                                                                          ifelse(clinical_pred_prob<=0.9, "0.8-0.9", "0.9-1"))))))))))
+         
+         
+prop.table(table(t1dt2d_calc_results_local$clinical_pred_prob_group, t1dt2d_calc_results_local$insulin_6_months), margin=2)                                                      
+table(t1dt2d_calc_results_local$clinical_pred_prob_group, t1dt2d_calc_results_local$insulin_6_months)
 
 
-## Look at those with scores >90%
+############################################################################################
 
-t1dt2d_calc_results_local %>% filter(clinical_pred_prob>0.9) %>% count()
-t1dt2d_calc_results_local %>% filter(clinical_pred_prob>0.9) %>% group_by(diabetes_type) %>% count()
+# Additional variables for studying those with high/low T1 probability
+
+index_date <- as.Date("2020-02-01")
+
+
+## Bolus/mix insulin in past 6 months
+
+analysis = cprd$analysis("all_patid")
+
+clean_insulin_prodcodes <- cprd$tables$drugIssue %>%
+  inner_join(codes$insulin, by="prodcodeid") %>%
+  inner_join(cprd$tables$validDateLookup, by="patid") %>%
+  filter(issuedate>=min_dob & issuedate<=gp_ons_end_date) %>%
+  select(patid, date=issuedate, dosageid, quantity, quantunitid, duration) %>%
+  analysis$cached("clean_insulin_prodcodes", indexes=c("patid", "date"))
+
+analysis = cprd$analysis("dpctn_final")
+
+bolus_mix_insulin <- clean_insulin_prodcodes %>%
+  filter((insulin_cat=="Bolus insulin" | insulin_cat=="Mix insulin") & date<=index_date) %>%
+  group_by(patid) %>%
+  summarise(latest_ins=max(date, na.rm=TRUE)) %>%
+  ungroup() %>%
+  mutate(indexdatediff=datediff(latest_ins, index_date),
+         current_bolus_mix_ins_6m=ifelse(indexdatediff>=-183, 1L, NA)) %>%
+  select(patid, current_bolus_mix_ins_6m) %>%
+  analysis$cached("current_bolus_mix_ins_6m", unique_indexes="patid")
+
+
+## Hypoglycaemia in HES
+
+primary_hypo_history <- cprd$tables$hesDiagnosisEpi %>%
+  inner_join(codes$icd10_hypoglycaemia, by=c("ICD"="icd10")) %>%
+  filter(d_order==1 & epistart<=index_date) %>%
+  distinct(patid) %>%
+  mutate(primary_hypo_history=1L) %>%
+  analysis$cached("primary_hypo_history", unique_indexes="patid")
+
+
+## Highest HbA1c ever
+
+analysis = cprd$analysis("all_patid")
+
+clean_hba1c_medcodes <- cprd$tables$observation %>%
+  inner_join(codes$hba1c, by="medcodeid") %>%
+  filter(year(obsdate)>=1990) %>%
+  mutate(testvalue=ifelse(testvalue<=20, ((testvalue-2.152)/0.09148), testvalue)) %>%
+  clean_biomarker_values(testvalue, "hba1c") %>%
+  clean_biomarker_units(numunitid, "hba1c") %>%
+  group_by(patid, obsdate) %>%
+  summarise(testvalue=mean(testvalue, na.rm=TRUE)) %>%
+  ungroup() %>%
+  inner_join(cprd$tables$validDateLookup, by="patid") %>%
+  filter(obsdate>=min_dob & obsdate<=gp_ons_end_date) %>%
+  select(patid, date=obsdate, testvalue) %>%
+  analysis$cached("clean_hba1c_medcodes", indexes=c("patid", "date", "testvalue"))
+
+analysis = cprd$analysis("dpctn_final")
+
+highest_hba1c_ever <- clean_hba1c_medcodes %>%
+  filter(date<=index_date) %>%
+  group_by(patid) %>%
+  summarise(highest_hba1c=max(testvalue, na.rm=TRUE)) %>%
+  ungroup() %>%
+  analysis$cached("highest_hba1c_ever", unique_indexes="patid")
+
+
+
+t1dt2d_calc_results_with_extra_vars <- t1dt2d_calc_results %>%
+  left_join(bolus_mix_insulin, by="patid") %>%
+  mutate(current_bolus_mix_ins_6m=ifelse(is.na(current_bolus_mix_ins_6m), 0L, 1L)) %>%
+  left_join(primary_hypo_history, by="patid") %>%
+  mutate(primary_hypo_history=ifelse(!is.na(primary_hypo_history) & with_hes==1, 1L,
+                                     ifelse(is.na(primary_hypo_history) & with_hes==1, 0L, NA))) %>%
+  left_join(highest_hba1c_ever, by="patid") %>%
+  analysis$cached("t1dt2d_calc_results_with_extra_vars", unique_indexes="patid")
+
+
+local_vars <- t1dt2d_calc_results_with_extra_vars %>%
+  mutate(insulin_6_months=ifelse(is.na(earliest_ins), 0L,
+                                 ifelse(datediff(earliest_ins, diagnosis_date)>183 & datediff(regstartdate, diagnosis_date)>183 & datediff(earliest_ins, regstartdate)<=183, NA,
+                                        ifelse(datediff(earliest_ins, diagnosis_date)<=183, 1L, 0L))),
+         model_cat=ifelse(clinical_pred_prob>0.9 & diabetes_type=="type 1", "concordant_type_1",
+                          ifelse(clinical_pred_prob>0.9 & diabetes_type=="type 2", "discordant_type_2",
+                                 ifelse(clinical_pred_prob<0.1 & diabetes_type=="type 1", "discordant_type_1",
+                                        ifelse(clinical_pred_prob<0.1 & diabetes_type=="type 2", "concordant_type_2", NA))))) %>%
+  filter(!is.na(model_cat)) %>%
+  select(model_cat, dm_diag_age, bmi_post_diag, insulin_6_months, current_ins_6m, current_bolus_mix_ins_6m, primary_hypo_history, highest_hba1c) %>%
+  collect() %>%
+  mutate(insulin_6_months=factor(insulin_6_months),
+         current_ins_6m=factor(current_ins_6m),
+         current_bolus_mix_ins_6m=factor(current_bolus_mix_ins_6m),
+         primary_hypo_history=factor(primary_hypo_history))
+         
+  
+
+
+
+n_format <- function(n, percent) {
+  z <- character(length = length(n))
+  wcts <- !is.na(n)
+  z[wcts] <- sprintf("%.0f (%.01f%%)",
+                     n[wcts], percent[wcts] * 100)
+  z
+}
+
+stat_format <- function(stat, num1, num2,
+                        num1_mask = "%.01f",
+                        num2_mask = "(%.01f)") {
+  z_num <- character(length = length(num1))
+  
+  is_mean_sd <- !is.na(num1) & !is.na(num2) & stat %in% "mean_sd"
+  is_median_iqr <- !is.na(num1) & !is.na(num2) &
+    stat %in% "median_iqr"
+  is_range <- !is.na(num1) & !is.na(num2) & stat %in% "range"
+  is_num_1 <- !is.na(num1) & is.na(num2)
+  
+  z_num[is_num_1] <- sprintf(num1_mask, num1[is_num_1])
+  
+  z_num[is_mean_sd] <- paste0(
+    sprintf(num1_mask, num1[is_mean_sd]),
+    " ",
+    sprintf(num2_mask, num2[is_mean_sd])
+  )
+  z_num[is_median_iqr] <- paste0(
+    sprintf(num1_mask, num1[is_median_iqr]),
+    " ",
+    sprintf(num2_mask, num2[is_median_iqr])
+  )
+  z_num[is_range] <- paste0(
+    "[",
+    sprintf(num1_mask, num1[is_range]),
+    " - ",
+    sprintf(num1_mask, num2[is_range]),
+    "]"
+  )
+  
+  z_num
+}
+
+z <- summarizor(local_vars, by="model_cat")
+
+tab_2 <- tabulator(z,
+                   rows = c("variable", "stat"),
+                   columns = "model_cat",
+                   `Est.` = as_paragraph(
+                     as_chunk(stat_format(stat, value1, value2))),
+                   `N` = as_paragraph(as_chunk(n_format(cts, percent)))
+)
+
+as_flextable(tab_2, separate_with = "variable")
+
+
+
+
+
+
+
+
+
 
 
 

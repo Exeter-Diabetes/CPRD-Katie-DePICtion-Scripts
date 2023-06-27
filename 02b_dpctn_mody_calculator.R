@@ -348,9 +348,9 @@ ggplot(total_cohort, aes(x=diabetes_type, y=mody_adj_prob)) +
 
 # Plot distributions
 
-ggplot(mody_calc_results_local, aes(x=mody_prob, fill=diabetes_type, color=diabetes_type)) +
-  geom_histogram(binwidth=0.01) +
-  xlab("MODY unadjusted probability")#+
+ggplot(mody_calc_results_local, aes(x=mody_prob*100, fill=diabetes_type, color=diabetes_type)) +
+  geom_histogram(binwidth=1) +
+  xlab("MODY unadjusted probability (%)")#+
   #theme(text = element_text(size = 20))
   
 
@@ -358,90 +358,38 @@ ggplot(mody_calc_results_local, aes(x=mody_prob, fill=diabetes_type, color=diabe
 
 ############################################################################################
 
-# Look at characteristics of those with unadjusted probability >95%
+# Look at those with unadjusted probability >95%
 
-top5 <- total_cohort %>%
-  filter(!is.na(fh_diabetes) & mody_prob>0.95) %>%
-  select(diabetes_type, gender, dm_diag_age, age_at_index, hba1c_post_diag, bmi_post_diag, insulin_6_months, insulin_6_months_no_missing, current_ins_6m, fh_diabetes)  %>%
-  mutate(gender=as.factor(gender),
-         insulin_6_months=as.factor(insulin_6_months),
-         insulin_6_months_no_missing=as.factor(insulin_6_months_no_missing),
-         current_ins_6m=as.factor(current_ins_6m),
-         fh_diabetes=as.factor(fh_diabetes))
+mody_calc_results %>% filter(!is.na(fh_diabetes)) %>% count()
+                                   
+mody_calc_results %>% filter(!is.na(fh_diabetes) & mody_prob>0.95) %>% count()
 
-n_format <- function(n, percent) {
-  z <- character(length = length(n))
-  wcts <- !is.na(n)
-  z[wcts] <- sprintf("%.0f (%.01f%%)",
-                     n[wcts], percent[wcts] * 100)
-  z
-}
-
-stat_format <- function(stat, num1, num2,
-                        num1_mask = "%.01f",
-                        num2_mask = "(%.01f)") {
-  z_num <- character(length = length(num1))
-  
-  is_mean_sd <- !is.na(num1) & !is.na(num2) & stat %in% "mean_sd"
-  is_median_iqr <- !is.na(num1) & !is.na(num2) &
-    stat %in% "median_iqr"
-  is_range <- !is.na(num1) & !is.na(num2) & stat %in% "range"
-  is_num_1 <- !is.na(num1) & is.na(num2)
-  
-  z_num[is_num_1] <- sprintf(num1_mask, num1[is_num_1])
-  
-  z_num[is_mean_sd] <- paste0(
-    sprintf(num1_mask, num1[is_mean_sd]),
-    " ",
-    sprintf(num2_mask, num2[is_mean_sd])
-  )
-  z_num[is_median_iqr] <- paste0(
-    sprintf(num1_mask, num1[is_median_iqr]),
-    " ",
-    sprintf(num2_mask, num2[is_median_iqr])
-  )
-  z_num[is_range] <- paste0(
-    "[",
-    sprintf(num1_mask, num1[is_range]),
-    " - ",
-    sprintf(num1_mask, num2[is_range]),
-    "]"
-  )
-  
-  z_num
-}
-
-z <- summarizor(top5, by="diabetes_type")
-
-tab_2 <- tabulator(z,
-                   rows = c("variable", "stat"),
-                   columns = "diabetes_type",
-                   `Est.` = as_paragraph(
-                     as_chunk(stat_format(stat, value1, value2))),
-                   `N` = as_paragraph(as_chunk(n_format(cts, percent)))
-)
-
-as_flextable(tab_2, separate_with = "variable")
+mody_calc_results %>% filter(!is.na(fh_diabetes) & mody_prob>0.95) %>% group_by(diabetes_type) %>% count()
 
 
-### How many added if treat family history as 1?
 
-mody_calc_results_local_fh1 <- mody_calc_results %>%
-  filter(is.na(fh_diabetes)) %>%
-  collect() %>%
-  mutate(diabetes_type2=ifelse(diabetes_type=="type 1" | diabetes_type=="mixed; type 1", "type 1", "type 2"),
-         diabetes_type=factor(diabetes_type, levels=c("type 1", "mixed; type 1", "type 2", "mixed; type 2")))
+### How many added if treat family history as 1 or 0?
 
-total_cohort <- mody_calc_results_local_fh1 %>%
-  union_all(mody_calc_results_local_fh1 %>% mutate(diabetes_type=paste(diabetes_type2,"overall"))) %>%
-  union_all(mody_calc_results_local_fh1 %>% mutate(diabetes_type="overall")) %>%
-  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1 overall", "type 1", "mixed; type 1", "type 2 overall", "type 2", "mixed; type 2", "overall")))
+mody_calc_results %>% filter(is.na(fh_diabetes)) %>% count()
+
+mody_calc_results %>% filter(is.na(fh_diabetes)) %>% group_by(diabetes_type) %>% count()
 
 
-total_cohort <- total_cohort %>%
-  filter(mody_prob_no_missing_fh1>0.95)
+mody_calc_results %>% filter(is.na(fh_diabetes) & mody_prob_no_missing_fh0>0.95) %>% count()
 
-total_cohort %>% group_by(diabetes_type) %>% count()
+
+
+
+
+mody_calc_results %>% filter(is.na(fh_diabetes) & mody_prob_no_missing_fh1>0.95) %>% count()
+
+mody_calc_results %>% filter(is.na(fh_diabetes) & mody_prob_no_missing_fh1>0.95) %>% group_by(diabetes_type) %>% count()
+
+
+
+
+
+
 
 
 ############################################################################################
@@ -514,30 +462,5 @@ prop.table(table((test %>% filter(diabetes_type=="type 1"))$insulin_6_months_no_
 
 prop.table(table((test %>% filter(diabetes_type=="type 1"))$diagnosis_under_18))
 
-
-
-
-############################################################################################
-
-
-
-### How many added if treat family history as 1?
-
-mody_calc_results_local_fh1 <- mody_calc_results %>%
-  filter(is.na(fh_diabetes)) %>%
-  collect() %>%
-  mutate(diabetes_type2=ifelse(diabetes_type=="type 1" | diabetes_type=="mixed; type 1", "type 1", "type 2"),
-         diabetes_type=factor(diabetes_type, levels=c("type 1", "mixed; type 1", "type 2", "mixed; type 2")))
-
-total_cohort <- mody_calc_results_local_fh1 %>%
-  union_all(mody_calc_results_local_fh1 %>% mutate(diabetes_type=paste(diabetes_type2,"overall"))) %>%
-  union_all(mody_calc_results_local_fh1 %>% mutate(diabetes_type="overall")) %>%
-  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1 overall", "type 1", "mixed; type 1", "type 2 overall", "type 2", "mixed; type 2", "overall")))
-
-
-total_cohort <- total_cohort %>%
-  filter(mody_prob_no_missing_fh1>0.95)
-
-total_cohort %>% group_by(diabetes_type) %>% count()
 
 

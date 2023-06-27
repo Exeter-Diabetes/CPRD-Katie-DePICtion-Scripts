@@ -302,11 +302,5 @@ prop.table(table(test$insulin_6_months, test$diagnosis_under_18), margin=2)
 prop.table(table(test$insulin_6_months_no_missing, test$diagnosis_under_18), margin=2)
 
 
-###########################################################################################################################
-
-# Look at MODY cohort
-
-
-
 
 
