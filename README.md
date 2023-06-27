@@ -180,6 +180,7 @@ Those with (non-missing) family history of diabetes (48% of whole MODY calculato
 * 554/21,149 (2.5%) have MODY probability >95%
 * 102 (18.4%) Type 1, 206 (37.2%) Type 2, 24 (4.3%) mixed; Type 1, 222 (40.1%) mixed; Type 2
 * Of the different diabetes classes, 2.7% of Type 1s, 1.7% of Type 2s, 2.0% of mixed; Type 1 and 5.6% of the mixed; Type 2s have MODY probability>95%
+
 Those with missing family history of diabetes:
 * 70/22,883 (0.3%) have MODY probability >95% when family history set to 0 (or 1)
     * 26 (37.1%) Type 1, 31 (44.3%) Type 2, 2 (1.4%) mixed; Type 1, 11 (15.7%) mixed; Type 2
