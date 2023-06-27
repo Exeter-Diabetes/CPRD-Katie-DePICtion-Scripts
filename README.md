@@ -286,6 +286,7 @@ Distribution of probabilities:
 Characteristics of those scoring >90% and <10% (Type 1 = those with only Type 1 specific codes; Type 2 = those with only Type 2 specific codes):
 
 | | Concordant Type 1 (probability >90%) | Discordant Type 2 (probability >90%) | Concordant Type 2 (probability <10%) | Discordant Type 1 (probability <10%) |
+| --- | --- | --- | --- | --- |
 | N | 1867 (86.6% of those with probability >90%) | 290 (13.4% of those with probability >90%) | 111342 (98.4% of those with probability <10%) | 1763 (1.6% of those with probability <10%) |
 | Median (IQR) age at diagnosis (years) | 20.5 (3.5) | 21.6 (5.4) | 45.1 (6.5) | 41.5 (9.1) |
 | Median (IQR) BMI (kg/m2) | 21.9 (3.5) | 21.2 (4.1) | 33.7 (8.2) | 32.6 (7.0) |
