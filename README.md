@@ -170,7 +170,26 @@ And how long between diagnosis and registration start? (Should be similar to abo
 | Mean adjusted probability for those of White ethnicity | 9.9% (n=3293) | 12.6% (n=6315) | 10.7% (n=1000) | 18.6% (n=2057) | 12.7% (n=12665) |
 | Mean adjusted probability for those of non-White ethnicity | 13.1% (n=382) | 16.2% (n=5774) | 14.2% (n=218) | 23.3% (n=1910) | 17.6% (8284) |
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_histogram.png?" width="1000">
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution.png?" width="1000">
+
+&nbsp;
+
+#### Looking at those with highest predicted risk (>95%)
+
+Those with (non-missing) family history of diabetes (48% of whole MODY calculator cohort):
+* 554/21,149 (2.5%) have MODY probability >95%
+* 102 (18.4%) Type 1, 206 (37.2%) Type 2, 24 (4.3%) mixed; Type 1, 222 (40.1%) mixed; Type 2
+* Of the different diabetes classes, 2.7% of Type 1s, 1.7% of Type 2s, 2.0% of mixed; Type 1 and 5.6% of the mixed; Type 2s have MODY probability>95%
+
+Those with missing family history of diabetes:
+* 70/22,883 (0.3%) have MODY probability >95% when family history set to 0 (or 1)
+    * 26 (37.1%) Type 1, 31 (44.3%) Type 2, 2 (1.4%) mixed; Type 1, 11 (15.7%) mixed; Type 2
+    * Of the different diabetes classes, 0.4% of Type 1s, 0.3% of Type 2s, 0.1% of mixed; Type 1 and 0.3% of the mixed; Type 2s have MODY probability >95% when family history set to 0 (or 1)
+* An additional 683/22,883 (3.0%) have MODY probability >95% when family history set to 1 but not when set to 0
+    * 247 (36.2%) Type 1, 201 (29.4%) Type 2, 48 (7.0%) mixed; Type 1, 187 (27.4%) mixed; Type 2
+    * Of the different diabetes classes, 3.6% of Type 1s, 1.8% of Type 2s, 2.6% of mixed; Type 1 and 5.9% of the mixed; Type 2s have MODY probability >95% when family history set to 1 but not when set to 0
+
+Overall these 3 groups represent (554 + 70 + 683) / 44,032 = 3.0% of the MODY calculator cohort.
 
 &nbsp;
 
@@ -247,6 +266,19 @@ Distribution of time between **triglyceride** and current (index) date (01/02/20
 **Clinical prediction model distribution:**
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1dt2d_clinical_histogram.png?" width="1000">
+
+| Clinical prediction model probability | Proportion on insulin within 6 months of diagnosis |
+| --- | --- | 
+| 0-10% | 32.8% |
+| >10-20% | 16.0% |
+| >20-30% | 9.8% |
+| >30-40% | 7.5% |
+| >40-50% | 5.6% |
+| >50-60% | 5.5% |
+| >60-70% | 4.9% |
+| >70-80% | 5.3% |
+| >80-90% | 5.7% |
+| >90% | 6.8% |
 
 &nbsp;
 
