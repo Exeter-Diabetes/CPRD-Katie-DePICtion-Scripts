@@ -294,7 +294,7 @@ Characteristics of those scoring >90% and <10% (Type 1 = those with only Type 1 
 | Currently on bolus/mix insulin (last 6 months) | 1688 (90.4%) | 56 (19.3%) | 15282 (13.7%) | 1636 (92.8%) |
 | Median (IQR) highest HbA1c ever (mmol/mol) | 88.0 (41.0) | 82.9 (46.0) | 84.0 (39.0) | 92.2 (31.0) |
 | No HbA1c ever | 16 (0.9%) | 0 (0.0%) | 123 (0.1%) | 5 (0.3%) |
-| Insulin within the last 6 months (in those where this is not missing) | 738 (74.8%) | 16 (6.3%) | 1841 (1.7%) | 859 (71.3%) |
+| On insulin within 6 months of diagnosis (in those where this is not missing) | 738 (74.8%) | 16 (6.3%) | 1841 (1.7%) | 859 (71.3%) |
 | Hospitalisation with hypoglycaemia as the primary cause ever (in those with linked inpatient hospital records) | 181 (9.8%) | 4 (1.4%) | 897 (0.8%) | 105 (6.0%) | 
 
 &nbsp;
