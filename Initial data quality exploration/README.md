@@ -360,7 +360,7 @@ The proportion missing BMI at any point after diagnosis is 9.3% (although this v
 
 &nbsp;
 
-🔴 **Rule 7: For MODY calculator: use HbA1c and BMI anytime after diagnosis as this reduces missingness. Using weight and height does not add much to BMI measurements. For whether patient is on insulin 6 months after diagnosis, use current insulin status if this is missing. For those with missing family history, run the calculator with family history and see if these individuals appear in those with the highest probability of MODY: if they do then check family history with patient.**
+🔴 **Rule 7: For MODY calculator: use HbA1c and BMI anytime after diagnosis as this reduces missingness. Using weight and height does not add much to BMI measurements. For whether patient is on insulin 6 months after diagnosis, use current insulin status if this is missing. For those with missing family history, assume family history is 0, but flag those who do not reach the pre-specified high MODY threshold but would if their family history was 1 - these patients should have family history collected by the clinician.**
 
 These rules have been implemented in our code.
 
