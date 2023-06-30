@@ -148,7 +148,7 @@ By diabetes type:
 
 By whether diagnosed under age 18 or not:
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_insulin_diag_age.png?" width="1000"> 
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_insulin_by_diag_age.png?" width="1000"> 
 
 &nbsp;
 
@@ -185,9 +185,9 @@ By diabetes type:
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution_by_diabetes_type.png?" width="1000">
 
-By whether diagnosed under age 18 or not:
+By whether currently on insulin or not (i.e. which model used):
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution_by_diag_agediabetes_type.pngg?" width="1000"> 
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution_by_current_ins.png?" width="1000">
 
 &nbsp;
 
