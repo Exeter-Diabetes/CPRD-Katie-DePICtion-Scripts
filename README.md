@@ -130,7 +130,7 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 | 2 years | 85.2% | 90.1% | 89.5% | 91.7% | 88.3% |
 | 5 years | 96.8% | 98.1% | 98.1% | 98.5% | 97.7% |
 
-
+&nbsp;
 
 #### Current insulin treatment
 
@@ -171,7 +171,11 @@ Time from diagnosis to earliest insulin script for currently insulin treated pat
 | Mean adjusted probability for those of White ethnicity | 7.9% (n=21,617) | 14.1% (n=13,932) | 6.7% (n=4,179) | 16.6% (n=4,411) | 10.6% (n=44,139) |
 | Mean adjusted probability for those of non-White ethnicity | 11.1% (n=1,745) | 16.7% (n=9,657) | 11.1% (n=521) | 21.5% (n=3,186) | 16.9% (n=15,109) |
 
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution.png?" width="1000">
+&nbsp;
+
+Distribution of unadjusted probabilities: 
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution_by_type.png?" width="1000">
 
 &nbsp;
 
@@ -180,7 +184,9 @@ Time from diagnosis to earliest insulin script for currently insulin treated pat
 * 1,989/60,243 (3.3%) of MODY calculator cohort
 * Of the different diabetes classes, 3.4% of Type 1s, 3.2 of Type 2s, 2.5% of mixed; Type 1 and 3.9% of the mixed; Type 2s have MODY probability>95%
 
-##### MODY code ever
+&nbsp;
+
+High probability cohort characteristics:
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
 | MODY code ever | 0 (0.0%) | 0 (0.0%) | 2 (2.8%) | 15 (7.5%) | 17 (1.3%) |
