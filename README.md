@@ -61,7 +61,7 @@ graph TD;
     Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=14,726<br>(5.3%)<br>107 have MODY<br>code ever"]
     Q --> |"MODY based<br>on latest code"| T["Mixed; MODY: <br>n=85<br>(0.0%)"]
     Q --> |"Other based<br>on latest code"| U["Mixed; other<br>n=572<br>(0.2%)"]
-    U --> |"Has a MODY<br>code at any time"|V["n=16<br>(0.0%)"]
+    U --> |"Has a MODY<br>code ever"|V["n=16<br>(0.0%)"]
 ```
 \* Could also have diabetes codes of unspecified type
 
