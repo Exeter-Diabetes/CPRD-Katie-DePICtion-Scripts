@@ -110,10 +110,10 @@ Distribution of time between HbA1c and current (index) date (01/02/2020):
 
 | Proportion with HbA1c within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| 6 months | 55.8% | 60.7% | 61.7% | 63.9% | 60.1% |
-| 1 year | 81.7% | 84.7% | 86.7% | 87.9% | 84.6% |
-| 2 years | 94.7% | 95.2% | 96.9% | 96.7% | 95.4% |
-| 5 years | 99.3% | 99.1% | 99.7% | 99.5% | 99.3% |
+| 6 months | 54.2% | 60.6% | 61.4% | 63.4% | 58.5% |
+| 1 year | 80.1% | 84.5% | 85.7% | 87.5% | 83.2% |
+| 2 years | 94.1% | 95.1% | 96.5% | 96.5% | 95.0% |
+| 5 years | 99.1% | 99.1% | 99.7% | 99.6% | 99.2% |
 
 &nbsp;
 
@@ -125,41 +125,25 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 | Proportion with BMI within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| 6 months | 43.4% | 49.0% | 47.6% | 51.7% | 48.0% |
-| 1 year | 68.9% | 75.2% | 74.5% | 77.4% | 74.0% |
-| 2 years | 85.9% | 90.1% | 89.9% | 92.0% | 89.4% |
-| 5 years | 97.0% | 98.2% | 98.1% | 98.7% | 98.0% |
+| 6 months |  42.7% | 48.9% | 47.8% | 51.2% | 46.7% |
+| 1 year | 67.6% | 75.1% | 73.9% | 76.8% | 72.3% |
+| 2 years | 85.2% | 90.1% | 89.5% | 91.7% | 88.3% |
+| 5 years | 96.8% | 98.1% | 98.1% | 98.5% | 97.7% |
 
 &nbsp;
 
-#### Time to insulin (whether within 6 months or not)
+#### Time from diagnosis to earliest insulin script for currently insulin treated patients
 
-|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
-| --- | --- | --- | --- | --- | --- |
-| Insulin within 6 months = 1 of non-missing | 63.8% | 3.8% | 39.4% | 22.3% | 18.4% |
-| Missing insulin within 6 months | 48.7% | 10.6% | 44.5% | 15.4% | 22.9% |
-| Current insulin = 1 | 96.1% | 27.9% | 95,7% | 32.0% | 49.6% |
-| Insulin within 6 months = 1 or current insulin = 1 if time to insulin missing | 79.7% | 12.3% | 64.9% | 30.4% | 35.0% |
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_ins.png?" width="1000">
 
-&nbsp;
-
-For those with missing insulin within 6 months (i.e. where they have insulin scripts at some point, registration > 6 months after diagnosis, and earliest insulin script is within the 6 months after registration) but currently treated with insulin, how long between diagnosis and earliest insulin script?
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_ins_where_missing.png?" width="1000">
-
-And how long between diagnosis and registration start? (Should be similar to above, time to insulin only treated as missing if first insulin script is within 6 months of registration start)
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_reg.png?" width="1000">
-
-
-&nbsp;
+fina&nbsp;
 
 #### Family history of diabetes
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Family history of diabetes = 1 of non-missing | 73.0% | 86.3% | 75.7% | 83.7% | 82.9% |
-| Missing family history of diabetes | 64.9% | 47.4% | 59.9% | 44.3% | 52.0% |
+| Family history of diabetes = 1 of non-missing | 74.2% | 86.2% | 74.6% | 83.5% | 81.5% |
+| Missing family history of diabetes | 67.7% | 47.7% | 61.5% | 45.4% | 56.4% |
 
 &nbsp;
 
