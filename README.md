@@ -96,7 +96,6 @@ graph TD;
     E --> G["n=62,045 (95.6%)<br>29,552 Type 1 and 32,493 Type 2"]
     G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032 Type 1 and 770 Type 2"]
     G --> I["<b>MODY calculator cohort</b>: n=60,243 (97.1%)<br>28,520 Type 1 and 31,723 Type 2"]
-```
 
 &nbsp;
 
@@ -155,19 +154,22 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 &nbsp;
 
-### MODY calculator results for those with non-missing family history of diabetes
+### MODY calculator results (for those with missing family history of diabetes, this is assumed to be 0)
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Mean adjusted probability | 10.2% (n=3712) | 14.3% (n=12234) | 11.3% (n=1223) | 20.9% (n=3980) | 14.7% (n=21149) |
-| Mean adjusted probability for those of White ethnicity | 9.9% (n=3293) | 12.6% (n=6315) | 10.7% (n=1000) | 18.6% (n=2057) | 12.7% (n=12665) |
-| Mean adjusted probability for those of non-White ethnicity | 13.1% (n=382) | 16.2% (n=5774) | 14.2% (n=218) | 23.3% (n=1910) | 17.6% (8284) |
+| Mean adjusted probability | 8.1% | 15.2% | 7.2% | 18.6% | 12.2% |
+| Mean adjusted probability for those of White ethnicity | 7.9% (n=21,617) | 14.1% (n=13,932) | 6.7% (n=4,179) | 16.6% (n=4,411) | 10.6% (n=44,139) |
+| Mean adjusted probability for those of non-White ethnicity | 11.1% (n=1,745) | 16.7% (n=9,657) | 11.1% (n=521) | 21.5% (n=3,186) | 16.9% (n=15,109) |
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution.png?" width="1000">
 
 &nbsp;
 
 #### Looking at those with highest predicted risk (>95%)
+
+
+
 
 Those with (non-missing) family history of diabetes (48% of whole MODY calculator cohort):
 * 554/21,149 (2.5%) have MODY probability >95%
