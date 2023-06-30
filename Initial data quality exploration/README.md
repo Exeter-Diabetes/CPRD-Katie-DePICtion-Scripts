@@ -313,7 +313,7 @@ This scripts find proportions with potential miscoding/misclassification of diab
 
 &nbsp;
 
-🔴 **Rule 6: Investigate patients with the above anomalies. Probably only need to look at individuals who have been flagged by the calculators.**
+🔴 **Rule 6: Investigate patients with the above anomalies. Probably only need to look at individuals who have been flagged by the calculators(?). After further investigation: establishing time from diagnosis to insulin in GP records is not possible so ignore rules involving time to insulin.**
 
 Patients with the above anomalies have not been removed from our dataset.
 
