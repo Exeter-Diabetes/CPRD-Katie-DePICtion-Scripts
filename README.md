@@ -84,7 +84,7 @@ Patients with a diabetes-related medcode ([full list here](https://github.com/Ex
 
 ## MODY calculator (script: 02b_dpctn_mody_calculator)
 
-The MODY calculator cohort consists those with current diagnosis of Type 1 (mixed or otherwise), Type 2 (mixed or otherwise), or unspecified diabetes, diagnosed aged 18-35 years inclusive:
+The MODY calculator cohort consists those with current diagnosis of Type 1 (mixed or otherwise), Type 2 (mixed or otherwise), or unspecified diabetes, diagnosed aged 1-35 years inclusive:
 
 ```mermaid
 graph TD;
@@ -97,6 +97,9 @@ graph TD;
     G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032 Type 1 and 770 Type 2"]
     G --> I["<b>MODY calculator cohort</b>: n=60,243 (97.1%)<br>28,520 Type 1 and 31,723 Type 2"]
 ```
+
+In addition, we ran the MODY calculator on those with a diagnosis of MODY: n=56 with MODY codes only + n=85 with a mix of Type-specific codes who were classified as MODY based on their latest code.
+
 
 &nbsp;
 
@@ -161,6 +164,14 @@ By whether diagnosed under age 18 or not:
 
 &nbsp;
 
+#### Time since last Type 1/Type 2 code
+
+|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| Median time since last Type 1/Type 2 code (days) | 310 | 263 | 193 | 257 | 274 |
+
+&nbsp;
+
 #### MODY code history
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
@@ -171,15 +182,15 @@ By whether diagnosed under age 18 or not:
 
 ### MODY calculator results (for those with missing family history of diabetes, this is assumed to be 0)
 
-|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
-| --- | --- | --- | --- | --- | --- |
-| Mean adjusted probability | 8.1% | 15.2% | 7.2% | 18.6% | 12.2% |
-| Mean adjusted probability for those of White ethnicity | 7.9% (n=21,617) | 14.1% (n=13,932) | 6.7% (n=4,179) | 16.6% (n=4,411) | 10.6% (n=44,139) |
-| Mean adjusted probability for those of non-White ethnicity | 11.1% (n=1,745) | 16.7% (n=9,657) | 11.1% (n=521) | 21.5% (n=3,186) | 16.9% (n=15,109) |
+|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall in MODY calculator cohort | MODY | Mixed; MODY |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Mean adjusted probability | 8.1% | 15.2% | 7.2% | 18.6% | 12.2% | 66.0% | 50.5% |
+| Mean adjusted probability for those of White ethnicity | 7.9% (n=21,617) | 14.1% (n=13,932) | 6.7% (n=4,179) | 16.6% (n=4,411) | 65.9 % (n=34) | 50.4% (n=64) |
+| Mean adjusted probability for those of non-White ethnicity | 11.1% (n=1,745) | 16.7% (n=9,657) | 11.1% (n=521) | 21.5% (n=3,186) | 58% (n=1) | 45.4% (n=3) |
 
 &nbsp;
 
-Distribution of unadjusted probabilities:
+Distribution of unadjusted probabilities in MODY calculator cohort:
 
 By diabetes type:
 
@@ -191,36 +202,31 @@ By whether currently on insulin or not (i.e. which model used):
 
 &nbsp;
 
+Distribution of unadjusted probabilities in those with a MODY diagnosis:
+
+<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution_mody_diag.png?" width="1000">
+
+&nbsp;
+
 #### Looking at those with highest predicted risk (>95%)
 
 * 1,989/60,243 (3.3%) of MODY calculator cohort
 * Of the different diabetes classes, 3.4% of Type 1s, 3.2 of Type 2s, 2.5% of mixed; Type 1 and 3.9% of the mixed; Type 2s have MODY probability>95%
+* 52/104 (52%) of MODY cases reach this threshold
 
 &nbsp;
 
 High probability cohort characteristics:
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| MODY code ever | 0 (0.0%) | 0 (0.0%) | 2 (2.8%) | 15 (7.5%) | 17 (1.3%) |
+| Current insulin (within last 6 months) | 33.1% | 20.1% | 47.1% | 31.9% | 28.7% |
+| Missing family history of diabetes | 71.1% | 54.0% | 70.6% | 44.1% | 60.4% |
+| Median days since last Type 1/Type 2 codes | 556 | 360 | 230 | 374 | 414 |
+| MODY code ever | 0 (0.0%) | 0 (0.0%) | 3 (2.5%) | 16 (5.4%) | 19 (1.0%) |
 
-##### Missing family history
-* Of the 1,989 identified, 0% have missing family history
+&nbsp;
 
-
-Those with (non-missing) family history of diabetes (48% of whole MODY calculator cohort):
-* 554/21,149 (2.5%) have MODY probability >95%
-* 102 (18.4%) Type 1, 206 (37.2%) Type 2, 24 (4.3%) mixed; Type 1, 222 (40.1%) mixed; Type 2
-* Of the different diabetes classes, 2.7% of Type 1s, 1.7% of Type 2s, 2.0% of mixed; Type 1 and 5.6% of the mixed; Type 2s have MODY probability>95%
-
-Those with missing family history of diabetes:
-* 70/22,883 (0.3%) have MODY probability >95% when family history set to 0 (or 1)
-    * 26 (37.1%) Type 1, 31 (44.3%) Type 2, 2 (1.4%) mixed; Type 1, 11 (15.7%) mixed; Type 2
-    * Of the different diabetes classes, 0.4% of Type 1s, 0.3% of Type 2s, 0.1% of mixed; Type 1 and 0.3% of the mixed; Type 2s have MODY probability >95% when family history set to 0 (or 1)
-* An additional 683/22,883 (3.0%) have MODY probability >95% when family history set to 1 but not when set to 0
-    * 247 (36.2%) Type 1, 201 (29.4%) Type 2, 48 (7.0%) mixed; Type 1, 187 (27.4%) mixed; Type 2
-    * Of the different diabetes classes, 3.6% of Type 1s, 1.8% of Type 2s, 2.6% of mixed; Type 1 and 5.9% of the mixed; Type 2s have MODY probability >95% when family history set to 1 but not when set to 0
-
-Overall these 3 groups represent (554 + 70 + 683) / 44,032 = 3.0% of the MODY calculator cohort.
+In addition to the 1,989 with MODY probability>0.95, there are an additional 712 people with missing family history who would reach the 95% threshold if they did have a family history of diabetes.
 
 &nbsp;
 
