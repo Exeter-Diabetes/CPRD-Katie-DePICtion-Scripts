@@ -224,6 +224,7 @@ High probability cohort characteristics:
 | Median time since last Type 1/Type 2 code (days) | 556 | 360 | 230 | 374 | 414 |
 | MODY code ever | 0 (0.0%) | 0 (0.0%) | 3 (2.5%) | 16 (5.4%) | 19 (1.0%) |
 | Median age at diagnosis (years) | 16.0 | 19.5 | 20.5 | 22.3 | 19.0 |
+| Median current age (years) | 33.6 | 33.6 | 34.0 | 35.6 | 34.0 |
 
 &nbsp;
 
