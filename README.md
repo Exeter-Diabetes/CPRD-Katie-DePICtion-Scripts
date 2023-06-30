@@ -221,8 +221,9 @@ High probability cohort characteristics:
 | --- | --- | --- | --- | --- | --- |
 | Current insulin (within last 6 months) | 33.1% | 20.1% | 47.1% | 31.9% | 28.7% |
 | Missing family history of diabetes | 71.1% | 54.0% | 70.6% | 44.1% | 60.4% |
-| Median days since last Type 1/Type 2 codes | 556 | 360 | 230 | 374 | 414 |
+| Median time since last Type 1/Type 2 code (days) | 556 | 360 | 230 | 374 | 414 |
 | MODY code ever | 0 (0.0%) | 0 (0.0%) | 3 (2.5%) | 16 (5.4%) | 19 (1.0%) |
+| Median age at diagnosis (years) | 16.0 | 19.5 | 20.5 | 22.3 | 19.0 |
 
 &nbsp;
 
