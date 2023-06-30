@@ -136,7 +136,7 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_ins.png?" width="1000">
 
-fina&nbsp;
+&nbsp;
 
 #### Family history of diabetes
 
@@ -144,6 +144,14 @@ fina&nbsp;
 | --- | --- | --- | --- | --- | --- |
 | Family history of diabetes = 1 of non-missing | 74.2% | 86.2% | 74.6% | 83.5% | 81.5% |
 | Missing family history of diabetes | 67.7% | 47.7% | 61.5% | 45.4% | 56.4% |
+
+&nbsp;
+
+#### MODY code history
+
+|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| MODY code ever | 0 (0.0%) | 0 (0.0%) | 15 (0.3%) | 36 (0.4%) | 51 (0.1%) |
 
 &nbsp;
 
