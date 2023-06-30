@@ -212,7 +212,7 @@ Distribution of unadjusted probabilities in those with a MODY diagnosis:
 
 * 1,989/60,243 (3.3%) of MODY calculator cohort
 * Of the different diabetes classes, 3.4% of Type 1s, 3.2 of Type 2s, 2.5% of mixed; Type 1 and 3.9% of the mixed; Type 2s have MODY probability>95%
-* 
+* 52/104 (52%) of MODY cases reach this threshold
 
 &nbsp;
 
