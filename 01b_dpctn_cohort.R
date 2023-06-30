@@ -3,7 +3,7 @@
 
 # Define diagnosis date based on earliest diabetes code: exclude those diagnosed between -30 and +90 days of registration or >50 years of age
 
-# Define diabetes type based on (latest) type codes
+# Define diabetes type based on (latest) type codes - and add in variables relating to this
 
 # Pull in variables for MODY and T1D/T2D calculator: current BMI, HbA1c, total cholesterol, HDL, triglycerides, current treatment (and whether have ins/OHA script), family history of diabetes, time to insulin
 
@@ -171,10 +171,10 @@ cohort %>% count()
 analysis = cprd$analysis("dpctn_final")
 
 all_patid_dm_codes <- raw_diabetes_medcodes %>%
-  select(patid, date=obsdate, category=all_diabetes_cat) %>%
+  select(patid, date=obsdate, enterdate, category=all_diabetes_cat) %>%
   union_all(raw_exclusion_diabetes_medcodes %>%
               filter(exclusion_diabetes_cat!="diabetes insipidus") %>%
-              select(patid, date=obsdate, category=exclusion_diabetes_cat)) %>%
+              select(patid, date=obsdate, enterdate, category=exclusion_diabetes_cat)) %>%
   filter(date<=index_date) %>%
   analysis$cached("all_patid_dm_codes", indexes=c("patid", "date", "category"))
 
@@ -191,16 +191,20 @@ all_patid_code_counts <- all_patid_dm_codes %>%
 ## NB: no insulin receptor Abs codes
 
 
-## Find latest type code, excluding unspecified and gestational
+## Find latest type code, excluding unspecified and gestational, and keep date
  
 all_patid_latest_type_code <- all_patid_dm_codes %>%
   filter(category!="unspecified" & category!="gestational" & category!="gestational history") %>%
   group_by(patid) %>%
-  mutate(most_recent_date=max(date, na.rm=TRUE)) %>%
+  mutate(most_recent_date=max(date, na.rm=TRUE),
+         days_since_type_code=datediff(index_date, most_recent_date)) %>%
   filter(date==most_recent_date) %>%
+  ungroup() %>%
+  group_by(patid, days_since_type_code) %>%
   summarise(provisional_diabetes_type=sql("group_concat(distinct category order by category separator ' & ')")) %>%
   ungroup() %>%
   analysis$cached("all_patid_latest_type_code", indexes="patid")
+
 
 
 ## Find who has PRIMIS code
@@ -247,9 +251,15 @@ diabetes_type <- cohort %>%
     
     `type 1`==0 & `type 2`==0 & gestational==0 & `gestational history`==0 & malnutrition==0 & mody==0 & `other unspec`==0 & `other/unspec genetic inc syndromic`==0 & secondary>0 ~ "secondary"),
     
-    diabetes_type=ifelse(!is.na(diabetes_type), diabetes_type, paste("mixed;", provisional_diabetes_type))) %>%
+    diabetes_type=ifelse(!is.na(diabetes_type), diabetes_type, paste("mixed;", provisional_diabetes_type)),
+    
+    type1_code_count= `type 1`,
+    type2_code_count= `type 2`,
+    mody_code_count=mody
+    
+    ) %>%
   
-  select(patid, diabetes_type) %>%
+  select(patid, diabetes_type, type1_code_count, type2_code_count, mody_code_count, days_since_type_code) %>%
   
   analysis$cached("diabetes_type", unique_indexes="patid")
     
@@ -275,12 +285,27 @@ diagnosis_dates <- all_patid_dm_codes %>%
   analysis$cached("diagnosis_dates", unique_indexes="patid")
 
 
+# Also get earliest enterdate for diagnosis date- ignore those before date of birth
+
+earliest_enterdate <- diagnosis_dates %>%
+  inner_join(all_patid_dm_codes, by=c("patid", "diagnosis_date"="date")) %>%
+  inner_join(cprd$tables$validDateLookup, by="patid") %>%
+  filter(enterdate>=min_dob) %>%
+  group_by(patid) %>%
+  summarise(earliest_enterdate=min(enterdate, na.rm=TRUE)) %>%
+  ungroup() %>%
+  analysis$cached("earliest_enterdate", unique_indexes="patid")
+# Not everyone has an enterdate; if null
+
 # Add to cohort table and remove those diagnosed aged >50
 
 cohort <- cohort %>%
   inner_join(diagnosis_dates, by="patid") %>%
   mutate(dm_diag_age=round((datediff(diagnosis_date, dob))/365.25, 1)) %>%
   filter(dm_diag_age<=50) %>%
+  left_join(earliest_enterdate, by="patid") %>%
+  mutate(enterdate_datediff=datediff(earliest_enterdate, diagnosis_date)) %>%
+  select(-earliest_enterdate) %>%
   analysis$cached("cohort_interim_4", unique_indexes="patid")
 
 cohort %>% count()
@@ -405,11 +430,10 @@ for (i in biomarkers) {
     mutate(min_timediff=min(abs(indexdatediff), na.rm=TRUE)) %>%
     filter(abs(indexdatediff)==min_timediff) %>%
     ungroup() %>%
+    select(patid, testvalue, date, indexdatediff) %>%
     rename({{i}}:=testvalue,
            {{biomarker_date_variable}}:=date,
-           {{biomarker_indexdiff_variable}}:=indexdatediff) %>%
-    
-    select(-min_timediff)
+           {{biomarker_indexdiff_variable}}:=indexdatediff)
   
   cohort <- cohort %>%
     left_join(data, by="patid")
@@ -777,6 +801,13 @@ cohort <- cohort %>%
 
 # Look at diabetes type counts
 
-counts <- collect(cohort %>% group_by(diabetes_type) %>% count())
+counts <- cohort %>% group_by(diabetes_type) %>% count() %>% collect()
+
+counts2 <- cohort %>% filter(mody_code_count>0) %>% group_by(diabetes_type) %>% count() %>% collect()
+
+
+
+
+
 
 

@@ -368,7 +368,7 @@ local_vars <- t1dt2d_calc_results_with_extra_vars %>%
                                  ifelse(clinical_pred_prob<0.1 & diabetes_type=="type 1", "discordant_type_1",
                                         ifelse(clinical_pred_prob<0.1 & diabetes_type=="type 2", "concordant_type_2", NA))))) %>%
   filter(!is.na(model_cat)) %>%
-  select(model_cat, dm_diag_age, bmi_post_diag, insulin_6_months, current_ins_6m, current_bolus_mix_ins_6m, primary_hypo_history, highest_hba1c) %>%
+  select(model_cat, dm_diag_age, bmi_post_diag, insulin_6_months, current_ins_6m, current_bolus_mix_ins_6m, primary_hypo_history, highest_hba1c, with_hes) %>%
   collect() %>%
   mutate(insulin_6_months=factor(insulin_6_months),
          current_ins_6m=factor(current_ins_6m),
@@ -421,7 +421,9 @@ stat_format <- function(stat, num1, num2,
   z_num
 }
 
-z <- summarizor(local_vars, by="model_cat")
+
+
+z <- summarizor((local_vars %>% select(model_cat, dm_diag_age, bmi_post_diag, current_ins_6m, current_bolus_mix_ins_6m, highest_hba1c)), by="model_cat")
 
 tab_2 <- tabulator(z,
                    rows = c("variable", "stat"),
@@ -434,7 +436,30 @@ tab_2 <- tabulator(z,
 as_flextable(tab_2, separate_with = "variable")
 
 
+z <- summarizor((local_vars %>% filter(!is.na(insulin_6_months)) %>% select(model_cat, dm_diag_age, insulin_6_months)), by="model_cat")
 
+tab_2 <- tabulator(z,
+                   rows = c("variable", "stat"),
+                   columns = "model_cat",
+                   `Est.` = as_paragraph(
+                     as_chunk(stat_format(stat, value1, value2))),
+                   `N` = as_paragraph(as_chunk(n_format(cts, percent)))
+)
+
+as_flextable(tab_2, separate_with = "variable")
+
+
+z <- summarizor((local_vars %>% filter(with_hes==1) %>% select(model_cat, dm_diag_age, primary_hypo_history)), by="model_cat")
+
+tab_2 <- tabulator(z,
+                   rows = c("variable", "stat"),
+                   columns = "model_cat",
+                   `Est.` = as_paragraph(
+                     as_chunk(stat_format(stat, value1, value2))),
+                   `N` = as_paragraph(as_chunk(n_format(cts, percent)))
+)
+
+as_flextable(tab_2, separate_with = "variable")
 
 
 
