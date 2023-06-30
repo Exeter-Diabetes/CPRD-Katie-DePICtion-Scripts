@@ -360,7 +360,7 @@ The proportion missing BMI at any point after diagnosis is 9.3% (although this v
 
 &nbsp;
 
-🔴 **Rule 7: For MODY calculator: use HbA1c and BMI anytime after diagnosis as this reduces missingness. Using weight and height does not add much to BMI measurements. For whether patient is on insulin 6 months after diagnosis, use current insulin status if this is missing. For those with missing family history, run the calculator with family history and see if these individuals appear in those with the highest probability of MODY: if they do then check family history with patient.**
+🔴 **Rule 7: For MODY calculator: use HbA1c and BMI anytime after diagnosis as this reduces missingness. Using weight and height does not add much to BMI measurements. For whether patient is on insulin 6 months after diagnosis, use current insulin status if this is missing. For those with missing family history, assume family history is 0, but flag those who do not reach the pre-specified high MODY threshold but would if their family history was 1 - these patients should have family history collected by the clinician.**
 
 These rules have been implemented in our code.
 
@@ -385,16 +385,11 @@ We found that in those with a high MODY probability, there were many classified 
 
 &nbsp;
 
-If we just look at those with MODY probability >0.95: 73.6% are diagnosed under 18.
-
-| | Diagnosed <18 years | Diagnosed >=18 years |
-| ---- | ---- | ---- |
-| On insulin within 6 months (where not missing) | 1.3% | 72% |
-| On insulin within 6 months where current insulin used if missing | 2.5% | 60.6% |
+It looks like determining whether someone was on insulin within 6 months of diagnosis could be unreliable for those diagnosed <18 or >=18 years (more of those diagnosed <18 years end up scoring highly on the MODY calculator so this has a greater impact on the MODY results). Looking at a couple of people's records: some people don't have prescriptions going back to registration start (probably not surprising if this was a while ago), and some people have other prescriptions which indiciate Type 1 diabetes (e.g. test strips, glucagon), but not insulin (so perhaps are receiving this from primary care). We decided to use current insulin instead, but look at the time between diagnosis and earliest insulin script to see how long these delays are.
 
 &nbsp;
 
-🔴 **Rule 8: For MODY calculator: only include those diagnosed >=18 years. This is because ~10% of those diagnosed <18 have a time to insulin >6 months, which is unlikely to be true, and these people score very highly on the MODY calcuulator. Although a similar proportion of those diagnosed >=18 have a time to insulin of >6 months, this is more likely based on their age at diagnosis and fewer appear in the cohort with high MODY probability.**
+🔴 **Rule 8: For MODY calculator: use current insulin, not whether they were on insulin within 6 months of diagnosis.**
 
 &nbsp;
 
