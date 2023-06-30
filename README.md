@@ -124,14 +124,22 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 | Proportion with BMI within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| 6 months |  42.7% | 48.9% | 47.8% | 51.2% | 46.7% |
+| 6 months | 42.7% | 48.9% | 47.8% | 51.2% | 46.7% |
 | 1 year | 67.6% | 75.1% | 73.9% | 76.8% | 72.3% |
 | 2 years | 85.2% | 90.1% | 89.5% | 91.7% | 88.3% |
 | 5 years | 96.8% | 98.1% | 98.1% | 98.5% | 97.7% |
 
+
+
+#### Current insulin treatment
+
+|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| Current insulin (within last 6 months) | 96.3% | 28.0% | 96.1% | 35.0% | 61.2% |
+
 &nbsp;
 
-#### Time from diagnosis to earliest insulin script for currently insulin treated patients
+Time from diagnosis to earliest insulin script for currently insulin treated patients:
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_ins.png?" width="1000">
 
@@ -168,7 +176,16 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 #### Looking at those with highest predicted risk (>95%)
 
+* 1,989/60,243 (3.3%) of MODY calculator cohort
+* Of the different diabetes classes, 3.4% of Type 1s, 3.2 of Type 2s, 2.5% of mixed; Type 1 and 3.9% of the mixed; Type 2s have MODY probability>95%
 
+##### MODY code ever
+|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| MODY code ever | 0 (0.0%) | 0 (0.0%) | 2 (2.8%) | 15 (7.5%) | 17 (1.3%) |
+
+##### Missing family history
+* Of the 1,989 identified, 0% have missing family history
 
 
 Those with (non-missing) family history of diabetes (48% of whole MODY calculator cohort):
