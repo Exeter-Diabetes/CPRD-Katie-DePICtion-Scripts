@@ -96,6 +96,7 @@ graph TD;
     E --> G["n=62,045 (95.6%)<br>29,552 Type 1 and 32,493 Type 2"]
     G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032 Type 1 and 770 Type 2"]
     G --> I["<b>MODY calculator cohort</b>: n=60,243 (97.1%)<br>28,520 Type 1 and 31,723 Type 2"]
+```
 
 &nbsp;
 
