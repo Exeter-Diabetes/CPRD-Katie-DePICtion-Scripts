@@ -97,7 +97,6 @@ mody_calc_cohort %>% group_by(diabetes_type) %>% count()
 # Look at variables
 
 mody_vars <- mody_calc_cohort %>%
-  select(diabetes_type, hba1c_post_diag_datediff, bmi_post_diag_datediff, diagnosis_date, regstartdate, earliest_ins,  time_to_ins_days, insulin_6_months, fh_diabetes, current_ins_6m, regstartdate, dm_diag_age, mody_code_count) %>%
   collect() %>%
   mutate(hba1c_post_diag_datediff_yrs=as.numeric(hba1c_post_diag_datediff)/365.25,
          bmi_post_diag_datediff_yrs=as.numeric(bmi_post_diag_datediff)/365.25,
@@ -192,8 +191,6 @@ ggplot ((time_to_ins %>% filter(time_to_ins_yrs>0 & time_to_ins_yrs<50)), aes(x=
 
 
 
-
-
 ## Family history
 
 prop.table(table(mody_vars$diabetes_type, mody_vars$fh_diabetes), margin=1)
@@ -201,6 +198,13 @@ prop.table(table(mody_vars$fh_diabetes))
 
 prop.table(table(mody_vars$diabetes_type, mody_vars$fh_diabetes, useNA="always"), margin=1)
 prop.table(table(mody_vars$fh_diabetes, useNA="always"))
+
+
+
+## Time since last type code
+
+mody_vars %>% summarise(median_time=median(days_since_type_code))
+mody_vars %>% group_by(diabetes_type) %>% summarise(median_time=median(days_since_type_code))
 
 
 
@@ -216,13 +220,32 @@ prop.table(table(mody_vars$diabetes_type, mody_vars$mody_code_hist), margin=1)
 prop.table(table(mody_vars$mody_code_hist))
 
 
+rm(time_to_ins, mody_vars)
+
 
 ############################################################################################
 
 
 # Run MODY calculator
+## First add in MODY group
+
+mody_diag <- cohort %>%
+  filter(dm_diag_age>=1 & dm_diag_age<=35 & (diabetes_type=="mody" | diabetes_type=="mixed; mody") & !is.na(diagnosis_date)) %>%
+  mutate(hba1c_post_diag=ifelse(hba1cdate>=diagnosis_date, hba1c, NA),
+         hba1c_post_diag_datediff=ifelse(!is.na(hba1c_post_diag), hba1cindexdiff, NA),
+         age_at_bmi=datediff(bmidate, dob)/365.25,
+         bmi_post_diag=ifelse(bmidate>=diagnosis_date & age_at_bmi>=18, bmi, NA),
+         bmi_post_diag_datediff=ifelse(!is.na(bmi_post_diag), bmiindexdiff, NA),
+         insulin_6_months=ifelse(is.na(earliest_ins), 0L,
+                                 ifelse(datediff(earliest_ins, diagnosis_date)>183 & datediff(regstartdate, diagnosis_date)>183 & datediff(earliest_ins, regstartdate)<=183, NA,
+                                        ifelse(datediff(earliest_ins, diagnosis_date)<=183, 1L, 0L))),
+         insoha=ifelse(current_oha_6m==1 | current_ins_6m==1, 1L, 0L)) %>%
+  filter(!is.na(bmi_post_diag) & !is.na(hba1c_post_diag))
+
 
 mody_calc_results <- mody_calc_cohort %>%
+  
+  union(mody_diag) %>%
  
   mutate(fh_diabetes1=ifelse(is.na(fh_diabetes), 1L, fh_diabetes),
          fh_diabetes0=ifelse(is.na(fh_diabetes), 0L, fh_diabetes),
@@ -328,56 +351,73 @@ mody_calc_results <- mody_calc_cohort %>%
 
 mody_calc_results_local <- mody_calc_results %>%
   collect() %>%
-  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "mixed; type 1", "mixed; type 2")))
+  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "mixed; type 1", "mixed; type 2", "mody", "mixed; mody")))
 
 ## Overall
-mody_calc_results_local %>% summarise(mean_adjusted=mean(mody_adj_prob_assume_fh0))
+mody_calc_results_local %>% filter(diabetes_type!="mody" & diabetes_type!="mixed; mody") %>% summarise(mean_adjusted=mean(mody_adj_prob_assume_fh0))
 mody_calc_results_local %>% group_by(diabetes_type) %>% summarise(mean_adjusted=mean(mody_adj_prob_assume_fh0))
 
 ## Overall non-missing White ethnicity
-mody_calc_results_local %>% filter(!is.na(ethnicity_5cat) & ethnicity_5cat==0) %>% summarise(mean_adjusted=mean(mody_adj_prob_assume_fh0), count=n())
+mody_calc_results_local %>% filter(diabetes_type!="mody" & diabetes_type!="mixed; mody" & !is.na(ethnicity_5cat) & ethnicity_5cat==0) %>% summarise(mean_adjusted=mean(mody_adj_prob_assume_fh0), count=n())
 mody_calc_results_local %>% filter(!is.na(ethnicity_5cat) & ethnicity_5cat==0) %>% group_by(diabetes_type) %>% summarise(mean_adjusted=mean(mody_adj_prob_assume_fh0), count=n())
 
 ## Overall non-missing non-White ethnicity
-mody_calc_results_local %>% filter(!is.na(ethnicity_5cat) & ethnicity_5cat!=0) %>% summarise(mean_adjusted=mean(mody_adj_prob_assume_fh0), count=n())
+mody_calc_results_local %>% filter(diabetes_type!="mody" & diabetes_type!="mixed; mody" & !is.na(ethnicity_5cat) & ethnicity_5cat!=0) %>% summarise(mean_adjusted=mean(mody_adj_prob_assume_fh0), count=n())
 mody_calc_results_local %>% filter(!is.na(ethnicity_5cat) & ethnicity_5cat!=0) %>% group_by(diabetes_type) %>% summarise(mean_adjusted=mean(mody_adj_prob_assume_fh0), count=n())
 
 
 # Plot distributions
 mody_calc_results_local <- mody_calc_results %>%
   collect() %>%
-  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "mixed; type 1", "mixed; type 2")))
+  mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "mixed; type 1", "mixed; type 2", "mody", "mixed; mody")),
+         current_ins_6m=as.factor(current_ins_6m))
 
-ggplot(mody_calc_results_local, aes(x=mody_prob_assume_fh0*100, fill=diabetes_type, color=diabetes_type)) +
+ggplot((mody_calc_results_local %>% filter(diabetes_type!="mody" & diabetes_type!="mixed; mody")), aes(x=mody_prob_assume_fh0*100, fill=diabetes_type, color=diabetes_type)) +
   geom_histogram(binwidth=1) +
   xlab("MODY unadjusted probability (%)")
 
-ggplot(mody_calc_results_local, aes(x=mody_prob_assume_fh0*100, fill=current_ins_6m, color=current_ins_6m)) +
+ggplot((mody_calc_results_local %>% filter(diabetes_type!="mody" & diabetes_type!="mixed; mody")), aes(x=mody_prob_assume_fh0*100, fill=current_ins_6m, color=current_ins_6m)) +
   geom_histogram(binwidth=1) +
   xlab("MODY unadjusted probability (%)")
 
+ggplot((mody_calc_results_local %>% filter(diabetes_type=="mody" | diabetes_type=="mixed; mody")), aes(x=mody_prob_assume_fh0*100, fill=diabetes_type, color=diabetes_type)) +
+  geom_histogram(binwidth=1) +
+  xlab("MODY unadjusted probability (%)")
 
 
 ############################################################################################
 
 # Look at those with unadjusted probability >95%
 
-mody_calc_results_local %>% count()
+mody_calc_results_local %>% filter(diabetes_type!="mody" & diabetes_type!="mixed; mody") %>% count()
                                    
-mody_calc_results_local %>% filter(mody_prob_assume_fh0>0.95) %>% count()
+mody_calc_results_local %>% filter(diabetes_type!="mody" & diabetes_type!="mixed; mody" & mody_prob_assume_fh0>0.95) %>% count()
 #1989
 1989/60243 #3.3
 
-mody_calc_results_local %>% filter(mody_prob_assume_fh0>0.95) %>% group_by(diabetes_type) %>% count()
+mody_calc_results_local %>% filter(diabetes_type!="mody" & diabetes_type!="mixed; mody" & mody_prob_assume_fh0>0.95) %>% group_by(diabetes_type) %>% count()
 #type 1          804
 #type 2          771
 #mixed; type 1    119
 #mixed; type 2   295
 
 
+### Characteristics
+
 mody_calc_results_local_high <- mody_calc_results_local %>%
-  filter(mody_prob_fh0>0.95) %>%
-  mutate(mody_code_hist=mody_code_count>1)
+  filter(diabetes_type!="mody" & diabetes_type!="mixed; mody" & mody_prob_assume_fh0>0.95) %>%
+  mutate(mody_code_hist=mody_code_count>1,
+         missing_fh=is.na(fh_diabetes))
+
+
+prop.table(table(mody_calc_results_local_high$diabetes_type, mody_calc_results_local_high$current_ins_6m), margin=1)
+prop.table(table(mody_calc_results_local_high$current_ins_6m))
+
+prop.table(table(mody_calc_results_local_high$diabetes_type, mody_calc_results_local_high$missing_fh), margin=1)
+prop.table(table(mody_calc_results_local_high$missing_fh))
+
+mody_calc_results_local_high %>% summarise(median_time=median(days_since_type_code))
+mody_calc_results_local_high %>% group_by(diabetes_type) %>% summarise(median_time=median(days_since_type_code))
 
 table(mody_calc_results_local_high$diabetes_type, mody_calc_results_local_high$mody_code_hist)
 table(mody_calc_results_local_high$mody_code_hist)
@@ -386,35 +426,35 @@ prop.table(table(mody_calc_results_local_high$diabetes_type, mody_calc_results_l
 prop.table(table(mody_calc_results_local_high$mody_code_hist))
 
 
+### How many added if missing family history treated as 1?
 
-### How many added if treat family history as 1 or 0?
-
-mody_calc_results_local_high %>% filter(is.na(fh_diabetes)) %>% count()
-#0
-
-
-
-mody_calc_results %>% filter(is.na(fh_diabetes)) %>% group_by(diabetes_type) %>% count()
-
-
-mody_calc_results %>% filter(is.na(fh_diabetes) & mody_prob_no_missing_fh0>0.95) %>% count()
-
-mody_calc_results %>% filter(is.na(fh_diabetes) & mody_prob_no_missing_fh0>0.95) %>% group_by(diabetes_type) %>% count()
+mody_calc_results_local %>% filter(diabetes_type!="mody" & diabetes_type!="mixed; mody" & mody_prob_fh0<=0.95 & mody_prob_fh1>0.95) %>% count()
+#712
 
 
 
+### MODY cohort
 
-mody_calc_results %>% filter(is.na(fh_diabetes) & mody_prob_no_missing_fh1>0.95 & mody_prob_no_missing_fh0<=0.95) %>% count()
-
-mody_calc_results %>% filter(is.na(fh_diabetes) & mody_prob_no_missing_fh1>0.95 & mody_prob_no_missing_fh0<=0.95) %>% group_by(diabetes_type) %>% count()
-
-
-
-
+mody_calc_results_local_high <- mody_calc_results_local %>%
+  filter((diabetes_type=="mody" | diabetes_type=="mixed; mody") & mody_prob_assume_fh0>0.95) %>%
+  mutate(mody_code_hist=mody_code_count>1,
+         missing_fh=is.na(fh_diabetes))
 
 
+prop.table(table(mody_calc_results_local_high$diabetes_type, mody_calc_results_local_high$current_ins_6m), margin=1)
+prop.table(table(mody_calc_results_local_high$current_ins_6m))
+
+prop.table(table(mody_calc_results_local_high$diabetes_type, mody_calc_results_local_high$missing_fh), margin=1)
+prop.table(table(mody_calc_results_local_high$missing_fh))
+
+mody_calc_results_local_high %>% summarise(median_time=median(days_since_type_code))
+mody_calc_results_local_high %>% group_by(diabetes_type) %>% summarise(median_time=median(days_since_type_code))
+
+table(mody_calc_results_local_high$diabetes_type, mody_calc_results_local_high$mody_code_hist)
+table(mody_calc_results_local_high$mody_code_hist)
+
+prop.table(table(mody_calc_results_local_high$diabetes_type, mody_calc_results_local_high$mody_code_hist), margin=1)
+prop.table(table(mody_calc_results_local_high$mody_code_hist))
 
 
-############################################################################################
-
-
+###########################################################################################
