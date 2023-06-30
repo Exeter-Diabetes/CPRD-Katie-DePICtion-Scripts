@@ -161,6 +161,14 @@ By whether diagnosed under age 18 or not:
 
 &nbsp;
 
+#### Time since last Type 1/Type 2 code
+
+|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| Median time since last Type 1/Type 2 code (days) | 310 | 263 | 193 | 257 | 274 |
+
+&nbsp;
+
 #### MODY code history
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
@@ -201,26 +209,14 @@ By whether currently on insulin or not (i.e. which model used):
 High probability cohort characteristics:
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
+| Current insulin (within last 6 months) | 12.5% | 15.4% | 23.9% | 28.1% | 16.7% |
+| Missing family history of diabetes | 55.4% | 26.9% | 50.7% | 17.1% | 38.4% |
+| Median days since last Type 1/Type 2 codes | 764 | 387 | 253 | 359 | 472 |
 | MODY code ever | 0 (0.0%) | 0 (0.0%) | 2 (2.8%) | 15 (7.5%) | 17 (1.3%) |
 
-##### Missing family history
-* Of the 1,989 identified, 0% have missing family history
+&nbsp;
 
-
-Those with (non-missing) family history of diabetes (48% of whole MODY calculator cohort):
-* 554/21,149 (2.5%) have MODY probability >95%
-* 102 (18.4%) Type 1, 206 (37.2%) Type 2, 24 (4.3%) mixed; Type 1, 222 (40.1%) mixed; Type 2
-* Of the different diabetes classes, 2.7% of Type 1s, 1.7% of Type 2s, 2.0% of mixed; Type 1 and 5.6% of the mixed; Type 2s have MODY probability>95%
-
-Those with missing family history of diabetes:
-* 70/22,883 (0.3%) have MODY probability >95% when family history set to 0 (or 1)
-    * 26 (37.1%) Type 1, 31 (44.3%) Type 2, 2 (1.4%) mixed; Type 1, 11 (15.7%) mixed; Type 2
-    * Of the different diabetes classes, 0.4% of Type 1s, 0.3% of Type 2s, 0.1% of mixed; Type 1 and 0.3% of the mixed; Type 2s have MODY probability >95% when family history set to 0 (or 1)
-* An additional 683/22,883 (3.0%) have MODY probability >95% when family history set to 1 but not when set to 0
-    * 247 (36.2%) Type 1, 201 (29.4%) Type 2, 48 (7.0%) mixed; Type 1, 187 (27.4%) mixed; Type 2
-    * Of the different diabetes classes, 3.6% of Type 1s, 1.8% of Type 2s, 2.6% of mixed; Type 1 and 5.9% of the mixed; Type 2s have MODY probability >95% when family history set to 1 but not when set to 0
-
-Overall these 3 groups represent (554 + 70 + 683) / 44,032 = 3.0% of the MODY calculator cohort.
+In addition to the 1,989 with MODY probability>0.95, there are an additional 712 people with missing family history who would reach the 95% threshold if they did have a family history of diabetes.
 
 &nbsp;
 
