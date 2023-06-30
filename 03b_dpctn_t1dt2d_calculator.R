@@ -194,7 +194,7 @@ t1dt2d_calc_results_local <- t1dt2d_calc_results %>%
   mutate(insulin_6_months=ifelse(is.na(earliest_ins), 0L,
                                  ifelse(datediff(earliest_ins, diagnosis_date)>183 & datediff(regstartdate, diagnosis_date)>183 & datediff(earliest_ins, regstartdate)<=183, NA,
                                         ifelse(datediff(earliest_ins, diagnosis_date)<=183, 1L, 0L)))) %>%
-  select(diabetes_type, ethnicity_5cat, sex, dm_diag_age, bmi_post_diag, clinical_pred_prob, totalchol_post_diag, hdl_post_diag, triglyceride_post_diag, lipid_pred_prob, insulin_6_months) %>%
+  select(diabetes_type, ethnicity_5cat, sex, dm_diag_age, bmi_post_diag, clinical_pred_prob, totalchol_post_diag, hdl_post_diag, triglyceride_post_diag, lipid_pred_prob, insulin_6_months, current_ins_6m, type1_code_count, type2_code_count, days_since_type_code) %>%
   collect() %>%
   mutate(diabetes_type=factor(diabetes_type, levels=c("type 1", "type 2", "mixed; type 1", "mixed; type 2")))
   

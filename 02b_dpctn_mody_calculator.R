@@ -401,6 +401,12 @@ mody_calc_results_local %>% filter(diabetes_type!="mody" & diabetes_type!="mixed
 #mixed; type 1    119
 #mixed; type 2   295
 
+mody_calc_results_local %>% filter(diabetes_type=="mody" | diabetes_type=="mixed; mody") %>% count()
+#104
+
+mody_calc_results_local %>% filter((diabetes_type=="mody" | diabetes_type=="mixed; mody") & mody_prob_assume_fh0>0.95) %>% count()
+#52
+
 
 ### Characteristics
 
@@ -425,6 +431,13 @@ table(mody_calc_results_local_high$mody_code_hist)
 prop.table(table(mody_calc_results_local_high$diabetes_type, mody_calc_results_local_high$mody_code_hist), margin=1)
 prop.table(table(mody_calc_results_local_high$mody_code_hist))
 
+mody_calc_results_local_high %>% summarise(median_age=median(dm_diag_age))
+mody_calc_results_local_high %>% group_by(diabetes_type) %>% summarise(median_age=median(dm_diag_age))
+
+mody_calc_results_local_high %>% summarise(median_age=median(age_at_index))
+mody_calc_results_local_high %>% group_by(diabetes_type) %>% summarise(median_age=median(age_at_index))
+
+
 
 ### How many added if missing family history treated as 1?
 
@@ -433,28 +446,3 @@ mody_calc_results_local %>% filter(diabetes_type!="mody" & diabetes_type!="mixed
 
 
 
-### MODY cohort
-
-mody_calc_results_local_high <- mody_calc_results_local %>%
-  filter((diabetes_type=="mody" | diabetes_type=="mixed; mody") & mody_prob_assume_fh0>0.95) %>%
-  mutate(mody_code_hist=mody_code_count>1,
-         missing_fh=is.na(fh_diabetes))
-
-
-prop.table(table(mody_calc_results_local_high$diabetes_type, mody_calc_results_local_high$current_ins_6m), margin=1)
-prop.table(table(mody_calc_results_local_high$current_ins_6m))
-
-prop.table(table(mody_calc_results_local_high$diabetes_type, mody_calc_results_local_high$missing_fh), margin=1)
-prop.table(table(mody_calc_results_local_high$missing_fh))
-
-mody_calc_results_local_high %>% summarise(median_time=median(days_since_type_code))
-mody_calc_results_local_high %>% group_by(diabetes_type) %>% summarise(median_time=median(days_since_type_code))
-
-table(mody_calc_results_local_high$diabetes_type, mody_calc_results_local_high$mody_code_hist)
-table(mody_calc_results_local_high$mody_code_hist)
-
-prop.table(table(mody_calc_results_local_high$diabetes_type, mody_calc_results_local_high$mody_code_hist), margin=1)
-prop.table(table(mody_calc_results_local_high$mody_code_hist))
-
-
-###########################################################################################

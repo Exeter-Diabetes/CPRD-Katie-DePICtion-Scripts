@@ -5,7 +5,7 @@
 
 # Define diabetes type based on (latest) type codes - and add in variables relating to this
 
-# Pull in variables for MODY and T1D/T2D calculator: current BMI, HbA1c, total cholesterol, HDL, triglycerides, current treatment (and whether have ins/OHA script), family history of diabetes, time to insulin
+# Pull in variables for MODY and T1D/T2D calculator: current BMI, HbA1c, total cholesterol, HDL, triglycerides, current treatment (and whether have ins/OHA script or DPP4i/GLP1/SU/TZD ever), family history of diabetes, earliest insulin and OHA
 
 # Pull in other variables of interest: GAD and IA2 antibodies (ever prior to index date), C-peptide (ever prior to index date), and whether are non-English speaking / have English as a second language
 
@@ -668,10 +668,27 @@ latest_insulin <- clean_insulin %>%
   select(patid, current_ins_3m, current_ins_6m, ins_ever) %>%
   analysis$cached("current_ins", unique_indexes="patid")
 
+
+# Find DPP4/GLP1/SU/TZD
+
+latest_dpp4glp1sutzd <- clean_oha %>%
+  filter(date<=index_date & (TZD==1 | SU==1 | DPP4==1 | GLP1==1)) %>%
+  group_by(patid) %>%
+  summarise(latest_dpp4glp1sutzd=max(date, na.rm=TRUE)) %>%
+  ungroup() %>%
+  mutate(indexdatediff=datediff(latest_dpp4glp1sutzd, index_date),
+         current_dpp4glp1sutzd_3m=ifelse(indexdatediff>=-91, 1L, 0L),
+         current_dpp4glp1sutzd_6m=ifelse(indexdatediff>=-183, 1L, 0L),
+         dpp4glp1sutzd_ever=1L) %>%
+  select(patid, current_dpp4glp1sutzd_3m, current_dpp4glp1sutzd_6m, dpp4glp1sutzd_ever) %>%
+  analysis$cached("current_dpp4glp1sutzd", unique_indexes="patid")
+
+
 cohort <- cohort %>%
   left_join(latest_oha, by="patid") %>%
   left_join(latest_insulin, by="patid") %>%
-  mutate(across(c("current_oha_3m", "current_oha_6m", "oha_ever", "current_ins_3m", "current_ins_6m", "ins_ever"), coalesce, 0L)) %>%
+  left_join(latest_dpp4glp1sutzd, by="patid") %>%
+  mutate(across(c("current_oha_3m", "current_oha_6m", "oha_ever", "current_ins_3m", "current_ins_6m", "ins_ever", "current_dpp4glp1sutzd_3m", "current_dpp4glp1sutzd_6m", "dpp4glp1sutzd_ever"), coalesce, 0L)) %>%
   analysis$cached("cohort_interim_9", unique_indexes="patid")
 
 
@@ -778,7 +795,7 @@ cohort %>% filter(!is.na(language) & language=="First language not English") %>%
 
 ############################################################################################
 
-# Add time to insulin
+# Add earliest insulin and OHA
 
 ## Earliest insulin per patient
 
@@ -788,12 +805,21 @@ earliest_insulin <- clean_insulin %>%
   ungroup() %>%
   analysis$cached("earliest_insulin", unique_indexes="patid")
 
+
+## Earliest OHA per patient
+
+earliest_oha <- clean_oha %>%
+  group_by(patid) %>%
+  summarise(earliest_oha=min(date, na.rm=TRUE)) %>%
+  ungroup() %>%
+  analysis$cached("earliest_oha", unique_indexes="patid")
+
+
 ## Combine
-### Time to insulin should be set to missing if diagnosed >6 months before registration start
 
 cohort <- cohort %>%
   left_join(earliest_insulin, by="patid") %>%
-  mutate(time_to_ins_days=ifelse(is.na(earliest_ins) | datediff(regstartdate, diagnosis_date)>183, NA, datediff(earliest_ins, diagnosis_date))) %>%
+  left_join(earliest_oha, by="patid") %>%
   analysis$cached("cohort", unique_indexes="patid")
 
 
@@ -804,10 +830,4 @@ cohort <- cohort %>%
 counts <- cohort %>% group_by(diabetes_type) %>% count() %>% collect()
 
 counts2 <- cohort %>% filter(mody_code_count>0) %>% group_by(diabetes_type) %>% count() %>% collect()
-
-
-
-
-
-
 
