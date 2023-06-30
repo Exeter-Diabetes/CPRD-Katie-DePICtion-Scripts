@@ -57,9 +57,11 @@ graph TD;
     G --> |"Secondary codes*"| N["Secondary: <br>n=186<br>(0.1%)"]
     G --> |"Other specified<br>type codes*"| P["Other specified<br>type: <br>n=1<br>(0.0%)"]  
     G --> |"Mix of diabetes<br>type codes"| Q["Mix of<br>diabetes types: <br>n=23,010<br>(8.3%)"]
-    Q --> |"Type 1 based<br>on latest code"| R["Mixed; Type 1: <br>n=7,627<br>(2.8%)"]
-    Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=14,726<br>(5.3%)"]
-    Q --> |"Other based<br>on latest code"| T["Mixed; other: <br>n=657<br>(0.2%)"]
+    Q --> |"Type 1 based<br>on latest code"| R["Mixed; Type 1: <br>n=7,627<br>(2.8%)<br>34 have MODY code ever"]
+    Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=14,726<br>(5.3%)<br>107 have MODY code ever"]
+    Q --> |"MODY based<br>on latest code"| T["Mixed; MODY: <br>n=85<br>(0.0%)"]
+    Q --> |"Other based<br>on latest code"| U["Mixed; other<br>n=572<br>(0.2%)"]
+    Q --> |"Has a MODY<br>code at any time"|V["Mixed; other + MODY: <br>16<br>(0.0%)"]
 ```
 \* Could also have diabetes codes of unspecified type
 
