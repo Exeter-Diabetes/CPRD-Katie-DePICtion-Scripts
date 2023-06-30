@@ -185,8 +185,8 @@ By whether diagnosed under age 18 or not:
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall in MODY calculator cohort | MODY | Mixed; MODY |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Mean adjusted probability | 8.1% | 15.2% | 7.2% | 18.6% | 12.2% | 66.0% | 50.5% |
-| Mean adjusted probability for those of White ethnicity | 7.9% (n=21,617) | 14.1% (n=13,932) | 6.7% (n=4,179) | 16.6% (n=4,411) | 65.9 % (n=34) | 50.4% (n=64) |
-| Mean adjusted probability for those of non-White ethnicity | 11.1% (n=1,745) | 16.7% (n=9,657) | 11.1% (n=521) | 21.5% (n=3,186) | 58% (n=1) | 45.4% (n=3) |
+| Mean adjusted probability for those of White ethnicity | 7.9% (n=21,617) | 14.1% (n=13,932) | 6.7% (n=4,179) | 16.6% (n=4,411) | 10.6% (n=44,139) | 65.9 % (n=34) | 50.4% (n=64) |
+| Mean adjusted probability for those of non-White ethnicity | 11.1% (n=1,745) | 16.7% (n=9,657) | 11.1% (n=521) | 21.5% (n=3,186) | 16.9% (n=15,109) | 58% (n=1) | 45.4% (n=3) |
 
 &nbsp;
 
