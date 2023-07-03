@@ -293,7 +293,7 @@ Distribution of time between **triglyceride** and current (index) date (01/02/20
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
 | Mean clinical prediction model probability | 51.0% (n=14486) | 10.6% (n=161010) | 37.3% (n=5474) | 23.1% (n=13434) | 15.2% (n=194404) 
-| Mean clinical prediction model probability for those of White ethnicity |51.0% (n=13064) | 8.1% (n=102775) | 37.3% (n=4731) | 20.9% (n=7875) | 14.3% (n=128445) 
+| Mean clinical prediction model probability for those of White ethnicity | 51.0% (n=13064) | 8.1% (n=102775) | 37.3% (n=4731) | 20.9% (n=7875) | 14.3% (n=128445) 
 | Mean clinical prediction model probability for those of non-White ethnicity | 51.2% (n=1129) | 15.3% (n=54633) | 38.0% (n=658) | 26.4% (n=5438) | 17.2% (n=61858) 
 | Mean lipid prediction model probability | 19.1% (n=13033) | 1.5% (n=147496) | 11.9% (n=5179) | 4.3% (n=12638) | 3.3% (n=178346) 
 | Mean lipid prediction model probability for those of White ethnicity | 19.2% (n=11760) | 1.1% (n=93715) | 12.2% (n=4467) | 4.2% (n=7337) | 3.5% (n=117279) 
@@ -322,19 +322,24 @@ Distribution of probabilities:
 
 &nbsp;
 
-Characteristics of those scoring >90% and <10% (Type 1 = those with only Type 1 specific codes; Type 2 = those with only Type 2 specific codes):
+Characteristics of those scoring >90% and <10% compared to whole cohort (Type 1 includes those with only Type 1 codes and mixed coding, same for Type 2):
 
-| | Concordant Type 1 (probability >90%) | Discordant Type 2 (probability >90%) | Concordant Type 2 (probability <10%) | Discordant Type 1 (probability <10%) |
-| --- | --- | --- | --- | --- |
-| N | 1867 (86.6% of those with probability >90%) | 290 (13.4% of those with probability >90%) | 111342 (98.4% of those with probability <10%) | 1763 (1.6% of those with probability <10%) |
-| Median (IQR) age at diagnosis (years) | 20.5 (3.5) | 21.6 (5.4) | 45.1 (6.5) | 41.5 (9.1) |
-| Median (IQR) BMI (kg/m2) | 21.9 (3.5) | 21.2 (4.1) | 33.7 (8.2) | 32.6 (7.0) |
-| Currently on insulin (last 6 months) | 1757 (94.1%) | 83 (28.6%) | 22212 (19.9%) | 1695 (96.1%) |
-| Currently on bolus/mix insulin (last 6 months) | 1688 (90.4%) | 56 (19.3%) | 15282 (13.7%) | 1636 (92.8%) |
-| Median (IQR) highest HbA1c ever (mmol/mol) | 88.0 (41.0) | 82.9 (46.0) | 84.0 (39.0) | 92.2 (31.0) |
-| No HbA1c ever | 16 (0.9%) | 0 (0.0%) | 123 (0.1%) | 5 (0.3%) |
-| On insulin within 6 months of diagnosis (in those where this is not missing) | 738 (74.8%) | 16 (6.3%) | 1841 (1.7%) | 859 (71.3%) |
-| Hospitalisation with hypoglycaemia as the primary cause ever (in those with linked inpatient hospital records) | 181 (9.8%) | 4 (1.4%) | 897 (0.8%) | 105 (6.0%) | 
+| | Type 1 overall | Type 2 overall | Concordant Type 2 (probability <10%) | Discordant Type 1 (probability <10%) | Concordant Type 1 (probability >90%) | Discordant Type 2 (probability >90%) | 
+| --- | --- | --- | --- | --- | --- | --- |
+| N | 19960 (10.3% of cohort) | 174444 (89.7% of cohort) | 116737 (97.5% of those with score <10%) | 3041 (2.5% of those with score <10%) | 2193 (82.4% of those with score >90%) | 469 (17.6% of those with score >90%) |
+| Median (IQR) age at diagnosis (years) | 29.5 (13.9) | 43.0 (9.4) | 44.9 (6.9) | 41.9 (8.8) | 20.5 (3.4) | 21.5 (5.0) |
+| Median (IQR) BMI at diagnosis kg/m2 | 26.7 (6.5) | 31.2 (8.8) | 33.8 (8.2) | 32.5 (7.0) | 21.9 (3.6) | 21.2 (4.1) |
+| Current insulin (last 6 months) | 19072 (95.6%) | 38406 (22.0%) | 24264 (20.8%) | 2870 (94.4%) | 2064 (94.1%) | 175 (37.3%) |
+| Current bolus or mixed insulin (last 6 months) | 18356 (92.0%) | 27073 (15.5%) | 16915 (14.5%) | 2739 (90.1%) | 1982 (90.4%) | 136 (29.0%) |
+| Insulin prescribed before OHA | 16238 (81.4%) | 8971 (5.1%) | 3983 (3.4%) | 1910 (62.8%) | 2084 (95.0%) | 136 (29.0%) |
+| Current DPP4i/GLP1/SU/TZD treatment (last 6 months) | 489 (2.4%) | 77465 (44.4%) | 52275 (44.8%) | 219 (7.2%) | 11 (0.5%) | 165 (35.2%) |
+| Codes for mutiple types of diabetes | 5474 (27.4%) | 13434 (7.7%) | 5395 (4.6%) | 1278 (42.0%) | 326 (14.9%) | 179 (38.2%) |
+| Median (IQR) Type 1 code count | 10.0 (17.0) | 0.0 (0.0) | 0.0 (0.0) | 9.0 (18.0) | 9.0 (16.0) | 0.0 (0.0) |
+| Median (IQR) Type 2 code count | 0.0 (1.0) | 9.0 (17.0) | 9.0 (17.0) | 0.0 (2.0) | 0.0 (0.0) | 7.0 (14.0) |
+| Median (IQR) time since last code confirming diabetes type (days) | 260.0 (622.0) | 246.0 (574.0) | 242.0 (564.0) | 247.0 (602.0) | 278.0 (659.0) | 302.0 (697.0) |
+| Median (IQR) time from diagnosis date to date of entry (days) | 4.0 (3510.0) | 0.0 (460.0) | 0.0 (106.0) | 0.0 (1767.0) | 10.0 (4017.0) | 100.5 (3926.5) |
+| Median(IQR) highest HbA1c ever (mmol/mol) | 89.0 (32.1) | 84.8 (38.6) | 84.0 (39.0) | 94.3 (31.8) | 89.1 (41.1) | 83.0 (43.7) |
+| History of hypos in HES | 1543 (7.8%) | 1817 (1.1%) | 983 (0.9%) | 166 (5.5%) | 227 (10.5%) | 22 (4.7%) |
 
 &nbsp;
 
