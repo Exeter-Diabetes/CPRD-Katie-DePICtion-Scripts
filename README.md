@@ -228,7 +228,7 @@ High probability cohort characteristics:
 
 &nbsp;
 
-In addition to the 1,989 with MODY probability>0.95, there are an additional 712 people with missing family history who would reach the 95% threshold if they did have a family history of diabetes.
+In addition to the 1,989 with MODY probability >95%, there are an additional 712 people with missing family history who would reach the 95% threshold if they did have a family history of diabetes.
 
 &nbsp;
 
