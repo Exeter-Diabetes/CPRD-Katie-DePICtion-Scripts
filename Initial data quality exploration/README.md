@@ -385,7 +385,11 @@ We found that in those with a high MODY probability, there were many classified 
 
 &nbsp;
 
-It looks like determining whether someone was on insulin within 6 months of diagnosis could be unreliable for those diagnosed <18 or >=18 years (more of those diagnosed <18 years end up scoring highly on the MODY calculator so this has a greater impact on the MODY results). Looking at a couple of people's records: some people don't have prescriptions going back to registration start (probably not surprising if this was a while ago), and some people have other prescriptions which indiciate Type 1 diabetes (e.g. test strips, glucagon), but not insulin (so perhaps are receiving this from primary care). We decided to use current insulin instead, but look at the time between diagnosis and earliest insulin script to see how long these delays are.
+It looks like determining whether someone was on insulin within 6 months of diagnosis could be unreliable for those diagnosed <18 or >=18 years (more of those diagnosed <18 years end up scoring highly on the MODY calculator so this has a greater impact on the MODY results). Looking at a couple of people's records: some people don't have prescriptions going back to registration start (probably not surprising if this was a while ago), and some people have other prescriptions which indiciate Type 1 diabetes (e.g. test strips, glucagon), but not insulin (so perhaps are receiving this from primary care). We decided to set time to insulin as within 6 months for those diagnosed <18 (as this should be clinical practice; the number of people diagnosed with T2D <18 has historically been vanishingly small).
+
+For those diagnosed >=18
+
+We decided to use current insulin instead, but look at the time between diagnosis and earliest insulin script to see how long these delays are.
 
 &nbsp;
 
