@@ -143,15 +143,7 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 &nbsp;
 
-Time from diagnosis to earliest insulin script for currently insulin treated patients:
-
-By diabetes type:
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_ins_by_diabetes_type.png?" width="1000">
-
-By whether diagnosed under age 18 or not:
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_insulin_by_diag_age.png?" width="1000"> 
+Time to insulin explored further below
 
 &nbsp;
 
