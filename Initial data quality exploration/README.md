@@ -313,7 +313,7 @@ This scripts find proportions with potential miscoding/misclassification of diab
 
 &nbsp;
 
-🔴 **Rule 6: Investigate patients with the above anomalies. Probably only need to look at individuals who have been flagged by the calculators(?). After further investigation: establishing time from diagnosis to insulin in GP records is not possible so ignore rules involving time to insulin.**
+🔴 **Rule 6: Investigate patients with the above anomalies.**
 
 Patients with the above anomalies have not been removed from our dataset.
 
@@ -387,13 +387,11 @@ We found that in those with a high MODY probability, there were many classified 
 
 It looks like determining whether someone was on insulin within 6 months of diagnosis could be unreliable for those diagnosed <18 or >=18 years (more of those diagnosed <18 years end up scoring highly on the MODY calculator so this has a greater impact on the MODY results). Looking at a couple of people's records: some people don't have prescriptions going back to registration start (probably not surprising if this was a while ago), and some people have other prescriptions which indiciate Type 1 diabetes (e.g. test strips, glucagon), but not insulin (so perhaps are receiving this from primary care). We decided to set time to insulin as within 6 months for those diagnosed <18 (as this should be clinical practice; the number of people diagnosed with T2D <18 has historically been vanishingly small).
 
-For those diagnosed >=18
-
-We decided to use current insulin instead, but look at the time between diagnosis and earliest insulin script to see how long these delays are.
+For those diagnosed >=18 we decided to use current insulin instead, but look at the time between diagnosis and earliest insulin script to see how long these delays are.
 
 &nbsp;
 
-🔴 **Rule 8: For MODY calculator: use current insulin, not whether they were on insulin within 6 months of diagnosis.**
+🔴 **Rule 8: For MODY calculator: set time to insulin as within 6 months for those diagnosed under 18; use current insulin for those diagnosed >18.**
 
 &nbsp;
 
