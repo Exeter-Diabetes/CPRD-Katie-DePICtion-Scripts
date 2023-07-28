@@ -313,9 +313,9 @@ This scripts find proportions with potential miscoding/misclassification of diab
 
 &nbsp;
 
-🔴 **Rule 6: Investigate patients with the above anomalies.**
+🔴 **Rule 6: Investigate patients with the above inconsistencies. After further investigation: establishing time from diagnosis to insulin in GP records is not possible so ignore rules involving time to insulin. Also, it might only be possible to look at current treatment so may need to restrict to this (also as diabetes type reflects current diagnosis and they may previoulsy have had a diagnosis of another type which may exclude why they previously received treatment incompatible with their diabetes type).**
 
-Patients with the above anomalies have not been removed from our dataset.
+Patients with the above inconsistencies have not been removed from our dataset.
 
 &nbsp;
 
