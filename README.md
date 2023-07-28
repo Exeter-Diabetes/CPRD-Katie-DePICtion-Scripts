@@ -87,7 +87,7 @@ Patients with a diabetes-related medcode ([full list here](https://github.com/Ex
 
 | Current diabetes type | Inconsistency | Proportion in this cohort with issue and notes | 
 | ---- | ---- | ---- |
-| Type 1 | Not currently on insulin |  |
+| Type 1 | Not currently on insulin | 4.3% of Type 1s |
 | Type 1 | Not currently on bolus/mix insulin | 0.8% of those with Type 1 codes only; 3.0% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
 | Type 1 | Currently on DPP4i/GLP1/sulphonylurea/TZD (i.e. non-MFN/SGLT2i OHA) | 5.8% of those with Type 1 codes only; 24.4% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
 | Type 2 |  Duration <= 3 years and on insulin | |
