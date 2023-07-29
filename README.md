@@ -68,6 +68,8 @@ graph TD;
 
 &nbsp;
 
+Only those with a current diagnosis of Type 1 or Type 2 diabetes ("Type 1", "Type 2", "Mixed; Type 1", or "Mixed; Type 2" in the above flowchart) 
+
 Of the final cohort, 3.5% were non-English speaking, and a further 10.7% had a first language which was not English.
 
 &nbsp;
