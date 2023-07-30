@@ -68,7 +68,7 @@ graph TD;
 
 &nbsp;
 
-Only those with a current diagnosis of Type 1 or Type 2 diabetes ("Type 1", "Type 2", "Mixed; Type 1", or "Mixed; Type 2" in the above flowchart) are eligible for the MODY and T1DT2D calculator; a total of n=37,965 (16.8%) Type 1 and n=188,003 (83.2%) Type 2. Of the final Type 1/Type 2 cohort, 3.7% were non-English speaking, and a further 10.8% had a first language which was not English.
+NB: only those with a current diagnosis of Type 1 or Type 2 diabetes are eligible for the MODY and T1DT2D calculator; in our cohort this was a total of n=37,965 (16.8%) Type 1 and n=188,003 (83.2%) Type 2 as we were unable to ascertain whether any of the 'unspecified' group had Type 1 or Type 2. Of the final Type 1/Type 2 cohort, 3.7% were non-English speaking, and a further 10.8% had a first language which was not English.
 
 &nbsp;
 
@@ -85,13 +85,18 @@ Patients with a diabetes-related medcode ([full list here](https://github.com/Ex
 
 ## Patients with coding inconsistencies
 
-| Current diabetes type | Inconsistency | Proportion in this cohort | 
+If implemented in GP practices, these rules could help identify clear miscoding / misclassification before running the MODY and T1DT2D calculators, to ensure that patients flagged by the calculators are those most likely to be misdiagnosed, as opposed to those who just have coding errors in their data. These rules are only for those eligible for the MODY and T1DT2D calculators i.e. with a current diagnosis of Type 1 or Type 2 diabetes.
+
+| Current diabetes type | Inconsistency | Proportion in this cohort and how we have dealt with them here | 
 | ---- | ---- | ---- |
-| Type 1 | Not currently on insulin | 4.3% of Type 1s (4.1% of those with Type 1 codes only; 5.2% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
-| Type 1 | Not currently on bolus/mix insulin | 7.4% of Type 1s (6.8% of those with Type 1 codes only; 9.5% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
-| Type 1 | Currently on DPP4i/GLP1/sulphonylurea/TZD (i.e. non-MFN/SGLT2i OHA) | 1.8% of Type 1s (1.0% of those with Type 1 codes only; 4.6% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
-| Type 2 |  Duration <= 3 years and on insulin | 0.3% of Type 2s (0.3% of those with Type 2 codes only; 0.4% of those with codes for >1 type of diabetes but assigned Type 2 based on latest code (NB: doesn't include n=9,504 (5.1% of those with current Type 2 diagnosis) where diagnosis date could not be determined as it was between -30 and +90 days (inclusive) of registration start |
-| Unclassified | No diabetes type-specific codes - do they actually have diabetes? | Not included in our Type 1/Type 2 cohort, and number depends on diabetes codelist used to identify patients |
+| Type 1 | Not currently on insulin | 4.3% of Type 1s (4.1% of those with Type 1 codes only; 5.2% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code (not excluded here) |
+| Type 1 | Not currently on bolus/mix insulin | 7.4% of Type 1s (6.8% of those with Type 1 codes only; 9.5% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code (not excluded here) |
+| Type 1 | Currently on DPP4i/GLP1/sulphonylurea/TZD (i.e. non-MFN/SGLT2i OHA) | 1.8% of Type 1s (1.0% of those with Type 1 codes only; 4.6% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code (not excluded here) |
+| Type 2 |  Duration <= 3 years and on insulin | 0.3% of Type 2s (0.3% of those with Type 2 codes only; 0.4% of those with codes for >1 type of diabetes but assigned Type 2 based on latest code (NB: doesn't include n=9,504 (5.1% of those with current Type 2 diagnosis) where diagnosis date could not be determined as it was between -30 and +90 days (inclusive) of registration start (not excluded here) |
+| Unclassified | No diabetes type-specific codes - do they actually have diabetes? | Excluded from our analysis here, and number depends on diabetes codelist used to identify patients. In GP practice these patients' records could be examined further to ascertain if they have Type 1 or Type 2 diabetes. |
+| Type 2 | Diabetes diagnosis date in year of birth | <1% of cohort; we have ignored diabetes codes in the year of birth |
+| Type 1 or Type 2 | Diabetes diagnosis date -30 - +90 days from registration start (suggesting could be pre-registration) | ~4% of cohort; we have excluded these people |
+
 
 &nbsp; &nbsp;
 
