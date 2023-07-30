@@ -91,6 +91,7 @@ Patients with a diabetes-related medcode ([full list here](https://github.com/Ex
 | Type 1 | Not currently on bolus/mix insulin | 7.4% of Type 1s (6.8% of those with Type 1 codes only; 9.5% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
 | Type 1 | Currently on DPP4i/GLP1/sulphonylurea/TZD (i.e. non-MFN/SGLT2i OHA) | 1.8% of Type 1s (1.0% of those with Type 1 codes only; 4.6% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code |
 | Type 2 |  Duration <= 3 years and on insulin | 0.3% of Type 2s (0.3% of those with Type 2 codes only; 0.4% of those with codes for >1 type of diabetes but assigned Type 2 based on latest code (NB: doesn't include n=9,504 (5.1% of those with current Type 2 diagnosis) where diagnosis date could not be determined as it was between -30 and +90 days (inclusive) of registration start |
+| Unclassified | No diabetes type-specific codes - do they actually have diabetes? | 
 
 &nbsp; &nbsp;
 
