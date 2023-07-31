@@ -389,11 +389,11 @@ It looks like determining whether someone was on insulin within 6 months of diag
 
 To investigate further, we took those with Type 1 diabetes codes only, diagnosed aged under 18, and within registration i.e. those who we expect should begin on insulin immediately (although it is likely that some have incorrect diagnosis dates and therefore diagnosis ages). Only 85% have any prescriptions in the 6 months following diagnosis, with more missingness for older records (100% missing for those diagnosed before 1980, 49% missing for diagnoses before 2000). Of those with non-missing prescriptions in the 6 months following registration, 89% had insulin and 95% had insulin or insulin needles/syringes / glucagon / oral hypo treatment (so insulin prescribing from secondary care does not seem to be a major issue contributing to the missing insulin at diagnosis scripts).
 
-We decided to set time to insulin as within 6 months for those diagnosed <18 (as this should be clinical practice; the number of people diagnosed with T2D <18 has historically been vanishingly small). For those diagnosed >=18, if they are not currently on insulin we assume they were not on insulin within 6 months of diagnosis, and if they are currently on insulin we use current OHA treatment to determine whether they were not on insulin within 6 months of diagnosis or not (if currently on OHA, assume not on insulin within 6 months of diagnosis).
+We decided to set time to insulin as within 6 months for those diagnosed <18 (as this should be clinical practice; the number of people diagnosed with T2D <18 has historically been vanishingly small). For those diagnosed >=18, if they are not currently on insulin we assume they were not on insulin within 6 months of diagnosis, and if they are currently on insulin we test them in both MODY models.
 
 &nbsp;
 
-🔴 **Rule 8: For MODY calculator: set time to insulin as within 6 months for those diagnosed under 18; use current insulin for those diagnosed >18.**
+🔴 **Rule 8: For MODY calculator: set time to insulin as within 6 months for those diagnosed under 18; over 6 months for those diagnosed at/over 18 and not currently on insulin; and run both MODY models for those diagnosed at/over 18 and currently on insulin.**
 
 &nbsp;
 
