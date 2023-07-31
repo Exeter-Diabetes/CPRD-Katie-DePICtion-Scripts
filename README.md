@@ -205,9 +205,12 @@ For those with missing family history of diabetes, this is assumed to be 0. Thos
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall in MODY calculator cohort | MODY | Mixed; MODY |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mean adjusted probability | 8.1% | 15.2% | 7.2% | 18.6% | 12.2% | 66.0% | 50.5% |
-| Mean adjusted probability for those of White ethnicity | 7.9% (n=21,617) | 14.1% (n=13,932) | 6.7% (n=4,179) | 16.6% (n=4,411) | 10.6% (n=44,139) | 65.9 % (n=34) | 50.4% (n=64) |
-| Mean adjusted probability for those of non-White ethnicity | 11.1% (n=1,745) | 16.7% (n=9,657) | 11.1% (n=521) | 21.5% (n=3,186) | 16.9% (n=15,109) | 58% (n=1) | 45.4% (n=3) |
+| Mean adjusted probability (assume no insulin within 6 months if diagnosed ≥18) | 11.6% | 11.7% | 12.1% | 15.8% | 12.2% | 28.8% | 33.8% |
+| Mean adjusted probability (assume insulin within 6 months if diagnosed ≥18 and currently on insulin) | 8.3% | 14.6% | 11.1% | 18.4% | 12.3% | 28.8% | 34.2% |
+| Mean adjusted probability for those of White ethnicity (assume no insulin within 6 months if diagnosed ≥18) | 11.4% (n=21,617) | 10.3% (n=13,932) | 11.6% (n=4,179) | 14.2% (n=4,411) | 11.3% (n=44,139) | 28.6% (n=34) | 33.4% (n=64) |
+| Mean adjusted probability for those of White ethnicity (assume insulin within 6 months if diagnosed ≥18 and currently on insulin) | 8.0% (n=21617) | 13.3% (n=13932) | 10.2% (n=4179) | 16.6% (n=4411) | 10.7% (n=44,139) | 28.6% (n=34) | 33.8% (n=64) |
+| Mean adjusted probability for those of non-White ethnicity (assume no insulin within 6 months if diagnosed ≥18) | 13.9% (n=1,745) | 13.9% (n=9,657) | 16.2% (n=521) | 18.0% (n=3,186) | 14.8% (n=15,109) | 58.0% (n=1) | 34.2% (n=3) |
+| Mean adjusted probability for those of non-White ethnicity (assume insulin within 6 months if diagnosed ≥18 and currently on insulin) | 12.2% (n=1,745) | 16.7% (n=9,657) | 18.5% (n=521) | 21.0% (n=3,186) | 17.1% (n=15,109) | 58.0% (n=1) | 34.2% (n=3) |
 
 &nbsp;
 
@@ -217,10 +220,6 @@ By diabetes type:
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution_by_diabetes_type.png?" width="1000">
 
-By whether currently on insulin or not (i.e. which model used):
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution_by_current_ins.png?" width="1000">
-
 &nbsp;
 
 Distribution of unadjusted probabilities in those with a MODY diagnosis:
@@ -229,27 +228,13 @@ Distribution of unadjusted probabilities in those with a MODY diagnosis:
 
 &nbsp;
 
-#### Looking at those with highest predicted risk (>95%)
+#### Looking at those with highest predicted (unadjusted) risk (>95% or >90%)
 
-* 1,989/60,243 (3.3%) of MODY calculator cohort
+95% threshold:
+* 863/60,243 (1.4%) of MODY calculator cohort have probability above threshold, assuming missing family history is negative and using highest score from two models for those diagnosed >=18 years and currently on insulin (this group constitutes 458 (53.1%) diagnosed ≥18, currently on insulin, and high in one model only: 273 high from Type 1 model only, 185 from Type 2 model only)
 * Of the different diabetes classes, 3.4% of Type 1s, 3.2 of Type 2s, 2.5% of mixed; Type 1 and 3.9% of the mixed; Type 2s have MODY probability>95%
-* 52/104 (52%) of MODY cases reach this threshold
-
-&nbsp;
-
-High probability cohort characteristics:
-|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
-| --- | --- | --- | --- | --- | --- |
-| Current insulin (within last 6 months) | 33.1% | 20.1% | 47.1% | 31.9% | 28.7% |
-| Missing family history of diabetes | 71.1% | 54.0% | 70.6% | 44.1% | 60.4% |
-| Median time since last Type 1/Type 2 code (days) | 556 | 360 | 230 | 374 | 414 |
-| MODY code ever | 0 (0.0%) | 0 (0.0%) | 3 (2.5%) | 16 (5.4%) | 19 (1.0%) |
-| Median age at diagnosis (years) | 16.0 | 19.5 | 20.5 | 22.3 | 19.0 |
-| Median current age (years) | 33.6 | 33.6 | 34.0 | 35.6 | 34.0 |
-
-&nbsp;
-
-In addition to the 1,989 with MODY probability >95%, there are an additional 712 people with missing family history who would reach the 95% threshold if they did have a family history of diabetes.
+* 23/104 (22%) of MODY cases reach this threshold
+* In addition to the 863 with MODY probability >95%, there are an additional 712 people with missing family history who would reach the 95% threshold if they did have a family history of diabetes.
 
 &nbsp;
 
