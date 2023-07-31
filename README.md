@@ -131,7 +131,7 @@ In addition, we ran the MODY calculator on those with a diagnosis of MODY: n=56 
 
 | Proportion within each group | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Diagnosed <18 years (assume on insulin within 6 months of diagnosis) | 55.5% | 3.4% | 35.0% | 6.5% | 26.9%% |
+| Diagnosed <18 years (assume on insulin within 6 months of diagnosis) | 55.5% | 3.4% | 35.0% | 6.5% | 26.9% |
 | Diagnosed >=18 years and currently not on insulin (assume not on insulin within 6 months of diagnosis) | 1.7% | 69.7% | 2.8% | 63.6% | 36.8% |
 | Diagnosed >=18 years and currently on insulin (test both models)| 42.7% | 26.9% | 61.3% | 29.9% | 36.3% |
 
@@ -211,7 +211,7 @@ For those with missing family history of diabetes, this is assumed to be 0. Thos
 
 &nbsp;
 
-Distribution of unadjusted probabilities in MODY calculator cohort:
+Distribution of unadjusted probabilities in MODY calculator cohort (assuming family history is 0 and whether on insulin within 6 months of diagnosis is negative if diagnosed aged >=18 years and currently on insulin):
 
 By diabetes type:
 
