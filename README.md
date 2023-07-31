@@ -123,9 +123,7 @@ In addition, we ran the MODY calculator on those with a diagnosis of MODY: n=56 
 
 &nbsp;
 
-## MODY calculator
-
-### Variables
+### Mody calculator variables
 
 #### Time to insulin from diagnosis (whether within 6 months or not - used to determine which model used for the MODY calculator)
 
@@ -200,7 +198,7 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 &nbsp;
 
-### Calculator results
+### MODY calculator results
 For those with missing family history of diabetes, this is assumed to be 0. Those diagnosed >=18 years of age and currently on insulin: highest value from two branches of model chosen.
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall in MODY calculator cohort | MODY | Mixed; MODY |
