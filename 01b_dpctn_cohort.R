@@ -616,8 +616,7 @@ cohort <- cohort %>%
 
 ############################################################################################
 
-# Add in current treatment
-## Whether insulin or OHA in last 3 months or last 6 months
+# Add in current treatment (last 6 months)
 
 # Get clean OHA and insulin scripts
 
@@ -640,55 +639,51 @@ clean_insulin <- cprd$tables$drugIssue %>%
   analysis$cached("clean_insulin_prodcodes", indexes=c("patid", "date"))
 
 
-# Find most recent prior to index date
-
 analysis = cprd$analysis("dpctn_final")
 
-latest_oha <- clean_oha %>%
-  filter(date<=index_date) %>%
-  group_by(patid) %>%
-  summarise(latest_oha=max(date, na.rm=TRUE)) %>%
-  ungroup() %>%
-  mutate(indexdatediff=datediff(latest_oha, index_date),
-         current_oha_3m=ifelse(indexdatediff>=-91, 1L, 0L),
-         current_oha_6m=ifelse(indexdatediff>=-183, 1L, 0L),
-         oha_ever=1L) %>%
-  select(patid, current_oha_3m, current_oha_6m, oha_ever) %>%
+
+# OHA
+
+current_oha <- clean_oha %>%
+  filter(date<=index_date & datediff(index_date, date)<=183) %>%
+  distinct(patid) %>%
+  mutate(current_oha=1L) %>%
   analysis$cached("current_oha", unique_indexes="patid")
+
+
+# DPP4/GLP1/SU/TZD 
   
-latest_insulin <- clean_insulin %>%
-  filter(date<=index_date) %>%
-  group_by(patid) %>%
-  summarise(latest_ins=max(date, na.rm=TRUE)) %>%
-  ungroup() %>%
-  mutate(indexdatediff=datediff(latest_ins, index_date),
-         current_ins_3m=ifelse(indexdatediff>=-91, 1L, 0L),
-         current_ins_6m=ifelse(indexdatediff>=-183, 1L, 0L),
-         ins_ever=1L) %>%
-  select(patid, current_ins_3m, current_ins_6m, ins_ever) %>%
-  analysis$cached("current_ins", unique_indexes="patid")
-
-
-# Find DPP4/GLP1/SU/TZD
-
-latest_dpp4glp1sutzd <- clean_oha %>%
-  filter(date<=index_date & (TZD==1 | SU==1 | DPP4==1 | GLP1==1)) %>%
-  group_by(patid) %>%
-  summarise(latest_dpp4glp1sutzd=max(date, na.rm=TRUE)) %>%
-  ungroup() %>%
-  mutate(indexdatediff=datediff(latest_dpp4glp1sutzd, index_date),
-         current_dpp4glp1sutzd_3m=ifelse(indexdatediff>=-91, 1L, 0L),
-         current_dpp4glp1sutzd_6m=ifelse(indexdatediff>=-183, 1L, 0L),
-         dpp4glp1sutzd_ever=1L) %>%
-  select(patid, current_dpp4glp1sutzd_3m, current_dpp4glp1sutzd_6m, dpp4glp1sutzd_ever) %>%
+current_dpp4glp1sutzd <- clean_oha %>%
+  filter(date<=index_date & datediff(index_date, date)<=183 & (TZD==1 | SU==1 | DPP4==1 | GLP1==1)) %>%
+  distinct(patid) %>%
+  mutate(current_dpp4glp1sutzd=1L) %>%
   analysis$cached("current_dpp4glp1sutzd", unique_indexes="patid")
 
 
+# Insulin
+
+current_insulin <- clean_insulin %>%
+  filter(date<=index_date & datediff(index_date, date)<=183) %>%
+  distinct(patid) %>%
+  mutate(current_insulin=1L) %>%
+  analysis$cached("current_insulin", unique_indexes="patid")
+
+
+# Bolus/mix insulin
+
+current_bolusmix_insulin <- clean_insulin %>%
+  filter(date<=index_date & datediff(index_date, date)<=183 & (insulin_cat=="Bolus insulin" | insulin_cat=="Mix insulin")) %>%
+  distinct(patid) %>%
+  mutate(current_bolusmix_insulin=1L) %>%
+  analysis$cached("current_bolusmix_insulin", unique_indexes="patid")
+
+
 cohort <- cohort %>%
-  left_join(latest_oha, by="patid") %>%
-  left_join(latest_insulin, by="patid") %>%
-  left_join(latest_dpp4glp1sutzd, by="patid") %>%
-  mutate(across(c("current_oha_3m", "current_oha_6m", "oha_ever", "current_ins_3m", "current_ins_6m", "ins_ever", "current_dpp4glp1sutzd_3m", "current_dpp4glp1sutzd_6m", "dpp4glp1sutzd_ever"), coalesce, 0L)) %>%
+  left_join(current_oha, by="patid") %>%
+  left_join(current_dpp4glp1sutzd, by="patid") %>%
+  left_join(current_insulin, by="patid") %>%
+  left_join(current_bolusmix_insulin, by="patid") %>%
+  mutate(across(c("current_oha", "current_dpp4glp1sutzd", "current_insulin", "current_bolusmix_insulin"), coalesce, 0L)) %>%
   analysis$cached("cohort_interim_9", unique_indexes="patid")
 
 
@@ -784,13 +779,17 @@ cohort <- cohort %>%
 cohort %>% count()
 #276623
 
-cohort %>% filter(!is.na(language) & language=="Non-English speaking") %>% count()
-#9737
-9737/276623 #3.5%
+cohort %>% filter(diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2") %>% count()
+#225968
 
-cohort %>% filter(!is.na(language) & language=="First language not English") %>% count()
-#29738
-29738/276623 #10.8%
+cohort %>% filter((diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2") & !is.na(language) & language=="Non-English speaking") %>% count()
+#8371
+8371/225968 #3.7%
+
+
+cohort %>% filter((diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2") & !is.na(language) & language=="First language not English") %>% count()
+#24337
+24337/225968 #10.8%
 
 
 ############################################################################################

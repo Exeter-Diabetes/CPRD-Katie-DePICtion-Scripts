@@ -593,7 +593,7 @@ cohort <- cohort %>%
   mutate(language=ifelse(!is.na(non_english) & non_english==1, "Non-English speaking",
                          ifelse(!is.na(english_not_first) & english_not_first==1, "First language not English", NA))) %>%
   select(-c(non_english, english_not_first)) %>%
-  analysis$cached("cohort", unique_indexes="patid")
+  analysis$cached("cohort_interim_8", unique_indexes="patid")
 
 
 cohort %>% count()
@@ -606,5 +606,14 @@ cohort %>% filter(!is.na(language) & language=="Non-English speaking") %>% count
 cohort %>% filter(!is.na(language) & language=="First language not English") %>% count()
 #55746
 55746/769493 #7.2%
+
+
+############################################################################################
+
+# Add in earliest script ever, earliest glucagon and earliest needles to investigate this
+
+
+
+
 
 
