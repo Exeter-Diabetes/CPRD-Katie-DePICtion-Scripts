@@ -313,9 +313,9 @@ This scripts find proportions with potential miscoding/misclassification of diab
 
 &nbsp;
 
-🔴 **Rule 6: Investigate patients with the above anomalies. Probably only need to look at individuals who have been flagged by the calculators(?). After further investigation: establishing time from diagnosis to insulin in GP records is not possible so ignore rules involving time to insulin.**
+🔴 **Rule 6: Investigate patients with the above inconsistencies. After further investigation: establishing time from diagnosis to insulin in GP records is not possible so ignore rules involving time to insulin. Also, it might only be possible to look at current treatment so may need to restrict to this (also, diabetes type reflects current diagnosis and they may previoulsy have had a diagnosis of another type which may explain why they previously received treatment incompatible with their current diabetes type).**
 
-Patients with the above anomalies have not been removed from our dataset.
+Patients with the above inconsistencies have not been removed from our dataset.
 
 &nbsp;
 
@@ -385,11 +385,15 @@ We found that in those with a high MODY probability, there were many classified 
 
 &nbsp;
 
-It looks like determining whether someone was on insulin within 6 months of diagnosis could be unreliable for those diagnosed <18 or >=18 years (more of those diagnosed <18 years end up scoring highly on the MODY calculator so this has a greater impact on the MODY results). Looking at a couple of people's records: some people don't have prescriptions going back to registration start (probably not surprising if this was a while ago), and some people have other prescriptions which indiciate Type 1 diabetes (e.g. test strips, glucagon), but not insulin (so perhaps are receiving this from primary care). We decided to use current insulin instead, but look at the time between diagnosis and earliest insulin script to see how long these delays are.
+It looks like determining whether someone was on insulin within 6 months of diagnosis could be unreliable for those diagnosed <18 or >=18 years (more of those diagnosed <18 years end up scoring highly on the MODY calculator so this has a greater impact on the MODY results).
+
+To investigate further, we took those with Type 1 diabetes codes only, diagnosed aged under 18, and within registration i.e. those who we expect should begin on insulin immediately (although it is likely that some have incorrect diagnosis dates and therefore diagnosis ages). Only 85% have any prescriptions in the 6 months following diagnosis, with more missingness for older records (100% missing for those diagnosed before 1980, 49% missing for diagnoses before 2000). Of those with non-missing prescriptions in the 6 months following registration, 89% had insulin and 95% had insulin or insulin needles/syringes / glucagon / oral hypo treatment (so insulin prescribing from secondary care does not seem to be a major issue contributing to the missing insulin at diagnosis scripts).
+
+We decided to set time to insulin as within 6 months for those diagnosed <18 (as this should be clinical practice; the number of people diagnosed with T2D <18 has historically been vanishingly small). For those diagnosed >=18, if they are not currently on insulin we assume they were not on insulin within 6 months of diagnosis, and if they are currently on insulin we test them in both MODY models.
 
 &nbsp;
 
-🔴 **Rule 8: For MODY calculator: use current insulin, not whether they were on insulin within 6 months of diagnosis.**
+🔴 **Rule 8: For MODY calculator: set time to insulin as within 6 months for those diagnosed under 18; over 6 months for those diagnosed at/over 18 and not currently on insulin; and run both MODY models for those diagnosed at/over 18 and currently on insulin.**
 
 &nbsp;
 

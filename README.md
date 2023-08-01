@@ -14,17 +14,19 @@ As a result of the work in the 'Initial data quality exploration' directory in t
 
 | Rule purpose | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Rationale and expected effect | How this is dealt with in our analysis |
 | --- | --- | --- | --- |
-| Cohort definition | Cohort is everybody with a code for diabetes | This high-sensitivity approach means we include everybody with diabetes, reducing bias which may arise from excluding those with poor quality coding i.e. those who don't have elevated HbA1c measurements in their records. Depending on the codelist used, we may include some people without diabetes who then need to be removed as they will end up with high MODY probabilities. | We have used a very broad codelist, but this identified a large number of individuals with no diabetes type-specific codes who we have not been able to run the calculators on |
+| Cohort definition | Cohort is everybody with a code for diabetes (with a current diagnosis of Type 1 or Type 2 diabetes diagnosed <=50 years of age) | This high-sensitivity approach means we include everybody with diabetes, reducing bias which may arise from excluding those with poor quality coding i.e. those who don't have elevated HbA1c measurements in their records. Depending on the codelist used, we may include some people without diabetes who then need to be removed as they will end up with high MODY probabilities. | We have used a very broad codelist, but this identified a large number of individuals with no diabetes type-specific codes who we have not been able to run the calculators on |
 | Diabetes type | Diabetes type is determined by codes i.e. if a person has codes for Type 2 diabetes, they are defined as Type 2. If they have codes for multiple types of diabetes, the most recent code is used. If they have no type-specific codes then the clinician needs to check this; the proportion of people with no type-specific codes will vary with the codelist used to define the cohort. | Most recent code is used as their diagnosis may have changed over time. In addition, using most recent code matched the 'gold standard' diagnosis (based on code frequencies - see https://www.jclinepi.com/article/S0895-4356(22)00272-4/fulltext) in 77% of cases for a cohort with both Type 1 and Type 2 codes - see Initial data quality exploration (NB: to be more certain of current diagnosis, those with codes for >1 type of diabetes in the last 5 years can be investigated further). NB: we found that 25% of our gestational diabetes cohort had codes for diabetes (of no specific type) more than 1 year before earliest gestational code or more than 1 year after latest gestational code (excluding 'history of gestational diabetes' codes), suggesting they may have Type 1 or Type 2; we have not applied the calculators to these people | We have implemented these rules, but have only applied the calculators to those with a current diagnosis of Type 1 or Type 2 diabetes (see below flowchart) |
 | Diabetes diagnosis date 1 | Diagnosis date is determined as the earliest code for diabetes, excluding those before the date of birth | There is a minimal time difference (see Initial data quality exploration) if the earliest of a code, an elevated HbA1c, or an OHA/insulin script is used instead | We have implemented this rule |
 | Diabetes diagnosis date 2 | Those with diagnoses in their year of birth should be investigated further | We found an excess of diabetes codes in the year of birth compared to later years (<1% of our cohort, see Initial data quality exploration), suggesting miscoding. Patients with this issue should be investigated, especially those with Type 1, those with Type 2 who have a high probability of Type 1 from the T1D/T2D calculator, and those with a high MODY probability (as the effect of this issue is to incorrectly lower the age of diagnosis). | For those with Type 2 (and no codes for other types of diabetes), we have ignored diabetes codes in the year of birth |
-| Diabetes diagnosis date 3 | Those with diagnoses between -30 and +90 days (inclusive) of registration start) should be investigated further | We found an excess of diabetes codes around registration start (4% of our cohort, see Initial data quality exploration),  (compared to later years; see Initial data quality exploration), probably reflecting old diagnoses (prior to registration) being recorded as if they were new. Patients with this issue should be investigated, especially those with Type 2, those with Type 1 who have a high probability of Type 1 from the T1D/T2D calculator, and all those on which the MODY calculator is being run (as the effect of this issue is to incorrectly increase the age of diagnosis). | We have excluded individuals with diagnosis dates in this time range |
+| Diabetes diagnosis date 3 | Those with diagnoses between -30 and +90 days (inclusive) of registration start should be investigated further | We found an excess of diabetes codes around registration start (4% of our cohort, see Initial data quality exploration),  (compared to later years; see Initial data quality exploration), probably reflecting old diagnoses (prior to registration) being recorded as if they were new. Patients with this issue should be investigated, especially those with Type 2, those with Type 1 who have a high probability of Type 1 from the T1D/T2D calculator, and all those on which the MODY calculator is being run (as the effect of this issue is to incorrectly increase the age of diagnosis). | We have excluded individuals with diagnosis dates in this time range |
+| Current treatment definition | Defined as in the last 6 months: clinically sensible; 99% of OHA scripts have ‘duration’ ≤ 6 months; 6 months is 99th percentile of time between subsequent insulin scripts | | We have implemented this rule |
+| Coding inconsistencies to be investigated | Patients with a diagnosis of Type 1 or Type 2 but clinical features / treatment which are inconsistent with this diagnosis should be flagged (Type 1 but not currently on insulin, Type 1 but not currently on bolus/mixed insulin, Type 1 but currently on GLP1/ DPP4i/ SU/ TZD, Type 2 duration <= 3 years on insulin) | If clinical features are inconsistent then this may help find cases of misdiagnosis on top of those identified by the calculators. Where treatment is inconsistent with diagnosis, we need to flag these people prior to running the calculators as otherwise we will be identifying people who have a 'misdiagnosis' where they actually just have coding issues. The expected percentages are shown in 'Patients with coding inconsistencies' below.  | We flag these people but do not exclude them from subsequent analysis. |
 | Biomarkers 1 | BMI, HbA1c, total cholesterol, HDL, and triglyceride values outside of the normal detectable range (BMI: 15-100 kg/m2 (used for adult measurements only), HbA1c: 20-195 mmol/mol, total cholesterol: 0.5-20 mmol/L, HDL: 0.2-10 mmol/L, triglyceride:0.1-40 mmol/L) should be ignored | | We have implemented this rule |
 | Biomarkers 2 | The most recent biomarker values can be used, going back as far as (but not before) diagnosis. BMIs in those aged <18 years should be removed. Separate weight and height measurements should not be used to calculate missing BMIs as they do not add much | This reduces missingness in our Type 1 and Type 2 cohorts (compared to using values within the last 2 years only): HbA1c: 6-7% reduced to 1-2%, BMI: 11-18% reduced to 2-4%, total cholesterol: 4-9% reduced to 2%, HDL: 7-14% reduced to 2-3%, triglycerides: 29-37% reduced to 9-11%. | We implemented this rule but looked at the distribution of time between most recent measurement and index date |
-| Additional MODY calculator variable 1 | For whether patient is on insulin within 6 months, use time from diagnosis to earliest insulin script. Set to missing if time to insulin is >6 months and registration start is >6 months after diagnosis date and earliest insulin script is within 6 months of registration start. Where missing, use whether they are on insulin now (script within last 6 months) | Missingness was very high for this variable in our Type 1 cohort (51%) as most were diagnosed prior to registration. We are assuming they are already on insulin at registration if there is a script within 6 months of registration; 6 months was chosen as the optimal time for determining current medication based on previous work in CPRD which showed the 90th percentile for time between consecutive insulin scripts for those with diabetes was ~6 months. We do not set time to insulin to missing if the earliest insulin script is within 6 months of diagnosis, even if this is before registration (for our MODY calculator cohort, 9587/42213 (22.7%) of those with an insulin script had their earliest script before registration start) | We implemented this rule but looked at the level of missingness |
+| Additional MODY calculator variable 1 | Whether patient is on insulin within 6 months of diagnosis is used to determine which model is used in the MODY calculator (see flowchart in 'MODY calculator overview' section): if positive, a MODY vs Type 1 model is used to see which is more probable, if negative, a MODY vs Type 2 model is used. As per the initial data quality checking results, time to insulin from diagnosis was unreliable in GP records, so we assuming they were on insulin within 6 months of diagnosis if diagnosed aged <18 years, they weren't on insulin within 6 months of diagnosis if diagnosed aged >=18 years and not currently on insulin, and for the remainder both models are used (see MODY calculator results below). | 59% of the MODY cohort were diagnosed prior to registration so this data is unavailable. In addition, prescriptions seem to be missing for older records even if within registration. | We implemented this rule |
 | Additional MODY calculator variable 2 | If family history of diabetes is missing, assume they do have a family history, and then investigate this for those who score highly on the MODY calculator | Missingness was high for this variable in our Type 1 and Type 2 cohorts (48-69%) | We implemented this rule |
 
-&nbsp;
+&nbsp; &nbsp;
 
 ## Cohort definition
 
@@ -67,7 +69,7 @@ graph TD;
 
 &nbsp;
 
-Of the final cohort, 3.5% were non-English speaking, and a further 10.7% had a first language which was not English.
+NB: only those with a current diagnosis of Type 1 or Type 2 diabetes are eligible for the MODY and T1DT2D calculator; in our cohort this was a total of n=37,965 (16.8%) Type 1 and n=188,003 (83.2%) Type 2 as we were unable to ascertain whether any of the 'unspecified' group had Type 1 or Type 2. Of the final Type 1/Type 2 cohort, 3.7% were non-English speaking, and a further 10.8% had a first language which was not English.
 
 &nbsp;
 
@@ -80,9 +82,42 @@ Patients with a diabetes-related medcode ([full list here](https://github.com/Ex
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Cohort-scripts/blob/main/Extract-details/download_details2.PNG" width="700">
 
-&nbsp;
+&nbsp; &nbsp;
+
+## Patients with coding inconsistencies
+
+If implemented in GP practices, these rules could help identify clear miscoding / misclassification before running the MODY and T1D/T2D calculators, to ensure that patients flagged by the calculators are those most likely to be misdiagnosed, as opposed to those who just have coding errors in their data. These rules are only for those eligible for the MODY and T1D/T2D calculators i.e. with a current diagnosis of Type 1 or Type 2 diabetes.
+
+| Current diabetes type | Inconsistency | Proportion in this cohort and how we have dealt with them here | 
+| ---- | ---- | ---- |
+| Type 1 | Not currently on insulin | 4.3% of Type 1s (4.1% of those with Type 1 codes only; 5.2% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code (not excluded here) |
+| Type 1 | Not currently on bolus/mix insulin | 7.4% of Type 1s (6.8% of those with Type 1 codes only; 9.5% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code (not excluded here) |
+| Type 1 | Currently on DPP4i/GLP1/sulphonylurea/TZD (i.e. non-MFN/SGLT2i OHA) | 1.8% of Type 1s (1.0% of those with Type 1 codes only; 4.6% of those with codes for >1 type of diabetes but assigned Type 1 based on latest code (not excluded here) |
+| Type 2 |  Duration <= 3 years and on insulin | 0.3% of Type 2s (0.3% of those with Type 2 codes only; 0.4% of those with codes for >1 type of diabetes but assigned Type 2 based on latest code (NB: doesn't include n=9,504 (5.1% of those with current Type 2 diagnosis) where diagnosis date could not be determined as it was between -30 and +90 days (inclusive) of registration start (not excluded here) |
+| Unclassified | No diabetes type-specific codes - do they actually have diabetes? | Excluded from our analysis here, and number depends on diabetes codelist used to identify patients. In GP practice these patients' records could be examined further to ascertain if they have Type 1 or Type 2 diabetes. |
+| Type 2 | Diabetes diagnosis date in year of birth | <1% of cohort; we have ignored diabetes codes in the year of birth |
+| Type 1 or Type 2 | Diabetes diagnosis date -30 - +90 days from registration start (suggesting could be pre-registration) | ~4% of cohort; we have excluded these people |
+
+
+&nbsp; &nbsp;
+
 
 ## MODY calculator (script: 02b_dpctn_mody_calculator)
+
+### MODY calculator overview
+
+```mermaid
+graph TD;
+    A["Patients diagnosed with diabetes aged 1-35 years"] --> B["On insulin within 6 months of diagnosis?"]
+    B --> |"YES"|C["MODY vs Type 1 comparison"]
+    B --> |"NO"|D["MODY vs Type 2 comparison"]
+```
+
+As the models were developed in a case-control dataset, each model (the MODY vs Type 1 comparison and MODY vs Type 2 comparison) gives 'unadjusted' probabilities which need to be adjusted for prevalence (to account for the the fact that MODY is rare).
+
+&nbsp;
+
+### MODY calculator cohort
 
 The MODY calculator cohort consists those with current diagnosis of Type 1 (mixed or otherwise), Type 2 (mixed or otherwise), or unspecified diabetes, diagnosed aged 1-35 years inclusive:
 
@@ -104,6 +139,16 @@ In addition, we ran the MODY calculator on those with a diagnosis of MODY: n=56 
 &nbsp;
 
 ### MODY calculator variables
+
+#### Time to insulin from diagnosis (whether within 6 months or not - used to determine which model used for the MODY calculator)
+
+| Proportion within each group | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
+| --- | --- | --- | --- | --- | --- |
+| Diagnosed <18 years (assume on insulin within 6 months of diagnosis) | 55.5% | 3.4% | 35.0% | 6.5% | 26.9% |
+| Diagnosed >=18 years and currently not on insulin (assume not on insulin within 6 months of diagnosis) | 1.7% | 69.7% | 2.8% | 63.6% | 36.8% |
+| Diagnosed >=18 years and currently on insulin (test both models)| 42.7% | 26.9% | 61.3% | 29.9% | 36.3% |
+
+&nbsp;
 
 #### HbA1c
 
@@ -143,18 +188,6 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 &nbsp;
 
-Time from diagnosis to earliest insulin script for currently insulin treated patients:
-
-By diabetes type:
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_ins_by_diabetes_type.png?" width="1000">
-
-By whether diagnosed under age 18 or not:
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_time_to_insulin_by_diag_age.png?" width="1000"> 
-
-&nbsp;
-
 #### Family history of diabetes
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
@@ -180,25 +213,25 @@ By whether diagnosed under age 18 or not:
 
 &nbsp;
 
-### MODY calculator results (for those with missing family history of diabetes, this is assumed to be 0)
+### MODY calculator results
+For those with missing family history of diabetes, this is assumed to be 0. Those diagnosed >=18 years of age and currently on insulin: highest value from two branches of model chosen.
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall in MODY calculator cohort | MODY | Mixed; MODY |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mean adjusted probability | 8.1% | 15.2% | 7.2% | 18.6% | 12.2% | 66.0% | 50.5% |
-| Mean adjusted probability for those of White ethnicity | 7.9% (n=21,617) | 14.1% (n=13,932) | 6.7% (n=4,179) | 16.6% (n=4,411) | 10.6% (n=44,139) | 65.9 % (n=34) | 50.4% (n=64) |
-| Mean adjusted probability for those of non-White ethnicity | 11.1% (n=1,745) | 16.7% (n=9,657) | 11.1% (n=521) | 21.5% (n=3,186) | 16.9% (n=15,109) | 58% (n=1) | 45.4% (n=3) |
+| Mean adjusted probability (assume no insulin within 6 months if diagnosed ≥18) | 11.6% | 11.7% | 12.1% | 15.8% | 12.2% | 28.8% | 33.8% |
+| Mean adjusted probability (assume insulin within 6 months if diagnosed ≥18 and currently on insulin) | 8.3% | 14.6% | 11.1% | 18.4% | 12.3% | 28.8% | 34.2% |
+| Mean adjusted probability for those of White ethnicity (assume no insulin within 6 months if diagnosed ≥18) | 11.4% (n=21,617) | 10.3% (n=13,932) | 11.6% (n=4,179) | 14.2% (n=4,411) | 11.3% (n=44,139) | 28.6% (n=34) | 33.4% (n=64) |
+| Mean adjusted probability for those of White ethnicity (assume insulin within 6 months if diagnosed ≥18 and currently on insulin) | 8.0% (n=21617) | 13.3% (n=13932) | 10.2% (n=4179) | 16.6% (n=4411) | 10.7% (n=44,139) | 28.6% (n=34) | 33.8% (n=64) |
+| Mean adjusted probability for those of non-White ethnicity (assume no insulin within 6 months if diagnosed ≥18) | 13.9% (n=1,745) | 13.9% (n=9,657) | 16.2% (n=521) | 18.0% (n=3,186) | 14.8% (n=15,109) | 58.0% (n=1) | 34.2% (n=3) |
+| Mean adjusted probability for those of non-White ethnicity (assume insulin within 6 months if diagnosed ≥18 and currently on insulin) | 12.2% (n=1,745) | 16.7% (n=9,657) | 18.5% (n=521) | 21.0% (n=3,186) | 17.1% (n=15,109) | 58.0% (n=1) | 34.2% (n=3) |
 
 &nbsp;
 
-Distribution of unadjusted probabilities in MODY calculator cohort:
+Distribution of unadjusted probabilities in MODY calculator cohort (assuming family history is 0 and whether on insulin within 6 months of diagnosis is negative if diagnosed aged >=18 years and currently on insulin):
 
 By diabetes type:
 
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution_by_diabetes_type.png?" width="1000">
-
-By whether currently on insulin or not (i.e. which model used):
-
-<img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_mody_distribution_by_current_ins.png?" width="1000">
 
 &nbsp;
 
@@ -208,31 +241,36 @@ Distribution of unadjusted probabilities in those with a MODY diagnosis:
 
 &nbsp;
 
-#### Looking at those with highest predicted risk (>95%)
+#### Looking at those with highest predicted (unadjusted) risk (>95% or >90%)
 
-* 1,989/60,243 (3.3%) of MODY calculator cohort
-* Of the different diabetes classes, 3.4% of Type 1s, 3.2 of Type 2s, 2.5% of mixed; Type 1 and 3.9% of the mixed; Type 2s have MODY probability>95%
-* 52/104 (52%) of MODY cases reach this threshold
+95% threshold:
+* 863/60,243 (1.4%) of MODY calculator cohort have probability above threshold, assuming missing family history is negative and using highest score from two models for those diagnosed >=18 years and currently on insulin (this group constitutes 458 (53.1%) diagnosed ≥18, currently on insulin, and high in one model only: 273 high from MODY vs Type 1 model only, 185 from MODY vs Type 2 model only)
+    * 273 (32%) are not currently on any diabetes medications, so their treatment may not changed if diagnosed with MODY (although this could also be due to coding issues i.e. missing prescriptions in the data)
+* Of the different diabetes classes, 1.5% of Type 1s, 1.2% of Type 2s, 1.1% of mixed; Type 1 and 2.1% of the mixed; Type 2s have MODY probability>95%
+* 23/104 (22%) of MODY cases reach this threshold
+* In addition to the 863 with MODY probability >95%, there are an additional 1,150 people with missing family history who would reach the 95% threshold if they did have a family history of diabetes (this group constitutes 774 (67.3%) diagnosed ≥18, currently on insulin, and high in one model only: 544 high from MODY vs Type 1 model only, 230 from MODY vs Type 2 model only)
+    * 186 (16%) are not currently on any diabetes medications, so their treatment may not changed if diagnosed with MODY (although this could also be due to coding issues i.e. missing prescriptions in the data)
 
-&nbsp;
 
-High probability cohort characteristics:
-|  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
-| --- | --- | --- | --- | --- | --- |
-| Current insulin (within last 6 months) | 33.1% | 20.1% | 47.1% | 31.9% | 28.7% |
-| Missing family history of diabetes | 71.1% | 54.0% | 70.6% | 44.1% | 60.4% |
-| Median time since last Type 1/Type 2 code (days) | 556 | 360 | 230 | 374 | 414 |
-| MODY code ever | 0 (0.0%) | 0 (0.0%) | 3 (2.5%) | 16 (5.4%) | 19 (1.0%) |
-| Median age at diagnosis (years) | 16.0 | 19.5 | 20.5 | 22.3 | 19.0 |
-| Median current age (years) | 33.6 | 33.6 | 34.0 | 35.6 | 34.0 |
-
-&nbsp;
-
-In addition to the 1,989 with MODY probability>0.95, there are an additional 712 people with missing family history who would reach the 95% threshold if they did have a family history of diabetes.
-
+90% threshold:
+* 1,866/60,243 (13.1%) of MODY calculator cohort have probability above threshold, assuming missing family history is negative and using highest score from two models for those diagnosed >=18 years and currently on insulin (this group constitutes 1,008 (54.0%) diagnosed ≥18, currently on insulin, and high in one model only: 596 high from MODY vs Type 1 model only, 412 from MODY vs Type 2 model only)
+    * 475 (25%) are not currently on any diabetes medications, so their treatment may not changed if diagnosed with MODY (although this could also be due to coding issues i.e. missing prescriptions in the data) 
+* Of the different diabetes classes, 3.2% of Type 1s, 2.5% of Type 2s, 3.3% of mixed; Type 1 and 4.5% of the mixed; Type 2s have MODY probability>90%
+* 44/104 (42%) of MODY cases reach this threshold
+* In addition to the 1,866 with MODY probability >90%, there are an additional 2,276 people with missing family history who would reach the 90% threshold if they did have a family history of diabetes (this group constitutes 1,402 (61.6%) diagnosed ≥18, currently on insulin, and high in one model only: 802 high from MODY vs Type 1 model only, 600 from MODY vs Type 2 model only)
+    * 308 (14%) are not currently on any diabetes medications, so their treatment may not changed if diagnosed with MODY (although this could also be due to coding issues i.e. missing prescriptions in the data) 
+  
 &nbsp;
 
 ## T1D/T2D calculator (script: 03b_dpctn_t1dt2d_calculator)
+
+### T1D/T2D calculator overview
+
+The main (clinical features) model uses age at diagnosis and current BMI to estimate the probability of Type 1 diabetes. GAD and IA2 antibodies, and Type 1 genetic risk score (T1D-GRS) can additionally be incorporated if available (T1D-GRS was not available in this cohort from CPRD, and fewer than 1% had either antibody tested). A more complicated lipid probability model 
+
+&nbsp;
+
+### T1D/T2D calculator cohort
 
 The T1D/T2D calculator cohort consists those with current diagnosis of Type 1 (mixed or otherwise), Type 2 (mixed or otherwise), or unspecified diabetes, diagnosed aged 18-50 years inclusive:
 
@@ -293,7 +331,7 @@ Distribution of time between **triglyceride** and current (index) date (01/02/20
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
 | Mean clinical prediction model probability | 51.0% (n=14486) | 10.6% (n=161010) | 37.3% (n=5474) | 23.1% (n=13434) | 15.2% (n=194404) 
-| Mean clinical prediction model probability for those of White ethnicity |51.0% (n=13064) | 8.1% (n=102775) | 37.3% (n=4731) | 20.9% (n=7875) | 14.3% (n=128445) 
+| Mean clinical prediction model probability for those of White ethnicity | 51.0% (n=13064) | 8.1% (n=102775) | 37.3% (n=4731) | 20.9% (n=7875) | 14.3% (n=128445) 
 | Mean clinical prediction model probability for those of non-White ethnicity | 51.2% (n=1129) | 15.3% (n=54633) | 38.0% (n=658) | 26.4% (n=5438) | 17.2% (n=61858) 
 | Mean lipid prediction model probability | 19.1% (n=13033) | 1.5% (n=147496) | 11.9% (n=5179) | 4.3% (n=12638) | 3.3% (n=178346) 
 | Mean lipid prediction model probability for those of White ethnicity | 19.2% (n=11760) | 1.1% (n=93715) | 12.2% (n=4467) | 4.2% (n=7337) | 3.5% (n=117279) 
@@ -322,19 +360,24 @@ Distribution of probabilities:
 
 &nbsp;
 
-Characteristics of those scoring >90% and <10% (Type 1 = those with only Type 1 specific codes; Type 2 = those with only Type 2 specific codes):
+Characteristics of those scoring >90% and <10% compared to whole cohort (Type 1 includes those with only Type 1 codes and mixed coding, same for Type 2):
 
-| | Concordant Type 1 (probability >90%) | Discordant Type 2 (probability >90%) | Concordant Type 2 (probability <10%) | Discordant Type 1 (probability <10%) |
-| --- | --- | --- | --- | --- |
-| N | 1867 (86.6% of those with probability >90%) | 290 (13.4% of those with probability >90%) | 111342 (98.4% of those with probability <10%) | 1763 (1.6% of those with probability <10%) |
-| Median (IQR) age at diagnosis (years) | 20.5 (3.5) | 21.6 (5.4) | 45.1 (6.5) | 41.5 (9.1) |
-| Median (IQR) BMI (kg/m2) | 21.9 (3.5) | 21.2 (4.1) | 33.7 (8.2) | 32.6 (7.0) |
-| Currently on insulin (last 6 months) | 1757 (94.1%) | 83 (28.6%) | 22212 (19.9%) | 1695 (96.1%) |
-| Currently on bolus/mix insulin (last 6 months) | 1688 (90.4%) | 56 (19.3%) | 15282 (13.7%) | 1636 (92.8%) |
-| Median (IQR) highest HbA1c ever (mmol/mol) | 88.0 (41.0) | 82.9 (46.0) | 84.0 (39.0) | 92.2 (31.0) |
-| No HbA1c ever | 16 (0.9%) | 0 (0.0%) | 123 (0.1%) | 5 (0.3%) |
-| On insulin within 6 months of diagnosis (in those where this is not missing) | 738 (74.8%) | 16 (6.3%) | 1841 (1.7%) | 859 (71.3%) |
-| Hospitalisation with hypoglycaemia as the primary cause ever (in those with linked inpatient hospital records) | 181 (9.8%) | 4 (1.4%) | 897 (0.8%) | 105 (6.0%) | 
+| | Type 1 overall | Type 2 overall | Concordant Type 2 (probability <10%) | Discordant Type 1 (probability <10%) | Concordant Type 1 (probability >90%) | Discordant Type 2 (probability >90%) | 
+| --- | --- | --- | --- | --- | --- | --- |
+| N | 19960 (10.3% of cohort) | 174444 (89.7% of cohort) | 116737 (97.5% of those with score <10%) | 3041 (2.5% of those with score <10%) | 2193 (82.4% of those with score >90%) | 469 (17.6% of those with score >90%) |
+| Median (IQR) age at diagnosis (years) | 29.5 (13.9) | 43.0 (9.4) | 44.9 (6.9) | 41.9 (8.8) | 20.5 (3.4) | 21.5 (5.0) |
+| Median (IQR) BMI at diagnosis kg/m2 | 26.7 (6.5) | 31.2 (8.8) | 33.8 (8.2) | 32.5 (7.0) | 21.9 (3.6) | 21.2 (4.1) |
+| Current insulin (last 6 months) | 19072 (95.6%) | 38406 (22.0%) | 24264 (20.8%) | 2870 (94.4%) | 2064 (94.1%) | 175 (37.3%) |
+| Current bolus or mixed insulin (last 6 months) | 18356 (92.0%) | 27073 (15.5%) | 16915 (14.5%) | 2739 (90.1%) | 1982 (90.4%) | 136 (29.0%) |
+| Insulin prescribed before OHA | 16238 (81.4%) | 8971 (5.1%) | 3983 (3.4%) | 1910 (62.8%) | 2084 (95.0%) | 136 (29.0%) |
+| Current DPP4i/GLP1/SU/TZD treatment (last 6 months) | 489 (2.4%) | 77465 (44.4%) | 52275 (44.8%) | 219 (7.2%) | 11 (0.5%) | 165 (35.2%) |
+| Codes for mutiple types of diabetes | 5474 (27.4%) | 13434 (7.7%) | 5395 (4.6%) | 1278 (42.0%) | 326 (14.9%) | 179 (38.2%) |
+| Median (IQR) Type 1 code count | 10.0 (17.0) | 0.0 (0.0) | 0.0 (0.0) | 9.0 (18.0) | 9.0 (16.0) | 0.0 (0.0) |
+| Median (IQR) Type 2 code count | 0.0 (1.0) | 9.0 (17.0) | 9.0 (17.0) | 0.0 (2.0) | 0.0 (0.0) | 7.0 (14.0) |
+| Median (IQR) time since last code confirming diabetes type (days) | 260.0 (622.0) | 246.0 (574.0) | 242.0 (564.0) | 247.0 (602.0) | 278.0 (659.0) | 302.0 (697.0) |
+| Median (IQR) time from diagnosis date to date of entry (days) | 4.0 (3510.0) | 0.0 (460.0) | 0.0 (106.0) | 0.0 (1767.0) | 10.0 (4017.0) | 100.5 (3926.5) |
+| Median (IQR) highest HbA1c ever (mmol/mol) | 89.0 (32.1) | 84.8 (38.6) | 84.0 (39.0) | 94.3 (31.8) | 89.1 (41.1) | 83.0 (43.7) |
+| History of hypos in HES | 1543 (7.8%) | 1817 (1.1%) | 983 (0.9%) | 166 (5.5%) | 227 (10.5%) | 22 (4.7%) |
 
 &nbsp;
 
