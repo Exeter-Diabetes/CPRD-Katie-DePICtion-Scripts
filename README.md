@@ -104,6 +104,21 @@ If implemented in GP practices, these rules could help identify clear miscoding 
 
 ## MODY calculator (script: 02b_dpctn_mody_calculator)
 
+### MODY calculator overview
+
+```mermaid
+graph TD;
+    A["Patients diagnosed with diabetes aged 1-35 years"] --> B["On insulin within 6 months of diagnosis?"]
+    B --> |"YES"|C["MODY vs Type 1 comparison"]
+    B --> |"NO"|D["MODY vs Type 2 comparison"]
+```
+
+As the models were developed in a case-control dataset, each model (the MODY vs Type 1 comparison and MODY vs Type 2 comparison) gives 'unadjusted' probabilities which need to be adjusted for prevalence (to account for the the fact that MODY is rare).
+
+&nbsp;
+
+### MODY calculator cohort
+
 The MODY calculator cohort consists those with current diagnosis of Type 1 (mixed or otherwise), Type 2 (mixed or otherwise), or unspecified diabetes, diagnosed aged 1-35 years inclusive:
 
 ```mermaid
@@ -123,7 +138,7 @@ In addition, we ran the MODY calculator on those with a diagnosis of MODY: n=56 
 
 &nbsp;
 
-### Mody calculator variables
+### MODY calculator variables
 
 #### Time to insulin from diagnosis (whether within 6 months or not - used to determine which model used for the MODY calculator)
 
