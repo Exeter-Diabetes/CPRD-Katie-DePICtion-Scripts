@@ -86,7 +86,7 @@ Patients with a diabetes-related medcode ([full list here](https://github.com/Ex
 
 ## Patients with coding inconsistencies
 
-If implemented in GP practices, these rules could help identify clear miscoding / misclassification before running the MODY and T1DT2D calculators, to ensure that patients flagged by the calculators are those most likely to be misdiagnosed, as opposed to those who just have coding errors in their data. These rules are only for those eligible for the MODY and T1DT2D calculators i.e. with a current diagnosis of Type 1 or Type 2 diabetes.
+If implemented in GP practices, these rules could help identify clear miscoding / misclassification before running the MODY and T1D/T2D calculators, to ensure that patients flagged by the calculators are those most likely to be misdiagnosed, as opposed to those who just have coding errors in their data. These rules are only for those eligible for the MODY and T1D/T2D calculators i.e. with a current diagnosis of Type 1 or Type 2 diabetes.
 
 | Current diabetes type | Inconsistency | Proportion in this cohort and how we have dealt with them here | 
 | ---- | ---- | ---- |
@@ -263,6 +263,14 @@ Distribution of unadjusted probabilities in those with a MODY diagnosis:
 &nbsp;
 
 ## T1D/T2D calculator (script: 03b_dpctn_t1dt2d_calculator)
+
+### T1D/T2D calculator overview
+
+The main (clinical features) model uses age at diagnosis and current BMI to estimate the probability of Type 1 diabetes. GAD and IA2 antibodies, and Type 1 genetic risk score (T1D-GRS) can additionally be incorporated if available (T1D-GRS was not available in this cohort from CPRD, and fewer than 1% had either antibody tested). A more complicated lipid probability model 
+
+&nbsp;
+
+### T1D/T2D calculator cohort
 
 The T1D/T2D calculator cohort consists those with current diagnosis of Type 1 (mixed or otherwise), Type 2 (mixed or otherwise), or unspecified diabetes, diagnosed aged 18-50 years inclusive:
 
