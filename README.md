@@ -266,7 +266,7 @@ Distribution of unadjusted probabilities in those with a MODY diagnosis:
 
 ### T1D/T2D calculator overview
 
-The main (clinical features) model uses age at diagnosis and current BMI to estimate the probability of Type 1 diabetes. GAD and IA2 antibodies, and Type 1 genetic risk score (T1D-GRS) can additionally be incorporated if available (T1D-GRS was not available in this cohort from CPRD, and fewer than 1% had either antibody tested). A more complicated lipid probability model 
+The main (clinical features) model uses age at diagnosis and current BMI to estimate the probability of Type 1 diabetes. GAD and IA2 antibodies, and Type 1 genetic risk score (T1D-GRS) can additionally be incorporated if available (T1D-GRS was not available in this cohort from CPRD, and fewer than 1% had either antibody tested). A more complicated lipid probability model which uses age, BMI, sex, total cholesterol, triglycerides and HDL-cholesterol is also available.
 
 &nbsp;
 
