@@ -360,6 +360,24 @@ Distribution of probabilities:
 
 &nbsp;
 
+#### Looking at those with highest (>95% or >90%) and lowest (<5% or <10%) predicted T1D risk  on clinical prediction model
+
+95%/5% thresholds:
+* 84,991/194,404 have probability <5%
+    * Includes 1,483 (1.7%) with current Type 1 diagnosis (7.4% of the Type 1 group)
+    * This includes 812 with Type 1 codes only (5.6% of this group) and 671 of mixed; Type 1 (12.3% of this group)
+    * Of 1,483 Type 1s, 35 (2.4%) are not currently on any meds, and 88 (5.9%) are not currently on insulin from records
+* 1,052/194,404 have probability >95%
+    * Includes 160 (15.2%) with current Type 2 diagnosis (0.1% of the Type 2 group)
+    * This includes 88 with Type 2 codes only (0.1% of this group) and 72 of mixed; Type 2 (0.5% of this group)
+    * Of 160 Type 2s, 37 (23.1%) are not currently on any meds, and 101 (63.1%) are not currently on insulin from records
+
+
+  
+
+
+&nbsp;
+
 Characteristics of those scoring >90% and <10% compared to whole cohort (Type 1 includes those with only Type 1 codes and mixed coding, same for Type 2):
 
 | | Type 1 overall | Type 2 overall | Concordant Type 2 (probability <10%) | Discordant Type 1 (probability <10%) | Concordant Type 1 (probability >90%) | Discordant Type 2 (probability >90%) | 
@@ -378,6 +396,7 @@ Characteristics of those scoring >90% and <10% compared to whole cohort (Type 1 
 | Median (IQR) time from diagnosis date to date of entry (days) | 4.0 (3510.0) | 0.0 (460.0) | 0.0 (106.0) | 0.0 (1767.0) | 10.0 (4017.0) | 100.5 (3926.5) |
 | Median (IQR) highest HbA1c ever (mmol/mol) | 89.0 (32.1) | 84.8 (38.6) | 84.0 (39.0) | 94.3 (31.8) | 89.1 (41.1) | 83.0 (43.7) |
 | History of hypos in HES | 1543 (7.8%) | 1817 (1.1%) | 983 (0.9%) | 166 (5.5%) | 227 (10.5%) | 22 (4.7%) |
+| Duration of diabetes <3 years and currently on insulin | 959 (4.8%) | 559 (0.3%) | 325 (0.3%) | 141 (4.6%) | 143 (6.5%) | 4 (0.9%) |
 
 &nbsp;
 
