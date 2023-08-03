@@ -373,8 +373,15 @@ Distribution of probabilities:
     * Of 160 Type 2s, 37 (23.1%) are not currently on any meds, and 101 (63.1%) are not currently on insulin from records
 
 
-  
-
+90%/10% thresholds:
+* 119,778/194,404 have probability <10%
+    * Includes 3,041 (2.5%) with current Type 1 diagnosis (15.2% of the Type 1 group)
+    * This includes 1,763 with Type 1 codes only (12.2% of this group) and 1,278 of mixed; Type 1 (23.3% of this group)
+    * Of 3,041 Type 1s, 79 (2.6%) are not currently on any meds, and 171 (5.6%) are not currently on insulin from records
+* 2,662/194,404 have probability >90%
+    * Includes 469 (17.6%) with current Type 2 diagnosis (0.3% of the Type 2 group)
+    * This includes 290 with Type 2 codes only (0.2% of this group) and 179 of mixed; Type 2 (1.3% of this group)
+    * Of 469 Type 2s, 96 (20.5%) are not currently on any meds, and 294 (62.7%) are not currently on insulin from records
 
 &nbsp;
 
