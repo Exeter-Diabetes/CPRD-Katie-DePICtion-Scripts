@@ -123,17 +123,17 @@ The MODY calculator cohort consists those with current diagnosis of Type 1 (mixe
 
 ```mermaid
 graph TD;
-    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>276,623"] --> |"Diagnosed aged 1-35 years (inclusive)"| B["n=87,708"]
-    B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=12,544 (14.3%)"]
-    B --> |"Assigned diabetes type based on codes"| D["n=75,164 (85.7%)"]
-    D --> |"Assigned Type 1 or Type 2"| E["n=64,919 (86.4%)<br>30,692 Type 1 and 34,227 Type 2"]
-    E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=2,874 (4.4%)<br>1,140 Type 1 and 1,734 Type 2"]
-    E --> G["n=62,045 (95.6%)<br>29,552 Type 1 and 32,493 Type 2"]
-    G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,802 (2.9%)<br>1,032 Type 1 and 770 Type 2"]
-    G --> I["<b>MODY calculator cohort</b>: n=60,243 (97.1%)<br>28,520 Type 1 and 31,723 Type 2"]
+    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>276,623"] --> |"Diagnosed aged 1-35 years (inclusive)"| B["n=94,873"]
+    B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=13,410 (14.1%)"]
+    B --> |"Assigned diabetes type based on codes"| D["n=81,463 (85.9%)"]
+    D --> |"Assigned Type 1 or Type 2"| E["n=70,258 (86.2%)<br>31,288 Type 1 and 38,970 Type 2"]
+    E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=3,174 (4.5%)<br>1,183 Type 1 and 1,991 Type 2"]
+    E --> G["n=67,084 (95.5%)<br>30,105 Type 1 and 36,979 Type 2"]
+    G --> |"Missing HbA1c or BMI<br>before diagnosis"|H["n=1,912 (2.9%)<br>1,043 Type 1 and 869 Type 2"]
+    G --> I["<b>MODY calculator cohort</b>: n=65,172 (97.1%)<br>29,062 Type 1 and 36,110 Type 2"]
 ```
 
-In addition, we ran the MODY calculator on those with a diagnosis of MODY: n=56 with MODY codes only + n=85 with a mix of Type-specific codes who were classified as MODY based on their latest code.
+In addition, we ran the MODY calculator on those with a diagnosis of MODY diagnosed aged 1-35: n=36 with MODY codes only + n=69 with a mix of Type-specific codes who were classified as MODY based on their latest code.
 
 
 &nbsp;
@@ -144,9 +144,9 @@ In addition, we ran the MODY calculator on those with a diagnosis of MODY: n=56 
 
 | Proportion within each group | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Diagnosed <18 years (assume on insulin within 6 months of diagnosis) | 55.5% | 3.4% | 35.0% | 6.5% | 26.9% |
-| Diagnosed >=18 years and currently not on insulin (assume not on insulin within 6 months of diagnosis) | 1.7% | 69.7% | 2.8% | 63.6% | 36.8% |
-| Diagnosed >=18 years and currently on insulin (test both models)| 42.7% | 26.9% | 61.3% | 29.9% | 36.3% |
+| Diagnosed <18 years (assume on insulin within 6 months of diagnosis) | 54.7% | 2.9% | 34.6% | 6.0% | 24.9% |
+| Diagnosed >=18 years and currently not on insulin (assume not on insulin within 6 months of diagnosis) | 1.8% | 70.4% | 2.9% | 64.2% | 39.1% |
+| Diagnosed >=18 years and currently on insulin (test both models)| 43.5% | 26.7% | 62.5% | 29.8% | 36.0% |
 
 &nbsp;
 
@@ -158,10 +158,10 @@ Distribution of time between HbA1c and current (index) date (01/02/2020):
 
 | Proportion with HbA1c within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| 6 months | 54.2% | 60.6% | 61.4% | 63.4% | 58.5% |
-| 1 year | 80.1% | 84.5% | 85.7% | 87.5% | 83.2% |
-| 2 years | 94.1% | 95.1% | 96.5% | 96.5% | 95.0% |
-| 5 years | 99.1% | 99.1% | 99.7% | 99.6% | 99.2% |
+| 6 months | 54.2% | 60.9% | 61.5% | 63.2% | 58.7% |
+| 1 year | 80.1% | 84.9% | 86.0% | 87.5% | 83.6% |
+| 2 years | 94.1% | 95.3% | 96.5% | 96.6% | 95.1% |
+| 5 years | 99.1% | 99.2% | 99.7% | 99.6% | 99.2% |
 
 &nbsp;
 
@@ -173,10 +173,10 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 | Proportion with BMI within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| 6 months | 42.7% | 48.9% | 47.8% | 51.2% | 46.7% |
-| 1 year | 67.6% | 75.1% | 73.9% | 76.8% | 72.3% |
-| 2 years | 85.2% | 90.1% | 89.5% | 91.7% | 88.3% |
-| 5 years | 96.8% | 98.1% | 98.1% | 98.5% | 97.7% |
+| 6 months | 42.7% | 49.1% | 47.9% | 50.9% | 46.9% |
+| 1 year | 67.7% | 75.3% | 73.9% | 76.8% | 72.6% |
+| 2 years | 85.2% | 90.3% | 89.5% | 91.8% | 88.6% |
+| 5 years | 96.8% | 98.2% | 98.1% | 98.6% | 97.7% |
 
 &nbsp;
 
@@ -184,7 +184,7 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Current insulin (within last 6 months) | 96.3% | 28.0% | 96.1% | 35.0% | 61.2% |
+| Current insulin (within last 6 months) | 96.3% | 27.6% | 96.0% | 34.5% | 59.1% |
 
 &nbsp;
 
@@ -192,8 +192,8 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Family history of diabetes = 1 of non-missing | 74.2% | 86.2% | 74.6% | 83.5% | 81.5% |
-| Missing family history of diabetes | 67.7% | 47.7% | 61.5% | 45.4% | 56.4% |
+| Family history of diabetes = 1 of non-missing | 74.2% | 85.9% | 74.3% | 83.3% | 81.5% |
+| Missing family history of diabetes | 67.7% | 47.7% | 61.4% | 45.4% | 55.9% |
 
 &nbsp;
 
@@ -201,7 +201,7 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Median time since last Type 1/Type 2 code (days) | 310 | 263 | 193 | 257 | 274 |
+| Median time since last Type 1/Type 2 code (days) | 310 | 262 | 193 | 257 | 269 |
 
 &nbsp;
 
@@ -218,8 +218,8 @@ For those with missing family history of diabetes, this is assumed to be 0. Thos
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall in MODY calculator cohort | MODY | Mixed; MODY |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mean adjusted probability (assume no insulin within 6 months if diagnosed ≥18) | 11.6% | 11.7% | 12.1% | 15.8% | 12.2% | 28.8% | 33.8% |
-| Mean adjusted probability (assume insulin within 6 months if diagnosed ≥18 and currently on insulin) | 8.3% | 14.6% | 11.1% | 18.4% | 12.3% | 28.8% | 34.2% |
+| Mean adjusted probability (assume no insulin within 6 months if diagnosed ≥18) | 11.5% | 10.9% | 11.8% | 15.1% | 11.7% | 28.8% | 33.5% |
+| Mean adjusted probability (assume insulin within 6 months if diagnosed ≥18 and currently on insulin) | 8.4% | 13.9% | 11.2% | 17.8% | 12.2% | 28.8% | 33.9% |
 | Mean adjusted probability for those of White ethnicity (assume no insulin within 6 months if diagnosed ≥18) | 11.4% (n=21,617) | 10.3% (n=13,932) | 11.6% (n=4,179) | 14.2% (n=4,411) | 11.3% (n=44,139) | 28.6% (n=34) | 33.4% (n=64) |
 | Mean adjusted probability for those of White ethnicity (assume insulin within 6 months if diagnosed ≥18 and currently on insulin) | 8.0% (n=21617) | 13.3% (n=13932) | 10.2% (n=4179) | 16.6% (n=4411) | 10.7% (n=44,139) | 28.6% (n=34) | 33.8% (n=64) |
 | Mean adjusted probability for those of non-White ethnicity (assume no insulin within 6 months if diagnosed ≥18) | 13.9% (n=1,745) | 13.9% (n=9,657) | 16.2% (n=521) | 18.0% (n=3,186) | 14.8% (n=15,109) | 58.0% (n=1) | 34.2% (n=3) |
