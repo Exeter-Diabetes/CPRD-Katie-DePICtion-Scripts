@@ -471,6 +471,5 @@ These rules have been implemented in our code.
         * Autoimmune tests e.g. thyroid function, TTG (coeliac) - Lancet paper
         * Type changing over time
         * Referral to endo?
-        * Insulin type
 * Later: outcomes affected by misclassification including infection
 * Checking small % with remission codes - compare to 2x papers and possibly UKBB
