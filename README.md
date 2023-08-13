@@ -50,26 +50,26 @@ graph TD;
 
 ```mermaid
 graph TD;
-    G["<b>Final DePICtion cohort:</b> n=294,019"] --> |"Unspecific codes<br>only"| H["Unspecified: <br>n=34,621<br>(12.5%)<br>(2,711 have<br>PRIMIS code)"]
-    G --> |"T1D codes*"| I["Type 1: <br>n=30,338<br>(11.0%)"]
-    G --> |"T2D codes*"| J["Type 2: <br>n=173,277<br>(62.6%)"]
-    G --> |"Gestational codes*"| K["Gestational <br>only: <br>n=15,033<br>(5.4%)"]
+    G["<b>Final DePICtion cohort:</b> n=294,019"] --> |"Unspecific codes<br>only"| H["Unspecified: <br>n=36,621<br>(12.5%)<br>(2,890 have<br>PRIMIS code)"]
+    G --> |"T1D codes*"| I["Type 1: <br>n=30,476<br>(10.4%)"]
+    G --> |"T2D codes*"| J["Type 2: <br>n=188,103<br>(64.0)"]
+    G --> |"Gestational codes*"| K["Gestational <br>only: <br>n=15,039<br>(5.1%)"]
     G --> |"MODY codes*"| L["MODY: <br>n=56<br>(0.0%)"]
     G --> |"Non-MODY <br>genetic/<br>syndromic <br>codes*"| M["Non-MODY <br>genetic/<br>syndromic: <br>n=101<br>(0.0%)"]
-    G --> |"Secondary codes*"| N["Secondary: <br>n=186<br>(0.1%)"]
+    G --> |"Secondary codes*"| N["Secondary: <br>n=192<br>(0.1%)"]
     G --> |"Other specified<br>type codes*"| P["Other specified<br>type: <br>n=1<br>(0.0%)"]  
-    G --> |"Mix of diabetes<br>type codes"| Q["Mix of<br>diabetes types: <br>n=23,010<br>(8.3%)"]
-    Q --> |"Type 1 based<br>on latest code"| R["Mixed; Type 1: <br>n=7,627<br>(2.8%)<br>34 have MODY<br>code ever"]
-    Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=14,726<br>(5.3%)<br>107 have MODY<br>code ever"]
+    G --> |"Mix of diabetes<br>type codes"| Q["Mix of<br>diabetes types: <br>n=23,429<br>(8.0%)"]
+    Q --> |"Type 1 based<br>on latest code"| R["Mixed; Type 1: <br>n=7,749<br>(2.6%)<br>35 have MODY<br>code ever"]
+    Q --> |"Type 2 based<br>on latest code"| S["Mixed; Type 2: <br>n=15,003<br>(5.1%)<br>107 have MODY<br>code ever"]
     Q --> |"MODY based<br>on latest code"| T["Mixed; MODY: <br>n=85<br>(0.0%)"]
-    Q --> |"Other based<br>on latest code"| U["Mixed; other<br>n=572<br>(0.2%)"]
+    Q --> |"Other based<br>on latest code"| U["Mixed; other<br>n=592<br>(0.2%)"]
     U --> |"Has a MODY<br>code ever"|V["n=16<br>(0.0%)"]
 ```
 \* Could also have diabetes codes of unspecified type
 
 &nbsp;
 
-NB: only those with a current diagnosis of Type 1 or Type 2 diabetes are eligible for the MODY and T1DT2D calculator; in our cohort this was a total of n=37,965 (16.8%) Type 1 and n=188,003 (83.2%) Type 2 as we were unable to ascertain whether any of the 'unspecified' group had Type 1 or Type 2. Of the final Type 1/Type 2 cohort, 3.7% were non-English speaking, and a further 10.8% had a first language which was not English.
+NB: only those with a current diagnosis of Type 1 or Type 2 diabetes are eligible for the MODY and T1DT2D calculator; in our cohort this was a total of n=37,965 (16.8%) Type 1 and n=188,003 (83.2%) Type 2 as we were unable to ascertain whether any of the 'unspecified' group had Type 1 or Type 2. Of the final Type 1/Type 2 cohort, 3.7% were non-English speaking, and a further 10.6% had a first language which was not English.
 
 &nbsp;
 
