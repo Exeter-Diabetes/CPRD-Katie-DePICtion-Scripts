@@ -38,7 +38,7 @@ graph TD;
     B -->|"Patients with a diabetes-specific code** with >=1 year data prior and after"|C["n=1,314,373"]
     C -->|"Patients registered on 01/02/2020 (all have diabetes code and therefore diabetes diagnosis <br> before this date due to the requirement to have 1 year of data after)"|D["n=779,498"]
     D -->|"Patients who are aged>=18 years at the index date (01/02/2020)"|E["<b>Data quality exploration cohort:</b> n=769,493"]
-    E -->|"Patients diagnosed aged <=50 years"|F["<b>Final DePICtion cohort:</b> n=294,019"]
+    E -->|"Patients diagnosed aged <51 years"|F["<b>Final DePICtion cohort:</b> n=294,019"]
 ```
 \* Extract actually contained n=1,481,294 unique patients (1,481,884 in total but some duplicates) but included n=309 with registration start dates in 2020 (which did not fulfil the extract criteria of having a diabetes-related medcode between 01/01/2004-06/11/2020 and >=1 year of data after this; some of these were also not 'acceptable' by [CPRD's definition](https://cprd.com/sites/default/files/2023-02/CPRD%20Aurum%20Glossary%20Terms%20v2.pdf)). NB: removing those with registration start date in 2020 also removed all of those with a 'patienttypeid' not equal to 3 ('regular'). See next section for further details on the extract.
 
@@ -122,7 +122,7 @@ The MODY calculator cohort consists those with current diagnosis of Type 1 (mixe
 
 ```mermaid
 graph TD;
-    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>276,623"] --> |"Diagnosed aged 1-35 years (inclusive)"| B["n=94,873"]
+    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <51 years):<br>276,623"] --> |"Diagnosed aged 1-35 years (inclusive)"| B["n=94,873"]
     B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=13,410 (14.1%)"]
     B --> |"Assigned diabetes type based on codes"| D["n=81,463 (85.9%)"]
     D --> |"Assigned Type 1 or Type 2"| E["n=70,258 (86.2%)<br>31,288 Type 1 and 38,970 Type 2"]
@@ -275,15 +275,15 @@ The T1D/T2D calculator cohort consists those with current diagnosis of Type 1 (m
 
 ```mermaid
 graph TD;
-    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <=50 years):<br>n=276,623"] --> |"Diagnosed aged 18-50 years (inclusive)"| B["n=256,690"]
-    B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=32,705 (12.7%)"]
-    B --> |"Assigned diabetes type based on codes"| D["n=223,985 (87.3%)"]
-    D --> |"Assigned Type 1 or Type 2"| E["n=208,236 (93.0%)<br>21,747 Type 1 and 186,489 Type 2"]
-    E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=10,952 (5.3%)<br>1,479 Type 1 and 9,473 Type 2"]
-    E --> G["n=197,284 (94.7%)<br>20,268 Type 1 and 177,016 Type 2"]
-    G --> |"Missing BMI<br>before diagnosis"|H["n=2,880 (1.5%)<br>308 Type 1 and 2,572 Type 2"]
-    G --> I["<b>T1D/T2D calculator cohort</b>: n=194,404 (98.5%)<br>19,960 Type 1 and 174,444 Type 2 (10.3% vs 89.7%)"]
-    I --> |"With cholesterol, HDL and triglyceride measurements"|J["<b>T1D/T2D lipid calculator cohort</b>: n=178,346 (91.7%)<br>18,212 Type 1 and 160,134 Type 2 (10.2% vs 89.8%)"]
+    A["<b>Final DePICtion cohort</b> (with diabetes codes, <br>aged >=18 years, diagnosed aged <51 years):<br>n=294,019"] --> |"Diagnosed aged 18-50 years (inclusive)"| B["n=274,086"]
+    B --> |"Unspecified diabetes type codes only<br>suggesting no diabetes"| C["n=34,705 (12.7%)"]
+    B --> |"Assigned diabetes type based on codes"| D["n=239,381 (87.3%)"]
+    D --> |"Assigned Type 1 or Type 2"| E["n=223,599 (93.4%)<br>22,007 Type 1 and 201,592 Type 2"]
+    E --> |"Without valid diagnosis date<br>(between -30 and +90 days of registration start)"| F["n=11,617 (5.2%)<br>1,496 Type 1 and 10,121 Type 2"]
+    E --> G["n=211,982 (94.8%)<br>20,511 Type 1 and 191,471 Type 2"]
+    G --> |"Missing BMI<br>before diagnosis"|H["n=3,100 (1.5%)<br>148 Type 1 and 2,786 Type 2"]
+    G --> I["<b>T1D/T2D calculator cohort</b>: n=208,882 (98.5%)<br>20,197 Type 1 and 174,980 Type 2 (9.7% vs 90.3%)"]
+    I --> |"With cholesterol, HDL and triglyceride measurements"|J["<b>T1D/T2D lipid calculator cohort</b>: n=191,547 (91.7%)<br>18,432 Type 1 and 173,115 Type 2 (9.6% vs 90.4%)"]
 ```
 
 &nbsp;
@@ -298,9 +298,9 @@ Distribution of time between BMI and current (index) date (01/02/2020):
 
 | Proportion with BMI within time period | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| 6 months | 44.0% | 50.8% | 48.7% | 52.0% | 50.3% |
-| 1 year | 69.7% | 78.2% | 75.4% | 78.4% | 77.5% |
-| 2 years | 86.4% | 92.0% | 90.2% | 92.3% | 91.6% |
+| 6 months | 44.0% | 51.0% | 48.8% | 52.0% | 50.5% |
+| 1 year | 69.8% | 78.4% | 75.5% | 78.5% | 77.7% |
+| 2 years | 86.5% | 92.1% | 90.3% | 92.3% | 91.7% |
 | 5 years | 97.0% | 98.6% | 98.2% | 98.7% | 98.5% |
 
 &nbsp;
@@ -329,13 +329,13 @@ Distribution of time between **triglyceride** and current (index) date (01/02/20
 
 |  | Type 1 | Type 2 | Mixed; Type 1 | Mixed; Type 2 | Overall |
 | --- | --- | --- | --- | --- | --- |
-| Mean clinical prediction model probability | 51.0% (n=14486) | 10.6% (n=161010) | 37.3% (n=5474) | 23.1% (n=13434) | 15.2% (n=194404) 
-| Mean clinical prediction model probability for those of White ethnicity | 51.0% (n=13064) | 8.1% (n=102775) | 37.3% (n=4731) | 20.9% (n=7875) | 14.3% (n=128445) 
-| Mean clinical prediction model probability for those of non-White ethnicity | 51.2% (n=1129) | 15.3% (n=54633) | 38.0% (n=658) | 26.4% (n=5438) | 17.2% (n=61858) 
-| Mean lipid prediction model probability | 19.1% (n=13033) | 1.5% (n=147496) | 11.9% (n=5179) | 4.3% (n=12638) | 3.3% (n=178346) 
-| Mean lipid prediction model probability for those of White ethnicity | 19.2% (n=11760) | 1.1% (n=93715) | 12.2% (n=4467) | 4.2% (n=7337) | 3.5% (n=117279) 
-| Mean lipid prediction model probability for those of non-White ethnicity | 18.3% (n=1025) | 2.4% (n=50682) | 10.6% (n=635) | 4.4% (n=5186) | 2.9% (n=57528) 
-| Missing lipid prediction model probability | 0.7% | 7.0% | 0.2% | 0.4% | 8.3% |
+| Mean clinical prediction model probability | 50.6% (n=14611) | 10.0% (n=174980) | 36.7% (n=5586) | 22.8% (n=13705) | 14.4% (n=208882) |
+| Mean clinical prediction model probability for those of White ethnicity | 50.6% (n=13179) | 7.6% (n=112914) | 36.7% (n=4829) | 20.5% (n=8083) | 13.5% (n=139005) |
+| Mean clinical prediction model probability for those of non-White ethnicity | 50.9% (n=1138) | 14.7% (n=58139) | 37.4% (n=670) | 26.2% (n=5499) | 16.5% (n=65446) |
+| Mean lipid prediction model probability | 48.2% (n=13147) | 5.5% (n=160216) | 33.9% (n=5285) | 15.5% (n=12899) | 9.9% (n=191547) |
+| Mean lipid prediction model probability for those of White ethnicity | 48.5% (n=11864) | 4.0% (n=102924) | 34.4% (n=4559) | 14.4% (n=7536) | 9.9% (n=126883) |
+| Mean lipid prediction model probability for those of non-White ethnicity | 45.4% (n=1034) | 8.3% (n=53906) | 30.7% (n=647) | 17.0% (n=5246) | 9.9% (n=60833) |
+| Missing lipid prediction model probability | 0.7% | 7.1% | 0.1% | 0.4% | 8.3% |
 
 &nbsp;
 
@@ -344,40 +344,25 @@ Distribution of time between **triglyceride** and current (index) date (01/02/20
 Distribution of probabilities:
 <img src="https://github.com/Exeter-Diabetes/CPRD-Katie-DePICtion-Scripts/blob/main/Images/final_t1dt2d_clinical_histogram.png?" width="1000">
 
-| Clinical prediction model probability | Proportion on insulin within 6 months of diagnosis |
-| --- | --- | 
-| 0-10% | 32.8% |
-| >10-20% | 16.0% |
-| >20-30% | 9.8% |
-| >30-40% | 7.5% |
-| >40-50% | 5.6% |
-| >50-60% | 5.5% |
-| >60-70% | 4.9% |
-| >70-80% | 5.3% |
-| >80-90% | 5.7% |
-| >90% | 6.8% |
-
-&nbsp;
-
 #### Looking at those with highest (>95% or >90%) and lowest (<5% or <10%) predicted T1D risk  on clinical prediction model
 
 95%/5% thresholds:
-* 84,991/194,404 have probability <5%
-    * Includes 1,483 (1.7%) with current Type 1 diagnosis (7.4% of the Type 1 group)
-    * This includes 812 with Type 1 codes only (5.6% of this group) and 671 of mixed; Type 1 (12.3% of this group)
-    * Of 1,483 Type 1s, 35 (2.4%) are not currently on any meds, and 88 (5.9%) are not currently on insulin from records
-* 1,052/194,404 have probability >95%
+* 95,953/208,882 have probability <5%
+    * Includes 1,608 (1.7%) with current Type 1 diagnosis (8.0% of the Type 1 group)
+    * This includes 878 with Type 1 codes only (6.0% of this group) and 730 of mixed; Type 1 (13.1% of this group)
+    * Of 1,608 Type 1s, 40 (2.5%) are not currently on any meds, and 102 (6.3%) are not currently on insulin from records
+* 1,052/208,882 have probability >95%
     * Includes 160 (15.2%) with current Type 2 diagnosis (0.1% of the Type 2 group)
     * This includes 88 with Type 2 codes only (0.1% of this group) and 72 of mixed; Type 2 (0.5% of this group)
     * Of 160 Type 2s, 37 (23.1%) are not currently on any meds, and 101 (63.1%) are not currently on insulin from records
 
 
 90%/10% thresholds:
-* 119,778/194,404 have probability <10%
-    * Includes 3,041 (2.5%) with current Type 1 diagnosis (15.2% of the Type 1 group)
-    * This includes 1,763 with Type 1 codes only (12.2% of this group) and 1,278 of mixed; Type 1 (23.3% of this group)
-    * Of 3,041 Type 1s, 79 (2.6%) are not currently on any meds, and 171 (5.6%) are not currently on insulin from records
-* 2,662/194,404 have probability >90%
+* 132,987/194,404 have probability <10%
+    * Includes 3,232 (2.4%) with current Type 1 diagnosis (16.0% of the Type 1 group)
+    * This includes 1,864 with Type 1 codes only (12.8% of this group) and 1,368 of mixed; Type 1 (24.5% of this group)
+    * Of 3,232 Type 1s, 85 (2.6%) are not currently on any meds, and 187 (5.8%) are not currently on insulin from records
+* 2,662/208,882 have probability >90%
     * Includes 469 (17.6%) with current Type 2 diagnosis (0.3% of the Type 2 group)
     * This includes 290 with Type 2 codes only (0.2% of this group) and 179 of mixed; Type 2 (1.3% of this group)
     * Of 469 Type 2s, 96 (20.5%) are not currently on any meds, and 294 (62.7%) are not currently on insulin from records
