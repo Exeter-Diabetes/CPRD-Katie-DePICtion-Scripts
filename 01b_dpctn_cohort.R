@@ -205,6 +205,19 @@ all_patid_latest_type_code <- all_patid_dm_codes %>%
   ungroup() %>%
   analysis$cached("all_patid_latest_type_code", indexes="patid")
 
+### Sensitivity analysis including gestational codes
+
+all_patid_latest_type_code_inc_gest <- all_patid_dm_codes %>%
+  filter(category!="unspecified") %>%
+  group_by(patid) %>%
+  mutate(most_recent_date=max(date, na.rm=TRUE),
+         days_since_type_code=datediff(index_date, most_recent_date)) %>%
+  filter(date==most_recent_date) %>%
+  ungroup() %>%
+  group_by(patid, days_since_type_code) %>%
+  summarise(provisional_diabetes_type=sql("group_concat(distinct category order by category separator ' & ')")) %>%
+  ungroup() %>%
+  analysis$cached("all_patid_latest_type_code_inc_gest", indexes="patid")
 
 
 ## Find who has PRIMIS code
@@ -268,6 +281,36 @@ cohort <- cohort %>%
   analysis$cached("cohort_interim_3", unique_indexes="patid")
 
 
+## Sensitivity analysis including gestational codes when finding most recent code
+
+diabetes_type %>% inner_join(all_patid_latest_type_code_inc_gest, by="patid") %>% filter((provisional_diabetes_type=="gestational" | provisional_diabetes_type=="gestational_history") & diabetes_type!="gestational") %>% group_by(diabetes_type) %>% summarise(count=n())
+# mixed; type 2                                 197
+# mixed; type 1                                  17
+# mixed; other/unspec genetic inc syndromic       2
+# mixed; type 1 & type 2                          1
+# mixed; mody                                     2
+# mixed; secondary                                1
+
+print(diabetes_type %>% filter(substr(diabetes_type, 1, 5)=="mixed") %>% group_by(diabetes_type) %>% summarise(count=n()), n=100)
+
+# mixed; type 2                                                              19997
+# mixed; type 1                                                               9264
+# mixed; other/unspec genetic inc syndromic                                     66
+# mixed; type 1 & type 2                                                       581
+# mixed; mody                                                                   90
+# mixed; secondary                                                             243
+
+197*100/19997 #1.0%
+17*100/9264 #0.2%
+2*100/66 #3.0%
+1*100/581 #0.2%
+2*100/90 #2.2%
+1*100/243 #0.4%
+
+# Doesn't make any difference to counts in Type 1 and 2 groups
+# And their code shouldn't be gestational if they have pre-existing Type 1 or 2! And if not pre-existing, latest code should be Type 1 or 2
+
+
 ############################################################################################
 
 # Define diagnosis dates
@@ -302,14 +345,14 @@ earliest_enterdate <- diagnosis_dates %>%
 cohort <- cohort %>%
   inner_join(diagnosis_dates, by="patid") %>%
   mutate(dm_diag_age=round((datediff(diagnosis_date, dob))/365.25, 1)) %>%
-  filter(dm_diag_age<=50) %>%
+  filter(dm_diag_age<51) %>%
   left_join(earliest_enterdate, by="patid") %>%
   mutate(enterdate_datediff=datediff(earliest_enterdate, diagnosis_date)) %>%
   select(-earliest_enterdate) %>%
   analysis$cached("cohort_interim_4", unique_indexes="patid")
 
 cohort %>% count()
-#276,623
+#294,019
 
 
 # Set diagnosis date to missing where within -30 to +90 days of registration start
@@ -320,7 +363,7 @@ cohort <- cohort %>%
   analysis$cached("cohort_interim_5", unique_indexes="patid")
 
 cohort %>% count()
-#276,623
+#294,019
 
 
 ############################################################################################
@@ -651,13 +694,25 @@ current_oha <- clean_oha %>%
   analysis$cached("current_oha", unique_indexes="patid")
 
 
-# DPP4/GLP1/SU/TZD 
+# DPP4/SU/TZD and GLP1 and SGLT2
   
-current_dpp4glp1sutzd <- clean_oha %>%
-  filter(date<=index_date & datediff(index_date, date)<=183 & (TZD==1 | SU==1 | DPP4==1 | GLP1==1)) %>%
+current_dpp4sutzd <- clean_oha %>%
+  filter(date<=index_date & datediff(index_date, date)<=183 & (TZD==1 | SU==1 | DPP4==1)) %>%
   distinct(patid) %>%
-  mutate(current_dpp4glp1sutzd=1L) %>%
-  analysis$cached("current_dpp4glp1sutzd", unique_indexes="patid")
+  mutate(current_dpp4sutzd=1L) %>%
+  analysis$cached("current_dpp4sutzd", unique_indexes="patid")
+
+current_glp1 <- clean_oha %>%
+  filter(date<=index_date & datediff(index_date, date)<=183 & GLP1==1) %>%
+  distinct(patid) %>%
+  mutate(current_glp1=1L) %>%
+  analysis$cached("current_glp1", unique_indexes="patid")
+
+current_sglt2 <- clean_oha %>%
+  filter(date<=index_date & datediff(index_date, date)<=183 & SGLT2==1) %>%
+  distinct(patid) %>%
+  mutate(current_sglt2=1L) %>%
+  analysis$cached("current_sglt2", unique_indexes="patid")
 
 
 # Insulin
@@ -667,6 +722,12 @@ current_insulin <- clean_insulin %>%
   distinct(patid) %>%
   mutate(current_insulin=1L) %>%
   analysis$cached("current_insulin", unique_indexes="patid")
+
+current_insulin_12m <- clean_insulin %>%
+  filter(date<=index_date & datediff(index_date, date)<=366) %>%
+  distinct(patid) %>%
+  mutate(current_insulin_12m=1L) %>%
+  analysis$cached("current_insulin_12m", unique_indexes="patid")
 
 
 # Bolus/mix insulin
@@ -680,10 +741,13 @@ current_bolusmix_insulin <- clean_insulin %>%
 
 cohort <- cohort %>%
   left_join(current_oha, by="patid") %>%
-  left_join(current_dpp4glp1sutzd, by="patid") %>%
+  left_join(current_dpp4sutzd, by="patid") %>%
+  left_join(current_glp1, by="patid") %>%
+  left_join(current_sglt2, by="patid") %>%
   left_join(current_insulin, by="patid") %>%
+  left_join(current_insulin_12m, by="patid") %>%
   left_join(current_bolusmix_insulin, by="patid") %>%
-  mutate(across(c("current_oha", "current_dpp4glp1sutzd", "current_insulin", "current_bolusmix_insulin"), coalesce, 0L)) %>%
+  mutate(across(c("current_oha", "current_dpp4sutzd", "current_dpp4sutzd", "current_glp1", "current_sglt2", "current_insulin", "current_insulin_12m", "current_bolusmix_insulin"), coalesce, 0L)) %>%
   analysis$cached("cohort_interim_9", unique_indexes="patid")
 
 
@@ -777,19 +841,19 @@ cohort <- cohort %>%
 
 
 cohort %>% count()
-#276623
+#294019
 
 cohort %>% filter(diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2") %>% count()
-#225968
+#241331
 
 cohort %>% filter((diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2") & !is.na(language) & language=="Non-English speaking") %>% count()
-#8371
-8371/225968 #3.7%
+#8872
+8872/241331 #3.7%
 
 
 cohort %>% filter((diabetes_type=="type 1" | diabetes_type=="type 2" | diabetes_type=="mixed; type 1" | diabetes_type=="mixed; type 2") & !is.na(language) & language=="First language not English") %>% count()
-#24337
-24337/225968 #10.8%
+#25623
+25623/241331 #10.6%
 
 
 ############################################################################################
