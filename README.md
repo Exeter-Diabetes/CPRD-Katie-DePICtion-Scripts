@@ -373,21 +373,22 @@ Characteristics of those scoring >90% and <10% compared to whole cohort (Type 1 
 
 | | Type 1 overall | Type 2 overall | Concordant Type 2 (probability <10%) | Discordant Type 1 (probability <10%) | Concordant Type 1 (probability >90%) | Discordant Type 2 (probability >90%) | 
 | --- | --- | --- | --- | --- | --- | --- |
-| N | 19960 (10.3% of cohort) | 174444 (89.7% of cohort) | 116737 (97.5% of those with score <10%) | 3041 (2.5% of those with score <10%) | 2193 (82.4% of those with score >90%) | 469 (17.6% of those with score >90%) |
-| Median (IQR) age at diagnosis (years) | 29.5 (13.9) | 43.0 (9.4) | 44.9 (6.9) | 41.9 (8.8) | 20.5 (3.4) | 21.5 (5.0) |
-| Median (IQR) BMI at diagnosis kg/m2 | 26.7 (6.5) | 31.2 (8.8) | 33.8 (8.2) | 32.5 (7.0) | 21.9 (3.6) | 21.2 (4.1) |
-| Current insulin (last 6 months) | 19072 (95.6%) | 38406 (22.0%) | 24264 (20.8%) | 2870 (94.4%) | 2064 (94.1%) | 175 (37.3%) |
-| Current bolus or mixed insulin (last 6 months) | 18356 (92.0%) | 27073 (15.5%) | 16915 (14.5%) | 2739 (90.1%) | 1982 (90.4%) | 136 (29.0%) |
-| Insulin prescribed before OHA | 16238 (81.4%) | 8971 (5.1%) | 3983 (3.4%) | 1910 (62.8%) | 2084 (95.0%) | 136 (29.0%) |
-| Current DPP4i/GLP1/SU/TZD treatment (last 6 months) | 489 (2.4%) | 77465 (44.4%) | 52275 (44.8%) | 219 (7.2%) | 11 (0.5%) | 165 (35.2%) |
-| Codes for mutiple types of diabetes | 5474 (27.4%) | 13434 (7.7%) | 5395 (4.6%) | 1278 (42.0%) | 326 (14.9%) | 179 (38.2%) |
+| N | 20197 (9.7% of cohort) | 188685 (90.3% of cohort) | 129755 (97.6% of those with score<10%) | 3232 (2.4% of those with score <10%) | 2193 (82.4% of those with score >90%) | 469 (17.6% of those with score >90%) |
+| Median (IQR) age at diagnosis (years) | 29.7 (13.9) | 43.7 (9.6) | 45.5 (7.0) | 42.5 (9.3) | 20.5 (3.4) | 21.5 (5.0) |
+| Median (IQR) BMI at diagnosis (kg/m2) | 26.7 (6.5) | 31.2 (8.7) | 33.6 (8.2) | 32.2 (7.0) | 21.9 (3.6) | 21.2 (4.1) |
+| Current insulin (last 6 months) | 19291 (95.5%) | 40816 (21.6%) | 26460 (20.4%) | 3045 (94.2%) | 2064 (94.1%) | 175 (37.3%) |
+| Current bolus or mixed insulin (last 6 months) | 18560 (91.9%) | 28659 (15.2%) | 18378 (14.2%) | 2901 (89.8%) | 1982 (90.4%) | 136 (29.0%) |
+| Insulin prescribed before OHA | 16370 (81.1%) | 9266 (4.9%) | 4237 (3.3%) | 2020 (62.5%) | 2084 (95.0%) | 136 (29.0%) |
+| Current DPP4i/SU/TZD treatment (last 6 months) | 299 (1.5%) | 72714 (38.5%) | 48799 (37.6%) | 131 (4.1%) | 8 (0.4%) | 160 (34.1%) |
+| Current GLP1 treatment (last 6 months) | 221 (1.1%) | 18006 (9.5%) | 15043 (11.6%) | 115 (3.6%) | 3 (0.1%) | 5 (1.1%) |
+| Current SGLT2i treatment (last 6 months) | 274 (1.4%) | 36395 (19.3%) | 25968 (20.0%) | 126 (3.9%) | 3 (0.1%) | 38 (8.1%) |
+| Codes for mutiple types of diabetes | 5586 (27.7%) | 13705 (7.3%) | 5634 (4.3%) | 1368 (42.3%) | 326 (14.9%) | 179 (38.2%) |
 | Median (IQR) Type 1 code count | 10.0 (17.0) | 0.0 (0.0) | 0.0 (0.0) | 9.0 (18.0) | 9.0 (16.0) | 0.0 (0.0) |
 | Median (IQR) Type 2 code count | 0.0 (1.0) | 9.0 (17.0) | 9.0 (17.0) | 0.0 (2.0) | 0.0 (0.0) | 7.0 (14.0) |
-| Median (IQR) time since last code confirming diabetes type (days) | 260.0 (622.0) | 246.0 (574.0) | 242.0 (564.0) | 247.0 (602.0) | 278.0 (659.0) | 302.0 (697.0) |
-| Median (IQR) time from diagnosis date to date of entry (days) | 4.0 (3510.0) | 0.0 (460.0) | 0.0 (106.0) | 0.0 (1767.0) | 10.0 (4017.0) | 100.5 (3926.5) |
-| Median (IQR) highest HbA1c ever (mmol/mol) | 89.0 (32.1) | 84.8 (38.6) | 84.0 (39.0) | 94.3 (31.8) | 89.1 (41.1) | 83.0 (43.7) |
-| History of hypos in HES | 1543 (7.8%) | 1817 (1.1%) | 983 (0.9%) | 166 (5.5%) | 227 (10.5%) | 22 (4.7%) |
-| Duration of diabetes <3 years and currently on insulin | 959 (4.8%) | 559 (0.3%) | 325 (0.3%) | 141 (4.6%) | 143 (6.5%) | 4 (0.9%) |
+| Median (IQR) time since last code confirming diabetes type (days) | 257.0 (620.0) | 243.0 (570.0) | 241.0 (560.0) | 247.5 (598.0) | 278.0 (659.0) | 302.0 (697.0) |
+| Median (IQR) time from diagnosis date to date of entry (days) | 4.0 (3484.2) | 0.0 (412.0) | 0.0 (92.0) | 0.0 (1712.0) | 10.0 (4017.0) | 100.5 (3926.5) |
+| Median (IQR) highest HbA1c ever (mmol/mol) | 89.0 (32.1) | 84.0 (38.1) | 83.8 (38.2) | 94.0 (31.9) | 89.1 (41.1) | 83.0 (43.7) |
+| History of hypos in HES | 1550 (7.8%) | 1958 (1.0%) | 1100 (0.9%) | 169 (5.3%) | 227 (10.5%) | 22 (4.7%) |
 
 &nbsp;
 
