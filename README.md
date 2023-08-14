@@ -349,10 +349,12 @@ Distribution of probabilities:
 95%/5% thresholds:
 * 95,953/208,882 have probability <5%
     * Includes 1,608 (1.7%) with current Type 1 diagnosis (8.0% of the Type 1 group)
+    * 58 no insulin ever, 581 not on insulin within 3 years of diagnosis but 387 have no records until 2 years after diagnosis and a further 121 are pre-2000 (508 in total)
     * This includes 878 with Type 1 codes only (6.0% of this group) and 730 of mixed; Type 1 (13.1% of this group)
     * Of 1,608 Type 1s, 40 (2.5%) are not currently on any meds, and 102 (6.3%) are not currently on insulin from records
 * 1,052/208,882 have probability >95%
     * Includes 160 (15.2%) with current Type 2 diagnosis (0.1% of the Type 2 group)
+    * 23 on insulin within 3 years of diagnosis (but missing for 57 - 50 with no records until 2 years after diagnosis and a further 7 pre-2000))
     * This includes 88 with Type 2 codes only (0.1% of this group) and 72 of mixed; Type 2 (0.5% of this group)
     * Of 160 Type 2s, 37 (23.1%) are not currently on any meds, and 101 (63.1%) are not currently on insulin from records
 
@@ -360,10 +362,12 @@ Distribution of probabilities:
 90%/10% thresholds:
 * 132,987/194,404 have probability <10%
     * Includes 3,232 (2.4%) with current Type 1 diagnosis (16.0% of the Type 1 group)
+    * 86 no insulin ever, 1,223 not on insulin within 3 years of diagnosis but 864 have no records until 2 years after diagnosis and a further 221 are pre-2000 (1,085 in total)
     * This includes 1,864 with Type 1 codes only (12.8% of this group) and 1,368 of mixed; Type 1 (24.5% of this group)
     * Of 3,232 Type 1s, 85 (2.6%) are not currently on any meds, and 187 (5.8%) are not currently on insulin from records
 * 2,662/208,882 have probability >90%
     * Includes 469 (17.6%) with current Type 2 diagnosis (0.3% of the Type 2 group)
+    * 71 on insulin within 3 years of diagnosis (but missing for 171 - 150 no records until 2 years after diagnosis and a further 21 pre-2000)
     * This includes 290 with Type 2 codes only (0.2% of this group) and 179 of mixed; Type 2 (1.3% of this group)
     * Of 469 Type 2s, 96 (20.5%) are not currently on any meds, and 294 (62.7%) are not currently on insulin from records
 
