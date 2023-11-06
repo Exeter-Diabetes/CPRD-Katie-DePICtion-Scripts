@@ -548,8 +548,8 @@ gad <- earliest_gad %>%
 
 ia2 <- raw_ia2 %>%
   filter(obsdate<=index_date & (is.na(numunitid) | numunitid!=276)) %>%
-  mutate(result=ifelse(!is.na(testvalue) & testvalue<11, "negative",
-                       ifelse(!is.na(testvalue) & testvalue>=11, "positive", NA))) %>%
+  mutate(result=ifelse(!is.na(testvalue) & testvalue<7.5, "negative",
+                       ifelse(!is.na(testvalue) & testvalue>=7.5, "positive", NA))) %>%
   filter(!is.na(result)) %>%
   distinct(patid, obsdate, result)
 
@@ -685,69 +685,57 @@ clean_insulin <- cprd$tables$drugIssue %>%
 analysis = cprd$analysis("dpctn_final")
 
 
-# OHA
+# Do drug classes separately and then combine (ignore Acarbose)
 
-current_oha <- clean_oha %>%
-  filter(date<=index_date & datediff(index_date, date)<=183) %>%
-  distinct(patid) %>%
-  mutate(current_oha=1L) %>%
-  analysis$cached("current_oha", unique_indexes="patid")
-
-
-# DPP4/SU/TZD and GLP1 and SGLT2
-  
-current_dpp4sutzd <- clean_oha %>%
-  filter(date<=index_date & datediff(index_date, date)<=183 & (TZD==1 | SU==1 | DPP4==1)) %>%
-  distinct(patid) %>%
-  mutate(current_dpp4sutzd=1L) %>%
-  analysis$cached("current_dpp4sutzd", unique_indexes="patid")
-
-current_glp1 <- clean_oha %>%
-  filter(date<=index_date & datediff(index_date, date)<=183 & GLP1==1) %>%
-  distinct(patid) %>%
-  mutate(current_glp1=1L) %>%
-  analysis$cached("current_glp1", unique_indexes="patid")
-
-current_sglt2 <- clean_oha %>%
-  filter(date<=index_date & datediff(index_date, date)<=183 & SGLT2==1) %>%
-  distinct(patid) %>%
-  mutate(current_sglt2=1L) %>%
-  analysis$cached("current_sglt2", unique_indexes="patid")
+current_meds <- clean_oha %>%
+  filter(date<=index_date & datediff(index_date, date)<=366) %>%
+  group_by(patid) %>%
+  summarise(current_dpp4=any(DPP4),
+            current_glinide=any(Glinide),
+            current_glp1=any(GLP1),
+            current_mfn=any(MFN),
+            current_sglt2=any(SGLT2),
+            current_su=any(SU),
+            current_tzd=any(TZD)) %>%
+  ungroup() %>%
+  analysis$cached("current_meds", unique_indexes="patid")
 
 
-# Insulin
+## Add insulin from insulin scripts (all prodcodes with OHA-insulin mixes are also in insulin)
 
 current_insulin <- clean_insulin %>%
-  filter(date<=index_date & datediff(index_date, date)<=183) %>%
+  filter(date<=index_date & datediff(index_date, date)<=366) %>%
   distinct(patid) %>%
   mutate(current_insulin=1L) %>%
   analysis$cached("current_insulin", unique_indexes="patid")
 
-current_insulin_12m <- clean_insulin %>%
-  filter(date<=index_date & datediff(index_date, date)<=366) %>%
-  distinct(patid) %>%
-  mutate(current_insulin_12m=1L) %>%
-  analysis$cached("current_insulin_12m", unique_indexes="patid")
 
-
-# Bolus/mix insulin
+## Bolus/mix insulin
 
 current_bolusmix_insulin <- clean_insulin %>%
-  filter(date<=index_date & datediff(index_date, date)<=183 & (insulin_cat=="Bolus insulin" | insulin_cat=="Mix insulin")) %>%
+  filter(date<=index_date & datediff(index_date, date)<=366 & (insulin_cat=="Bolus insulin" | insulin_cat=="Mix insulin")) %>%
   distinct(patid) %>%
   mutate(current_bolusmix_insulin=1L) %>%
   analysis$cached("current_bolusmix_insulin", unique_indexes="patid")
 
 
+
+# Combine and make current_oha for any OHA
+
 cohort <- cohort %>%
-  left_join(current_oha, by="patid") %>%
-  left_join(current_dpp4sutzd, by="patid") %>%
-  left_join(current_glp1, by="patid") %>%
-  left_join(current_sglt2, by="patid") %>%
+  left_join(current_meds, by="patid") %>%
   left_join(current_insulin, by="patid") %>%
-  left_join(current_insulin_12m, by="patid") %>%
   left_join(current_bolusmix_insulin, by="patid") %>%
-  mutate(across(c("current_oha", "current_dpp4sutzd", "current_dpp4sutzd", "current_glp1", "current_sglt2", "current_insulin", "current_insulin_12m", "current_bolusmix_insulin"), coalesce, 0L)) %>%
+  mutate(across(c("current_dpp4",
+                  "current_glinide",
+                  "current_glp1",
+                  "current_mfn",
+                  "current_sglt2",
+                  "current_su",
+                  "current_tzd",
+                  "current_insulin",
+                  "current_bolusmix_insulin"), coalesce, 0L)) %>%
+  mutate(current_oha=ifelse(current_dpp4==1 | current_glinide==1 | current_glp1==1 | current_mfn==1 | current_sglt2==1 | current_su==1 | current_tzd==1, 1L, 0L)) %>%
   analysis$cached("cohort_interim_9", unique_indexes="patid")
 
 
@@ -878,7 +866,7 @@ earliest_oha <- clean_oha %>%
   analysis$cached("earliest_oha", unique_indexes="patid")
 
 
-## Combine
+## Combine and add time to insulin within 3 years
 
 cohort <- cohort %>%
   left_join(earliest_insulin, by="patid") %>%

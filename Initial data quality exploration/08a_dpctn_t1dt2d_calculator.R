@@ -201,3 +201,43 @@ t1dt2d_cohort %>%
 #1840
 1840/229786 #0.8%
 
+############################################################################################
+
+# Comparing models - needs tidying
+
+t1dt2d_calc_results %>% filter(clinical_pred_prob>0.9) %>% count()
+#2662
+t1dt2d_calc_results %>% filter(clinical_pred_prob>0.9 & current_insulin==1) %>% count()
+#2239
+2239/2662 #84.1
+t1dt2d_calc_results %>% filter(clinical_pred_prob>0.9 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
+#2193
+2193/2662 #82.4%
+
+t1dt2d_calc_results %>% filter(bev_lipid_pred_prob>0.9) %>% count()
+#2415
+t1dt2d_calc_results %>% filter(bev_lipid_pred_prob>0.9 & current_insulin==1) %>% count()
+#2121
+2121/2415 #87.8%
+t1dt2d_calc_results %>% filter(bev_lipid_pred_prob>0.9 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
+#2063
+2063/2415 #85.4%
+
+
+t1dt2d_calc_results %>% filter(clinical_pred_prob>0.9 & bev_lipid_pred_prob<=0.9) %>% count()
+#911
+t1dt2d_calc_results %>% filter(clinical_pred_prob>0.9 & bev_lipid_pred_prob<=0.9 & current_insulin==1) %>% count()
+#703
+703/911 #77.2
+t1dt2d_calc_results %>% filter(clinical_pred_prob>0.9 & bev_lipid_pred_prob<=0.9 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
+#658
+658/911 #72.2
+
+t1dt2d_calc_results %>% filter(clinical_pred_prob<=0.9 & bev_lipid_pred_prob>0.9) %>% count()
+#978
+t1dt2d_calc_results %>% filter(clinical_pred_prob<=0.9 & bev_lipid_pred_prob>0.9 & current_insulin==1) %>% count()
+#855
+855/978 #87.4
+t1dt2d_calc_results %>% filter(clinical_pred_prob<=0.9 & bev_lipid_pred_prob>0.9 & (diabetes_type=="type 1" | diabetes_type=="mixed; type 1")) %>% count()
+#806
+806/978 #82.4
